@@ -10,52 +10,42 @@
             font-family: Arial, sans-serif;
             margin: 20px;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #f4f4f4;
         }
         h2 {
             text-align: center;
             color: #333;
-            margin-bottom: 10px;
+            font-size: 24px;
+            margin-bottom: 5px;
         }
         h3 {
             text-align: center;
-            color: #666;
+            color: #555;
+            font-size: 18px;
             margin-bottom: 20px;
         }
         table {
             border-collapse: collapse;
-            width: 100%;
+            width: 90%;
             margin: auto;
             background-color: white;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 12px;
+            padding: 14px;
+            text-align: center;
+            font-size: 14px;
         }
         th {
             background-color: #0073e6;
             color: white;
-            text-align: center;
             font-weight: bold;
+            font-size: 16px;
         }
-        td:nth-child(1),  /* image */
-        td:nth-child(2),  /* title */
-        td:nth-child(3),  /* price */
-        td:nth-child(4),  /* rating */
-        td:nth-child(5),  /* reviews */
-        td:nth-child(6),  /* Main_category */
-        td:nth-child(7),  /* Category */
-        td:nth-child(8),  /* Main_category_Rank */
-        td:nth-child(9),  /* Category_Rank */
-        td:nth-child(10), /* thirtyDayRevenue */
-        td:nth-child(11), /* unitSales */
-        td:nth-child(12)  /* listingHealthScore */ {
-            text-align: center;
-        }
-        img {
+        td:nth-child(1) img {
             max-width: 80px;
             height: auto;
             display: block;
@@ -70,28 +60,43 @@
             text-decoration: underline;
         }
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        @media (max-width: 768px) {
+            table {
+                width: 100%;
+            }
+            th, td {
+                padding: 10px;
+                font-size: 12px;
+            }
+            td:nth-child(1) img {
+                max-width: 60px;
+            }
         }
     </style>
 </head>
 <body>
     <h2>27/2/2025 Amazon Tissues Product Data</h2>
-    <h3>Complete analysis of tissue product sales on Amazon</h3>
+    <h3>Comprehensive overview of tissue product sales on Amazon</h3>
     <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>image</th>
       <th>title</th>
       <th>price</th>
+      <th>thirtyDayRevenue</th>
+      <th>unitSales</th>
+      <th>listingHealthScore</th>
       <th>rating</th>
       <th>reviews</th>
       <th>Main_category</th>
       <th>Category</th>
       <th>Main_category_Rank</th>
       <th>Category_Rank</th>
-      <th>thirtyDayRevenue</th>
-      <th>unitSales</th>
-      <th>listingHealthScore</th>
     </tr>
   </thead>
   <tbody>
@@ -99,4002 +104,4002 @@
       <td><img src="https://m.media-amazon.com/images/I/71H5-vQdkzL._AC_SX679_PIbundle-8,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CTD3M2HD?th=1" target="_blank">Kleenex Ultra Soft Facial Tissues, 8 Flat Boxes, 180 Tissues per Box, 3-Ply, Packaging May Vary</a></td>
       <td>$22</td>
+      <td>$1,950,361.28</td>
+      <td>79,583</td>
+      <td>9.5</td>
       <td>4.7</td>
       <td>26171</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>171</td>
       <td>3</td>
-      <td>$1,950,361.28</td>
-      <td>79,583</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71irzJj3+UL._AC_SX679_PIbundle-8,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CTD36YKK?th=1" target="_blank">Kleenex Ultra Soft Facial Tissues, 8 Cube Boxes, 80 Tissues per Box, 3-Ply, Packaging May Vary</a></td>
       <td>$16</td>
+      <td>$1,735,944.85</td>
+      <td>84,652</td>
+      <td>9.5</td>
       <td>4.7</td>
       <td>10756</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>157</td>
       <td>2</td>
-      <td>$1,735,944.85</td>
-      <td>84,652</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61HGwwmbHoL._AC_SX679_PIbundle-10,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09YLMRM4Y?th=1" target="_blank">Puffs Plus Lotion Facial Tissues, 10 Cubes, 56 Tissues Per Box</a></td>
       <td>$24</td>
+      <td>$1,278,880.98</td>
+      <td>68,881</td>
+      <td>9.3</td>
       <td>4.8</td>
       <td>10468</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>271</td>
       <td>6</td>
-      <td>$1,278,880.98</td>
-      <td>68,881</td>
-      <td>9.3</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71qkBfgE87L._AC_SX679_PIbundle-10,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09YL81PWH?th=1" target="_blank">Puffs Ultra Soft Non-Lotion Tissues, 10 Cubes, 56 Tissues Per Box</a></td>
       <td>$12</td>
+      <td>$1,002,413.94</td>
+      <td>66,810</td>
+      <td>9.3</td>
       <td>4.7</td>
       <td>8746</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>365</td>
       <td>9</td>
-      <td>$1,002,413.94</td>
-      <td>66,810</td>
-      <td>9.3</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61L7mI1QoYL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00BFUSDO4?th=1" target="_blank">Kleenex Disposable Paper Hand Towels, 6 Boxes, 60 Tissues per Box (360 Total Tissues), Packaging May Vary</a></td>
       <td>$18</td>
+      <td>$963,503.92</td>
+      <td>49,229</td>
+      <td>9.6</td>
       <td>4.8</td>
       <td>21178</td>
       <td>Health & Household</td>
       <td>Sales & Deals</td>
       <td>430</td>
       <td>10</td>
-      <td>$963,503.92</td>
-      <td>49,229</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/717ehoJF+tL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CTD2XLX5?th=1" target="_blank">Kleenex Trusted Care Facial Tissues, 8 Flat Boxes, 200 Tissues per Box, 2-Ply, Packaging May Vary</a></td>
       <td>$18</td>
+      <td>$812,522.34</td>
+      <td>38,037</td>
+      <td>9.6</td>
       <td>4.6</td>
       <td>10826</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>659</td>
       <td>13</td>
-      <td>$812,522.34</td>
-      <td>38,037</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71s1yDZrGXL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0040ZOEYY?th=1" target="_blank">Kleenex Professional Facial Tissue, Bulk (21270), 2-Ply, White, Upright Cube Boxed Format, Designed for Business (90 Tissues/Box, 36 Boxes, 3,240 Sheets/Case)</a></td>
       <td>$79</td>
+      <td>$766,304.73</td>
+      <td>14,020</td>
+      <td>10</td>
       <td>4.4</td>
       <td>4347</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>3,507</td>
       <td>24</td>
-      <td>$766,304.73</td>
-      <td>14,020</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71NC+zl1iwL._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0040ZOF2A" target="_blank">Kleenex Professional Facial Tissue, Bulk (21400), 2-Ply, White, Flat Boxed Format, Designed for Business (100 Tissues/Box, 36 Boxes, 3,600 Sheets/Case)</a></td>
       <td>$58</td>
+      <td>$735,294.12</td>
+      <td>12,612</td>
+      <td>10</td>
       <td>4.6</td>
       <td>4517</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>2,480</td>
       <td>19</td>
-      <td>$735,294.12</td>
-      <td>12,612</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/814s3JE7PxL._AC_SX679_PIbundle-24,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CQMGRS11?th=1" target="_blank">Quilted Northern Ultra Soft & Strong Toilet Paper, 24 Mega Rolls = 96 Regular Rolls, 5X Stronger*, Premium Soft Toilet Tissue with Recyclable Paper Packaging</a></td>
       <td>$23</td>
+      <td>$726,342.02</td>
+      <td>44,402</td>
+      <td>10</td>
       <td>4.7</td>
       <td>14275</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>433</td>
       <td>15</td>
-      <td>$726,342.02</td>
-      <td>44,402</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/518MhUlCV9L._AC_SX679_PIbundle-80,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07KWNSTRR" target="_blank">AmazonCommercial 2-Ply White Ultra Plus Individually Wrapped Toilet Paper/Bath Tissue (416975)|Bulk | Septic Safe | FSC Certified | 400 Sheets per Roll (80 Rolls)(4.1 x 3.5 Sheet)</a></td>
       <td>$56</td>
+      <td>$713,325.47</td>
+      <td>12,856</td>
+      <td>10</td>
       <td>4.6</td>
       <td>14365</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>2,885</td>
       <td>30</td>
-      <td>$713,325.47</td>
-      <td>12,856</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81SNg44-iDL._AC_SX679_PIbundle-3,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09M6JWHV5?th=1" target="_blank">Kleenex Ultra Soft Facial Tissues, 3 Flat Boxes, 120 Tissues per Box, 3-Ply (360 Total Tissues), Packaging May Vary</a></td>
       <td>$6</td>
+      <td>$677,222.97</td>
+      <td>78,726</td>
+      <td>9.7</td>
       <td>4.7</td>
       <td>85374</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>223</td>
       <td>4</td>
-      <td>$677,222.97</td>
-      <td>78,726</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61IDRJ9uXPL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09C2ZVVHJ?th=1" target="_blank">Amazon Basics Facial Tissue, 2-Ply, 160 Tissues per Box, 4 Boxes (640 total) (Previously Solimo)</a></td>
       <td>$8</td>
+      <td>$604,084.17</td>
+      <td>35,158</td>
+      <td>9.6</td>
       <td>4.5</td>
       <td>4774</td>
       <td>Our Brands</td>
       <td>Box Tissues</td>
       <td>81</td>
       <td>11</td>
-      <td>$604,084.17</td>
-      <td>35,158</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61GTe+d+6hL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B004QKNQYW?th=1" target="_blank">Tork Toilet Paper White Septic Safe, 100% Recycled, Eco-Friendly, Compatible with T24 Dispensers, 96 Rolls x 500 Sheets (TM1616S)</a></td>
       <td>$71</td>
+      <td>$550,475.42</td>
+      <td>8,007</td>
+      <td>9.8</td>
       <td>4.4</td>
       <td>4827</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>285</td>
       <td>3</td>
-      <td>$550,475.42</td>
-      <td>8,007</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/715xs7jJFRL._AC_SX679_PIbundle-36,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07Y7L45YJ?th=1" target="_blank">Betterway Bamboo Toilet Paper 3 Ply - Sustainable Toilet Tissue - 36 Double Rolls & 360 Sheets Per Roll - Septic Safe - Organic, Plastic Free - FSC Certified</a></td>
       <td>$66</td>
+      <td>$549,147.38</td>
+      <td>16,191</td>
+      <td>10</td>
       <td>4.5</td>
       <td>8037</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>2,018</td>
       <td>27</td>
-      <td>$549,147.38</td>
-      <td>16,191</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71U7G6fJIyL._AC_SX679_PIbundle-8,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09YL8TX5K?th=1" target="_blank">Puffs Ultra Soft Non-Lotion Facial Tissue, 8 Family Boxes, 124 Facial Tissues per Box</a></td>
       <td>$13</td>
+      <td>$544,027.85</td>
+      <td>46,651</td>
+      <td>9.5</td>
       <td>4.7</td>
       <td>8485</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>585</td>
       <td>12</td>
-      <td>$544,027.85</td>
-      <td>46,651</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81nB-10Bj5L._AC_SX679_PIbundle-48,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00D3JA5V4" target="_blank">Seventh Generation Toilet Paper White Bathroom Tissue 2-ply 100% Recycled Paper without Chlorine Bleach 24 count, Pack of 2</a></td>
       <td>$38</td>
+      <td>$537,936.47</td>
+      <td>13,140</td>
+      <td>9.8</td>
       <td>4.4</td>
       <td>13874</td>
       <td>Health & Household</td>
       <td>Sales & Deals</td>
       <td>2,957</td>
       <td>32</td>
-      <td>$537,936.47</td>
-      <td>13,140</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71Z6G5U9b-L._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0040ZOF2U" target="_blank">Kleenex Professional Facial Tissue, Bulk (21606), 2-Ply, White, Flat Boxed Format, Designed for Business (125 Tissues/Box, 48 Boxes, 6,000 Sheets/Case)</a></td>
       <td>$87</td>
+      <td>$536,490.03</td>
+      <td>6,429</td>
+      <td>10</td>
       <td>4.5</td>
       <td>2106</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>8,183</td>
       <td>32</td>
-      <td>$536,490.03</td>
-      <td>6,429</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81dmROhsZxL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0846PGGMM?th=1" target="_blank">Amazon Brand - Presto! Ultra-Soft 3-Ply Premium Facial Tissues, 264 Count (4 Packs of 66), (Packaging May Vary)</a></td>
       <td>$7</td>
+      <td>$507,940.81</td>
+      <td>30,323</td>
+      <td>9.7</td>
       <td>4.6</td>
       <td>17067</td>
       <td>Our Brands</td>
       <td>Box Tissues</td>
       <td>76</td>
       <td>10</td>
-      <td>$507,940.81</td>
-      <td>30,323</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71kTkdQitgL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09C31HJYF?th=1" target="_blank">Amazon Basics Facial Tissue with Lotion, 2-Ply, 300 Count (4 Packs 75), (Packaging may vary)</a></td>
       <td>$7</td>
+      <td>$500,521.16</td>
+      <td>27,451</td>
+      <td>9.5</td>
       <td>4.4</td>
       <td>4979</td>
       <td>Our Brands</td>
       <td>Box Tissues</td>
       <td>123</td>
       <td>15</td>
-      <td>$500,521.16</td>
-      <td>27,451</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81JGJqcDJRL._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09M5XF6JV?th=1" target="_blank">Kleenex Ultra Soft Facial Tissues, 4 Cube Boxes, 60 Tissues per Box, 3-Ply (240 Total Tissues), Packaging May Vary</a></td>
       <td>$7</td>
+      <td>$488,012.56</td>
+      <td>74,332</td>
+      <td>9.7</td>
       <td>4.8</td>
       <td>5088</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>225</td>
       <td>4</td>
-      <td>$488,012.56</td>
-      <td>74,332</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71GVTTZqrDL._AC_SX679_PIbundle-18,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09QLMYBQY?th=1" target="_blank">Kleenex Anti-Viral Facial Tissues, Classroom or Office Tissue, 18 Cube Boxes, 55 Tissues per Box, 3-Ply (990 Total Tissues)</a></td>
       <td>$27</td>
+      <td>$482,430.10</td>
+      <td>17,936</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>3841</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>5,257</td>
       <td>28</td>
-      <td>$482,430.10</td>
-      <td>17,936</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/712y-8zg9TL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00KA25G7A?th=1" target="_blank">Kleenex Trusted Care Facial Tissues, 3 Flat Boxes, 160 Tissues per Box, 2-Ply (480 Total Tissues), Packaging May Vary</a></td>
       <td>$7</td>
+      <td>$482,209.49</td>
+      <td>39,558</td>
+      <td>9.7</td>
       <td>4.6</td>
       <td>27005</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>704</td>
       <td>14</td>
-      <td>$482,209.49</td>
-      <td>39,558</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71Hby2YHVPL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B01LAJ8F0Q?th=1" target="_blank">Caboo Tree Free Toilet Paper, Septic Safe Toilet Tissue, Eco Friendly, Chemical Free, Non Toxic, 2 Ply, Pack of 24 Double Rolls, 300 Sheets Per Roll</a></td>
       <td>$35</td>
+      <td>$459,089.78</td>
+      <td>13,215</td>
+      <td>10</td>
       <td>4.4</td>
       <td>4916</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>2,601</td>
       <td>29</td>
-      <td>$459,089.78</td>
-      <td>13,215</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71OJkDt7SCL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CTD23MJG?th=1" target="_blank">Kleenex Lotion Facial Tissues with Coconut Oil, 8 Cube Boxes, 80 Tissues Per Box, 3-Ply</a></td>
       <td>$17</td>
+      <td>$458,025.46</td>
+      <td>22,502</td>
+      <td>9.5</td>
       <td>4.8</td>
       <td>21033</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>1,928</td>
       <td>17</td>
-      <td>$458,025.46</td>
-      <td>22,502</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71g4JeetxXL._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09RY35M4S?th=1" target="_blank">Kleenex Lotion Facial Tissues with Coconut Oil, 3 Flat Boxes, 120 Tissues Per Box, 3-Ply</a></td>
       <td>$5</td>
+      <td>$398,991.09</td>
+      <td>71,751</td>
+      <td>9.5</td>
       <td>4.8</td>
       <td>9480</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>297</td>
       <td>8</td>
-      <td>$398,991.09</td>
-      <td>71,751</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71-2pWVHG7L._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0040ZOD68" target="_blank">Kimberly-Clark Zip-Half Pack Facial Tissue, 125 Sheets Per Box, Case Of 12 Boxes</a></td>
       <td>$27</td>
+      <td>$299,757.42</td>
+      <td>10,899</td>
+      <td>9.4</td>
       <td>4.5</td>
       <td>14030</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>2,352</td>
       <td>18</td>
-      <td>$299,757.42</td>
-      <td>10,899</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81KZ7o2hwsL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00706W9EC?th=1" target="_blank">Kleenex On-The-Go Facial Tissues, 8 On-The-Go Packs, 10 Tissues per Box, 3-Ply (80 Total Tissues), Packaging May Vary</a></td>
       <td>$3</td>
+      <td>$296,029.65</td>
+      <td>88,511</td>
+      <td>9.6</td>
       <td>4.8</td>
       <td>9658</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>295</td>
       <td>7</td>
-      <td>$296,029.65</td>
-      <td>88,511</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61nbq5MZB-L._AC_SX679_PIbundle-3,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0741DT22M?th=1" target="_blank">Charmin Ultra Strong Toilet Paper, 18 Super Mega Rolls = 108 Regular Rolls</a></td>
       <td>$29</td>
+      <td>$294,512.29</td>
+      <td>30,577</td>
+      <td>9.4</td>
       <td>4.8</td>
       <td>13483</td>
       <td>Health & Household</td>
       <td>Bulk Quantity Paper Products</td>
       <td>684</td>
       <td>21</td>
-      <td>$294,512.29</td>
-      <td>30,577</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71lPbvTgA4L._AC_SX679_PIbundle-12,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07KX191SD" target="_blank">AmazonCommercial 2-Ply White 9' Jumbo Roll Toilet Paper/Bath Tissue (416972)|Bulk for Business |Septic Safe |Compatible with Universal Dispensers|FSC Certified |1000 feet per Roll (12 Rolls)()</a></td>
       <td>$39</td>
+      <td>$244,897.57</td>
+      <td>5,910</td>
+      <td>9.8</td>
       <td>4.6</td>
       <td>2273</td>
       <td>Health & Household</td>
       <td>Bulk Quantity Paper Products</td>
       <td>4,916</td>
       <td>40</td>
-      <td>$244,897.57</td>
-      <td>5,910</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71Kb-BADjwL._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CCYXX839?th=1" target="_blank">Puffs Plus Lotion with Vicks Facial Tissues, 4 Cubes, 48 Tissues per Box</a></td>
       <td>$6</td>
+      <td>$230,949.29</td>
+      <td>27,240</td>
+      <td>9.4</td>
       <td>4.8</td>
       <td>6415</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>1,079</td>
       <td>16</td>
-      <td>$230,949.29</td>
-      <td>27,240</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71vgil0luIL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B06XY6HJQ7?th=1" target="_blank">Winner Soft Face Towels - 100% USA Cotton Dry Wipes, 600 Count Unscented Cotton Tissues for Sensitive Skin, OEKO-TEX Certified Face Towelettes Disposable, Makeup Remover Facial Towels, 6 Pack</a></td>
       <td>$35</td>
+      <td>$220,793.38</td>
+      <td>7,234</td>
+      <td>10</td>
       <td>4.5</td>
       <td>4271</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>4,164</td>
       <td>29</td>
-      <td>$220,793.38</td>
-      <td>7,234</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71LLCbRmj5L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0C349DZ4J" target="_blank">Facial Tissues boxes 230 Sheets Per Box 8 Boxes. Premium Soft Gentle and Durable in A Stylish Box - 1,840 Sheets</a></td>
       <td>$26</td>
+      <td>$172,615.95</td>
+      <td>6,396</td>
+      <td>Not found</td>
       <td>3.5</td>
       <td>868</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>7,044</td>
       <td>31</td>
-      <td>$172,615.95</td>
-      <td>6,396</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/819Htv1FVkL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B006K1U8A0?th=1" target="_blank">Kleenex® Boutique 2-Ply Facial Tissue, White, 95 Sheets Per Box, Carton Of 36 Boxes</a></td>
       <td>$78</td>
+      <td>$163,755.14</td>
+      <td>2,155</td>
+      <td>9.4</td>
       <td>4.6</td>
       <td>793</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>16,264</td>
       <td>46</td>
-      <td>$163,755.14</td>
-      <td>2,155</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81A2Esaju3L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B002TS795K?th=1" target="_blank">Kleenex Ultra Facial Tissue, 85 Count (Pack of 12)</a></td>
       <td>$30</td>
+      <td>$162,037.31</td>
+      <td>5,810</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>1727</td>
       <td>Health & Household</td>
       <td>Sales & Deals</td>
       <td>5,392</td>
       <td>27</td>
-      <td>$162,037.31</td>
-      <td>5,810</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61r9bt0cxZL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D7DNQ8BL?th=1" target="_blank">Tissue Box Cover Holder, Square with Bottom Belt by Carrot's Den - PU Leather Decorative Organizer for Tabletop, Bathroom, Car, Office (Light Blue)</a></td>
       <td>$7</td>
+      <td>$149,277.12</td>
+      <td>18,683</td>
+      <td>Not found</td>
       <td>4.8</td>
       <td>3441</td>
       <td>Home & Kitchen</td>
       <td>Tissue Holders for Bathrooms</td>
       <td>521</td>
       <td>1</td>
-      <td>$149,277.12</td>
-      <td>18,683</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/610sVZItSPL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B01K087I8I?th=1" target="_blank">Puffs Plus Lotion Facial Tissues, Cube, 6 Boxes (56 Count Each)</a></td>
       <td>$17</td>
+      <td>$145,505.22</td>
+      <td>10,144</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>3122</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>6,790</td>
       <td>30</td>
-      <td>$145,505.22</td>
-      <td>10,144</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91g4bgNBkjL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00SSUF9YG?th=1" target="_blank">Kleenex Perfect Fit Facial Tissues, 3 count (Packaging May Vary)</a></td>
       <td>$18</td>
+      <td>$136,771.53</td>
+      <td>6,911</td>
+      <td>9.3</td>
       <td>4.4</td>
       <td>1392</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>9,163</td>
       <td>34</td>
-      <td>$136,771.53</td>
-      <td>6,911</td>
-      <td>9.3</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71mk+WtebsL._AC_SX679_PIbundle-10,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07D6WZ76C?th=1" target="_blank">Kleenex 16 Pocket Packs (10 per pack), White, Box</a></td>
       <td>$13</td>
+      <td>$131,999.60</td>
+      <td>12,026</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>3374</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>5,203</td>
       <td>1</td>
-      <td>$131,999.60</td>
-      <td>12,026</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/816B9qu05HL._AC_SX679_PIbundle-96,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00HX4FBBE" target="_blank">Genuine Joe GJO2540096 2-ply Standard Bath Tissue Rolls White, 96 rolls</a></td>
       <td>$47</td>
+      <td>$129,139.96</td>
+      <td>2,729</td>
+      <td>9.2</td>
       <td>4.2</td>
       <td>3468</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>11,877</td>
       <td>9</td>
-      <td>$129,139.96</td>
-      <td>2,729</td>
-      <td>9.2</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91c49koDVXL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B087PYJX31?th=1" target="_blank">Car Tissues Holder with Facial Tissues - 4 PK - Travel Tissue Tubes Box Container Perfect Fit for Car Cup Holder Car Tissues Cylinder (Blue)</a></td>
       <td>$13</td>
+      <td>$128,165.62</td>
+      <td>9,161</td>
+      <td>9.9</td>
       <td>4.4</td>
       <td>2920</td>
       <td>Automotive</td>
       <td>Automotive Consoles & Organizers</td>
       <td>250</td>
       <td>17</td>
-      <td>$128,165.62</td>
-      <td>9,161</td>
-      <td>9.9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61ycGwidjZL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00D8OZKL4?th=1" target="_blank">Kleenex Slim Pack Facial Tissue 10 Count 3-ply (Pack of 12)</a></td>
       <td>$12</td>
+      <td>$123,131.71</td>
+      <td>11,072</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>6432</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>3,234</td>
       <td>23</td>
-      <td>$123,131.71</td>
-      <td>11,072</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71mMKBa3ESL._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B076QDN16H" target="_blank">Charmin For Commercial Use Toilet Paper, Individually Wrapped, 2-Ply Standard Roll, 75 Rolls / Case, 450 Sheets / Roll</a></td>
       <td>$81</td>
+      <td>$119,802.08</td>
+      <td>1,504</td>
+      <td>9.7</td>
       <td>4.3</td>
       <td>1536</td>
       <td>Industrial & Scientific</td>
       <td>Bulk Quantity Toilet Tissue</td>
       <td>1,943</td>
       <td>10</td>
-      <td>$119,802.08</td>
-      <td>1,504</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51772-PCGcL.__AC_SX300_SY300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0B5G7RGT9?th=1" target="_blank">100 Sheets White Tissue Paper Artdly 14 x 20 Inches Recyclable White Wrapping Paper Bulk for Weddings Birthday DIY Project Festival Wrapping Crafts Decor</a></td>
       <td>$6</td>
+      <td>$117,168.98</td>
+      <td>15,070</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>4862</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>1,111</td>
       <td>1</td>
-      <td>$117,168.98</td>
-      <td>15,070</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71xA0sLBshL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B017OY602Q?th=1" target="_blank">Natural Green Tea Oil Absorbing Tissues - 200 Counts in 2 Pack, Premium Face Oil Blotting Paper - Take 1 Piece Each Time Design - Large 10CM Oil Absorbing Sheets, No Waste and Easy to Carry in Pocket!</a></td>
       <td>$9</td>
+      <td>$103,700.48</td>
+      <td>11,480</td>
+      <td>10</td>
       <td>4.7</td>
       <td>1012</td>
       <td>Beauty & Personal Care</td>
       <td>Makeup Blotting Paper</td>
       <td>1,748</td>
       <td>1</td>
-      <td>$103,700.48</td>
-      <td>11,480</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61FLHQMMv-L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09WDGKKNS?th=1" target="_blank">3-Ply Ultra Care Pocket Tissues, Travel Size (30 Packs of 10 Tissues)</a></td>
       <td>$19</td>
+      <td>$95,263.63</td>
+      <td>4,650</td>
+      <td>9.1</td>
       <td>4.6</td>
       <td>1133</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>7,789</td>
       <td>2</td>
-      <td>$95,263.63</td>
-      <td>4,650</td>
-      <td>9.1</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61F5F0b7SuL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B072F914Z6?th=1" target="_blank">Tork High-Capacity Toilet Paper Roll White T26, Advanced, 2-Ply, 36 x 1000 sheets, 110292A</a></td>
       <td>$71</td>
+      <td>$92,895.88</td>
+      <td>1,225</td>
+      <td>9.5</td>
       <td>4.5</td>
       <td>821</td>
       <td>Industrial & Scientific</td>
       <td>Bulk Quantity Paper Towels</td>
       <td>3,695</td>
       <td>17</td>
-      <td>$92,895.88</td>
-      <td>1,225</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81hgBePvtTS._AC_SX679_PIbundle-18,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07PCZ7BVX" target="_blank">Kleenex Expressions Ultra Soft Facial Tissues, 65 Count (Pack of 18) (1,170 Total Tissues)</a></td>
       <td>$41</td>
+      <td>$88,702.95</td>
+      <td>2,100</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>19851</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>16,206</td>
       <td>45</td>
-      <td>$88,702.95</td>
-      <td>2,100</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/715NIToFGgL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B071VMLTT5?th=1" target="_blank">Tork Mini Jumbo Toilet Paper Roll White T2, Advanced, 2-Ply, 12 x 751', 12024402</a></td>
       <td>$51</td>
+      <td>$86,057.59</td>
+      <td>1,589</td>
+      <td>9.4</td>
       <td>4.5</td>
       <td>986</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>1,709</td>
       <td>12</td>
-      <td>$86,057.59</td>
-      <td>1,589</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/41aLLqqZIvL.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00HX4F94S" target="_blank">Genuine Joe GJO2565012 2-ply Jumbo Roll Dispensor Bath Tissue</a></td>
       <td>$28</td>
+      <td>$85,966.79</td>
+      <td>3,044</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>767</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>824</td>
       <td>8</td>
-      <td>$85,966.79</td>
-      <td>3,044</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81tXFRSgUiL._AC_SX679_PIbundle-60,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B008CWP2VK?th=1" target="_blank">Georgia-Pacific Angel Soft Professional Series Ultra Facial Tissue, Personal Size, White, 60 Boxes per Case, 50 Sheets per Box</a></td>
       <td>$51</td>
+      <td>$84,705.99</td>
+      <td>1,581</td>
+      <td>9.1</td>
       <td>4.1</td>
       <td>253</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>21,745</td>
       <td>54</td>
-      <td>$84,705.99</td>
-      <td>1,581</td>
-      <td>9.1</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81UZY8JeOfL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08FQMVCMQ?th=1" target="_blank">Toilet Tissue, Tree Free, Biodegradable, Sustainable, Renewable and FSC Certified 3-ply Toilet Paper, 220 Sheets, 12 Rolls, Pack of 4 (48 Rolls).</a></td>
       <td>$52</td>
+      <td>$79,075.02</td>
+      <td>3,845</td>
+      <td>9.8</td>
       <td>4.4</td>
       <td>93</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>8,931</td>
       <td>53</td>
-      <td>$79,075.02</td>
-      <td>3,845</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71emW4z-qTL._AC_SY879_PIbundle-6,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B072YMG18R" target="_blank">Soft Facial Tissues 2 Ply Box Of 130 Pack of 6 (780 Facial Tissues Toatal) Family Pack (6) Design may Vary</a></td>
       <td>$15</td>
+      <td>$77,362.40</td>
+      <td>4,086</td>
+      <td>Not found</td>
       <td>3.8</td>
       <td>4436</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>8,995</td>
       <td>35</td>
-      <td>$77,362.40</td>
-      <td>4,086</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/711MQohmfJL._AC_SX466_PIbundle-30,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07KX275PT" target="_blank">AmazonCommercial 2-Ply White Flat Box Facial Tissue (416968)|Bulk for Business|FSC Certified, Unscented, 3000 Count (30 Packs of 100)(8 x 8 Sheet), White</a></td>
       <td>$25</td>
+      <td>$77,088.20</td>
+      <td>3,013</td>
+      <td>Not found</td>
       <td>3.9</td>
       <td>2148</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>11,853</td>
       <td>38</td>
-      <td>$77,088.20</td>
-      <td>3,013</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/719Rcv4XBML._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DHHH71QB" target="_blank">Puffs Plus Lotion Facial Tissues, 4 Family Boxes, 124 tissues per box</a></td>
       <td>$6</td>
+      <td>$74,322.62</td>
+      <td>10,857</td>
+      <td>Not found</td>
       <td>4.8</td>
       <td>221</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>2,453</td>
       <td>21</td>
-      <td>$74,322.62</td>
-      <td>10,857</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61XFyFPAjeL._AC_SX679_PIbundle-960,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00NFW77V0?th=1" target="_blank">White Tissue Paper For Gift Bags, White Tissue Paper Bulk - 960 Sheets 15" X 20" 10lb Newsprint For Packing, Birthday Gift Box Filler, Packing Supplies For Moving Supplies Crown Display</a></td>
       <td>$29</td>
+      <td>$73,667.86</td>
+      <td>2,574</td>
+      <td>10</td>
       <td>4.6</td>
       <td>3823</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>13,546</td>
       <td>17</td>
-      <td>$73,667.86</td>
-      <td>2,574</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/610ZQsmwZGL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09YP4HZZQ?th=1" target="_blank">Bobobag 100 Sheets 20"X14" White Tissue Paper for Gift Bags Acid Free Tissue Paper Gift Wrapping Paper,Christmas Birthday Arts Craft Decoration</a></td>
       <td>$6</td>
+      <td>$73,185.71</td>
+      <td>9,947</td>
+      <td>9.9</td>
       <td>4.6</td>
       <td>2333</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>4,851</td>
       <td>2</td>
-      <td>$73,185.71</td>
-      <td>9,947</td>
-      <td>9.9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61W-XXkmE2L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0868M9MFP?th=1" target="_blank">Simetufy 360 Sheets 36 Multicolor Tissue Paper Bulk, 11.5in x 8in Tissue Paper for Gift Bags Decorative, Art Rainbow Tissue Paper for Crafts Floral Birthday Party Festival Tissue Paper Pom Pom</a></td>
       <td>$7</td>
+      <td>$68,833.64</td>
+      <td>8,311</td>
+      <td>10</td>
       <td>4.3</td>
       <td>5210</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>278</td>
       <td>1</td>
-      <td>$68,833.64</td>
-      <td>8,311</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81SDDQ0rA6L._AC_SX679_PIbundle-100,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BWF4H65N?th=1" target="_blank">Therwen 100 Pack Pocket Tissues Travel Packs Bulk 1000 Sheet Mini Tissues Bulk 3 Ply Small Travel Size Paper Individual Pocket Size</a></td>
       <td>$26</td>
+      <td>$68,782.95</td>
+      <td>2,583</td>
+      <td>9.8</td>
       <td>4.7</td>
       <td>366</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>12,643</td>
       <td>4</td>
-      <td>$68,782.95</td>
-      <td>2,583</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/714BUrRFbXL._AC_SX679_PIbundle-12,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08258Y6CW" target="_blank">Kleenex Ultra Soft Facial Tissues - Cube Boxes (12 Pack, 65 tissues)</a></td>
       <td>$27</td>
+      <td>$67,495.08</td>
+      <td>2,435</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>1647</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>14,451</td>
       <td>43</td>
-      <td>$67,495.08</td>
-      <td>2,435</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81IgJVlQomL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0B8F2N3ZR?th=1" target="_blank">Bamboo Facial Tissues - 12 Boxes of Eco-Friendly, 3-Ply Hypoallergenic Tissues, 90 Sheets per Box, FSC Certified, Plastic-Free Packaging, Soft & Gentle for Home Use</a></td>
       <td>$35</td>
+      <td>$64,664.61</td>
+      <td>1,785</td>
+      <td>10</td>
       <td>4.1</td>
       <td>375</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>20,245</td>
       <td>50</td>
-      <td>$64,664.61</td>
-      <td>1,785</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71qxgPt9jCL._AC_SX679_PIbundle-3000,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00OJD1YWC?th=1" target="_blank">Tork Advanced Facial Tissue White Soft 2-Ply, Gentle on Skin,30 Boxes x 100 Tissues (TF6810)</a></td>
       <td>$37</td>
+      <td>$64,494.74</td>
+      <td>1,787</td>
+      <td>9.5</td>
       <td>4.1</td>
       <td>386</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>11,768</td>
       <td>37</td>
-      <td>$64,494.74</td>
-      <td>1,787</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81WGKKe2zgL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00EYE6VWE?th=1" target="_blank">Charmin Ultra Soft Mega Roll Toilet Paper, 12 Count</a></td>
       <td>$22</td>
+      <td>$63,915.40</td>
+      <td>2,982</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>3592</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>12,051</td>
       <td>66</td>
-      <td>$63,915.40</td>
-      <td>2,982</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91xQVO7cGuL._AC_SY879_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00K4A5HV8?th=1" target="_blank">Kleenex Facial Tissue - 160 2-ply Box, 4 Pack (Designs & Colors Will Vary)</a></td>
       <td>$13</td>
+      <td>$59,342.12</td>
+      <td>3,624</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>848</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>11,174</td>
       <td>38</td>
-      <td>$59,342.12</td>
-      <td>3,624</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71fzlV4KGWL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B06VY76Z3J" target="_blank">Scott Bath Tissue, 1, 100 Sheetsper Roll, 36 Count</a></td>
       <td>$40</td>
+      <td>$58,538.01</td>
+      <td>1,464</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>7174</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>24,280</td>
       <td>90</td>
-      <td>$58,538.01</td>
-      <td>1,464</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91EYj0xGBJL._AC_SX679_PIbundle-60,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B007636DIW?th=1" target="_blank">Seventh Generation White Toilet Paper 2-ply 100% Recycled Paper, 500 sheets, Pack of 60</a></td>
       <td>$87</td>
+      <td>$58,319.03</td>
+      <td>778</td>
+      <td>9.5</td>
       <td>4.0</td>
       <td>1281</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>36,020</td>
       <td>115</td>
-      <td>$58,319.03</td>
-      <td>778</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81ApjxNkqAL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B01DCHERJW?th=1" target="_blank">Kleenex Cube Soft Facial Tissues, 3-Ply, Assorted Designs and Colors, 56 Count, Pack of 12</a></td>
       <td>$28</td>
+      <td>$57,019.59</td>
+      <td>2,088</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>3868</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>13,746</td>
       <td>42</td>
-      <td>$57,019.59</td>
-      <td>2,088</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61IDuTxgeKL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BMQJL88Z" target="_blank">Amazon Aware Bamboo Facial Tissue Cube Boxes, 3-Ply, 12 Pack, 60 Sheets Per Box, 720 Per Pack</a></td>
       <td>$22</td>
+      <td>$56,909.93</td>
+      <td>2,353</td>
+      <td>Not found</td>
       <td>4.0</td>
       <td>622</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>11,948</td>
       <td>40</td>
-      <td>$56,909.93</td>
-      <td>2,353</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71nRUELi4TL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0912JB1RS?th=1" target="_blank">PoeticEHome Soft Dry Wipe 6 Pack, 100% Cotton Face Tissues, Lint Free Facial Cleansing Towels Disposable, Extra Thick Dry and Wet Use for Sensitive Skin, Makeup Removing, Surface Cleaning (600 Count)</a></td>
       <td>$34</td>
+      <td>$56,231.07</td>
+      <td>1,836</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>1024</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>15,580</td>
       <td>122</td>
-      <td>$56,231.07</td>
-      <td>1,836</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91lDC5mWikL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09DSCDQDV?th=1" target="_blank">Car Round Canned Tissue Box Perfect Fit Cup Holder Facial Tissues,Cylinder Tube Face Towel,4 Canister 3-Ply Car Napkins For Travel Tissue Bulk Fit Car、Home、Office、school by CLOVER</a></td>
       <td>$13</td>
+      <td>$54,386.32</td>
+      <td>3,850</td>
+      <td>10</td>
       <td>4.3</td>
       <td>2418</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>15,012</td>
       <td>53</td>
-      <td>$54,386.32</td>
-      <td>3,850</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71aiqxl81ZL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B071NVSRBF?th=1" target="_blank">Tork Jumbo Toilet Paper Roll White T1, Advanced, 2-ply, 6 x 1600 feet, 12021502, 6 Count (Pack of 1)</a></td>
       <td>$58</td>
+      <td>$54,213.23</td>
+      <td>1,023</td>
+      <td>9.6</td>
       <td>4.4</td>
       <td>312</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>6,750</td>
       <td>21</td>
-      <td>$54,213.23</td>
-      <td>1,023</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81v6FfQ-oIL._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B004JJMWHM" target="_blank">Cottonelle Professional Standard Roll Bulk Toilet Paper (12456), White (48 Rolls of 170 Sheets, 8,160 Sheet Total)</a></td>
       <td>$46</td>
+      <td>$52,990.81</td>
+      <td>1,101</td>
+      <td>9.7</td>
       <td>4.5</td>
       <td>1631</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>28,914</td>
       <td>105</td>
-      <td>$52,990.81</td>
-      <td>1,101</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61Ghc-nyWCL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07HDCVFFP" target="_blank">Boardwalk B6145 2-Ply Standard Septic Safe 4 in. x 3 in. Toilet Tissue - White (96/Carton)</a></td>
       <td>$47</td>
+      <td>$51,642.92</td>
+      <td>1,021</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>1442</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>25,570</td>
       <td>94</td>
-      <td>$51,642.92</td>
-      <td>1,021</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/7105fsdE3EL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DLHLCPT4?th=1" target="_blank">SUNCOLOR Glitter Pink Tissue Paper for Valentines Day, 20 x 14 inches, 120 Sheets, for Gift Wrapping and Crafts</a></td>
       <td>$7</td>
+      <td>$49,161.82</td>
+      <td>6,454</td>
+      <td>9.5</td>
       <td>4.5</td>
       <td>150</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>7,882</td>
       <td>5</td>
-      <td>$49,161.82</td>
-      <td>6,454</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71GZv6NheyL._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DHHGF2WS" target="_blank">Puffs Ultra Soft Facial Tissues, 4 Mega Cube Box, 72 Facial Tissues Per Box</a></td>
       <td>$6</td>
+      <td>$48,411.63</td>
+      <td>7,052</td>
+      <td>Not found</td>
       <td>4.8</td>
       <td>138</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>3,145</td>
       <td>22</td>
-      <td>$48,411.63</td>
-      <td>7,052</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/719TdhXl8jL._AC_SX679_PIbundle-96,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00JE461YM?th=1" target="_blank">GEN 218 Standard Bath Tissue, 1-Ply, 1000 Sheets (Case of 96 Rolls)</a></td>
       <td>$68</td>
+      <td>$48,191.51</td>
+      <td>713</td>
+      <td>Not found</td>
       <td>4.3</td>
       <td>1630</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>29,622</td>
       <td>107</td>
-      <td>$48,191.51</td>
-      <td>713</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81hQTmDjnmL.__AC_SX300_SY300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CT5FKLC8?th=1" target="_blank">KOLWOVEN Square Tissue Box Cover- 5.7" x 5.7" x 5"- Decorative Woven Facial Tissue Holder with Hinged Top Lid- Facial Box for Home, Office,Bathrooms, Decoration (Square- Set 2)</a></td>
       <td>$22</td>
+      <td>$46,608.49</td>
+      <td>3,048</td>
+      <td>9.5</td>
       <td>4.7</td>
       <td>713</td>
       <td>Home & Kitchen</td>
       <td>Tissue Holders for Bathrooms</td>
       <td>9,492</td>
       <td>7</td>
-      <td>$46,608.49</td>
-      <td>3,048</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71lsSibWDRL._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09YVS6PVY" target="_blank">Puffs Plus Lotion Facial Tissue, 4 Mega Cube Boxes, 72 Tissues Per Box</a></td>
       <td>$6</td>
+      <td>$46,197.36</td>
+      <td>6,754</td>
+      <td>Not found</td>
       <td>4.8</td>
       <td>114</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>4,844</td>
       <td>26</td>
-      <td>$46,197.36</td>
-      <td>6,754</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/714lUcDtiIL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B01LG2QLSU?th=1" target="_blank">Member's Mark Ultra Premium Bath Tissue, 2 ply (232 sheets, 45 rolls)</a></td>
       <td>$38</td>
+      <td>$45,760.05</td>
+      <td>1,252</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>4237</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>22,358</td>
       <td>83</td>
-      <td>$45,760.05</td>
-      <td>1,252</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91hHc6nY3WL.__AC_SY300_SX300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00G3LP5PK?th=1" target="_blank">Kleenex® 3-Ply Pocket Packs Facial Tissues (16 packs of 10 tissues)</a></td>
       <td>$9</td>
+      <td>$45,380.32</td>
+      <td>4,370</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>3269</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>8,992</td>
       <td>3</td>
-      <td>$45,380.32</td>
-      <td>4,370</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/714qAO027lL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07MZTHL7S?th=1" target="_blank">Coin Tissues | 100 Pack with 2 Carrying Cases | Toilet Paper Tablets | Compressed Towels | Expandable Wipes | Soft & Odor Free</a></td>
       <td>$14</td>
+      <td>$43,277.31</td>
+      <td>2,553</td>
+      <td>9.8</td>
       <td>4.8</td>
       <td>4454</td>
       <td>Health & Household</td>
       <td>Personal Cleansing Wipes</td>
       <td>13,766</td>
       <td>70</td>
-      <td>$43,277.31</td>
-      <td>2,553</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81LgU0LL3lL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B002K9KVH6?th=1" target="_blank">Kleenex Professional Anti-Viral Facial Tissue, Bulk (21286), 3-Ply, White, Upright Cube Boxed Format, Designed for Business (55 Tissues/Box, 12 Boxes, 660 Sheets/Case)</a></td>
       <td>$11</td>
+      <td>$43,217.72</td>
+      <td>3,804</td>
+      <td>10</td>
       <td>4.6</td>
       <td>7606</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>8,561</td>
       <td>33</td>
-      <td>$43,217.72</td>
-      <td>3,804</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61IrtQeoLFL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B074G1G198?th=1" target="_blank">Caboo Tree Free Facial Tissue Paper, Tissue Box with 60 Sheets Per Cube, Total of 6 Cubes, 360 Total Tissues</a></td>
       <td>$20</td>
+      <td>$42,583.85</td>
+      <td>1,937</td>
+      <td>9.7</td>
       <td>4.3</td>
       <td>1996</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>19,595</td>
       <td>49</td>
-      <td>$42,583.85</td>
-      <td>1,937</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51WoURP1ewL._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08XYJWRTP" target="_blank">AmazonCommercial FSC Certified 2-Ply White Ultra Strong Toilet Paper, Septic Safe, 286 Sheets per Roll - 36 Rolls</a></td>
       <td>$28</td>
+      <td>$42,054.79</td>
+      <td>1,461</td>
+      <td>9.5</td>
       <td>4.6</td>
       <td>1000</td>
       <td>Our Brands</td>
       <td>Toilet Paper</td>
       <td>1,813</td>
       <td>14</td>
-      <td>$42,054.79</td>
-      <td>1,461</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61zSRdBlltL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BZYTM8NR?th=1" target="_blank">NEBURORA Green Tissue Paper for Gift Bags 60 Sheets Green Wrapping Tissue Paper Bulk 14 X 20 Inch Christmas Green Packaging Paper for Gift Wrap Filler Flower Crafts Birthday Wedding St Patrick's</a></td>
       <td>$5</td>
+      <td>$41,692.30</td>
+      <td>7,044</td>
+      <td>10</td>
       <td>4.7</td>
       <td>2354</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>6,662</td>
       <td>4</td>
-      <td>$41,692.30</td>
-      <td>7,044</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61TfuDC3M+L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CC5N3K4B?th=1" target="_blank">CHRORINE 60 Sheets Navy Blue Tissue Paper Art Gift Wrapping Tissue Paper Bulk for DIY Crafts Decor Birthday Holiday Boys Party （ 20 x 14.5 inches）</a></td>
       <td>$5</td>
+      <td>$39,341.53</td>
+      <td>6,441</td>
+      <td>9.1</td>
       <td>4.8</td>
       <td>2132</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>875</td>
       <td>2</td>
-      <td>$39,341.53</td>
-      <td>6,441</td>
-      <td>9.1</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61HwdXpDrGL._AC_SX679_PIbundle-30,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B01AZGXGVI?th=1" target="_blank">GEN 6501 Facial Tissue, Flat Box, 2-Ply, 8" x 8.3", 100 per Box (Case of 30 Boxes)</a></td>
       <td>$20</td>
+      <td>$39,336.19</td>
+      <td>1,912</td>
+      <td>Not found</td>
       <td>4.2</td>
       <td>887</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>15,683</td>
       <td>44</td>
-      <td>$39,336.19</td>
-      <td>1,912</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61iAWWNxwaL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B088R2KHZZ?th=1" target="_blank">3 Otters 150 Sheets Wrapping Tissue Paper, 14×20 Inch Tissue Paper Gift Wrap Colors of Rainbow Gift Tissue Paper for Gift Bags</a></td>
       <td>$7</td>
+      <td>$38,615.75</td>
+      <td>5,018</td>
+      <td>9.8</td>
       <td>4.7</td>
       <td>1549</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>5,055</td>
       <td>3</td>
-      <td>$38,615.75</td>
-      <td>5,018</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61FMAJlbbRL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00PM81FG8?th=1" target="_blank">GEN 202 Jumbo JRT Bath Tissue, 2-Ply, White, 9 in Diameter, 12 Count (Pack of 1)</a></td>
       <td>$28</td>
+      <td>$38,390.39</td>
+      <td>1,329</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>222</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>2,670</td>
       <td>15</td>
-      <td>$38,390.39</td>
-      <td>1,329</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91pAjHvkUNL._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0096XTUO4?th=1" target="_blank">Genuine Joe - GJO2506008 Jumbo Dispenser Roll Bath Tissue (8 roll pack)</a></td>
       <td>$32</td>
+      <td>$37,163.19</td>
+      <td>1,039</td>
+      <td>9.1</td>
       <td>4.5</td>
       <td>3684</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>24,215</td>
       <td>89</td>
-      <td>$37,163.19</td>
-      <td>1,039</td>
-      <td>9.1</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71bhR0KfxkL._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DHHGL8P9" target="_blank">Puffs Ultra Soft Facial Tissues, 4 Family Size Boxes, 124 Facial Tissues Per Box</a></td>
       <td>$6</td>
+      <td>$36,500.17</td>
+      <td>5,335</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>214</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>13,234</td>
       <td>41</td>
-      <td>$36,500.17</td>
-      <td>5,335</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71RjauftyNL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CD3ZKMVN?th=1" target="_blank">ALELION Tissue Box Cover Square - Acacia Wood Tissue Box Holder for Tabletop Night Stands Bathroom Office - Decorative Facial Cube Tissue Box Cover for Modern Farmhouse Decor</a></td>
       <td>$17</td>
+      <td>$35,374.17</td>
+      <td>1,813</td>
+      <td>9.4</td>
       <td>4.6</td>
       <td>314</td>
       <td>Home & Kitchen</td>
       <td>Tissue Holders for Bathrooms</td>
       <td>12,552</td>
       <td>11</td>
-      <td>$35,374.17</td>
-      <td>1,813</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71ddM-ZtVZL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B002XPM4HM" target="_blank">KLEENEX Facial Tissue in Boutique Pop-Up Box, 95/Box, 36 Boxes/Carton</a></td>
       <td>$77</td>
+      <td>$35,070.09</td>
+      <td>456</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>33</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>44,189</td>
       <td>136</td>
-      <td>$35,070.09</td>
-      <td>456</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81560BphRRS._AC_SX679_PIbundle-24,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B01B5KAAUS" target="_blank">Quilted Northern Ultra Plush Toilet Paper, 24 Supreme Rolls = 105 Regular Rolls, 3-ply Bath Tissue</a></td>
       <td>$35</td>
+      <td>$34,920.73</td>
+      <td>1,001</td>
+      <td>9.4</td>
       <td>4.8</td>
       <td>47476</td>
       <td>Health & Household</td>
       <td>Sales & Deals</td>
       <td>26,939</td>
       <td>95</td>
-      <td>$34,920.73</td>
-      <td>1,001</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/8192QAAaYlL._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07DTNX5W5?th=1" target="_blank">Scotties Everyday Comfort Facial Tissues, 2-Ply, 92 Tissues Per Box, (Pack of 4)</a></td>
       <td>$12</td>
+      <td>$34,700.75</td>
+      <td>2,058</td>
+      <td>9.4</td>
       <td>4.6</td>
       <td>15528</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>35,547</td>
       <td>83</td>
-      <td>$34,700.75</td>
-      <td>2,058</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61hqnfQIb9L._AC_SX679_PIbundle-12,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B086Z5VWY7" target="_blank">Boat and RV Toilet Paper, Septic Safe Quick Dissolving Tissue, 12 Single Rolls, Biodegradable 2-Ply for Marine, Travel, and Camper Systems, Camping Tank-Safe Bulk Pack</a></td>
       <td>$29</td>
+      <td>$34,564.01</td>
+      <td>1,153</td>
+      <td>10</td>
       <td>4.6</td>
       <td>2065</td>
       <td>Sports & Outdoors</td>
       <td>Camping Hygiene & Sanitation Products</td>
       <td>4,722</td>
       <td>21</td>
-      <td>$34,564.01</td>
-      <td>1,153</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/711mLc82XiL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07JMT3FZX?th=1" target="_blank">Ocean Tides Wrapping Tissue Paper for Gift Bags - 100 Sheets Colorful Tissue Paper for Crafts, Stuffing, & Packaging - Decorative Multicolored Gift Wrapping Sheets for All Occasions (14 x 20 inches)</a></td>
       <td>$6</td>
+      <td>$34,319.05</td>
+      <td>3,755</td>
+      <td>10</td>
       <td>4.7</td>
       <td>4769</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>9,494</td>
       <td>9</td>
-      <td>$34,319.05</td>
-      <td>3,755</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61oTP5Bdm9L._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BV6PKW55?th=1" target="_blank">100 Count Disposable Face Towel,Thickening Ultra Soft Washcloths,Facial Cotton Tissue,Lint-free cotton dry wipes Multi-Purpose for Skin Care,Make-up Wipes,Face Wipes and Facial Cleansing</a></td>
       <td>$9</td>
+      <td>$34,037.04</td>
+      <td>2,494</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>637</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>9,592</td>
       <td>85</td>
-      <td>$34,037.04</td>
-      <td>2,494</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61j+WX1KgKL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D12NGX64?th=1" target="_blank">Phinus 140 Sheets White Tissue Paper, 14 x 20 Inches Tissue Paper Bulk, Wrapping Tissue Paper for Weddings Birthday DIY Project Arts Craft Decor</a></td>
       <td>$6</td>
+      <td>$30,199.17</td>
+      <td>4,320</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>260</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>13,218</td>
       <td>14</td>
-      <td>$30,199.17</td>
-      <td>4,320</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81lQCyemujL._AC_SX679_PIbundle-18,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0854WL4G3" target="_blank">Quilted Northern Ultra Plush® Toilet Paper, 18 Mega Rolls = 72 Regular Rolls, 3-Ply Bath Tissue</a></td>
       <td>$30</td>
+      <td>$29,946.45</td>
+      <td>1,015</td>
+      <td>9.4</td>
       <td>4.8</td>
       <td>39839</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>27,754</td>
       <td>100</td>
-      <td>$29,946.45</td>
-      <td>1,015</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61wXn3G5qoL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CWP1RZRY?th=1" target="_blank">Car Tissue Refills 300 Sheets Facial Tissues Refills for Car Visor Tissue Holder, Travel Tissue Tubes Box Container Perfect Fit for Car Tissues Cylinder</a></td>
       <td>$9</td>
+      <td>$29,487.58</td>
+      <td>2,599</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>222</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>11,413</td>
       <td>37</td>
-      <td>$29,487.58</td>
-      <td>2,599</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/914CWgyaKTL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07DWJZX8K" target="_blank">Kleenex Facial Tissues Perfect Fit, Pack of 6 (Designs May Vary)</a></td>
       <td>$28</td>
+      <td>$29,335.79</td>
+      <td>1,008</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>131</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>18,416</td>
       <td>47</td>
-      <td>$29,335.79</td>
-      <td>1,008</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/516GCG8JSTL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CS6HQWN7?th=1" target="_blank">Gold Tissue Paper for Gift Bags - 30 Sheets of Gold Wrapping Tissue Paper Bulk Packaging Paper for Weddings Birthday DIY Project Christmas Gift Wrapping Crafts Decor (14 x 20 Inch)</a></td>
       <td>$5</td>
+      <td>$28,580.32</td>
+      <td>5,753</td>
+      <td>10</td>
       <td>4.6</td>
       <td>343</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>8,997</td>
       <td>7</td>
-      <td>$28,580.32</td>
-      <td>5,753</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/512C0eko1kL._AC_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DHTPPJ7H" target="_blank">Ultra Soft 3-Ply Facial Tissues by Klenesx, Cube Boxes 85 tissues/box, 12 boxes</a></td>
       <td>$37</td>
+      <td>$28,186.22</td>
+      <td>728</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>17</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>40,550</td>
       <td>86</td>
-      <td>$28,186.22</td>
-      <td>728</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81BFNY75PPL.__AC_SX300_SY300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00HX4FHDQ?th=1" target="_blank">Genuine Joe GJO26085 Cube Box Facial Tissue, 2-Ply, 85 per Box, White (Pack of 36)</a></td>
       <td>$31</td>
+      <td>$28,085.91</td>
+      <td>932</td>
+      <td>Not found</td>
       <td>4.0</td>
       <td>1285</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>32,036</td>
       <td>70</td>
-      <td>$28,085.91</td>
-      <td>932</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61Nc184i1HL._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00SGFNAMG" target="_blank">Karat 9" Jumbo Roll Toilet Paper - 2-Ply Industrial Strength Tissue (JS-JRT1000), 1000 ft, 12 Pack</a></td>
       <td>$40</td>
+      <td>$28,005.73</td>
+      <td>686</td>
+      <td>Not found</td>
       <td>4.3</td>
       <td>232</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>6,037</td>
       <td>20</td>
-      <td>$28,005.73</td>
-      <td>686</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71lBPAubDUL._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07DRR3ZSF" target="_blank">Tork OptiCore Mid-size Toilet Paper Roll White T11, Universal, 2-ply, 36 x 865 sheets, 161990</a></td>
       <td>$69</td>
+      <td>$27,934.30</td>
+      <td>387</td>
+      <td>9.5</td>
       <td>4.4</td>
       <td>86</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>9,700</td>
       <td>26</td>
-      <td>$27,934.30</td>
-      <td>387</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51Uh7nDagoL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CR3QZDJ8?th=1" target="_blank">Simetufy 1000 Sheets White Tissue Paper Bulk, 15" x 20" Packing Paper Sheets for Moving, Gift Wrapping Tissue Paper for Packaging Mother's Day Weddings Birthday Holidays Crafts Decor</a></td>
       <td>$25</td>
+      <td>$27,793.09</td>
+      <td>1,070</td>
+      <td>10</td>
       <td>4.3</td>
       <td>126</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>24,807</td>
       <td>45</td>
-      <td>$27,793.09</td>
-      <td>1,070</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61G17TwWE0L._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B003Z60GLO" target="_blank">Windsoft WIN2360 2-Ply Flat Pop-Up Box Facial Tissue - White (30 Boxes/Carton)</a></td>
       <td>$24</td>
+      <td>$26,685.34</td>
+      <td>1,069</td>
+      <td>9.4</td>
       <td>4.1</td>
       <td>59</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>20,922</td>
       <td>52</td>
-      <td>$26,685.34</td>
-      <td>1,069</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71zsW0qTpBL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D11HX96Y?th=1" target="_blank">BEISHIDA 100 Sheets Sage Green Tissue Paper, Wrapping Paper, Tissue Paper for Gift Bags, 14"x20"Gift Wrap Tissue Paper Bulk for DIY Crafts Gift Wrapping Birthday Wedding Holiday Paper Flowers</a></td>
       <td>$7</td>
+      <td>$25,984.69</td>
+      <td>3,097</td>
+      <td>10</td>
       <td>4.5</td>
       <td>84</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>8,978</td>
       <td>7</td>
-      <td>$25,984.69</td>
-      <td>3,097</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71jzybQqIgL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B014EJI11W?th=1" target="_blank">Epielle OG Makeup Remover Cleansing Wipes Tissue | Gentle for all Skin Types | Daily Facial Cleansing Towelettes | Removes Dirt, Oil, Makeup | Nicely Scented | 30 Count | Assorted 6 Pack</a></td>
       <td>$15</td>
+      <td>$25,840.31</td>
+      <td>1,569</td>
+      <td>10</td>
       <td>4.6</td>
       <td>5524</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>13,504</td>
       <td>111</td>
-      <td>$25,840.31</td>
-      <td>1,569</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/618nxtOco2L._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09TK7NNJR" target="_blank">PLULON 60 Sheets Brown Tissue Paper Bulks, Gift Wrap Tissue Paper Sheets for Packaging Birthday Gift Wrapping Paper Birthday Wedding Construction Party Decorations</a></td>
       <td>$5</td>
+      <td>$25,303.95</td>
+      <td>4,621</td>
+      <td>10</td>
       <td>4.8</td>
       <td>2281</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>7,937</td>
       <td>6</td>
-      <td>$25,303.95</td>
-      <td>4,621</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/613zirnCA+L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09W9F2138" target="_blank">Car Tissue Refill, 18 Packs Car Tissues Auto Visor Tissue Refills for Visor, Napkins Holder Refill, Car Travel Tissues, Soft and Smooth (18 Pieces)</a></td>
       <td>$9</td>
+      <td>$25,294.71</td>
+      <td>2,532</td>
+      <td>10</td>
       <td>4.3</td>
       <td>1035</td>
       <td>Automotive</td>
       <td>Visor Accessories</td>
       <td>1,032</td>
       <td>10</td>
-      <td>$25,294.71</td>
-      <td>2,532</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61GPvaXy1jL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0B9HQ3P6D?th=1" target="_blank">PoeticEHome Cotton Tissue Dry Wipes - Extra Thick Biodegradable Facial Cleansing Towel Disposable Wash Cloth for Makeup Cleaning 4 PACK</a></td>
       <td>$28</td>
+      <td>$24,657.93</td>
+      <td>1,430</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>546</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>15,772</td>
       <td>124</td>
-      <td>$24,657.93</td>
-      <td>1,430</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71do9ifs-iL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09HZVHS8K" target="_blank">Soft Durable Bamboo Facial Tissues - 3 Ply Natural Unbleached Facial Paper Dry or Wet Use 12 Packs（134 Tissues per Pack, 1608 Tissues Total）</a></td>
       <td>$35</td>
+      <td>$24,614.11</td>
+      <td>684</td>
+      <td>9.9</td>
       <td>4.5</td>
       <td>323</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>36,610</td>
       <td>81</td>
-      <td>$24,614.11</td>
-      <td>684</td>
-      <td>9.9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81zkJ2P+FNL._AC_SY879_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B086Z71NXW" target="_blank">HEART & SOIL - Grass-Fed Bone Marrow and Beef Liver Supplement – 3000mg, Desiccated Organ Blend for Mood, Bone, Joint, Tissue, Skin Health - Non-GMO, Allergen-Free – 180 Capsules</a></td>
       <td>$55</td>
+      <td>$24,472.32</td>
+      <td>445</td>
+      <td>10</td>
       <td>4.6</td>
       <td>302</td>
       <td>Health & Household</td>
       <td>Blended Vitamin & Mineral Supplements</td>
       <td>49,554</td>
       <td>2,079</td>
-      <td>$24,472.32</td>
-      <td>445</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81o4oaX8jZL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0861DSKQR?th=1" target="_blank">BigOtters 100PCS Compressed Towel, Disposable Compressed Towel Tablets, Bulk Coin Tissues, Portable Mini Compressed Camping Towels for Travel Home and Outdoor Activities</a></td>
       <td>$8</td>
+      <td>$24,014.33</td>
+      <td>1,649</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>1072</td>
       <td>Sports & Outdoors</td>
       <td>Camping Towels</td>
       <td>3,885</td>
       <td>10</td>
-      <td>$24,014.33</td>
-      <td>1,649</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71DH2O2jVeL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D6B3MXZD?th=1" target="_blank">Crafted Classical Retro Wooden Antique Book Tissue Box Cover Square Tissue Holder Dispenser Paper Cover Case Napkin Holder Home Decor for Bathroom Living Room Office car Kitchen (brown)</a></td>
       <td>$19</td>
+      <td>$24,012.43</td>
+      <td>1,213</td>
+      <td>9.3</td>
       <td>4.5</td>
       <td>350</td>
       <td>Home & Kitchen</td>
       <td>Tissue Holders for Bathrooms</td>
       <td>39,604</td>
       <td>47</td>
-      <td>$24,012.43</td>
-      <td>1,213</td>
-      <td>9.3</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61YWeKmZhPL._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09R4VHZ55?th=1" target="_blank">Quilted Northern Ultra Plush Toilet Paper, 32 Mega Rolls = 128 Regular Rolls, 3-Ply Bath Tissue (Packaging May Vary), 8 Count (Pack of 4)</a></td>
       <td>$46</td>
+      <td>$23,902.92</td>
+      <td>722</td>
+      <td>9.7</td>
       <td>4.8</td>
       <td>15350</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>32,000</td>
       <td>110</td>
-      <td>$23,902.92</td>
-      <td>722</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61j-TbZHpRL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CMBDMLC8" target="_blank">Kleenex Trusted Care Facial Tissues, 4 Big Boxes, 230 Tissues per Box, 2-Ply (920 Total Tissues), Packaging May Vary</a></td>
       <td>$26</td>
+      <td>$23,670.88</td>
+      <td>877</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>172</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>31,142</td>
       <td>69</td>
-      <td>$23,670.88</td>
-      <td>877</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81Kx6TTmqlL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BMGX9LVV?th=1" target="_blank">Plush Facial Tissues 130 Per Box Size 7" X 6.9" 2 Ply,Soft, Smooth, Great for Bathroom, Office, Store, School,Home, Kitchen, Or in Your Car & in Every Room (Family pack Pack of 8, 1040 Tissues total)</a></td>
       <td>$17</td>
+      <td>$23,326.53</td>
+      <td>1,181</td>
+      <td>Not found</td>
       <td>3.3</td>
       <td>900</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>18,985</td>
       <td>47</td>
-      <td>$23,326.53</td>
-      <td>1,181</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81ZVLjXWifL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B081RYXC56" target="_blank">Kleenex Ultra Soft Facial Tissues, 18 Cube Boxes, 45 Tissues per Box (810 Tissues Total)</a></td>
       <td>$36</td>
+      <td>$23,273.20</td>
+      <td>614</td>
+      <td>9.5</td>
       <td>4.5</td>
       <td>233</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>40,153</td>
       <td>85</td>
-      <td>$23,273.20</td>
-      <td>614</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61Rrfr0KFNL.__AC_SX300_SY300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CVTZFFP7?th=1" target="_blank">PU Leather Tissue Box Cover Square Tissue Box Holder with Magnetic Closure (Beige Stripe)</a></td>
       <td>$19</td>
+      <td>$23,071.80</td>
+      <td>1,157</td>
+      <td>9.5</td>
       <td>4.8</td>
       <td>518</td>
       <td>Home & Kitchen</td>
       <td>Tissue Holders for Bathrooms</td>
       <td>27,716</td>
       <td>25</td>
-      <td>$23,071.80</td>
-      <td>1,157</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71IShAfxPTL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09B3C86ZY?th=1" target="_blank">Simetufy Tissue Paper for Gift Bags, 150 Sheets 30 Assorted Colored Tissue Paper Bulk for Gift Wrapping, 20 x 26 in Art Tissue Paper for Crafts, Gift Wrapping Tissue Paper for Gifts</a></td>
       <td>$14</td>
+      <td>$23,067.74</td>
+      <td>1,654</td>
+      <td>10</td>
       <td>4.8</td>
       <td>1132</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>16,882</td>
       <td>27</td>
-      <td>$23,067.74</td>
-      <td>1,654</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61CTPCmluyL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BQH893BJ" target="_blank">Unifree Facial Tissues I Dry Wipes I Makeup Remover, 8-pack Value Pack, 480 Count</a></td>
       <td>$34</td>
+      <td>$23,019.96</td>
+      <td>666</td>
+      <td>9.4</td>
       <td>4.7</td>
       <td>150</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>32,683</td>
       <td>227</td>
-      <td>$23,019.96</td>
-      <td>666</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61mxATqX0zL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CJDJT5ZY?th=1" target="_blank">Larcenciel Tissue Paper Gift Wrap, 30 Pcs Girly Pearlescent Pink Tissue Paper for Gift Bags Bulk, Delicate Glitter Tissue Wrapping Paper for Birthdays, Weddings, Anniversaries, Crafts, 19.7x13.8in</a></td>
       <td>$5</td>
+      <td>$22,407.77</td>
+      <td>2,971</td>
+      <td>10</td>
       <td>4.6</td>
       <td>1702</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>12,807</td>
       <td>14</td>
-      <td>$22,407.77</td>
-      <td>2,971</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/41MRnY4WNvL.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0146LWU42" target="_blank">Tork Bath Tissue Roll Advanced 2-ply For everyday use at home Biodegradable 4x3.75", 500 sheets/roll, 48 rolls/case</a></td>
       <td>$46</td>
+      <td>$22,227.76</td>
+      <td>475</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>351</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>8,690</td>
       <td>24</td>
-      <td>$22,227.76</td>
-      <td>475</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61KbEXpMfpL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0B3231HW1?th=1" target="_blank">Car Tissue Holder with 3-ply Facial Tissues Bulk - 4 PK Gold Foil Cylinder, for Car, Travel Cup Holder, Refill Box Round Container Kraft</a></td>
       <td>$13</td>
+      <td>$21,763.09</td>
+      <td>1,593</td>
+      <td>9.9</td>
       <td>4.4</td>
       <td>1111</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>20,891</td>
       <td>52</td>
-      <td>$21,763.09</td>
-      <td>1,593</td>
-      <td>9.9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71G2VnTkvzL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07PGKTJBT?th=1" target="_blank">Hallmark Tissue Paper, 120 Sheets (Classic Rainbow, 8 Colors) for Birthdays, Mother's Day, Graduation, Gift Wrap, Crafts, DIY Paper Flowers, Tassel Garland and More</a></td>
       <td>$12</td>
+      <td>$21,701.52</td>
+      <td>1,691</td>
+      <td>10</td>
       <td>4.8</td>
       <td>1334</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>25,971</td>
       <td>47</td>
-      <td>$21,701.52</td>
-      <td>1,691</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/816t+uPYfmL._AC_SX679_PIbundle-24,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0885SDN4V?th=1" target="_blank">Funwares White Facial Travel Tissue Packs, Non-Bleach, Chlorine-Free, Compact Pocket Tissues for Car, Purse, School, Work, On-the-Go Tissue Packs, Geometric Design, 24 Packs, 216 Tissues, 3-Ply Sheets</a></td>
       <td>$11</td>
+      <td>$21,621.52</td>
+      <td>1,715</td>
+      <td>10</td>
       <td>4.5</td>
       <td>1126</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>13,688</td>
       <td>5</td>
-      <td>$21,621.52</td>
-      <td>1,715</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71iLImeINqL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D35MCLSQ?th=1" target="_blank">Car Tissue Holder, WHHMK Tissue Box Cover Keep Car Tidy, Premium PU Leather Backseat Napkin Rectangle Organizer, Extra Large Tissue Box Storage in Car Fits for 100-150 Regular Size Tissues, Black</a></td>
       <td>$15</td>
+      <td>$21,554.03</td>
+      <td>1,196</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>157</td>
       <td>Automotive</td>
       <td>Automotive Seat Back Organizers</td>
       <td>3,552</td>
       <td>32</td>
-      <td>$21,554.03</td>
-      <td>1,196</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61aVbxcIukL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09R4TPJRZ" target="_blank">Quilted Northern Ultra Soft & Strong® Toilet Paper, 32 Mega Rolls = 128 Regular Rolls, 2-ply Bath Tissue (Pack of 1)</a></td>
       <td>$29</td>
+      <td>$21,498.01</td>
+      <td>432</td>
+      <td>9.7</td>
       <td>4.8</td>
       <td>5372</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>44,114</td>
       <td>135</td>
-      <td>$21,498.01</td>
-      <td>432</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81+oY02n6yL._AC_SX679_PIbundle-18,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CSLGP5MK" target="_blank">White Cloud Ultra Comfort Lotion 3-Ply Facial Tissue with Aloe & Vitamin E, 18 Box Multipack, 60 Tissues Per Box</a></td>
       <td>$29</td>
+      <td>$21,154.18</td>
+      <td>705</td>
+      <td>Not found</td>
       <td>4.8</td>
       <td>71</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>31,117</td>
       <td>68</td>
-      <td>$21,154.18</td>
-      <td>705</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51BoZTI7+VS._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0986S5CGK?th=1" target="_blank">Cotton Facial Dry Wipes 100 Count, Deeply Cleansing Disposable Face Towel Wash Cloth, Multi-Purpose for Skin Care, Make-up Wipes, Face Wipes and Facial Cleansing</a></td>
       <td>$8</td>
+      <td>$20,992.51</td>
+      <td>1,704</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>1499</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>12,676</td>
       <td>101</td>
-      <td>$20,992.51</td>
-      <td>1,704</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71DCIBYQX8L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0C2VRDKB8" target="_blank">Bamboo Facial Tissues，soft nature bamboo facial tissue,100% virgin bamboo,Bulk carton of 8 boxes (100 Tissues per boxes,800 Tissues Total) | kraft paper Box, 3 Ply tissues</a></td>
       <td>$34</td>
+      <td>$20,691.42</td>
+      <td>594</td>
+      <td>10</td>
       <td>4.5</td>
       <td>96</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>33,533</td>
       <td>72</td>
-      <td>$20,691.42</td>
-      <td>594</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/310R6XUoncL.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B01B7FJX4A" target="_blank">9JUMBO Jumbo Roll Bath Tissue, 2-Ply, 9", White (Case of 12)</a></td>
       <td>$33</td>
+      <td>$20,576.00</td>
+      <td>616</td>
+      <td>Not found</td>
       <td>4.3</td>
       <td>748</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>4,622</td>
       <td>19</td>
-      <td>$20,576.00</td>
-      <td>616</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/417IBY-mqbL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0057G9CBK?th=1" target="_blank">BodyMed Headrest Paper Tissue Sheets – Tissue Paper Squares for Chiropractic Exam Table or Massage Table – White – 12-Inch x 12-Inch – with Nose Slit (1,000 per Box)</a></td>
       <td>$37</td>
+      <td>$20,339.85</td>
+      <td>525</td>
+      <td>10</td>
       <td>4.7</td>
       <td>425</td>
       <td>Industrial & Scientific</td>
       <td>Medical Exam Table Paper</td>
       <td>5,773</td>
       <td>7</td>
-      <td>$20,339.85</td>
-      <td>525</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51nH98jkSiL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0C14DH7KL?th=1" target="_blank">NEBURORA 120 Sheets Blue Tissue Paper 14 x 20 Inches Navy Blue Wrapping Tissue Paper Bulk Blue Wrap Paper Sheets for Gift Bags Packaging Floral Filler Crafts Birthday Baby Shower Wedding Decor(Blue)</a></td>
       <td>$7</td>
+      <td>$20,269.33</td>
+      <td>2,591</td>
+      <td>10</td>
       <td>4.7</td>
       <td>896</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>18,978</td>
       <td>34</td>
-      <td>$20,269.33</td>
-      <td>2,591</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61eBBHs6hWL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CFQCH9NZ?th=1" target="_blank">NEBURORA Assorted Pink Tissue Paper Set 60 Sheets Gift Wrapping Paper Paper Bulk 3 Colors for DIY Birthday Wedding Baby Shower Easter Gift Wrapping Decoration</a></td>
       <td>$5</td>
+      <td>$20,073.67</td>
+      <td>3,212</td>
+      <td>10</td>
       <td>4.8</td>
       <td>659</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>10,378</td>
       <td>11</td>
-      <td>$20,073.67</td>
-      <td>3,212</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/511TnOUQbgL._AC_SX466_PIbundle-6,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09YDKX5QK?th=1" target="_blank">Cartisen Car Tissue Refills,Facial Napkin Refills for Car Visor Tissue Holder,300 Sheets, 6 Packs (6 Pack)</a></td>
       <td>$9</td>
+      <td>$19,709.36</td>
+      <td>1,713</td>
+      <td>Not found</td>
       <td>4.3</td>
       <td>1241</td>
       <td>Automotive</td>
       <td>Visor Accessories</td>
       <td>1,792</td>
       <td>17</td>
-      <td>$19,709.36</td>
-      <td>1,713</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71QvWuZQnJL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0B5WQY9J9?th=1" target="_blank">Koogel 320 Sheets Blue Tissue Paper, 14×10 Inch Gift Wrapping Paper Bulk Thickened Craft Tissue Paper for DIY Crafts Party Holiday Gifts Box Decoration</a></td>
       <td>$7</td>
+      <td>$19,317.18</td>
+      <td>2,175</td>
+      <td>10</td>
       <td>4.5</td>
       <td>657</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>15,687</td>
       <td>23</td>
-      <td>$19,317.18</td>
-      <td>2,175</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61c-O7DflwL._AC_SX679_PIbundle-2,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08FBY575G" target="_blank">Squatty Potty Toilet Tissue Paper Foam Instant Wet Wipe Alternative - 2 Pack, 50 ml, 1.69 Fl Oz</a></td>
       <td>$12</td>
+      <td>$18,593.79</td>
+      <td>1,431</td>
+      <td>9.5</td>
       <td>4.1</td>
       <td>1408</td>
       <td>Health & Household</td>
       <td>Toilet Paper Sprays</td>
       <td>21,050</td>
       <td>4</td>
-      <td>$18,593.79</td>
-      <td>1,431</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71g2u5Z3LYL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B092SZZ63M?th=1" target="_blank">Kleenex Soothing Lotion Tissues with Aloe, Coconut Oil and Vitamin E, 4 cube boxes, 1 Cube Box containe 85 Tissues. Total of 340 Tissues. Assortment Colors.</a></td>
       <td>$14</td>
+      <td>$17,107.07</td>
+      <td>1,162</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>1054</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>27,331</td>
       <td>59</td>
-      <td>$17,107.07</td>
-      <td>1,162</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/619I+Yg4x8L._AC_SX466_PIbundle-160,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D8TCJTQM?th=1" target="_blank">160 Sheets Gold Tissue Paper for Gift Bags 20 X 14 Inches Easter Tissue Paper Wrapping Tissue Paper Bulk for Crafts Party Graduate Easter Mother's Day Decorations</a></td>
       <td>$8</td>
+      <td>$17,020.36</td>
+      <td>2,143</td>
+      <td>9.4</td>
       <td>4.7</td>
       <td>175</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>13,705</td>
       <td>17</td>
-      <td>$17,020.36</td>
-      <td>2,143</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51VtBl02PRL._AC_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B073437726" target="_blank">Kleenex Facial Tissue, 10 Pack - 230 Tissues in each box</a></td>
       <td>$37</td>
+      <td>$16,880.50</td>
+      <td>450</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>75</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>42,851</td>
       <td>86</td>
-      <td>$16,880.50</td>
-      <td>450</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71jqTEE3shL._AC_SX679_PIbundle-3,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CZYK6N97" target="_blank">Scotties Everyday Comfort 2 ply Facial Tissue, 3 Tissue Boxes, 210 Tissues per box, White</a></td>
       <td>$11</td>
+      <td>$16,537.95</td>
+      <td>1,333</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>147</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>20,448</td>
       <td>51</td>
-      <td>$16,537.95</td>
-      <td>1,333</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/910C7Mfr42L._AC_SX679_PIbundle-3,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B01B5KAAAS" target="_blank">Quilted Northern Ultra Soft & Strong Toilet Paper, 24 Supreme Rolls = 99 Regular Rolls, 2-ply Bath Tissue,8 Count (Pack of 3)</a></td>
       <td>$39</td>
+      <td>$16,281.34</td>
+      <td>414</td>
+      <td>9.8</td>
       <td>4.8</td>
       <td>32284</td>
       <td>Health & Household</td>
       <td>Sales & Deals</td>
       <td>45,899</td>
       <td>143</td>
-      <td>$16,281.34</td>
-      <td>414</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/518Lsyqw-TL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D9KVP648" target="_blank">Bamboo Facial Tissues - 3-Ply, 70 Sheets per Tissue Box, 12 Multicolor Boxes of Tissues, 840 Face Tissues - Hypoallergenic, Soft, Organic, FSC Certified, Tree Free</a></td>
       <td>$29</td>
+      <td>$16,004.76</td>
+      <td>534</td>
+      <td>10</td>
       <td>4.3</td>
       <td>19</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>33,872</td>
       <td>73</td>
-      <td>$16,004.76</td>
-      <td>534</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71T7JVbDZ2L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B004NG8Z1S?th=1" target="_blank">Marcal Pro Toilet Paper 100% Recycled - 2 Ply, White Bath Tissue, 242 Sheets Per Roll - 48 Individually Wrapped Rolls Per Case Green Seal Certified Toilet Paper 03001</a></td>
       <td>$34</td>
+      <td>$15,956.35</td>
+      <td>459</td>
+      <td>Not found</td>
       <td>3.8</td>
       <td>1131</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>63,149</td>
       <td>184</td>
-      <td>$15,956.35</td>
-      <td>459</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/715xqQkQEbL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BZ5DWL6Q" target="_blank">Puff Plus Lotion Vicks Facial Tissue 12 Cubes | Soft Lotion Tissues | Nose Friendly Tissues (48 Tissues Per Box)</a></td>
       <td>$33</td>
+      <td>$15,928.18</td>
+      <td>466</td>
+      <td>Not found</td>
       <td>4.8</td>
       <td>158</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>53,612</td>
       <td>102</td>
-      <td>$15,928.18</td>
-      <td>466</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61lOXNFwiKL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BY2MP86G?th=1" target="_blank">Mudder Car Tissue Refill, Visor Napkin Refill for Auto Sun Visor Travel, Soft and Smooth, 3-Ply(8 Pieces)</a></td>
       <td>$9</td>
+      <td>$15,923.45</td>
+      <td>1,473</td>
+      <td>9.6</td>
       <td>4.5</td>
       <td>489</td>
       <td>Automotive</td>
       <td>Visor Accessories</td>
       <td>2,725</td>
       <td>25</td>
-      <td>$15,923.45</td>
-      <td>1,473</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81wDLSMqARL._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07SVB39J2" target="_blank">Angel Soft® Toilet Paper, 2-Ply Bath Tissue, 9 Rolls (pack of 4)</a></td>
       <td>$39</td>
+      <td>$15,849.06</td>
+      <td>449</td>
+      <td>9.1</td>
       <td>4.7</td>
       <td>22343</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>45,697</td>
       <td>139</td>
-      <td>$15,849.06</td>
-      <td>449</td>
-      <td>9.1</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71AnJDY3qnL._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0969RMWB9" target="_blank">Toilet Tissue 48 Single Rolls with 400 Premium Quality Sheets per roll | Compatible with Universal Dispensing System | 2 ply 400 sheets 4.1” x 4.0”</a></td>
       <td>$39</td>
+      <td>$15,828.23</td>
+      <td>396</td>
+      <td>10</td>
       <td>4.5</td>
       <td>319</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>9,388</td>
       <td>26</td>
-      <td>$15,828.23</td>
-      <td>396</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/41l2yu00pAL.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B075L9ZTPB" target="_blank">Kimberly-Clark 34155 Kimwipes 1-Ply Delicate Task Wipes, 4.4" x 8.4", Tissue (Pack of 286)</a></td>
       <td>$6</td>
+      <td>$15,705.45</td>
+      <td>2,402</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>3220</td>
       <td>Industrial & Scientific</td>
       <td>Commercial Disposable Wipes</td>
       <td>1,332</td>
       <td>5</td>
-      <td>$15,705.45</td>
-      <td>2,402</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91v-DBqDc5L._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00QVE5D7O?th=1" target="_blank">Kleenex Facial Tissues with Lotion, 120 ct, 4 Pack</a></td>
       <td>$16</td>
+      <td>$15,604.75</td>
+      <td>1,019</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>1006</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>34,105</td>
       <td>78</td>
-      <td>$15,604.75</td>
-      <td>1,019</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61RwbEj3R8L._AC_SX679_PIbundle-100,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07VYWXLK1" target="_blank">Kekow 4-Ply Facial Tissues, 100-Pack Mini Type Pocket Packs Tissues, Soft and Unscented</a></td>
       <td>$19</td>
+      <td>$15,395.35</td>
+      <td>770</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>1202</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>26,573</td>
       <td>10</td>
-      <td>$15,395.35</td>
-      <td>770</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/41BMyTSaf9L._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07NN6ZW3Y?th=1" target="_blank">Extra Thick Dry Wipe, Disposable Face Drying Towel 100% Cotton, Lint-Free Cotton Tissues (5 Pack)</a></td>
       <td>$32</td>
+      <td>$15,278.91</td>
+      <td>501</td>
+      <td>9.6</td>
       <td>4.7</td>
       <td>263</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>32,796</td>
       <td>228</td>
-      <td>$15,278.91</td>
-      <td>501</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81K5RMSMkCL._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0013CE9X8" target="_blank">Pacific Blue Basic 1-Ply Jumbo Jr. 9'' Toilet Paper by GP PRO (GEORGIA-PACIFIC), 13718, 2,000 Linear Feet Per Roll, 8 Rolls Per Case</a></td>
       <td>$44</td>
+      <td>$15,242.31</td>
+      <td>345</td>
+      <td>9.7</td>
       <td>4.5</td>
       <td>366</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>46,746</td>
       <td>145</td>
-      <td>$15,242.31</td>
-      <td>345</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61qFCkbDHEL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B000S0AWLO?th=1" target="_blank">Palladio Rice Paper Facial Tissues for Oily Skin, Face Blotting Sheets Made from Natural Rice, Oil Absorbing Paper with Rice Powder, 2 Sided, Instant Results, Translucent, 40 Count, Pack of 1</a></td>
       <td>$6</td>
+      <td>$14,833.36</td>
+      <td>1,080</td>
+      <td>10</td>
       <td>4.2</td>
       <td>1347</td>
       <td>Beauty & Personal Care</td>
       <td>Makeup Blotting Paper</td>
       <td>16,909</td>
       <td>8</td>
-      <td>$14,833.36</td>
-      <td>1,080</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61BOByhT15L._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07HWW8FQJ" target="_blank">Septic Safe Tube Free 4 Ply Soft Toilet Paper RV Essential and Mom Approved for Travel Trailers Campers Marine Biodegradable 4 Boxes 320 Wipes</a></td>
       <td>$21</td>
+      <td>$14,822.33</td>
+      <td>618</td>
+      <td>9.9</td>
       <td>4.3</td>
       <td>1039</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>41,081</td>
       <td>124</td>
-      <td>$14,822.33</td>
-      <td>618</td>
-      <td>9.9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/714i7ujV7lL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0998DZ36R?th=1" target="_blank">Koogel 320 PCS Tissue Paper Gift Wrap, 40 Assorted Colors 14x10 Inches Craft Tissue Paper Bulk for Gift Bags Crafts DIY Project Wedding Birthday Party Favors</a></td>
       <td>$8</td>
+      <td>$14,746.42</td>
+      <td>1,690</td>
+      <td>10</td>
       <td>4.4</td>
       <td>890</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>17,798</td>
       <td>32</td>
-      <td>$14,746.42</td>
-      <td>1,690</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71IYYX9WgeL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D6R9LNG2" target="_blank">SUNCOLOR 120 Sheets 20"x14" Sparkle Tissue Paper for Gift Bags Colorful Glittery Art Tissue Paper for Crafts</a></td>
       <td>$6</td>
+      <td>$14,511.22</td>
+      <td>2,076</td>
+      <td>9.7</td>
       <td>4.6</td>
       <td>94</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>14,459</td>
       <td>22</td>
-      <td>$14,511.22</td>
-      <td>2,076</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/811D8EvhZNL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0969VYQQG?th=1" target="_blank">Nicky Elite Toilet Paper with Recyclable Paper Packaging, 36 Ultra Soft Mega Rolls = 144 regular rolls</a></td>
       <td>$28</td>
+      <td>$14,311.13</td>
+      <td>477</td>
+      <td>9.6</td>
       <td>4.5</td>
       <td>751</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>6,444</td>
       <td>21</td>
-      <td>$14,311.13</td>
-      <td>477</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81XZrOoNu1L._AC_SY879_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B079T8CJYZ?th=1" target="_blank">Reeflex Premium Facial Tissues 230 Sheets Per Box, 2-Ply Soft Touch, Gentle and Durable in A Stylish Box - 4 Total Boxes, 970 Sheets Family Pack</a></td>
       <td>$18</td>
+      <td>$14,210.04</td>
+      <td>770</td>
+      <td>Not found</td>
       <td>3.9</td>
       <td>2210</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>34,008</td>
       <td>77</td>
-      <td>$14,210.04</td>
-      <td>770</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51fUvk3-a7L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CVWYN77K?th=1" target="_blank">60 Sheets Tissue Paper for Packaging Gift Bags Decoration, Mixed Pink Wrapping Tissue Paper Bulk for DIY Art Crafts Birthday Wedding Halloween, 14 X 20 Inch</a></td>
       <td>$5</td>
+      <td>$14,205.31</td>
+      <td>2,498</td>
+      <td>10</td>
       <td>4.9</td>
       <td>126</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>15,364</td>
       <td>24</td>
-      <td>$14,205.31</td>
-      <td>2,498</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61w54bxLEBL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07Q3XQBCS?th=1" target="_blank">Flexicore Packaging® | Gift Wrap Tissue Paper | Size: 15"x20" | 100 Sheet | Acid Free Bulk Tissue Paper | (White)</a></td>
       <td>$7</td>
+      <td>$13,896.82</td>
+      <td>1,802</td>
+      <td>9.7</td>
       <td>4.8</td>
       <td>5265</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>1,962</td>
       <td>4</td>
-      <td>$13,896.82</td>
-      <td>1,802</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/818KsUH6smL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07YL9BVHD" target="_blank">Kleenex Expressions Ultra Soft Facial Tissues, 8 Cube Boxes, 65 Tissues per Box (520 Total Tissues)</a></td>
       <td>$24</td>
+      <td>$13,894.01</td>
+      <td>580</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>5505</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>32,374</td>
       <td>71</td>
-      <td>$13,894.01</td>
-      <td>580</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71ZL7mnaTyL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09WDMQFTV" target="_blank">Vinda 3-Ply Ultra Care Facial Tissues, 86 Count Each Box, 8 Cube Boxes</a></td>
       <td>$27</td>
+      <td>$13,818.33</td>
+      <td>477</td>
+      <td>Not found</td>
       <td>3.9</td>
       <td>406</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>51,461</td>
       <td>101</td>
-      <td>$13,818.33</td>
-      <td>477</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/613rQA8EdRL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CSS6MT13?th=1" target="_blank">Koogel 120 Sheets Tissue Paper Bulk, Yellow Tissue Paper Gift Wrapping Paper 14 x 20 Inch Craft Tissue Paper for Wedding Birthday DIY Project</a></td>
       <td>$4</td>
+      <td>$13,687.68</td>
+      <td>1,761</td>
+      <td>9.9</td>
       <td>4.7</td>
       <td>394</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>13,812</td>
       <td>18</td>
-      <td>$13,687.68</td>
-      <td>1,761</td>
-      <td>9.9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51bQr3IWTTL.__AC_SY300_SX300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08PVTVWQH" target="_blank">Car Tissue Refill, Disposable Facial Tissues, Face Towel, Tissues Travel Size Pack For Purse, 12 Packets, 360 Sheets, Soft And Comfortable</a></td>
       <td>$16</td>
+      <td>$13,369.01</td>
+      <td>789</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>1039</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>33,368</td>
       <td>74</td>
-      <td>$13,369.01</td>
-      <td>789</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91Jc5OR8ooL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B076CZF2V3" target="_blank">Kleenex Everyday Facial Tissues, 160 Tissues per Flat Box, 3 count</a></td>
       <td>$10</td>
+      <td>$13,337.54</td>
+      <td>1,148</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>129</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>27,098</td>
       <td>58</td>
-      <td>$13,337.54</td>
-      <td>1,148</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/715FNfwbODL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0B1ZYCJPG?th=1" target="_blank">Simetufy 5400 Pcs 1 Inch Tissue Paper Squares, 36 Assorted Colored Tissue Paper for Crafts, Art Rainbow Tissue Paper Bulk for Art Projects, Collage, Suncatchers, Scrapbooking - Non Bleeding</a></td>
       <td>$6</td>
+      <td>$13,250.25</td>
+      <td>1,836</td>
+      <td>10</td>
       <td>4.5</td>
       <td>583</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>1,263</td>
       <td>3</td>
-      <td>$13,250.25</td>
-      <td>1,836</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51ywK9RJfdL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CP8Q623D" target="_blank">130 Sheets 20"x14" White Wrapping Tissue Paper Bulk for Gift Bags Christmas Weddings Birthday Arts Craft Party Decoration</a></td>
       <td>$5</td>
+      <td>$12,866.91</td>
+      <td>2,293</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>165</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>47,108</td>
       <td>97</td>
-      <td>$12,866.91</td>
-      <td>2,293</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61AjmTnxZfL._AC_SX466_PIbundle-40,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CWL3LJCY?th=1" target="_blank">Pink Tissue Paper 40 Sheets for Gift Bags Weddings Birthday Decoration Crafts DIY Packaging Wrapping Paper Bulk, 14 x 20 Inches</a></td>
       <td>$4</td>
+      <td>$12,746.51</td>
+      <td>2,722</td>
+      <td>9.8</td>
       <td>4.7</td>
       <td>227</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>17,388</td>
       <td>29</td>
-      <td>$12,746.51</td>
-      <td>2,722</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61E3Y1fcMNL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CR3YYG2X" target="_blank">Simetufy 1000 Sheets White Tissue Paper Bulk, 20" x 30" Packing Paper Sheets for Moving, Gift Wrapping Tissue Paper for Packaging Mother's Day Weddings Birthday Holidays Crafts Decor</a></td>
       <td>$39</td>
+      <td>$12,649.16</td>
+      <td>313</td>
+      <td>Not found</td>
       <td>3.7</td>
       <td>41</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>50,934</td>
       <td>105</td>
-      <td>$12,649.16</td>
-      <td>313</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/810u8eiUgKL._AC_SX466_PIbundle-100,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09P4VM6TH?th=1" target="_blank">SANNIX 100 Sheets Spring Easter Tissue Paper Pink Green Blue Bulk Gift Wrapping Paper for Easter Gift Wrapping DIY Crafts Birthday Party Spring Decoration 19.7 ×13.8 Inch (10 Patterns)</a></td>
       <td>$9</td>
+      <td>$12,555.68</td>
+      <td>1,323</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>410</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>26,102</td>
       <td>50</td>
-      <td>$12,555.68</td>
-      <td>1,323</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71OvErHhQlL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0776MNMFZ" target="_blank">Cascades Pro Select Jumbo Toilet Paper, 12 Count</a></td>
       <td>$33</td>
+      <td>$12,431.43</td>
+      <td>373</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>374</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>42,228</td>
       <td>134</td>
-      <td>$12,431.43</td>
-      <td>373</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71uBlrGm+KL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0C1GDPH6Y?th=1" target="_blank">Shindel 120 Sheets Colorful Tissue Paper, Tissue Paper Bulk 20x14 Inch Gift Wrapping Paper for DIY Crafts Gift Box Wrapping 20 Colors</a></td>
       <td>$6</td>
+      <td>$12,408.42</td>
+      <td>1,501</td>
+      <td>9.9</td>
       <td>4.7</td>
       <td>713</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>17,862</td>
       <td>31</td>
-      <td>$12,408.42</td>
-      <td>1,501</td>
-      <td>9.9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71H9HA4hm1L._AC_SX679_PIbundle-3,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B004BQ2ZG6" target="_blank">Puffs Simple Softness Non-Lotion Facial Tissue, 3 Family Size Boxes, 180 Tissues Per Box</a></td>
       <td>$22</td>
+      <td>$12,388.81</td>
+      <td>773</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>927</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>28,606</td>
       <td>61</td>
-      <td>$12,388.81</td>
-      <td>773</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71CIGRQgXSL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07Q3HHWTB" target="_blank">Plus Lotion Facial Tissue, White, 2-Ply, 116/Box, 3 Boxes/Pack [ESS]</a></td>
       <td>$14</td>
+      <td>$12,135.54</td>
+      <td>834</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>486</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>39,266</td>
       <td>84</td>
-      <td>$12,135.54</td>
-      <td>834</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81nJBMPJTQL._AC_SX679_PIbundle-3,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00O3C2P1I" target="_blank">Kleenex 21286 Boutique Anti-Viral Tissue, 3-Ply, Pop-Up Box, 55/Box, 3 Boxes/Pack</a></td>
       <td>$10</td>
+      <td>$12,065.45</td>
+      <td>1,121</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>536</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>25,930</td>
       <td>59</td>
-      <td>$12,065.45</td>
-      <td>1,121</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61Yvn-YCDNL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D1BM8MFW?th=1" target="_blank">NEBURORA 100 Sheets Kraft Tissue Paper for Gift Bag 20x14 Inches Wrapping Tissue Paper Bulk Brown Decorative Art Paper for DIY Crafts Birthday Weddings Holiday Christmas Party Decor</a></td>
       <td>$6</td>
+      <td>$11,976.47</td>
+      <td>1,730</td>
+      <td>10</td>
       <td>4.7</td>
       <td>126</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue & Crepe Paper</td>
       <td>2,237</td>
       <td>5</td>
-      <td>$11,976.47</td>
-      <td>1,730</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81LNXD2EKgL._AC_SX679_PIbundle-32,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07BQV5RWW" target="_blank">Scott 1000 Toilet Paper, 32 Rolls, Septic-Safe, 1-Ply Toilet Tissue , White</a></td>
       <td>$28</td>
+      <td>$11,862.81</td>
+      <td>309</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>52535</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>43,964</td>
       <td>23</td>
-      <td>$11,862.81</td>
-      <td>309</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61ozruGMWvL._SX522_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B004D57I44" target="_blank">Pacific Blue Basic by GP PRO (Georgia-Pacific) 2-Ply Facial Tissue, Flat Box, 47410, 100 Sheets Per Box, 30 Boxes Per Case, White</a></td>
       <td>$39</td>
+      <td>$11,742.05</td>
+      <td>290</td>
+      <td>9.7</td>
       <td>4.1</td>
       <td>1704</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>65,776</td>
       <td>122</td>
-      <td>$11,742.05</td>
-      <td>290</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71j40dmUhFL.__AC_SX300_SY300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DGTBYM8X" target="_blank">JUSTTOP Car Tissue Holder,Car Travel Kleenex Cup Holder with 4 Pack Facial Tissues,Convenient Tissue Bag,Car Accessories Interior for Women and Man 4 Canisters Black</a></td>
       <td>$9</td>
+      <td>$11,727.18</td>
+      <td>1,174</td>
+      <td>Not found</td>
       <td>4.0</td>
       <td>59</td>
       <td>Automotive</td>
       <td>Automotive Cup Holders</td>
       <td>3,829</td>
       <td>33</td>
-      <td>$11,727.18</td>
-      <td>1,174</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51OVChh9MYL._AC_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DBSL3D2B" target="_blank">Klenex Ultra Soft Facial Tissue, 3-Ply, Upright Cube Box, 70 Tissues each, (Pack of 6) Packaging May Vary</a></td>
       <td>$26</td>
+      <td>$11,417.83</td>
+      <td>423</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>38</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>37,362</td>
       <td>84</td>
-      <td>$11,417.83</td>
-      <td>423</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61RiSukjIyL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BFFDXVGH?th=1" target="_blank">Gold Tissue Paper for Packaging Undemouc 105 Sheets of Gold Wrapping Tissue Paper Bulk for DIY Artworks Flower Decoration (12 x 20 Inch)</a></td>
       <td>$9</td>
+      <td>$11,369.08</td>
+      <td>1,443</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>1399</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>16,217</td>
       <td>25</td>
-      <td>$11,369.08</td>
-      <td>1,443</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81XhrTPvoOL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0013B5Q8Q" target="_blank">Tempo Tissues 30 pack by Tempo</a></td>
       <td>$18</td>
+      <td>$11,354.04</td>
+      <td>622</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>1722</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>37,125</td>
       <td>14</td>
-      <td>$11,354.04</td>
-      <td>622</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71O9PAR-D-L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CW19GNHF" target="_blank">3Ply 60 Tissues Per Cube Box Facial Tissue SPurePaper 12 Box 720 Tissues Total</a></td>
       <td>$24</td>
+      <td>$11,323.03</td>
+      <td>453</td>
+      <td>Not found</td>
       <td>3.7</td>
       <td>79</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>53,690</td>
       <td>103</td>
-      <td>$11,323.03</td>
-      <td>453</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/41n0FGG1sFL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07NNN19DM" target="_blank">Extra Thick Dry Wipe, Disposable Face Drying Towel 100% Cotton, Lint-Free Cotton Tissues (2 Pack)</a></td>
       <td>$16</td>
+      <td>$11,152.49</td>
+      <td>656</td>
+      <td>9.6</td>
       <td>4.6</td>
       <td>1047</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>24,415</td>
       <td>175</td>
-      <td>$11,152.49</td>
-      <td>656</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61PEKVqpOXL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07ZDK6WGR" target="_blank">Silk'n Soft Unbleached Bamboo Toilet Paper - Tree-Free Environment Safe Biodegradable Septic-Safe Strong Dependable Panda Friendly Absorbent Bathroom Tissue 3-Ply Chlorine Free (12 Rolls)</a></td>
       <td>$26</td>
+      <td>$11,007.96</td>
+      <td>408</td>
+      <td>9.8</td>
       <td>4.3</td>
       <td>487</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>73,985</td>
       <td>207</td>
-      <td>$11,007.96</td>
-      <td>408</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81ryKxgXfQL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09TFNHLXT?th=1" target="_blank">Camco Camper & RV Toilet Paper - 16-Rolls - 2-Ply Quick Dissolve RV Septic Safe Bath Tissue - Dye & Fragrance Free - 500 Sheets Per Roll (40282)</a></td>
       <td>$27</td>
+      <td>$11,007.13</td>
+      <td>501</td>
+      <td>10</td>
       <td>4.6</td>
       <td>3593</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>56,109</td>
       <td>162</td>
-      <td>$11,007.13</td>
-      <td>501</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71c4VTF2u2L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CFRQ68KY?th=1" target="_blank">PAMI Ultra Soft 3-Ply Portable Tissues, 8 Packs x 10 Tissues Per Pack, Small Tissue Packs for Purse Backpack Pocket Travel, Strong and Absorbent</a></td>
       <td>$6</td>
+      <td>$10,919.14</td>
+      <td>1,069</td>
+      <td>9.6</td>
       <td>4.6</td>
       <td>501</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>23,763</td>
       <td>7</td>
-      <td>$10,919.14</td>
-      <td>1,069</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61ulpNcI+UL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CH9C242C?th=1" target="_blank">Whaline 90 Sheet Sage Green Tissue Paper Gradient Willow Green Gift Wrapping Paper 13.8 x 19.7 Inch Forest Green Assorted Craft Tissue Paper for Gift Bags Baby Shower Wedding Birthday Party</a></td>
       <td>$13</td>
+      <td>$10,656.98</td>
+      <td>769</td>
+      <td>10</td>
       <td>4.8</td>
       <td>82</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>33,562</td>
       <td>65</td>
-      <td>$10,656.98</td>
-      <td>769</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71Nb1PkNJIL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CWL61TMW?th=1" target="_blank">120 Sheets 20"X14" Colored Tissue Paper for Gift Bags Wrapping Paper, Art Tissue Paper Bulk for Weddings Birthday Party Crafts Decoration, 10 Colors</a></td>
       <td>$6</td>
+      <td>$10,634.15</td>
+      <td>1,613</td>
+      <td>9.8</td>
       <td>4.7</td>
       <td>231</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>17,419</td>
       <td>30</td>
-      <td>$10,634.15</td>
-      <td>1,613</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71UqihWlLSL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07QMXFFMY?th=1" target="_blank">Hygloss Products Bleeding Tissue Paper Squares 1-Inch, 20 Assorted Colors for Arts & Crafts, DIY Projects, Scrapbooking, Greeting Cards, 2400 Squares</a></td>
       <td>$8</td>
+      <td>$10,521.65</td>
+      <td>1,018</td>
+      <td>9.8</td>
       <td>4.4</td>
       <td>437</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>4,904</td>
       <td>9</td>
-      <td>$10,521.65</td>
-      <td>1,018</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51enIdqUKqL._AC_SX679_PIbundle-6,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07QLYPWCX?th=1" target="_blank">365 by Whole Foods Market, Bath Tissue Double Roll 260 Sheet 6 Count, 260 Count</a></td>
       <td>$6</td>
+      <td>$10,521.50</td>
+      <td>1,564</td>
+      <td>Not found</td>
       <td>4.3</td>
       <td>6860</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>24,180</td>
       <td>88</td>
-      <td>$10,521.50</td>
-      <td>1,564</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81bFm8P0qTL._AC_SX679_PIbundle-18,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CSKT7YTT" target="_blank">White Cloud Ultra Soft 3-Ply Facial Tissue, 18 Box Multipack, 120 Tissues Per Box</a></td>
       <td>$39</td>
+      <td>$10,449.95</td>
+      <td>261</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>42</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>57,269</td>
       <td>112</td>
-      <td>$10,449.95</td>
-      <td>261</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81l9KcDSk7L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0C62BL4FP" target="_blank">Puffs Plus Vicks Lotion 2-Ply Facial Tissues, (Pack of 6 Box), Vicks Ultra Soft Tissues (88 Tissues per Box) With Laiby Sticker</a></td>
       <td>$27</td>
+      <td>$10,374.59</td>
+      <td>379</td>
+      <td>9.3</td>
       <td>4.7</td>
       <td>103</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>52,454</td>
       <td>100</td>
-      <td>$10,374.59</td>
-      <td>379</td>
-      <td>9.3</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/611uQ0Gv1zL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09JT1MMFS?th=1" target="_blank">MSOEUESO Soft Dry Wipes Cotton Facial Tissues, 100 Count Disposable Face Towel, Cotton Clean Towels for Sensitive Skin, Facial Cleansing, Makeup Removing, Surface Cleaning</a></td>
       <td>$9</td>
+      <td>$10,346.64</td>
+      <td>901</td>
+      <td>10</td>
       <td>4.5</td>
       <td>306</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>25,088</td>
       <td>178</td>
-      <td>$10,346.64</td>
-      <td>901</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61pQYtGpJCL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B082GGF9GL" target="_blank">Kleenex Everyday 9 x Pocket Tissues Packs - 8 Packs Included Pack of 2</a></td>
       <td>$8</td>
+      <td>$10,208.68</td>
+      <td>1,164</td>
+      <td>Not found</td>
       <td>4.8</td>
       <td>1367</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>22,311</td>
       <td>6</td>
-      <td>$10,208.68</td>
-      <td>1,164</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/617ijCDhP5L._AC_SX466_PIbundle-60,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0B9SF3Y4D?th=1" target="_blank">Simetufy 60 Sheets Gift Tissue Paper - 10 Bold Colors, 20 x 20 Inch, Bulk for Crafts & Gifts</a></td>
       <td>$6</td>
+      <td>$10,110.49</td>
+      <td>1,582</td>
+      <td>9.5</td>
       <td>4.8</td>
       <td>765</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>21,928</td>
       <td>41</td>
-      <td>$10,110.49</td>
-      <td>1,582</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61D+dVC5gaS._AC_SX300_SY300_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B000QJLQ8A?th=1" target="_blank">Kleenex Ultra Soft Facial Tissue, Pocket Pack, Pack of 10</a></td>
       <td>$7</td>
+      <td>$9,897.43</td>
+      <td>942</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>1352</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>24,227</td>
       <td>13</td>
-      <td>$9,897.43</td>
-      <td>942</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81dD06VlaoL._AC_SX679_PIbundle-12,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B084LRFQRG" target="_blank">Trusted Care Everyday, 144 Tissues per Box, 12 Boxes</a></td>
       <td>$28</td>
+      <td>$9,847.51</td>
+      <td>339</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>421</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>60,668</td>
       <td>110</td>
-      <td>$9,847.51</td>
-      <td>339</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71+lK72WJzL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0C988DX4C" target="_blank">Terre Bamboo Car Cylinder Tissues, 3-Ply, Unbleached, Refillable, 4 Pack (200 Sheets Total), FSC-Certified, Facial Travel Tissues, Eco-Friendly, Tree-Free, Compostable, Strong & Sustainable</a></td>
       <td>$19</td>
+      <td>$9,675.46</td>
+      <td>511</td>
+      <td>9.8</td>
       <td>4.3</td>
       <td>50</td>
       <td>Health & Household</td>
       <td>Paper Facial Tissues</td>
       <td>49,030</td>
       <td>113</td>
-      <td>$9,675.46</td>
-      <td>511</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61XQsnZuInL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CDQVYFWD" target="_blank">3Ply 60 Tissues Per Cube Box Facial Tissue SPurePaper 6 Box 360 Tissues Total</a></td>
       <td>$16</td>
+      <td>$9,651.55</td>
+      <td>568</td>
+      <td>Not found</td>
       <td>3.6</td>
       <td>140</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>49,340</td>
       <td>97</td>
-      <td>$9,651.55</td>
-      <td>568</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/41rnH3tENfL._AC_PIbundle-12,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0092DHLBM?th=1" target="_blank">Charmin Bath Tissue Toilet Paper Ultra Soft 12 MEGA Rolls</a></td>
       <td>$22</td>
+      <td>$9,631.21</td>
+      <td>426</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>197</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>36,104</td>
       <td>116</td>
-      <td>$9,631.21</td>
-      <td>426</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71yGROGWPZL._AC_SX679_PIbundle-6,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07DV4FJLN" target="_blank">Kleenex® Professional Facial Tissue Cube for Business, One Bundle of 6 Boxes</a></td>
       <td>$16</td>
+      <td>$9,472.78</td>
+      <td>575</td>
+      <td>Not found</td>
       <td>3.6</td>
       <td>23</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>32,670</td>
       <td>71</td>
-      <td>$9,472.78</td>
-      <td>575</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51mpTbC7O5L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D636Y63C?th=1" target="_blank">Tissue Box Cover Square,Tissue Box Holder with Bamboo Lid,Tissue Dryer Sheet Holder for Modern Farmhouse Boho Decor,1 Pack,(White)</a></td>
       <td>$12</td>
+      <td>$9,435.32</td>
+      <td>651</td>
+      <td>9.8</td>
       <td>4.7</td>
       <td>93</td>
       <td>Home & Kitchen</td>
       <td>Tissue Holders for Bathrooms</td>
       <td>90,303</td>
       <td>104</td>
-      <td>$9,435.32</td>
-      <td>651</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71IUUOV6yUL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B01GAZ7POC" target="_blank">Coghlan's 9177 Toilet Tissue - 4 Pack</a></td>
       <td>$9</td>
+      <td>$9,338.93</td>
+      <td>1,011</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>265</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>26,684</td>
       <td>95</td>
-      <td>$9,338.93</td>
-      <td>1,011</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71zpz9f3r0L._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08F2D9LW6?th=1" target="_blank">Car Tissue Holder with Facial Tissue Bulk, Car Tissues Box Round Container - Tissue Tubes for Car, Travel Tissues Perfect for Car Cup Holder - 4PK (blue)</a></td>
       <td>$9</td>
+      <td>$9,269.51</td>
+      <td>890</td>
+      <td>10</td>
       <td>4.2</td>
       <td>1729</td>
       <td>Automotive</td>
       <td>Automotive Interior Accessories</td>
       <td>1,053</td>
       <td>204</td>
-      <td>$9,269.51</td>
-      <td>890</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81CgyO3zuFL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BGM1BCG4?th=1" target="_blank">Iconikal Gift Wrap Tissue Paper, 20 x 20-Inches, 60-Sheets (Baby Blue)</a></td>
       <td>$4</td>
+      <td>$9,216.58</td>
+      <td>1,847</td>
+      <td>9</td>
       <td>4.7</td>
       <td>2572</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>16,675</td>
       <td>27</td>
-      <td>$9,216.58</td>
-      <td>1,847</td>
-      <td>9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/717Bq1gl3OL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08PP7BWC9" target="_blank">KESOTE Tissue Paper Bulk for Crafts 11.5" x 8" Assorted Colored Tissue Paper 300 Sheets 30 Colors Rainbow Tissue Paper for Holidays Christmas Halloween DIY Flower Pom Pom</a></td>
       <td>$7</td>
+      <td>$8,996.27</td>
+      <td>1,126</td>
+      <td>10</td>
       <td>4.5</td>
       <td>682</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>3,988</td>
       <td>7</td>
-      <td>$8,996.27</td>
-      <td>1,126</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51YJf4nZ3xL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CM8QPMXB?th=1" target="_blank">50 Sheets Pink Tissue Paper for Gift Bags - 14 x 20 Inches Recyclable Pink Wrapping Paper for Weddings Birthday DIY Project Valentine's Day Christmas Gift Wrapping Crafts Decor</a></td>
       <td>$4</td>
+      <td>$8,787.14</td>
+      <td>1,581</td>
+      <td>10</td>
       <td>4.7</td>
       <td>261</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>19,186</td>
       <td>37</td>
-      <td>$8,787.14</td>
-      <td>1,581</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/41Wqu9fJU0L._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CRYX1RYC" target="_blank">900 Sheets White Tissue Paper Bulk, 15" X20” Packing Paper Sheets for Moving, Gift Bags, Wrapping</a></td>
       <td>$21</td>
+      <td>$8,754.20</td>
+      <td>387</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>113</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>38,677</td>
       <td>69</td>
-      <td>$8,754.20</td>
-      <td>387</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61zPpLEAt+L._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CC5RNTJC?th=1" target="_blank">RYKOMO 100 Sheets 24 x 36 Inch Acid Free Archival Tissue Paper Unbuffered No Acid Paper White No Lignin Free Packing Tissue Paper for Preserving Clothing Storage Textiles Present Wrap</a></td>
       <td>$15</td>
+      <td>$8,619.55</td>
+      <td>566</td>
+      <td>10</td>
       <td>4.5</td>
       <td>189</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>32,942</td>
       <td>61</td>
-      <td>$8,619.55</td>
-      <td>566</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51PUV6L90mL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07QRB9CW8" target="_blank">365 by Whole Foods Market, Bath Tissue Double Roll 286 Sheet 12 Count, 286 Count</a></td>
       <td>$13</td>
+      <td>$8,544.99</td>
+      <td>578</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>2626</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>36,981</td>
       <td>120</td>
-      <td>$8,544.99</td>
-      <td>578</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81Rx0mnb1zL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08864ZQGY" target="_blank">Ultra Soft Non-Lotion Facial Tissues, 4 Mega Cube Boxes (288 Total Tissues)</a></td>
       <td>$14</td>
+      <td>$8,299.49</td>
+      <td>512</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>988</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>30,072</td>
       <td>205</td>
-      <td>$8,299.49</td>
-      <td>512</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71B3fApu8eL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CKYXKRWJ?th=1" target="_blank">NEBURORA Metallic Gold Tissue Paper for Gift Bags 60 Sheets Gold Wrapping Tissue Paper Bulk 14 X 20 Inch Gold Packaging Paper for Christmas Gift Wrap Art Crafts Birthday Wedding Decoration</a></td>
       <td>$6</td>
+      <td>$8,140.43</td>
+      <td>1,202</td>
+      <td>10</td>
       <td>4.4</td>
       <td>270</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>31,683</td>
       <td>56</td>
-      <td>$8,140.43</td>
-      <td>1,202</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/616LSIg7TLL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CTC5SH57?th=1" target="_blank">100 Sheet Green & Gold Tissue Paper Recyclable Green Wrapping Paper 14"x20"for Wedding Mother's Day Birthday DIY Art Craft Party Favor Decoration Celebration Gift</a></td>
       <td>$12</td>
+      <td>$8,123.85</td>
+      <td>752</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>96</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>40,349</td>
       <td>76</td>
-      <td>$8,123.85</td>
-      <td>752</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81aXOuSUmhL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00T87VN20?th=1" target="_blank">Seventh Generation Toilet Paper Recycled Bath Tissue 4-Pack 100% Recycled Paper 2-ply without Chlorine Bleach 12 Rolls</a></td>
       <td>$45</td>
+      <td>$8,079.97</td>
+      <td>169</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>11366</td>
       <td>Health & Household</td>
       <td>Sales & Deals</td>
       <td>10,617</td>
       <td>62</td>
-      <td>$8,079.97</td>
-      <td>169</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71Jhik8iNHL._SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0B5L4CXJT" target="_blank">Compressed Disposable Face Towel Kit, Thicken Facial Cleansing Cloths Towelettes,Compact Portable Wash Cotton Wipes Tablets Coin Tissues for Beauty Salon Personal Care Travel(100 PCS White)</a></td>
       <td>$9</td>
+      <td>$8,066.52</td>
+      <td>807</td>
+      <td>10</td>
       <td>4.7</td>
       <td>571</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>22,030</td>
       <td>162</td>
-      <td>$8,066.52</td>
-      <td>807</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61ciX5evOYL.__AC_SX300_SY300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B095X39696" target="_blank">Kirkland Signature Facial Tissue, 3-Ply, 84 Count (12 Pack)</a></td>
       <td>$16</td>
+      <td>$7,728.27</td>
+      <td>448</td>
+      <td>Not found</td>
       <td>3.0</td>
       <td>178</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>56,175</td>
       <td>106</td>
-      <td>$7,728.27</td>
-      <td>448</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/612IRt+0uOL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0B425DDCN?th=1" target="_blank">Koogel 112 Sheets Orange Tissue Paper, 20x14 Inch Valentines Colored Tissue Paper Bulk Gift Wrapping Paper for DIY Crafts Birthday Holidays Weddings Decor</a></td>
       <td>$7</td>
+      <td>$7,715.04</td>
+      <td>965</td>
+      <td>10</td>
       <td>4.8</td>
       <td>277</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>24,772</td>
       <td>46</td>
-      <td>$7,715.04</td>
-      <td>965</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81UPIKA7TqL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00M21UYJC" target="_blank">Kleenex Facial Tissue 160 Tissues, (pack of 12)</a></td>
       <td>$28</td>
+      <td>$7,704.93</td>
+      <td>265</td>
+      <td>Not found</td>
       <td>4.1</td>
       <td>66</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>61,256</td>
       <td>115</td>
-      <td>$7,704.93</td>
-      <td>265</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61bikWoBDWL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00393L65S?th=1" target="_blank">Premium Quality Gift Wrap Paper Basic Solid White Bulk Tissue Paper 15" x 20" - 100 Sheets</a></td>
       <td>$7</td>
+      <td>$7,555.83</td>
+      <td>953</td>
+      <td>9.3</td>
       <td>4.7</td>
       <td>11770</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>33,075</td>
       <td>62</td>
-      <td>$7,555.83</td>
-      <td>953</td>
-      <td>9.3</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/719zhjg+oLL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D5Q9DC2M" target="_blank">DORIS HOME 48pcs Happy Tears Tissues for Wedding, 3 Ply Wedding Tissues for Guests, Individual Facial Tissues For Your Happy Tears</a></td>
       <td>$16</td>
+      <td>$7,489.93</td>
+      <td>441</td>
+      <td>9.7</td>
       <td>4.6</td>
       <td>25</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>39,118</td>
       <td>15</td>
-      <td>$7,489.93</td>
-      <td>441</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/515CuWTGY4S._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B018EJBPWU?th=1" target="_blank">American Greetings 50 Sheets 20 in. x 20 in. White Tissue Paper for Valentines Day, Birthdays and All Occasions</a></td>
       <td>$6</td>
+      <td>$7,486.22</td>
+      <td>755</td>
+      <td>9.7</td>
       <td>4.8</td>
       <td>2966</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>42,433</td>
       <td>81</td>
-      <td>$7,486.22</td>
-      <td>755</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51qFgipHGfL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0C47KKMW3?th=1" target="_blank">Hallmark Bulk White Tissue Paper (100 Sheets) for Birthdays, Christmas, Graduations, Gift Wrap, Crafts, DIY Paper Flowers, Tassel Garland, Gift Baskets</a></td>
       <td>$8</td>
+      <td>$7,227.86</td>
+      <td>651</td>
+      <td>10</td>
       <td>4.7</td>
       <td>65</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>55,598</td>
       <td>118</td>
-      <td>$7,227.86</td>
-      <td>651</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71YYc5Wx8qL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08KDZFXMX?th=1" target="_blank">MIAHART 60 Pcs Gold White Tissue Paper Bulk 3 Style Decorative Metallic Wrapping Paper for Gift Bags Birthday Christmas Party Decoration, DIY Arts Crafts Gold Dot Wave Design Patterned(60 Sheet)</a></td>
       <td>$6</td>
+      <td>$7,104.52</td>
+      <td>1,018</td>
+      <td>10</td>
       <td>4.7</td>
       <td>2268</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>5,502</td>
       <td>10</td>
-      <td>$7,104.52</td>
-      <td>1,018</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81UfihZe2-L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B072PR6SDM?th=1" target="_blank">Outus 1 Inch Multicolor Round Tissue Confetti, 10000 Pieces,3.5oz(Mixed Colors)</a></td>
       <td>$9</td>
+      <td>$6,965.49</td>
+      <td>697</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>1183</td>
       <td>ed30-Day Revenue$6,965.49Unit Sales:697Current Rat</td>
       <td>Not found</td>
       <td>Not found</td>
       <td>Not found</td>
-      <td>$6,965.49</td>
-      <td>697</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61sNlPbZsPL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07KK5X2G3?th=1" target="_blank">RUSPEPA Gift Wrapping Tissue Paper - Metallic Gold Tissue Paper for DIY Crafts,Pack Bags - 19.5 x 27.5 inches -25 Sheets</a></td>
       <td>$7</td>
+      <td>$6,896.29</td>
+      <td>815</td>
+      <td>9.8</td>
       <td>4.7</td>
       <td>3534</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>5,699</td>
       <td>12</td>
-      <td>$6,896.29</td>
-      <td>815</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61jcOtbtNqL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0859L219G" target="_blank">Charmin Ultra Soft Bathroom Tissue 6 Jumbo Rolls</a></td>
       <td>$16</td>
+      <td>$6,818.84</td>
+      <td>382</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>928</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>54,693</td>
       <td>159</td>
-      <td>$6,818.84</td>
-      <td>382</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61NCUP8hJnL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BKB1PYTK" target="_blank">Kleenex Perfect Fit Facial Tissue Tube, 50 Count - (Pack of 2)</a></td>
       <td>$9</td>
+      <td>$6,799.94</td>
+      <td>681</td>
+      <td>Not found</td>
       <td>4.0</td>
       <td>94</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>28,919</td>
       <td>62</td>
-      <td>$6,799.94</td>
-      <td>681</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71CcdRjZGeL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D1JYM64F" target="_blank">Phinus 6300 Pcs 1 Inch Tissue Paper Squares, Tissue Paper for Crafts, 42 Assorted Colored Tissue Paper, Colors Art Rainbow Tissue Paper Bulk for Crafts, Art Projects, Birthday Party</a></td>
       <td>$6</td>
+      <td>$6,749.17</td>
+      <td>966</td>
+      <td>10</td>
       <td>4.8</td>
       <td>52</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue & Crepe Paper</td>
       <td>7,713</td>
       <td>15</td>
-      <td>$6,749.17</td>
-      <td>966</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71TS8Bf8aGL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08CL3DC73" target="_blank">Jyongmer 6000Pcs Multicolor Tissue Paper Squares, 2 Inch Art Rainbow Tissue Paper for Arts Craft DIY Scrapbooking，Birthday Party Festival Tissue, Scrunch Art Project</a></td>
       <td>$7</td>
+      <td>$6,577.35</td>
+      <td>823</td>
+      <td>10</td>
       <td>4.6</td>
       <td>250</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>7,580</td>
       <td>18</td>
-      <td>$6,577.35</td>
-      <td>823</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51ywK9RJfdL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CL36TP4D" target="_blank">100 Sheets 20"x14" White Wrapping Tissue Paper Bulk for Gift Bags Christmas Weddings Birthday Arts Craft Party Decoration</a></td>
       <td>$4</td>
+      <td>$6,449.16</td>
+      <td>1,294</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>242</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>14,208</td>
       <td>19</td>
-      <td>$6,449.16</td>
-      <td>1,294</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71jZv+skg3L._AC_SX679_PIbundle-5,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B008E57FY2" target="_blank">Kleenex® 2-Ply Facial Tissue, Flat, 100 Tissues Per Box, Pack Of 5 Boxes</a></td>
       <td>$18</td>
+      <td>$6,353.88</td>
+      <td>351</td>
+      <td>9.2</td>
       <td>4.5</td>
       <td>1234</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>23,918</td>
       <td>57</td>
-      <td>$6,353.88</td>
-      <td>351</td>
-      <td>9.2</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71XFHRfVP6L._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B087QSQ758?th=1" target="_blank">Tissue Paper for Gift Wrapping (100 Sheets) 20 Assorted Colors, Gift Bags, Packaging, Floral, Birthday, Holidays, Christmas, Halloween, and DIY Crafts</a></td>
       <td>$6</td>
+      <td>$6,188.65</td>
+      <td>797</td>
+      <td>10</td>
       <td>4.7</td>
       <td>5251</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>26,663</td>
       <td>48</td>
-      <td>$6,188.65</td>
-      <td>797</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71Bmx1mDLWL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B000BUQOD6?th=1" target="_blank">Camco Marine & RV Toilet Paper - 4-Rolls - 1-Ply Quick Dissolve RV & Marine Septic Safe Bath Tissue - Dye & Fragrance Free - 280 Sheets Per Roll (40275)</a></td>
       <td>$5</td>
+      <td>$6,112.57</td>
+      <td>1,111</td>
+      <td>9.6</td>
       <td>4.3</td>
       <td>2574</td>
       <td>Industrial & Scientific</td>
       <td>Toilet Paper</td>
       <td>3,763</td>
       <td>18</td>
-      <td>$6,112.57</td>
-      <td>1,111</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/614olifVbFL.__AC_SX300_SY300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D7ZX7F9V?th=1" target="_blank">2pcs Kitchen Wipes Storage Box Dispenser,Acrylic Wall-Mounted Tissue Box Holder, Self-Adhesive Wipes Container,Flushable Wipe Container for Bathroom, Kitchen,Bedroom,Toilet,Home</a></td>
       <td>$12</td>
+      <td>$6,069.45</td>
+      <td>506</td>
+      <td>Not found</td>
       <td>4.3</td>
       <td>42</td>
       <td>Home & Kitchen</td>
       <td>Tissue Holders for Bathrooms</td>
       <td>35,723</td>
       <td>38</td>
-      <td>$6,069.45</td>
-      <td>506</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/7123dJz9CBL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CL37KKML" target="_blank">60 Sheets 20"x14" Wrapping Tissue Paper Bulk in 10 Assorted Colors for Gift Bags Weddings Birthday Arts Craft Party Decoration</a></td>
       <td>$4</td>
+      <td>$6,031.83</td>
+      <td>1,322</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>124</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>46,596</td>
       <td>92</td>
-      <td>$6,031.83</td>
-      <td>1,322</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61KDnbNVGRL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D2N2Z5KN?th=1" target="_blank">30 Sheets Green Tissue Paper for Packaging Gift Bags Decoration, Gift Wrap Tissue Paper Bulk for Weddings Birthday DIY Project Saint Patrick's Day Christmas Gift Wrapping Crafts Decor</a></td>
       <td>$4</td>
+      <td>$5,995.72</td>
+      <td>1,267</td>
+      <td>10</td>
       <td>4.7</td>
       <td>96</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>24,041</td>
       <td>44</td>
-      <td>$5,995.72</td>
-      <td>1,267</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71Gcl1y-k8L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D73FJ14L?th=1" target="_blank">PINXIURY Water Hyacinth Handwoven Tissue Box Cover, Natural Handmade Wicker Napkin Box Holder, Handcrafted Square Facial Tissue, Rustic Decorative on Table and Bathroom, Office, Boho Decorative</a></td>
       <td>$13</td>
+      <td>$5,987.75</td>
+      <td>394</td>
+      <td>10</td>
       <td>4.7</td>
       <td>109</td>
       <td>Home & Kitchen</td>
       <td>Tissue Holders for Bathrooms</td>
       <td>53,774</td>
       <td>63</td>
-      <td>$5,987.75</td>
-      <td>394</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71S2Z3BvDvL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08PP63JVH" target="_blank">KESOTE Colored Tissue Paper for Gift Bags Crafts, 14" x 20" Tissue Paper Bulk 100 Sheets Gift Paper Tissue for Packaging - 20 Colors</a></td>
       <td>$7</td>
+      <td>$5,857.55</td>
+      <td>733</td>
+      <td>9.9</td>
       <td>4.7</td>
       <td>1229</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>33,469</td>
       <td>64</td>
-      <td>$5,857.55</td>
-      <td>733</td>
-      <td>9.9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/511q4Qa+eBL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CVX814GT?th=1" target="_blank">60 Sheets White Tissue Paper for Packaging Gift Bags Decoration Wrapping Tissue Paper Bulk for DIY Art Crafts Birthday Wedding Halloween, 14 X 20 Inch</a></td>
       <td>$4</td>
+      <td>$5,776.12</td>
+      <td>1,229</td>
+      <td>10</td>
       <td>4.7</td>
       <td>117</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>27,410</td>
       <td>50</td>
-      <td>$5,776.12</td>
-      <td>1,229</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71aPmhGJrvL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CY5LB9MF?th=1" target="_blank">The Cheeky Panda Bamboo Facial Tissue | 14 x Plastic Free Travel Tissue Packs | 140 Super Soft Pocket Tissues</a></td>
       <td>$9</td>
+      <td>$5,459.11</td>
+      <td>424</td>
+      <td>9.7</td>
       <td>4.3</td>
       <td>45</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>49,601</td>
       <td>17</td>
-      <td>$5,459.11</td>
-      <td>424</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71oS6c5gAIL._AC_SX679_PIcountsize-2,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B003CKDPRA" target="_blank">Coghlan's Packable Camp Toilet Tissue 2 count (pack of 1)</a></td>
       <td>$3</td>
+      <td>$5,380.14</td>
+      <td>1,272</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>1526</td>
       <td>Sports & Outdoors</td>
       <td>Camping Hygiene & Sanitation Products</td>
       <td>2,989</td>
       <td>12</td>
-      <td>$5,380.14</td>
-      <td>1,272</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61Io+EfLNOL._AC_SY679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09TDNZBH1?th=1" target="_blank">Ueerdand 105 Sheets Black Tissue Paper for Packaging Gift Wrapping Craft Papers Bulk for DIY Artworks Flower Decoration 12 x 20 Inches</a></td>
       <td>$5</td>
+      <td>$5,337.51</td>
+      <td>821</td>
+      <td>9.9</td>
       <td>4.7</td>
       <td>723</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>32,559</td>
       <td>57</td>
-      <td>$5,337.51</td>
-      <td>821</td>
-      <td>9.9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81NKxB1dETL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CPYFH9RH?th=1" target="_blank">Stylish Cotton Tissue Box Cover - A Beautiful Holder Instantly Covers Your Square Tissue Boxes - The Perfect Cube Cover for Your Bathroom and Home</a></td>
       <td>$6</td>
+      <td>$5,177.48</td>
+      <td>763</td>
+      <td>9.8</td>
       <td>4.3</td>
       <td>173</td>
       <td>Home & Kitchen</td>
       <td>Tissue Holders for Bathrooms</td>
       <td>80,904</td>
       <td>93</td>
-      <td>$5,177.48</td>
-      <td>763</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51v9Gi3EweL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07P8N5WVT" target="_blank">Flexicore Packaging| Gift Wrap Tissue Paper|15"x20"|100 Count (Lime Green, 100 Sheets)</a></td>
       <td>$7</td>
+      <td>$5,080.25</td>
+      <td>619</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>309</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue & Crepe Paper</td>
       <td>5,436</td>
       <td>11</td>
-      <td>$5,080.25</td>
-      <td>619</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71+U8znMbAL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08YYC3DFM?th=1" target="_blank">CHRORINE 50 Sheets Tissue Paper Gold Silver Black Wrapping Paper Bulk for Graduation Wedding Birthday DIY and Craft Decor</a></td>
       <td>$5</td>
+      <td>$4,991.39</td>
+      <td>859</td>
+      <td>9</td>
       <td>4.6</td>
       <td>491</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>44,067</td>
       <td>88</td>
-      <td>$4,991.39</td>
-      <td>859</td>
-      <td>9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71CJbh8EXLL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DJQB86MK" target="_blank">Car Tissues Holder with Facial Tissues, 4 Pack Car Tissues Cylinder, Travel Tissues Box for Car Cup Holder</a></td>
       <td>$13</td>
+      <td>$4,894.93</td>
+      <td>350</td>
+      <td>9.5</td>
       <td>4.6</td>
       <td>49</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>46,842</td>
       <td>93</td>
-      <td>$4,894.93</td>
-      <td>350</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51dalIcdIjL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09C66CP3C?th=1" target="_blank">Tahoe Trails Disposable Face Towel, Soft Dry Wipe, Lint Free, Dry Wet Use for Sensitive Skin, Cotton Facial Tissue, Makeup Removing, Surface Cleaning 7.87 * 7.87inch, 80Count</a></td>
       <td>$7</td>
+      <td>$4,798.99</td>
+      <td>716</td>
+      <td>10</td>
       <td>4.4</td>
       <td>425</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>19,912</td>
       <td>147</td>
-      <td>$4,798.99</td>
-      <td>716</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61t+YcjkivL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00I7P9PBA" target="_blank">Renova Black Toilet Paper 3-Ply -Ideal for Decorating Your Home or Office - Pack of 6 Compact Rolls- 140 Sheets - Eco-label Certified - Dermatologically Tested - Septic Safe - Sustainable & Soft</a></td>
       <td>$16</td>
+      <td>$4,750.42</td>
+      <td>283</td>
+      <td>9.6</td>
       <td>4.3</td>
       <td>1831</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>60,741</td>
       <td>177</td>
-      <td>$4,750.42</td>
-      <td>283</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81L5YL7cXEL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CX19QNT7?th=1" target="_blank">Generic AnyDesign 100 Sheets Floral Tissue Paper Vintage Wildflower Gift Wrapping Paper Butterfly Flower Printed DIY Art Craft Paper for Spring Wedding Bridal Shower Birthday, 19.7 x 13.8 Inch</a></td>
       <td>$13</td>
+      <td>$4,613.89</td>
+      <td>336</td>
+      <td>10</td>
       <td>4.6</td>
       <td>59</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>50,322</td>
       <td>105</td>
-      <td>$4,613.89</td>
-      <td>336</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61aAr9oz0iL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09PYS5Y84" target="_blank">Multicolored Tissue Paper 20"x26" 100 Pack, 25 Colors, Art Tissue for Gifts, Games, Birthdays, Easter, Mothers Day, Graduations, Gift Wrap, Crafts, DIY Paper Flowers and More</a></td>
       <td>$12</td>
+      <td>$4,603.33</td>
+      <td>354</td>
+      <td>9.6</td>
       <td>4.7</td>
       <td>632</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>43,836</td>
       <td>84</td>
-      <td>$4,603.33</td>
-      <td>354</td>
-      <td>9.6</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81mVWAdvx5L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00NAZ55Q6?th=1" target="_blank">Kleenex Facial Tissues, 10 ct, 3 Pack</a></td>
       <td>$5</td>
+      <td>$4,526.67</td>
+      <td>852</td>
+      <td>9</td>
       <td>4.4</td>
       <td>789</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>29,901</td>
       <td>65</td>
-      <td>$4,526.67</td>
-      <td>852</td>
-      <td>9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81H25Pxuj5L._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DBHQMC95" target="_blank">Bobobag 150 Sheets Colored Tissue Paper, 20X14 inch Christmas Tissue Paper for Gift Bags, Red Green Yellow White Black Gift Wrapping Paper(25 Colors)</a></td>
       <td>$7</td>
+      <td>$4,414.28</td>
+      <td>535</td>
+      <td>9.8</td>
       <td>4.8</td>
       <td>23</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>22,316</td>
       <td>41</td>
-      <td>$4,414.28</td>
-      <td>535</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81IE25qsIOL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09XGNJ2TH" target="_blank">Kleenex On-The-Go Facial Tissues, 16 On-The-Go Packs, 10 Tissues per Box, 3-Ply (160 Total Tissues), Packaging May Vary</a></td>
       <td>$13</td>
+      <td>$4,315.08</td>
+      <td>320</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>268</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>35,149</td>
       <td>80</td>
-      <td>$4,315.08</td>
-      <td>320</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/713K9os8t7L._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CR35DJ5V?th=1" target="_blank">NACHLYNN 60 Sheets Orange-Color Tissue Paper Bulks 14 x 20 inch Halloween Gift Wrapping Paper Thanksgiving Day Art Paper Crafts for Crafts Gift Wedding Holiday Party Decorations</a></td>
       <td>$4</td>
+      <td>$4,222.17</td>
+      <td>760</td>
+      <td>10</td>
       <td>4.9</td>
       <td>91</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>22,837</td>
       <td>43</td>
-      <td>$4,222.17</td>
-      <td>760</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/41v6TTCROFL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07QMWSYLK?th=1" target="_blank">365 by Whole Foods Market, Bath Tissue Double Roll 286 Sheet 6 Count, 286 Count</a></td>
       <td>$8</td>
+      <td>$4,159.16</td>
+      <td>490</td>
+      <td>Not found</td>
       <td>4.3</td>
       <td>3020</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>57,843</td>
       <td>173</td>
-      <td>$4,159.16</td>
-      <td>490</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51i8BRbjpUL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BGPZ9RWC?th=1" target="_blank">Car Tissue Refill, 12 Packs 50 Sheets per Pack, Disposable Facial Tissue, Napkin, Travel Size Pack for Car Visor Tissue Holder or Purse, 600 Sheets In Total</a></td>
       <td>$9</td>
+      <td>$4,136.17</td>
+      <td>414</td>
+      <td>10</td>
       <td>4.4</td>
       <td>114</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>53,671</td>
       <td>120</td>
-      <td>$4,136.17</td>
-      <td>414</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91ImGhu-TgL.__AC_SX300_SY300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CJRJ8C2H?th=1" target="_blank">Bling Car Sun Visor Tissue Box Holder,PU Leather with Bling Crystal Rhinestones Tissue Holder,Car Accessories for Women (Black)</a></td>
       <td>$8</td>
+      <td>$3,915.33</td>
+      <td>428</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>94</td>
       <td>Automotive</td>
       <td>Visor Accessories</td>
       <td>12,683</td>
       <td>82</td>
-      <td>$3,915.33</td>
-      <td>428</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81UbhqiC92L._AC_SX679_PIbundle-2,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B000JLFBAO" target="_blank">Coghlan's Tissue On The Go, 2 Pack</a></td>
       <td>$3</td>
+      <td>$3,860.74</td>
+      <td>517</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>473</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>75,540</td>
       <td>206</td>
-      <td>$3,860.74</td>
-      <td>517</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71WlWrLeDTL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DGGGQ7QX" target="_blank">22 Packs Travel Tissue Packs - Pocket Tissues Tissues Travel Size 8 Count 3-ply Travel Tissues Pocket Tissues Travel Packs Tissue Packs Purse Tissue Packs for Travel, Wedding, Party Favors,Car</a></td>
       <td>$6</td>
+      <td>$3,817.85</td>
+      <td>576</td>
+      <td>Not found</td>
       <td>3.6</td>
       <td>32</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>49,023</td>
       <td>95</td>
-      <td>$3,817.85</td>
-      <td>576</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61SfpXmuJgL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CRL3H2B4?th=1" target="_blank">Car Tissue Refill - 300 Sheets Facial Tissues for Auto Visor Tissue Holder, Napkin Holder Refill for Tissue Holder in Car, 6 Packs</a></td>
       <td>$7</td>
+      <td>$3,706.41</td>
+      <td>404</td>
+      <td>9.8</td>
       <td>4.2</td>
       <td>170</td>
       <td>Automotive</td>
       <td>Visor Accessories</td>
       <td>5,177</td>
       <td>39</td>
-      <td>$3,706.41</td>
-      <td>404</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61JjyYGyZgS._AC_SX679_PIbundle-12,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B094Y2F9CF?th=1" target="_blank">Car Tissue, Auto Visor Tissue Refills for Car Tissue Case, Napkin Holder Refill, Nice Tissue for Sun Visor Box, Car Travel Tissues, Soft and Smooth, 3-Ply, 12 Packets, 360 Sheets</a></td>
       <td>$14</td>
+      <td>$3,700.77</td>
+      <td>241</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>940</td>
       <td>Automotive</td>
       <td>Visor Accessories</td>
       <td>8,638</td>
       <td>63</td>
-      <td>$3,700.77</td>
-      <td>241</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71x6oMOwxlL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07V9LK579" target="_blank">Outuxed 4800pcs 1Inch Tissue Paper Squares, 30 Assorted Colors Precut Craft Tissue Paper for DIY Scrapbooking Scrunch Art and Any Kid Art Projects</a></td>
       <td>$6</td>
+      <td>$3,681.63</td>
+      <td>527</td>
+      <td>10</td>
       <td>4.6</td>
       <td>1824</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>7,138</td>
       <td>15</td>
-      <td>$3,681.63</td>
-      <td>527</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81aPFDsjDTL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00X9YKLRQ?th=1" target="_blank">Kleenex - The Original - Tissues - 12 packs</a></td>
       <td>$7</td>
+      <td>$3,565.79</td>
+      <td>480</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>2472</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>63,594</td>
       <td>22</td>
-      <td>$3,565.79</td>
-      <td>480</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51HphzvN10L._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BX3YFC2J?th=1" target="_blank">Disposable Face Towel, MSOEUESO 100% Cotton Facial Tissues, Dry Face Cloths, Biodegradable Clean Towels, Makeup Remover Wipes, Ultra Soft for Adults and Baby 100 count, 1 pack</a></td>
       <td>$9</td>
+      <td>$3,528.56</td>
+      <td>353</td>
+      <td>10</td>
       <td>4.5</td>
       <td>148</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>44,155</td>
       <td>281</td>
-      <td>$3,528.56</td>
-      <td>353</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61USKPNB8lL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07B7XRPS7" target="_blank">Cottonelle Ultra CleanCare Toilet Paper, Strong Bath Tissue, 12 Double Rolls</a></td>
       <td>$19</td>
+      <td>$3,431.89</td>
+      <td>172</td>
+      <td>Not found</td>
       <td>4.3</td>
       <td>2556</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>50,931</td>
       <td>153</td>
-      <td>$3,431.89</td>
-      <td>172</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/41N9SP4oH0L._SY445_SX342_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B000PAIDS6" target="_blank">Spectra Deluxe Bleeding Art Tissue P0058506, 20 Assorted Colors, 20" x 30", 20 Sheets</a></td>
       <td>$7</td>
+      <td>$3,326.89</td>
+      <td>469</td>
+      <td>Not found</td>
       <td>4.7</td>
       <td>768</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>8,580</td>
       <td>18</td>
-      <td>$3,326.89</td>
-      <td>469</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71eFBGFUMgL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DJP2TXND?th=1" target="_blank">Mkono Tissue Box Cover Square Open-Bottom Wood Tissue Box Holder Decorative Facial Cube Organizer Modern Farmhouse Decor for Bathroom Bedroom Dresser Living Room Office Dorm, Dark Brown</a></td>
       <td>$14</td>
+      <td>$3,295.15</td>
+      <td>220</td>
+      <td>9.8</td>
       <td>4.5</td>
       <td>10</td>
       <td>Home & Kitchen</td>
       <td>Tissue Holders for Bathrooms</td>
       <td>62,465</td>
       <td>77</td>
-      <td>$3,295.15</td>
-      <td>220</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71RF6r56YUL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BZP5NW26?th=1" target="_blank">HOMEXCEL Soft Dry Wipe 3 Pack, Unscented Facial Tissues, Disposable Face Towels, Dry and Wet Use for Baby Adult Sensitive Skin, Make-up Wipes, Facial Washcloth（300 Count）</a></td>
       <td>$12</td>
+      <td>$3,069.17</td>
+      <td>242</td>
+      <td>10</td>
       <td>4.3</td>
       <td>94</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>39,962</td>
       <td>262</td>
-      <td>$3,069.17</td>
-      <td>242</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91qfdnL7TkL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DMFKJ1R1?th=1" target="_blank">120 Sheets Blue Floral Tissue Paper Chinoiserie Gift Wrapping Paper Vintage Blue White Flowers Packaging Paper Patterned Paper Bulk for Baby Shower Wedding Birthday Party Decor, 14 x 20 Inch</a></td>
       <td>$12</td>
+      <td>$2,925.05</td>
+      <td>225</td>
+      <td>10</td>
       <td>4.9</td>
       <td>13</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue & Crepe Paper</td>
       <td>8,490</td>
       <td>17</td>
-      <td>$2,925.05</td>
-      <td>225</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/411+gKE5yEL._AC_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07Q3MSXF8" target="_blank">Travel Pocket Tissues Packs (Soft Pack) 70 Counts Each 3packs, 210 Tissues Total, cute character tissue for kid, school, travel, camping, office, car</a></td>
       <td>$7</td>
+      <td>$2,315.11</td>
+      <td>305</td>
+      <td>Not found</td>
       <td>4.4</td>
       <td>264</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>58,388</td>
       <td>173</td>
-      <td>$2,315.11</td>
-      <td>305</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61T0QocT4KL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0016OTD1G" target="_blank">Kleenex 21606BX White Facial Tissue, 2-Ply, White, Pop-Up Box (Box of 125 Tissues)</a></td>
       <td>$6</td>
+      <td>$1,981.31</td>
+      <td>539</td>
+      <td>Not found</td>
       <td>4.2</td>
       <td>415</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>30,763</td>
       <td>67</td>
-      <td>$1,981.31</td>
-      <td>539</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81AAx5rL3JL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B09TW4SQ6K?th=1" target="_blank">Round Tissue Confetti Glitter,Rose Gold Pink White Paper Tissue Confetti Dots for Wedding Birthday Party Decorations,1.76oz</a></td>
       <td>$6</td>
+      <td>$1,931.70</td>
+      <td>273</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>122</td>
       <td>ed30-Day Revenue$1,931.70Unit Sales:273Current Rat</td>
       <td>Not found</td>
       <td>Not found</td>
       <td>Not found</td>
-      <td>$1,931.70</td>
-      <td>273</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71soCvIWGaL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B08KXG83QH" target="_blank">AK1980 200 Sheets 20 Multicolor Rainbow Tissue Paper - 12" x 8.4" for Art, Craft, Floral, Birthday, Party & Festival</a></td>
       <td>$4</td>
+      <td>$1,693.58</td>
+      <td>393</td>
+      <td>9.7</td>
       <td>4.2</td>
       <td>1020</td>
       <td>Arts, Crafts & Sewing</td>
       <td>Art Tissue</td>
       <td>9,397</td>
       <td>21</td>
-      <td>$1,693.58</td>
-      <td>393</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/91aSlwdXx9L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BWPNFLXM?th=1" target="_blank">Colored Tissue Paper for Gift Bags, Colored Tissue Paper for Crafts, Gift Wrapping Tissue Paper Bulk - 375 Sheets in 36 Assorted Colors (12 in x 8.4 in)</a></td>
       <td>$9</td>
+      <td>$1,613.57</td>
+      <td>192</td>
+      <td>9.3</td>
       <td>4.0</td>
       <td>336</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>41,528</td>
       <td>77</td>
-      <td>$1,613.57</td>
-      <td>192</td>
-      <td>9.3</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81d8FukhQDL._AC_SX679_PIbundle-12,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B00NQ0KRLS" target="_blank">7th Generation SEV 13733 2-Ply 100% Recycled Standard Toilet Paper, White</a></td>
       <td>$21</td>
+      <td>$1,543.57</td>
+      <td>76</td>
+      <td>Not found</td>
       <td>4.3</td>
       <td>136</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>37,137</td>
       <td>121</td>
-      <td>$1,543.57</td>
-      <td>76</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51QJN2RDsKL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0C2CDZQSV" target="_blank">Canned Compressed Towels Portable Compressed Coin Tissue,Compressed Towel,Disposable Napkins Mini Magic Coin Tissues Portable for Camping Home Beauty Travel Sports Outdoor 100 PCS(9x10in)</a></td>
       <td>$7</td>
+      <td>$1,387.37</td>
+      <td>174</td>
+      <td>10</td>
       <td>4.4</td>
       <td>55</td>
       <td>Health & Household</td>
       <td>Paper Towels</td>
       <td>77,881</td>
       <td>264</td>
-      <td>$1,387.37</td>
-      <td>174</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71Bd2gxN4dL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D3V7DTLS?th=1" target="_blank">Brown Tissue Paper 100 Sheets, 20"X14" Tissue Paper Bulk for DIY Crafts Arts Decorations Bags Packaging, Wrapping Tissues Paper for Birthday Wedding All Holidays Decor</a></td>
       <td>$5</td>
+      <td>$1,271.20</td>
+      <td>219</td>
+      <td>Not found</td>
       <td>4.5</td>
       <td>51</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>62,975</td>
       <td>130</td>
-      <td>$1,271.20</td>
-      <td>219</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/514kIisOneL._SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D6ZTQG98" target="_blank">Swisspers Pocket Tissues, 3-Ply White Facial Tissues for Purse, Pocket, Car, Strong & Absorbent, 10 Tissues/Pack, 8 Packs (80 Tissues Total)</a></td>
       <td>$1</td>
+      <td>$903.42</td>
+      <td>664</td>
+      <td>9.9</td>
       <td>4.4</td>
       <td>85</td>
       <td>Health & Household</td>
       <td>Pocket Tissues</td>
       <td>23,439</td>
       <td>6</td>
-      <td>$903.42</td>
-      <td>664</td>
-      <td>9.9</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81G4QjAPPFL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0C7D1HX31?th=1" target="_blank">Car Tissues Cylinder 4 Packs Round Tissue Box Holder Fit for Car Cup Holder, Home Small Tissue Dispenser with Refill Tissues for Car Bathroom Office</a></td>
       <td>$11</td>
+      <td>$445.36</td>
+      <td>37</td>
+      <td>10</td>
       <td>4.1</td>
       <td>155</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>33,564</td>
       <td>76</td>
-      <td>$445.36</td>
-      <td>37</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81fBOTNgEWL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B019VPE72G?th=1" target="_blank">Kirkland Signature 2-Ply Bath Tissue, 30 Rolls</a></td>
       <td>$39</td>
+      <td>Not found</td>
+      <td>Not found</td>
+      <td>Not found</td>
       <td>4.6</td>
       <td>822</td>
       <td>gAnalyze ReviewsList</td>
-      <td>Not found</td>
-      <td>Not found</td>
-      <td>Not found</td>
       <td>Not found</td>
       <td>Not found</td>
       <td>Not found</td>
@@ -4103,155 +4108,155 @@
       <td><img src="https://m.media-amazon.com/images/I/61phYeWYPzL._AC_SX679_PIbundle-2,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0BP5BPDJ5" target="_blank">Kleenex Trusted Care Facial Tissues, 8 On-The-Go Travel Packs, 10 Count (Pack of 16)</a></td>
       <td>$4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Not found</td>
       <td>5.0</td>
       <td>67</td>
       <td>Beauty & Personal Care</td>
       <td>Facial Cleansing Cloths & Towelettes</td>
       <td>2,342</td>
       <td>28</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71RtgZkQzPL._AC_SX679_PIbundle-8,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CTD31XYF?th=1" target="_blank">Kleenex Lotion Facial Tissues with Coconut Oil, 8 Flat Boxes, 180 Tissues Per Box, 3-Ply</a></td>
       <td>$22</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9.5</td>
       <td>4.8</td>
       <td>861</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>2,656</td>
       <td>21</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>9.5</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51JL2VgMdML._AC_SX679_PIbundle-2,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CB6B52QZ" target="_blank">Angel Soft® Toilet Paper, 8 Mega Rolls : 32 Regular Rolls, 2-Ply Bath Tissue, 320 Sheets per Roll, 8 Count, White (Pack of 2)</a></td>
       <td>$14</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Not found</td>
       <td>4.8</td>
       <td>287</td>
       <td>Health & Household</td>
       <td>Toilet Paper</td>
       <td>6,542</td>
       <td>47</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61ZYF3u3n8L._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0C1GFBYZH?th=1" target="_blank">Shindel 330 Sheets Multicolor Tissue Paper, 14x10 Inch Tissue Paper Bulk Wrapping Tissue Paper for Gift Bags DIY Crafts Birthday Wedding Holidays Decor</a></td>
       <td>$9</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>10</td>
       <td>4.4</td>
       <td>472</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>9,837</td>
       <td>10</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71zUUewIpBL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DRRTN872" target="_blank">Car Tissues Holder 4 Pack with Facial Tissues Travel Tissue Tubes Box Container Fit for Car Cup Holder Car Tissues Cylinder Third Generation</a></td>
       <td>$7</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9.7</td>
       <td>4.8</td>
       <td>23</td>
       <td>Automotive</td>
       <td>Automotive Consoles & Organizers</td>
       <td>2,646</td>
       <td>109</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>9.7</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/61Cz60qF3aL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DQ8H6P4P?th=1" target="_blank">LGIFUTMAX 100 Sheets White Tissue Paper with Sticker 14 x 20 Inches for Gift Bags Wrapping Paper,Weddings Birthday Christmas Showers Arts Craft Party Favor Decoration</a></td>
       <td>$4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>10</td>
       <td>4.5</td>
       <td>45</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>19,541</td>
       <td>37</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>10</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/81St9zFBgIL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B072MRRRS3?th=1" target="_blank">American Greetings 40 Sheet 20 in. x 20 in. Pastel Tissue Paper for Graduation, Birthdays and All Occasions</a></td>
       <td>$6</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9.4</td>
       <td>4.8</td>
       <td>4434</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>14,853</td>
       <td>20</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>9.4</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71DFNjQA1tL._AC_SX679_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B07HSF5HTX?th=1" target="_blank">Puffs Plus Lotion Facial Tissue (Old)</a></td>
       <td>$13</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Not found</td>
       <td>4.8</td>
       <td>38245</td>
       <td>ed30-Day RevenueN/AUnit Sales:N/ACurrent Rat</td>
       <td>Not found</td>
       <td>Not found</td>
       <td>Not found</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/71uJDLE49KL._AC_SX679_PIbundle-4,TopRight,0,0_SH20_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0D14XXDGC" target="_blank">Puffs Plus Lotion Facial Tissue, 1 Family Box, 124 Tissues Per Box (Pack of 4)</a></td>
       <td>$9</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Not found</td>
       <td>4.8</td>
       <td>104</td>
       <td>Health & Household</td>
       <td>Box Tissues</td>
       <td>58,784</td>
       <td>108</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Not found</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/711QYLo2EKL._AC_SX466_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0CCTMWY5J?th=1" target="_blank">Koogel Metallic Gold and White Tissue Paper, 20 x 14 Inch, 100 Sheets, Stars and Stripes Pattern，for Gift Wrapping and Crafts</a></td>
       <td>$7</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9.8</td>
       <td>4.4</td>
       <td>155</td>
       <td>Health & Household</td>
       <td>Gift Wrap Tissue</td>
       <td>48,910</td>
       <td>103</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>9.8</td>
     </tr>
     <tr>
       <td><img src="https://m.media-amazon.com/images/I/51n2JgNHi5L.__AC_SX300_SY300_QL70_FMwebp_.jpg" width="100"></td>
       <td><a href="https://www.amazon.com/dp/B0DS46M5MK" target="_blank">Honkai: Star Rail Critter Pick: Ruan Mei's Creation Plush Tissue Box - Rice Dumpling Edition</a></td>
       <td>$98</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Not found</td>
       <td>5.0</td>
       <td>5</td>
       <td>Health & Household</td>
       <td>Paper & Plastic Household Supplies</td>
       <td>21,653</td>
       <td>55</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Not found</td>
     </tr>
   </tbody>
 </table>
