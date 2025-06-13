@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>حاسبة العائد العقاري</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background: #f0f0f0; padding: 20px; direction: rtl; }
+        h2, h3 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+        th { background: #eee; white-space: nowrap; }
+        input { width: 100px; padding: 5px; }
+        .container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h2>حاسبة العائد العقاري</h2>
+
+    <div class="container">
+        <div><label>مساحة الأرض (م²)</label><br><input type="number" id="landArea" value="8000"></div>
+        <div><label>سعر متر الأرض (ريال)</label><br><input type="number" id="landCost" value="15000"></div>
+        <div><label>نسبة البناء (%)</label><br><input type="number" id="buildRatio" value="60"></div>
+        <div><label>سعر بناء المتر (ريال)</label><br><input type="number" id="buildCost" value="1600"></div>
+        <div><label>مساحة الشقة (م²)</label><br><input type="number" id="apartmentSize" value="140"></div>
+        <div><label>سعر بيع المتر (ريال)</label><br><input type="number" id="sellPrice" value="4200"></div>
+        <div><label>من</label><br><input type="number" id="minFloors" value="4"></div>
+        <div><label>إلى</label><br><input type="number" id="maxFloors" value="20"></div>
+    </div>
+
+    <button onclick="calculate()">احسب</button>
+
+    <table id="results">
+        <thead>
+            <tr>
+                <th>عدد الأدوار</th><th>مساحة البناء (م²)</th>
+                <th>عدد الشقق</th>
+                <th>التكلفة الكلية</th>
+                <th>الإيراد</th>
+                <th>الربح</th>
+                <th>العائد على الاستثمار (ROI)</th>
+                <th>سعر التعادل للمتر (ريال)</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+<script>
+function calculate() {
+    const landArea = parseFloat(document.getElementById('landArea').value);
+    const landCost = parseFloat(document.getElementById('landCost').value);
+    const buildRatio = parseFloat(document.getElementById('buildRatio').value) / 100;
+    const buildCost = parseFloat(document.getElementById('buildCost').value);
+    const apartmentSize = parseFloat(document.getElementById('apartmentSize').value);
+    const sellPrice = parseFloat(document.getElementById('sellPrice').value);
+    const minFloors = parseInt(document.getElementById('minFloors').value);
+    const maxFloors = parseInt(document.getElementById('maxFloors').value);
+
+    let tbody = document.querySelector("#results tbody");
+    tbody.innerHTML = "";
+
+    for (let floors = minFloors; floors <= maxFloors; floors++) {
+        let totalBuildArea = landArea * buildRatio * floors;
+        let numApts = Math.floor(totalBuildArea / apartmentSize);
+        let totalLandCost = landArea * landCost;
+        let totalBuildCost = totalBuildArea * buildCost;
+        let totalCost = totalLandCost + totalBuildCost;
+        let revenue = totalBuildArea * sellPrice;
+        let profit = revenue - totalCost;
+        let roi = (profit / totalCost) * 100;
+        let breakeven = totalCost / totalBuildArea;
+
+        let row = `<tr>
+            <td>${floors}</td><td>${totalBuildArea.toLocaleString()}</td>
+            <td>${numApts}</td>
+            <td>${totalCost.toLocaleString()}</td>
+            <td>${revenue.toLocaleString()}</td>
+            <td>${profit.toLocaleString()}</td>
+            <td>${roi.toFixed(2)}%</td>
+            <td>${breakeven.toFixed(2)}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+    }
+}
+</script>
+
+</body>
+</html>
