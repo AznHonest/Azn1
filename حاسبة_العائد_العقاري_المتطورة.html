@@ -1,0 +1,644 @@
+<html lang="ar" dir="rtl"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة العائد العقاري المتطورة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            direction: ltr;
+            text-align: center;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .range-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .calculate-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .calculate-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .results-container {
+            margin-top: 30px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .results-table thead {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 12px 8px;
+            text-align: center;
+            border-bottom: 1px solid #e0e6ed;
+            font-size: 0.9rem;
+        }
+
+        .results-table th {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .results-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .results-table tbody tr:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            transform: scale(1.01);
+        }
+
+        .results-table tbody tr:nth-child(even) {
+            background: rgba(248, 249, 250, 0.5);
+        }
+
+        .profit-positive {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .profit-negative {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .roi-excellent {
+            background: rgba(39, 174, 96, 0.1);
+            color: #27ae60;
+            font-weight: 700;
+        }
+
+        .roi-good {
+            background: rgba(241, 196, 15, 0.1);
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .roi-poor {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .summary-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .summary-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .inputs-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .range-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .results-table {
+                font-size: 0.8rem;
+            }
+
+            .results-table th,
+            .results-table td {
+                padding: 8px 4px;
+            }
+
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>حاسبة العائد العقاري المتطورة</h1>
+
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="landArea">مساحة الأرض (م²)</label>
+                <input type="number" id="landArea" value="8000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label for="landCost">سعر متر الأرض (ريال)</label>
+                <input type="number" id="landCost" value="15000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label for="buildRatio">نسبة البناء (%)</label>
+                <input type="number" id="buildRatio" value="60" min="0" max="100" step="1">
+            </div>
+            <div class="input-group">
+                <label for="buildCost">تكلفة بناء المتر (ريال)</label>
+                <input type="number" id="buildCost" value="1600" min="0" step="50">
+            </div>
+            <div class="input-group">
+                <label for="apartmentSize">مساحة الشقة (م²)</label>
+                <input type="number" id="apartmentSize" value="140" min="0" step="10">
+            </div>
+            <div class="input-group">
+                <label for="sellPrice">سعر بيع المتر (ريال)</label>
+                <input type="number" id="sellPrice" value="4200" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label>نطاق عدد الأدوار</label>
+                <div class="range-inputs">
+                    <input type="number" id="minFloors" value="4" min="1" placeholder="من" step="1">
+                    <input type="number" id="maxFloors" value="20" min="1" placeholder="إلى" step="1">
+                </div>
+            </div>
+        </div>
+
+        <button class="calculate-btn" onclick="calculate()">احسب العائد</button>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="calculate-btn" onclick="downloadHTML()" style="background: linear-gradient(135deg, #27ae60, #2ecc71); width: auto; padding: 10px 20px; font-size: 14px;">
+                تحميل الحاسبة
+            </button>
+        </div>
+
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>جاري الحساب...</p>
+        </div>
+
+        <div class="summary-cards" id="summaryCards" style="display: grid;">
+            <div class="summary-card">
+                <h3>أفضل عائد استثمار</h3>
+                <div class="value" id="bestROI">47.37%</div>
+            </div>
+            <div class="summary-card">
+                <h3>أعلى ربح</h3>
+                <div class="value" id="maxProfit">١٢٩٬٦٠٠٬٠٠٠</div>
+            </div>
+            <div class="summary-card">
+                <h3>العدد الأمثل للأدوار</h3>
+                <div class="value" id="optimalFloors">20 أدوار</div>
+            </div>
+        </div>
+
+        <div class="results-container" id="resultsContainer" style="display: block;">
+            <table class="results-table" id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>عدد الأدوار</th>
+                        <th>مساحة البناء (م²)</th>
+                        <th>عدد الشقق</th>
+                        <th>التكلفة الكلية (ريال)</th>
+                        <th>الإيراد (ريال)</th>
+                        <th>الربح (ريال)</th>
+                        <th>العائد على الاستثمار (%)</th>
+                        <th>سعر التعادل للمتر (ريال)</th>
+                    </tr>
+                </thead>
+                <tbody><tr>
+                    <td>4</td>
+                    <td>١٩٬٢٠٠</td>
+                    <td>137</td>
+                    <td>١٥٠٬٧٢٠٬٠٠٠</td>
+                    <td>٨٠٬٦٤٠٬٠٠٠</td>
+                    <td class="profit-negative">؜-٧٠٬٠٨٠٬٠٠٠</td>
+                    <td class="roi-poor">-46.50%</td>
+                    <td>٧٬٨٥٠</td>
+                </tr><tr>
+                    <td>5</td>
+                    <td>٢٤٬٠٠٠</td>
+                    <td>171</td>
+                    <td>١٥٨٬٤٠٠٬٠٠٠</td>
+                    <td>١٠٠٬٨٠٠٬٠٠٠</td>
+                    <td class="profit-negative">؜-٥٧٬٦٠٠٬٠٠٠</td>
+                    <td class="roi-poor">-36.36%</td>
+                    <td>٦٬٦٠٠</td>
+                </tr><tr>
+                    <td>6</td>
+                    <td>٢٨٬٨٠٠</td>
+                    <td>205</td>
+                    <td>١٦٦٬٠٨٠٬٠٠٠</td>
+                    <td>١٢٠٬٩٦٠٬٠٠٠</td>
+                    <td class="profit-negative">؜-٤٥٬١٢٠٬٠٠٠</td>
+                    <td class="roi-poor">-27.17%</td>
+                    <td>٥٬٧٦٧</td>
+                </tr><tr>
+                    <td>7</td>
+                    <td>٣٣٬٦٠٠</td>
+                    <td>240</td>
+                    <td>١٧٣٬٧٦٠٬٠٠٠</td>
+                    <td>١٤١٬١٢٠٬٠٠٠</td>
+                    <td class="profit-negative">؜-٣٢٬٦٤٠٬٠٠٠</td>
+                    <td class="roi-poor">-18.78%</td>
+                    <td>٥٬١٧١</td>
+                </tr><tr>
+                    <td>8</td>
+                    <td>٣٨٬٤٠٠</td>
+                    <td>274</td>
+                    <td>١٨١٬٤٤٠٬٠٠٠</td>
+                    <td>١٦١٬٢٨٠٬٠٠٠</td>
+                    <td class="profit-negative">؜-٢٠٬١٦٠٬٠٠٠</td>
+                    <td class="roi-poor">-11.11%</td>
+                    <td>٤٬٧٢٥</td>
+                </tr><tr>
+                    <td>9</td>
+                    <td>٤٣٬٢٠٠</td>
+                    <td>308</td>
+                    <td>١٨٩٬١٢٠٬٠٠٠</td>
+                    <td>١٨١٬٤٤٠٬٠٠٠</td>
+                    <td class="profit-negative">؜-٧٬٦٨٠٬٠٠٠</td>
+                    <td class="roi-poor">-4.06%</td>
+                    <td>٤٬٣٧٨</td>
+                </tr><tr>
+                    <td>10</td>
+                    <td>٤٨٬٠٠٠</td>
+                    <td>342</td>
+                    <td>١٩٦٬٨٠٠٬٠٠٠</td>
+                    <td>٢٠١٬٦٠٠٬٠٠٠</td>
+                    <td class="profit-positive">٤٬٨٠٠٬٠٠٠</td>
+                    <td class="roi-poor">2.44%</td>
+                    <td>٤٬١٠٠</td>
+                </tr><tr>
+                    <td>11</td>
+                    <td>٥٢٬٨٠٠</td>
+                    <td>377</td>
+                    <td>٢٠٤٬٤٨٠٬٠٠٠</td>
+                    <td>٢٢١٬٧٦٠٬٠٠٠</td>
+                    <td class="profit-positive">١٧٬٢٨٠٬٠٠٠</td>
+                    <td class="roi-poor">8.45%</td>
+                    <td>٣٬٨٧٣</td>
+                </tr><tr>
+                    <td>12</td>
+                    <td>٥٧٬٦٠٠</td>
+                    <td>411</td>
+                    <td>٢١٢٬١٦٠٬٠٠٠</td>
+                    <td>٢٤١٬٩٢٠٬٠٠٠</td>
+                    <td class="profit-positive">٢٩٬٧٦٠٬٠٠٠</td>
+                    <td class="roi-poor">14.03%</td>
+                    <td>٣٬٦٨٣</td>
+                </tr><tr>
+                    <td>13</td>
+                    <td>٦٢٬٤٠٠</td>
+                    <td>445</td>
+                    <td>٢١٩٬٨٤٠٬٠٠٠</td>
+                    <td>٢٦٢٬٠٨٠٬٠٠٠</td>
+                    <td class="profit-positive">٤٢٬٢٤٠٬٠٠٠</td>
+                    <td class="roi-good">19.21%</td>
+                    <td>٣٬٥٢٣</td>
+                </tr><tr>
+                    <td>14</td>
+                    <td>٦٧٬٢٠٠</td>
+                    <td>480</td>
+                    <td>٢٢٧٬٥٢٠٬٠٠٠</td>
+                    <td>٢٨٢٬٢٤٠٬٠٠٠</td>
+                    <td class="profit-positive">٥٤٬٧٢٠٬٠٠٠</td>
+                    <td class="roi-good">24.05%</td>
+                    <td>٣٬٣٨٦</td>
+                </tr><tr>
+                    <td>15</td>
+                    <td>٧٢٬٠٠٠</td>
+                    <td>514</td>
+                    <td>٢٣٥٬٢٠٠٬٠٠٠</td>
+                    <td>٣٠٢٬٤٠٠٬٠٠٠</td>
+                    <td class="profit-positive">٦٧٬٢٠٠٬٠٠٠</td>
+                    <td class="roi-good">28.57%</td>
+                    <td>٣٬٢٦٧</td>
+                </tr><tr>
+                    <td>16</td>
+                    <td>٧٦٬٨٠٠</td>
+                    <td>548</td>
+                    <td>٢٤٢٬٨٨٠٬٠٠٠</td>
+                    <td>٣٢٢٬٥٦٠٬٠٠٠</td>
+                    <td class="profit-positive">٧٩٬٦٨٠٬٠٠٠</td>
+                    <td class="roi-excellent">32.81%</td>
+                    <td>٣٬١٦٣</td>
+                </tr><tr>
+                    <td>17</td>
+                    <td>٨١٬٦٠٠</td>
+                    <td>582</td>
+                    <td>٢٥٠٬٥٦٠٬٠٠٠</td>
+                    <td>٣٤٢٬٧٢٠٬٠٠٠</td>
+                    <td class="profit-positive">٩٢٬١٦٠٬٠٠٠</td>
+                    <td class="roi-excellent">36.78%</td>
+                    <td>٣٬٠٧١</td>
+                </tr><tr>
+                    <td>18</td>
+                    <td>٨٦٬٤٠٠</td>
+                    <td>617</td>
+                    <td>٢٥٨٬٢٤٠٬٠٠٠</td>
+                    <td>٣٦٢٬٨٨٠٬٠٠٠</td>
+                    <td class="profit-positive">١٠٤٬٦٤٠٬٠٠٠</td>
+                    <td class="roi-excellent">40.52%</td>
+                    <td>٢٬٩٨٩</td>
+                </tr><tr>
+                    <td>19</td>
+                    <td>٩١٬٢٠٠</td>
+                    <td>651</td>
+                    <td>٢٦٥٬٩٢٠٬٠٠٠</td>
+                    <td>٣٨٣٬٠٤٠٬٠٠٠</td>
+                    <td class="profit-positive">١١٧٬١٢٠٬٠٠٠</td>
+                    <td class="roi-excellent">44.04%</td>
+                    <td>٢٬٩١٦</td>
+                </tr><tr>
+                    <td>20</td>
+                    <td>٩٦٬٠٠٠</td>
+                    <td>685</td>
+                    <td>٢٧٣٬٦٠٠٬٠٠٠</td>
+                    <td>٤٠٣٬٢٠٠٬٠٠٠</td>
+                    <td class="profit-positive">١٢٩٬٦٠٠٬٠٠٠</td>
+                    <td class="roi-excellent">47.37%</td>
+                    <td>٢٬٨٥٠</td>
+                </tr></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function formatNumber(num) {
+            return new Intl.NumberFormat('ar-SA').format(Math.round(num));
+        }
+
+        function getROIClass(roi) {
+            if (roi >= 30) return 'roi-excellent';
+            if (roi >= 15) return 'roi-good';
+            return 'roi-poor';
+        }
+
+        function getProfitClass(profit) {
+            return profit >= 0 ? 'profit-positive' : 'profit-negative';
+        }
+
+        async function calculate() {
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('summaryCards').style.display = 'none';
+
+            // Small delay for loading animation
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const landArea = parseFloat(document.getElementById('landArea').value) || 0;
+            const landCost = parseFloat(document.getElementById('landCost').value) || 0;
+            const buildRatio = (parseFloat(document.getElementById('buildRatio').value) || 0) / 100;
+            const buildCost = parseFloat(document.getElementById('buildCost').value) || 0;
+            const apartmentSize = parseFloat(document.getElementById('apartmentSize').value) || 1;
+            const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+            const minFloors = parseInt(document.getElementById('minFloors').value) || 1;
+            const maxFloors = parseInt(document.getElementById('maxFloors').value) || 1;
+
+            if (minFloors > maxFloors) {
+                alert('يجب أن يكون العدد الأدنى للأدوار أقل من أو يساوي العدد الأعلى');
+                document.getElementById('loading').style.display = 'none';
+                return;
+            }
+
+            const tbody = document.querySelector("#resultsTable tbody");
+            tbody.innerHTML = "";
+
+            let bestROI = -Infinity;
+            let maxProfit = -Infinity;
+            let optimalFloors = minFloors;
+            let maxProfitFloors = minFloors;
+
+            for (let floors = minFloors; floors <= maxFloors; floors++) {
+                const totalBuildArea = landArea * buildRatio * floors;
+                const numApts = Math.floor(totalBuildArea / apartmentSize);
+                const totalLandCost = landArea * landCost;
+                const totalBuildCost = totalBuildArea * buildCost;
+                const totalCost = totalLandCost + totalBuildCost;
+                const revenue = totalBuildArea * sellPrice;
+                const profit = revenue - totalCost;
+                const roi = totalCost > 0 ? (profit / totalCost) * 100 : 0;
+                const breakeven = totalBuildArea > 0 ? totalCost / totalBuildArea : 0;
+
+                if (roi > bestROI) {
+                    bestROI = roi;
+                    optimalFloors = floors;
+                }
+
+                if (profit > maxProfit) {
+                    maxProfit = profit;
+                    maxProfitFloors = floors;
+                }
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${floors}</td>
+                    <td>${formatNumber(totalBuildArea)}</td>
+                    <td>${numApts.toLocaleString()}</td>
+                    <td>${formatNumber(totalCost)}</td>
+                    <td>${formatNumber(revenue)}</td>
+                    <td class="${getProfitClass(profit)}">${formatNumber(profit)}</td>
+                    <td class="${getROIClass(roi)}">${roi.toFixed(2)}%</td>
+                    <td>${formatNumber(breakeven)}</td>
+                `;
+                tbody.appendChild(row);
+            }
+
+            // Update summary cards
+            document.getElementById('bestROI').textContent = `${bestROI.toFixed(2)}%`;
+            document.getElementById('maxProfit').textContent = formatNumber(maxProfit);
+            document.getElementById('optimalFloors').textContent = `${optimalFloors} أدوار`;
+
+            // Hide loading and show results
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'block';
+            document.getElementById('summaryCards').style.display = 'grid';
+        }
+
+        // Add input validation
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value < 0) this.value = 0;
+            });
+        });
+
+        // Auto-calculate on input change (with debounce)
+        let debounceTimer;
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', function() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    if (document.getElementById('resultsContainer').style.display !== 'none') {
+                        calculate();
+                    }
+                }, 1000);
+            });
+        });
+
+        // Calculate on page load
+        window.addEventListener('load', calculate);
+
+        // Download HTML function
+        function downloadHTML() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'حاسبة_العائد_العقاري_المتطورة.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+</body></html>
