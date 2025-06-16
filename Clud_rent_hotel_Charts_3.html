@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة العائد العقاري المتطورة مع الإيجار والفندق</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 5px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+            min-width: 120px;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            direction: ltr;
+            text-align: center;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .range-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .calculate-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .results-container {
+            margin-top: 30px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .results-table thead {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 12px 8px;
+            text-align: center;
+            border-bottom: 1px solid #e0e6ed;
+            font-size: 0.85rem;
+        }
+
+        .results-table th {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .results-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .results-table tbody tr:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            transform: scale(1.01);
+        }
+
+        .results-table tbody tr:nth-child(even) {
+            background: rgba(248, 249, 250, 0.5);
+        }
+
+        .profit-positive {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .profit-negative {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .roi-excellent {
+            background: rgba(39, 174, 96, 0.1);
+            color: #27ae60;
+            font-weight: 700;
+        }
+
+        .roi-good {
+            background: rgba(241, 196, 15, 0.1);
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .roi-poor {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .summary-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .summary-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .rental-highlight {
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(46, 204, 113, 0.1));
+            border-color: rgba(39, 174, 96, 0.3);
+        }
+
+        .rental-highlight .value {
+            color: #27ae60;
+        }
+
+        .hotel-highlight {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(231, 76, 60, 0.1));
+            border-color: rgba(230, 126, 34, 0.3);
+        }
+
+        .hotel-highlight .value {
+            color: #e67e22;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .export-buttons {
+            margin-top: 20px;
+            text-align: center;
+            gap: 10px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            padding: 10px 20px;
+            background: #34495e;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .export-btn:hover {
+            background: #2c3e50;
+            transform: translateY(-2px);
+        }
+
+        .payback-good {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .payback-fair {
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .payback-poor {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        .dark-mode .container {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+            border: 1px solid #576574;
+        }
+
+        .dark-mode h1 {
+            color: white;
+            -webkit-text-fill-color: white;
+        }
+
+        .dark-mode .input-group label {
+            color: #ecf0f1;
+        }
+
+        .dark-mode .input-group input {
+            background: #34495e;
+            border-color: #576574;
+            color: white;
+        }
+
+        .dark-mode .input-group input:focus {
+            border-color: #667eea;
+            background: #2c3e50;
+        }
+
+        .dark-mode .tab {
+            background: #34495e;
+            color: #ecf0f1;
+        }
+
+        .dark-mode .tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .dark-mode .results-container {
+            background: #34495e;
+            color: white;
+        }
+
+        .dark-mode .results-table thead {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .dark-mode .results-table tbody tr:nth-child(even) {
+            background: rgba(44, 62, 80, 0.5);
+        }
+
+        .dark-mode .summary-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            border-color: rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .dark-mode .summary-card h3 {
+            color: #ecf0f1;
+        }
+
+        .dark-mode .export-btn {
+            background: #5d6d7e;
+            color: white;
+        }
+
+        .dark-mode .export-btn:hover {
+            background: #48c9b0;
+        }
+
+        /* KPI Dashboard Styles */
+        .kpi-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-radius: 15px;
+            border: 2px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .kpi-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.9));
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: rgba(52, 152, 219, 0.3);
+        }
+
+        .kpi-card h3 {
+            color: #2c3e50;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .kpi-trend {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .kpi-positive {
+            color: #27ae60;
+        }
+
+        .kpi-negative {
+            color: #e74c3c;
+        }
+
+        .kpi-neutral {
+            color: #f39c12;
+        }
+
+        .dark-mode .kpi-dashboard {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(155, 89, 182, 0.2));
+        }
+
+        .dark-mode .kpi-card {
+            background: linear-gradient(135deg, rgba(52, 73, 94, 0.9), rgba(44, 62, 80, 0.9));
+            color: white;
+        }
+
+        .dark-mode .kpi-card h3 {
+            color: #ecf0f1;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .dark-mode .chart-container {
+            background: #34495e;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .inputs-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .range-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .results-table {
+                font-size: 0.7rem;
+            }
+
+            .results-table th,
+            .results-table td {
+                padding: 6px 4px;
+            }
+
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="تبديل الوضع الليلي">
+        🌙
+    </button>
+
+    <div class="container">
+        <h1>حاسبة العائد العقاري المتطورة مع الإيجار والفندق</h1>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('sale')">البيع</div>
+            <div class="tab" onclick="switchTab('rental')">الإيجار</div>
+            <div class="tab" onclick="switchTab('hotel')">فندق</div>
+            <div class="tab" onclick="switchTab('comparison')">المقارنة</div>
+        </div>
+
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="landArea">مساحة الأرض (م²)</label>
+                <input type="number" id="landArea" value="4000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label for="landCost">سعر متر الأرض (ريال)</label>
+                <input type="number" id="landCost" value="15000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label for="buildRatio">نسبة البناء (%)</label>
+                <input type="number" id="buildRatio" value="50" min="0" max="100" step="1">
+            </div>
+            <div class="input-group">
+                <label for="buildCost">تكلفة بناء المتر للشقق (ريال)</label>
+                <input type="number" id="buildCost" value="6500" min="0" step="50">
+            </div>
+            <div class="input-group">
+                <label for="hotelBuildCost">تكلفة بناء المتر للفندق (ريال)</label>
+                <input type="number" id="hotelBuildCost" value="3500" min="0" step="50">
+            </div>
+            <div class="input-group">
+                <label for="apartmentSize">مساحة الشقة (م²)</label>
+                <input type="number" id="apartmentSize" value="140" min="0" step="10">
+            </div>
+            <div class="input-group">
+                <label for="sellPrice">سعر بيع المتر (ريال) للشقة</label>
+                <input type="number" id="sellPrice" value="7000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label for="rentPrice">إيجار المتر سنوياً (ريال) للشقة</label>
+                <input type="number" id="rentPrice" value="1200" min="0" step="10">
+            </div>
+            <div class="input-group">
+                <label for="occupancyRate">معدل الإشغال (%) للشقق</label>
+                <input type="number" id="occupancyRate" value="70" min="0" max="100" step="1">
+            </div>
+            <div class="input-group">
+                <label for="roomSize">متوسط مساحة الغرفة (م²) للفندق</label>
+                <input type="number" id="roomSize" value="50" min="0" step="1">
+            </div>
+            <div class="input-group">
+                <label for="roomRate">سعر الغرفة في الليلة (ريال) للفندق</label>
+                <input type="number" id="roomRate" value="600" min="0" step="10">
+            </div>
+            <div class="input-group">
+                <label for="hotelOccupancy">معدل إشغال الفندق (%)</label>
+                <input type="number" id="hotelOccupancy" value="70" min="0" max="100" step="1">
+            </div>
+            <div class="input-group">
+                <label for="operatingCosts">التكاليف التشغيلية السنوية (%) للفندق</label>
+                <input type="number" id="operatingCosts" value="30" min="0" max="100" step="1">
+            </div>
+            <div class="input-group">
+                <label for="buildingDepreciation">إهلاك المبنى السنوي (%) للفندق</label>
+                <input type="number" id="buildingDepreciation" value="10" min="0" max="10" step="0.5">
+            </div>
+            <div class="input-group">
+                <label for="landRent">إيجار الأرض السنوي (%) للفندق</label>
+                <input type="number" id="landRent" value="5" min="0" max="20" step="0.5">
+            </div>
+            <div class="input-group">
+                <label>نطاق عدد الأدوار</label>
+                <div class="range-inputs">
+                    <input type="number" id="minFloors" value="10" min="1" placeholder="من" step="1">
+                    <input type="number" id="maxFloors" value="14" min="1" placeholder="إلى" step="1">
+                </div>
+            </div>
+        </div>
+
+        <button class="calculate-btn" onclick="calculate()">احسب العائد</button>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>جاري الحساب...</p>
+        </div>
+
+        <!-- KPI Dashboard -->
+        <div class="kpi-dashboard" id="kpiDashboard" style="display: none;">
+            <div class="kpi-card">
+                <h3>📊 متوسط العائد الإجمالي</h3>
+                <div class="kpi-value kpi-positive" id="avgROI">-</div>
+                <div class="kpi-trend" id="avgROITrend">جميع الاستراتيجيات</div>
+            </div>
+            <div class="kpi-card">
+                <h3>🏆 أفضل استراتيجية</h3>
+                <div class="kpi-value kpi-neutral" id="bestStrategy">-</div>
+                <div class="kpi-trend" id="bestStrategyCount">عدد المرات</div>
+            </div>
+            <div class="kpi-card">
+                <h3>⏱️ متوسط فترة الاسترداد</h3>
+                <div class="kpi-value kpi-neutral" id="avgPayback">-</div>
+                <div class="kpi-trend">للاستراتيجيات طويلة المدى</div>
+            </div>
+            <div class="kpi-card">
+                <h3>💰 أعلى ربح متوقع</h3>
+                <div class="kpi-value kpi-positive" id="maxProfit">-</div>
+                <div class="kpi-trend" id="maxProfitType">نوع الاستراتيجية</div>
+            </div>
+            <div class="kpi-card">
+                <h3>📈 استقرار الدخل</h3>
+                <div class="kpi-value kpi-neutral" id="incomeStability">-</div>
+                <div class="kpi-trend">مؤشر التقلب</div>
+            </div>
+            <div class="kpi-card">
+                <h3>🎯 توصية الخبير</h3>
+                <div class="kpi-value kpi-positive" id="expertRecommendation">-</div>
+                <div class="kpi-trend" id="expertReason">السبب</div>
+            </div>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="chart-container" id="chartContainer" style="display: none;">
+            <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">📊 مقارنة العوائد بالرسم البياني</h3>
+            <canvas id="comparisonChart" width="400" height="200"></canvas>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards" id="summaryCards" style="display: none;">
+            <div class="summary-card" id="card1">
+                <h3 id="card1Title">أفضل عائد استثمار</h3>
+                <div class="value" id="card1Value">-</div>
+            </div>
+            <div class="summary-card" id="card2">
+                <h3 id="card2Title">أعلى ربح/دخل</h3>
+                <div class="value" id="card2Value">-</div>
+            </div>
+            <div class="summary-card" id="card3">
+                <h3 id="card3Title">العدد الأمثل للأدوار</h3>
+                <div class="value" id="card3Value">-</div>
+            </div>
+            <div class="summary-card" id="card4" style="display: none;">
+                <h3 id="card4Title">فترة الاسترداد</h3>
+                <div class="value" id="card4Value">-</div>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <div class="results-container" id="resultsContainer" style="display: none;">
+            <table class="results-table" id="resultsTable">
+                <thead id="tableHead">
+                    <!-- Table headers will be populated by JavaScript -->
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Table data will be populated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <div class="export-buttons">
+                <button class="export-btn" onclick="exportToCSV()">تصدير إلى CSV</button>
+                <button class="export-btn" onclick="exportToPDF()">طباعة / حفظ PDF</button>
+                <button class="export-btn" onclick="copyToClipboard()">نسخ النتائج</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 'sale';
+        let calculationResults = {
+            sale: [],
+            rental: [],
+            hotel: [],
+            comparison: []
+        };
+        let comparisonChart = null;
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            const tabs = document.querySelectorAll('.tab');
+            const tabIndex = tabName === 'sale' ? 0 : tabName === 'rental' ? 1 : tabName === 'hotel' ? 2 : 3;
+            tabs[tabIndex].classList.add('active');
+            
+            // Update display
+            updateDisplay();
+        }
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat('en-US').format(Math.round(num));
+        }
+
+        function getROIClass(roi) {
+            if (roi >= 30) return 'roi-excellent';
+            if (roi >= 15) return 'roi-good';
+            return 'roi-poor';
+        }
+
+        function getProfitClass(profit) {
+            return profit >= 0 ? 'profit-positive' : 'profit-negative';
+        }
+
+        function getPaybackClass(years) {
+            if (years <= 10) return 'payback-good';
+            if (years <= 20) return 'payback-fair';
+            return 'payback-poor';
+        }
+
+        function updateDisplay() {
+            const results = calculationResults[currentTab];
+            if (!results || results.length === 0) return;
+
+            // Update summary cards
+            updateSummaryCards();
+            
+            // Update table
+            updateTable();
+        }
+
+        function updateSummaryCards() {
+            const results = calculationResults[currentTab];
+            const card4 = document.getElementById('card4');
+            
+            if (currentTab === 'sale') {
+                const bestROI = Math.max(...results.map(r => r.roi));
+                const maxProfit = Math.max(...results.map(r => r.profit));
+                const optimalFloors = results.find(r => r.roi === bestROI)?.floors || 0;
+                
+                document.getElementById('card1Title').textContent = 'أفضل عائد استثمار (بيع)';
+                document.getElementById('card1Value').textContent = `${bestROI.toFixed(2)}%`;
+                document.getElementById('card2Title').textContent = 'أعلى ربح (بيع)';
+                document.getElementById('card2Value').textContent = formatNumber(maxProfit);
+                document.getElementById('card3Title').textContent = 'العدد الأمثل للأدوار';
+                document.getElementById('card3Value').textContent = `${optimalFloors} أدوار`;
+                card4.style.display = 'none';
+                
+            } else if (currentTab === 'rental') {
+                const bestROI = Math.max(...results.map(r => r.roi));
+                const maxIncome = Math.max(...results.map(r => r.annualIncome));
+                const optimalFloors = results.find(r => r.roi === bestROI)?.floors || 0;
+                const bestPayback = Math.min(...results.map(r => r.paybackPeriod).filter(p => p !== Infinity));
+                
+                document.getElementById('card1Title').textContent = 'أفضل عائد استثمار (إيجار)';
+                document.getElementById('card1Value').textContent = `${bestROI.toFixed(2)}%`;
+                document.getElementById('card2Title').textContent = 'أعلى دخل سنوي';
+                document.getElementById('card2Value').textContent = formatNumber(maxIncome);
+                document.getElementById('card3Title').textContent = 'العدد الأمثل للأدوار';
+                document.getElementById('card3Value').textContent = `${optimalFloors} أدوار`;
+                document.getElementById('card4Title').textContent = 'أقل فترة استرداد';
+                document.getElementById('card4Value').textContent = bestPayback === Infinity ? '∞' : `${bestPayback.toFixed(1)} سنة`;
+                card4.style.display = 'block';
+                
+                // Update card styles
+                document.querySelectorAll('.summary-card').forEach(card => {
+                    card.className = 'summary-card rental-highlight';
+                });
+                
+            } else if (currentTab === 'hotel') {
+                const bestROI = Math.max(...results.map(r => r.roi));
+                const maxIncome = Math.max(...results.map(r => r.netIncome));
+                const optimalFloors = results.find(r => r.roi === bestROI)?.floors || 0;
+                const bestPayback = Math.min(...results.map(r => r.paybackPeriod).filter(p => p !== Infinity));
+                
+                document.getElementById('card1Title').textContent = 'أفضل عائد استثمار (فندق)';
+                document.getElementById('card1Value').textContent = `${bestROI.toFixed(2)}%`;
+                document.getElementById('card2Title').textContent = 'أعلى دخل سنوي صافي';
+                document.getElementById('card2Value').textContent = formatNumber(maxIncome);
+                document.getElementById('card3Title').textContent = 'العدد الأمثل للأدوار';
+                document.getElementById('card3Value').textContent = `${optimalFloors} أدوار`;
+                document.getElementById('card4Title').textContent = 'أقل فترة استرداد';
+                document.getElementById('card4Value').textContent = bestPayback === Infinity ? '∞' : `${bestPayback.toFixed(1)} سنة`;
+                card4.style.display = 'block';
+                
+                // Update card styles
+                document.querySelectorAll('.summary-card').forEach(card => {
+                    card.className = 'summary-card hotel-highlight';
+                });
+                
+            } else if (currentTab === 'comparison') {
+                card4.style.display = 'none';
+                document.getElementById('card1Title').textContent = 'أفضل استراتيجية';
+                document.getElementById('card2Title').textContent = 'متوسط العائد';
+                document.getElementById('card3Title').textContent = 'التوصية العامة';
+                
+                // Calculate best overall strategy
+                const strategies = ['البيع', 'الإيجار', 'الفندق'];
+                const avgROIs = {
+                    'البيع': results.reduce((sum, r) => sum + r.saleROI, 0) / results.length,
+                    'الإيجار': results.reduce((sum, r) => sum + r.rentalROI, 0) / results.length,
+                    'الفندق': results.reduce((sum, r) => sum + r.hotelROI, 0) / results.length
+                };
+                
+                const bestStrategy = Object.keys(avgROIs).reduce((a, b) => avgROIs[a] > avgROIs[b] ? a : b);
+                
+                document.getElementById('card1Value').textContent = bestStrategy;
+                document.getElementById('card2Value').textContent = `${avgROIs[bestStrategy].toFixed(2)}%`;
+                document.getElementById('card3Value').textContent = bestStrategy;
+                
+                // Reset card styles
+                document.querySelectorAll('.summary-card').forEach(card => {
+                    card.className = 'summary-card';
+                });
+            }
+        }
+
+        function updateTable() {
+            const results = calculationResults[currentTab];
+            const tableHead = document.getElementById('tableHead');
+            const tableBody = document.getElementById('tableBody');
+            
+            // Clear existing content
+            tableHead.innerHTML = '';
+            tableBody.innerHTML = '';
+            
+            if (currentTab === 'sale') {
+                tableHead.innerHTML = `
+                    <tr>
+                        <th>عدد الأدوار</th>
+                        <th>مساحة البناء (م²)</th>
+                        <th>عدد الشقق</th>
+                        <th>التكلفة الكلية (ريال)</th>
+                        <th>الإيراد (ريال)</th>
+                        <th>الربح (ريال)</th>
+                        <th>العائد على الاستثمار (%)</th>
+                        <th>سعر التعادل للمتر (ريال)</th>
+                    </tr>
+                `;
+                
+                results.forEach(result => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${result.floors}</td>
+                        <td>${formatNumber(result.totalBuildArea)}</td>
+                        <td>${result.numApts}</td>
+                        <td>${formatNumber(result.totalCost)}</td>
+                        <td>${formatNumber(result.revenue)}</td>
+                        <td class="${getProfitClass(result.profit)}">${formatNumber(result.profit)}</td>
+                        <td class="${getROIClass(result.roi)}">${result.roi.toFixed(2)}%</td>
+                        <td>${formatNumber(result.breakeven)}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+            } else if (currentTab === 'rental') {
+                tableHead.innerHTML = `
+                    <tr>
+                        <th>عدد الأدوار</th>
+                        <th>مساحة البناء (م²)</th>
+                        <th>عدد الشقق</th>
+                        <th>التكلفة الكلية (ريال)</th>
+                        <th>الدخل الشهري (ريال)</th>
+                        <th>الدخل السنوي (ريال)</th>
+                        <th>العائد السنوي (%)</th>
+                        <th>فترة الاسترداد (سنة)</th>
+                    </tr>
+                `;
+                
+                results.forEach(result => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${result.floors}</td>
+                        <td>${formatNumber(result.totalBuildArea)}</td>
+                        <td>${result.numApts}</td>
+                        <td>${formatNumber(result.totalCost)}</td>
+                        <td>${formatNumber(result.monthlyIncome)}</td>
+                        <td class="profit-positive">${formatNumber(result.annualIncome)}</td>
+                        <td class="${getROIClass(result.roi)}">${result.roi.toFixed(2)}%</td>
+                        <td class="${getPaybackClass(result.paybackPeriod)}">${result.paybackPeriod === Infinity ? '∞' : result.paybackPeriod.toFixed(1)}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+            } else if (currentTab === 'hotel') {
+                tableHead.innerHTML = `
+                    <tr>
+                        <th>عدد الأدوار</th>
+                        <th>مساحة البناء (م²)</th>
+                        <th>عدد الغرف</th>
+                        <th>التكلفة الكلية (ريال)</th>
+                        <th>الإيراد السنوي (ريال)</th>
+                        <th>التكاليف التشغيلية (ريال)</th>
+                        <th>الإهلاك (ريال)</th>
+                        <th>إيجار الأرض (ريال)</th>
+                        <th>إجمالي التكاليف (ريال)</th>
+                        <th>الدخل الصافي (ريال)</th>
+                        <th>العائد الصافي (%)</th>
+                        <th>فترة الاسترداد (سنة)</th>
+                    </tr>
+                `;
+                
+                results.forEach(result => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${result.floors}</td>
+                        <td>${formatNumber(result.totalBuildArea)}</td>
+                        <td>${result.numRooms}</td>
+                        <td>${formatNumber(result.totalCost)}</td>
+                        <td class="profit-positive">${formatNumber(result.grossRevenue)}</td>
+                        <td class="profit-negative">${formatNumber(result.operatingCosts)}</td>
+                        <td class="profit-negative">${formatNumber(result.depreciation)}</td>
+                        <td class="profit-negative">${formatNumber(result.landRentCost)}</td>
+                        <td class="profit-negative">${formatNumber(result.totalCosts)}</td>
+                        <td class="${getProfitClass(result.netIncome)}">${formatNumber(result.netIncome)}</td>
+                        <td class="${getROIClass(result.roi)}">${result.roi.toFixed(2)}%</td>
+                        <td class="${getPaybackClass(result.paybackPeriod)}">${result.paybackPeriod === Infinity ? '∞' : result.paybackPeriod.toFixed(1)}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+            } else if (currentTab === 'comparison') {
+                tableHead.innerHTML = `
+                    <tr>
+                        <th rowspan="2" style="vertical-align: middle; background: #34495e; color: white; font-size: 1.1em; padding: 15px;">عدد<br/>الأدوار</th>
+                        <th colspan="3" style="background: linear-gradient(135deg, #3498db, #2ecc71, #e67e22); color: white; text-align: center; font-size: 1.3em; padding: 15px;">🔍 مقارنة الاستراتيجيات الثلاث مع العوائد</th>
+                        <th rowspan="2" style="vertical-align: middle; background: #8e44ad; color: white; font-size: 1.1em; padding: 15px;">🏆 أفضل<br/>اختيار</th>
+                    </tr>
+                    <tr>
+                        <th style="background: rgba(52, 152, 219, 0.9); color: white; font-size: 1em; padding: 12px; border: 2px solid #2980b9; min-width: 150px;">
+                            🏢 <strong>البيع</strong><br/>
+                            <div style="font-size: 0.8em; margin-top: 3px; opacity: 0.9;">العائد % + الربح</div>
+                        </th>
+                        <th style="background: rgba(46, 204, 113, 0.9); color: white; font-size: 1em; padding: 12px; border: 2px solid #27ae60; min-width: 150px;">
+                            🏠 <strong>الإيجار</strong><br/>
+                            <div style="font-size: 0.8em; margin-top: 3px; opacity: 0.9;">العائد % + الدخل السنوي</div>
+                        </th>
+                        <th style="background: rgba(230, 126, 34, 0.9); color: white; font-size: 1em; padding: 12px; border: 2px solid #d35400; min-width: 150px;">
+                            🏨 <strong>الفندق</strong><br/>
+                            <div style="font-size: 0.8em; margin-top: 3px; opacity: 0.9;">العائد % + الدخل الصافي</div>
+                        </th>
+                    </tr>
+                `;
+                
+                results.forEach(result => {
+                    const row = document.createElement('tr');
+                    
+                    // Determine which strategy is best for highlighting
+                    let saleClass = result.recommendation === 'البيع' ? 'roi-excellent' : '';
+                    let rentalClass = result.recommendation === 'الإيجار' ? 'roi-excellent' : '';
+                    let hotelClass = result.recommendation === 'الفندق' ? 'roi-excellent' : '';
+                    
+                    // Add winner styling
+                    let saleStyle = result.recommendation === 'البيع' ? 
+                        'border: 4px solid #27ae60; box-shadow: 0 0 15px rgba(39, 174, 96, 0.6); background: rgba(39, 174, 96, 0.1);' : 
+                        'border: 2px solid #bdc3c7; background: rgba(52, 152, 219, 0.05);';
+                    
+                    let rentalStyle = result.recommendation === 'الإيجار' ? 
+                        'border: 4px solid #27ae60; box-shadow: 0 0 15px rgba(39, 174, 96, 0.6); background: rgba(39, 174, 96, 0.1);' : 
+                        'border: 2px solid #bdc3c7; background: rgba(46, 204, 113, 0.05);';
+                    
+                    let hotelStyle = result.recommendation === 'الفندق' ? 
+                        'border: 4px solid #27ae60; box-shadow: 0 0 15px rgba(39, 174, 96, 0.6); background: rgba(39, 174, 96, 0.1);' : 
+                        'border: 2px solid #bdc3c7; background: rgba(230, 126, 34, 0.05);';
+                    
+                    let recommendationClass = 'profit-positive';
+                    let recommendationIcon = '🏢';
+                    let recommendationText = 'البيع';
+                    let winnerBadge = '';
+                    
+                    if (result.recommendation === 'الإيجار') {
+                        recommendationClass = 'rental-highlight';
+                        recommendationIcon = '🏠';
+                        recommendationText = 'الإيجار';
+                    } else if (result.recommendation === 'الفندق') {
+                        recommendationClass = 'hotel-highlight';
+                        recommendationIcon = '🏨';
+                        recommendationText = 'الفندق';
+                    }
+                    
+                    winnerBadge = `<div style="background: #27ae60; color: white; padding: 2px 6px; border-radius: 8px; font-size: 0.7em; margin-top: 2px;">🏆 الفائز</div>`;
+                    
+                    row.innerHTML = `
+                        <td style="font-weight: bold; font-size: 1.3em; text-align: center; background: #ecf0f1; border: 3px solid #34495e; vertical-align: middle;">${result.floors}</td>
+                        
+                        <td class="${saleClass}" style="text-align: center; padding: 15px; ${saleStyle} vertical-align: middle;">
+                            <div style="font-size: 1.4em; font-weight: bold; color: #2980b9; margin-bottom: 5px;">
+                                📊 ${result.saleROI.toFixed(1)}%
+                            </div>
+                            <div style="font-size: 1em; color: #34495e; font-weight: 600; margin-bottom: 3px;">
+                                💰 ${formatNumber(result.saleProfit)}
+                            </div>
+                            <div style="font-size: 0.8em; color: #7f8c8d; font-style: italic;">
+                                ربح فوري
+                            </div>
+                            ${result.recommendation === 'البيع' ? winnerBadge : ''}
+                        </td>
+                        
+                        <td class="${rentalClass}" style="text-align: center; padding: 15px; ${rentalStyle} vertical-align: middle;">
+                            <div style="font-size: 1.4em; font-weight: bold; color: #27ae60; margin-bottom: 5px;">
+                                📊 ${result.rentalROI.toFixed(1)}%
+                            </div>
+                            <div style="font-size: 1em; color: #34495e; font-weight: 600; margin-bottom: 3px;">
+                                💵 ${formatNumber(result.annualRent)}
+                            </div>
+                            <div style="font-size: 0.8em; color: #7f8c8d; font-style: italic;">
+                                دخل سنوي
+                            </div>
+                            ${result.recommendation === 'الإيجار' ? winnerBadge : ''}
+                        </td>
+                        
+                        <td class="${hotelClass}" style="text-align: center; padding: 15px; ${hotelStyle} vertical-align: middle;">
+                            <div style="font-size: 1.4em; font-weight: bold; color: #e67e22; margin-bottom: 5px;">
+                                📊 ${result.hotelROI.toFixed(1)}%
+                            </div>
+                            <div style="font-size: 1em; color: #34495e; font-weight: 600; margin-bottom: 3px;">
+                                💸 ${formatNumber(result.hotelNetIncome)}
+                            </div>
+                            <div style="font-size: 0.8em; color: #7f8c8d; font-style: italic;">
+                                دخل صافي
+                            </div>
+                            ${result.recommendation === 'الفندق' ? winnerBadge : ''}
+                        </td>
+                        
+                        <td class="${recommendationClass}" style="text-align: center; font-weight: bold; font-size: 1.1em; padding: 20px; background: linear-gradient(135deg, rgba(142, 68, 173, 0.1), rgba(155, 89, 182, 0.1)); border: 3px solid #8e44ad; vertical-align: middle;">
+                            <div style="font-size: 2em; margin-bottom: 8px;">${recommendationIcon}</div>
+                            <div style="color: #8e44ad; font-weight: bold; font-size: 1.1em; margin-bottom: 5px;">${recommendationText}</div>
+                            <div style="font-size: 1.1em; color: #27ae60; font-weight: bold; background: rgba(39, 174, 96, 0.1); padding: 4px 8px; border-radius: 8px;">
+                                ⭐ ${result.bestROIValue.toFixed(1)}%
+                            </div>
+                            <div style="font-size: 0.8em; color: #e74c3c; font-weight: bold; margin-top: 5px;">
+                                الأفضل
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        }
+
+        async function calculate() {
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('summaryCards').style.display = 'none';
+
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Get input values
+            const landArea = parseFloat(document.getElementById('landArea').value) || 0;
+            const landCost = parseFloat(document.getElementById('landCost').value) || 0;
+            const buildRatio = (parseFloat(document.getElementById('buildRatio').value) || 0) / 100;
+            const buildCost = parseFloat(document.getElementById('buildCost').value) || 0;
+            const hotelBuildCost = parseFloat(document.getElementById('hotelBuildCost').value) || 0;
+            const apartmentSize = parseFloat(document.getElementById('apartmentSize').value) || 1;
+            const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+            const rentPrice = parseFloat(document.getElementById('rentPrice').value) || 0;
+            const occupancyRate = (parseFloat(document.getElementById('occupancyRate').value) || 100) / 100;
+            const roomSize = parseFloat(document.getElementById('roomSize').value) || 25;
+            const roomRate = parseFloat(document.getElementById('roomRate').value) || 0;
+            const hotelOccupancy = (parseFloat(document.getElementById('hotelOccupancy').value) || 75) / 100;
+            const operatingCosts = (parseFloat(document.getElementById('operatingCosts').value) || 40) / 100;
+            const buildingDepreciation = (parseFloat(document.getElementById('buildingDepreciation').value) || 3) / 100;
+            const landRent = (parseFloat(document.getElementById('landRent').value) || 5) / 100;
+            const minFloors = parseInt(document.getElementById('minFloors').value) || 1;
+            const maxFloors = parseInt(document.getElementById('maxFloors').value) || 1;
+
+            if (minFloors > maxFloors) {
+                alert('يجب أن يكون العدد الأدنى للأدوار أقل من أو يساوي العدد الأعلى');
+                document.getElementById('loading').style.display = 'none';
+                return;
+            }
+
+            // Clear previous results
+            calculationResults = {
+                sale: [],
+                rental: [],
+                hotel: [],
+                comparison: []
+            };
+
+            for (let floors = minFloors; floors <= maxFloors; floors++) {
+                const totalBuildArea = landArea * buildRatio * floors;
+                const numApts = Math.floor(totalBuildArea / apartmentSize);
+                const totalLandCost = landArea * landCost;
+                
+                // Separate building costs for apartments vs hotel
+                const totalBuildCostApts = totalBuildArea * buildCost;
+                const totalBuildCostHotel = totalBuildArea * hotelBuildCost;
+                
+                const totalCostApts = totalLandCost + totalBuildCostApts;
+                const totalCostHotel = totalLandCost + totalBuildCostHotel;
+
+                // Sale calculations
+                const saleRevenue = totalBuildArea * sellPrice;
+                const saleProfit = saleRevenue - totalCostApts;
+                const saleROI = totalCostApts > 0 ? (saleProfit / totalCostApts) * 100 : 0;
+                const breakeven = totalBuildArea > 0 ? totalCostApts / totalBuildArea : 0;
+
+                // Rental calculations
+                const annualRentPerApt = apartmentSize * rentPrice * occupancyRate;
+                const totalAnnualRent = numApts * annualRentPerApt;
+                const totalMonthlyRent = totalAnnualRent / 12;
+                const rentalROI = totalCostApts > 0 ? (totalAnnualRent / totalCostApts) * 100 : 0;
+                const rentalPaybackPeriod = totalAnnualRent > 0 ? totalCostApts / totalAnnualRent : Infinity;
+
+                // Hotel calculations (using hotel-specific costs)
+                const numRooms = Math.floor(totalBuildArea / roomSize);
+                const grossHotelRevenue = numRooms * roomRate * 365 * hotelOccupancy;
+                
+                // Calculate all hotel costs
+                const operatingCostsAmount = grossHotelRevenue * operatingCosts;
+                const depreciationAmount = totalBuildCostHotel * buildingDepreciation;
+                const landRentAmount = totalLandCost * landRent;
+                const totalHotelCosts = operatingCostsAmount + depreciationAmount + landRentAmount;
+                
+                const netHotelIncome = grossHotelRevenue - totalHotelCosts;
+                const hotelROI = totalCostHotel > 0 ? (netHotelIncome / totalCostHotel) * 100 : 0;
+                const hotelPaybackPeriod = netHotelIncome > 0 ? totalCostHotel / netHotelIncome : Infinity;
+
+                // Store results
+                calculationResults.sale.push({
+                    floors, totalBuildArea, numApts, totalCost: totalCostApts,
+                    revenue: saleRevenue, profit: saleProfit, roi: saleROI, breakeven
+                });
+
+                calculationResults.rental.push({
+                    floors, totalBuildArea, numApts, totalCost: totalCostApts,
+                    monthlyIncome: totalMonthlyRent, annualIncome: totalAnnualRent,
+                    roi: rentalROI, paybackPeriod: rentalPaybackPeriod
+                });
+
+                calculationResults.hotel.push({
+                    floors, totalBuildArea, numRooms, totalCost: totalCostHotel,
+                    grossRevenue: grossHotelRevenue, 
+                    operatingCosts: operatingCostsAmount,
+                    depreciation: depreciationAmount,
+                    landRentCost: landRentAmount,
+                    totalCosts: totalHotelCosts,
+                    netIncome: netHotelIncome, roi: hotelROI, paybackPeriod: hotelPaybackPeriod
+                });
+
+                // Comparison data - Compare all three strategies
+                let bestStrategy = 'البيع';
+                let bestROI = saleROI;
+                
+                if (rentalROI > bestROI) {
+                    bestStrategy = 'الإيجار';
+                    bestROI = rentalROI;
+                }
+                
+                if (hotelROI > bestROI) {
+                    bestStrategy = 'الفندق';
+                    bestROI = hotelROI;
+                }
+                
+                calculationResults.comparison.push({
+                    floors, 
+                    saleROI, 
+                    rentalROI, 
+                    hotelROI, 
+                    saleProfit, 
+                    annualRent: totalAnnualRent, 
+                    hotelNetIncome: netHotelIncome,
+                    saleCost: totalCostApts,
+                    rentalCost: totalCostApts,
+                    hotelCost: totalCostHotel,
+                    recommendation: bestStrategy,
+                    bestROIValue: bestROI
+                });
+            }
+
+            // Hide loading and show results
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'block';
+            document.getElementById('summaryCards').style.display = 'grid';
+            document.getElementById('kpiDashboard').style.display = 'grid';
+            document.getElementById('chartContainer').style.display = 'block';
+            
+            // Update display for current tab
+            updateDisplay();
+            updateKPIs();
+            updateChart();
+        }
+
+        function exportToCSV() {
+            const results = calculationResults[currentTab];
+            if (!results || results.length === 0) {
+                alert('يرجى إجراء الحسابات أولاً');
+                return;
+            }
+
+            let csv = '';
+            
+            if (currentTab === 'sale') {
+                csv = 'عدد الأدوار,مساحة البناء (م²),عدد الشقق,التكلفة الكلية (ريال),الإيراد (ريال),الربح (ريال),العائد على الاستثمار (%),سعر التعادل للمتر (ريال)\n';
+                results.forEach(result => {
+                    csv += `${result.floors},${result.totalBuildArea},${result.numApts},${result.totalCost},${result.revenue},${result.profit},${result.roi.toFixed(2)},${result.breakeven.toFixed(2)}\n`;
+                });
+            } else if (currentTab === 'rental') {
+                csv = 'عدد الأدوار,مساحة البناء (م²),عدد الشقق,التكلفة الكلية (ريال),الدخل الشهري (ريال),الدخل السنوي (ريال),العائد السنوي (%),فترة الاسترداد (سنة)\n';
+                results.forEach(result => {
+                    csv += `${result.floors},${result.totalBuildArea},${result.numApts},${result.totalCost},${result.monthlyIncome},${result.annualIncome},${result.roi.toFixed(2)},${result.paybackPeriod === Infinity ? '∞' : result.paybackPeriod.toFixed(1)}\n`;
+                });
+            } else if (currentTab === 'hotel') {
+                csv = 'عدد الأدوار,مساحة البناء (م²),عدد الغرف,التكلفة الكلية (ريال),الإيراد السنوي (ريال),التكاليف التشغيلية (ريال),الإهلاك (ريال),إيجار الأرض (ريال),إجمالي التكاليف (ريال),الدخل الصافي (ريال),العائد الصافي (%),فترة الاسترداد (سنة)\n';
+                results.forEach(result => {
+                    csv += `${result.floors},${result.totalBuildArea},${result.numRooms},${result.totalCost},${result.grossRevenue},${result.operatingCosts},${result.depreciation},${result.landRentCost},${result.totalCosts},${result.netIncome},${result.roi.toFixed(2)},${result.paybackPeriod === Infinity ? '∞' : result.paybackPeriod.toFixed(1)}\n`;
+                });
+            } else {
+                csv = 'عدد الأدوار,عائد البيع (%),ربح البيع (ريال),عائد الإيجار (%),دخل إيجار سنوي (ريال),عائد الفندق (%),دخل فندق صافي (ريال),أفضل استراتيجية,أفضل عائد (%)\n';
+                results.forEach(result => {
+                    csv += `${result.floors},${result.saleROI.toFixed(2)},${result.saleProfit},${result.rentalROI.toFixed(2)},${result.annualRent},${result.hotelROI.toFixed(2)},${result.hotelNetIncome},${result.recommendation},${result.bestROIValue.toFixed(2)}\n`;
+                });
+            }
+
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `نتائج_حاسبة_العائد_العقاري_${currentTab}.csv`;
+            link.click();
+        }
+
+        function exportToPDF() {
+            window.print();
+        }
+
+        function copyToClipboard() {
+            const results = calculationResults[currentTab];
+            if (!results || results.length === 0) {
+                alert('يرجى إجراء الحسابات أولاً');
+                return;
+            }
+
+            let text = `نتائج حاسبة العائد العقاري - ${currentTab === 'sale' ? 'البيع' : currentTab === 'rental' ? 'الإيجار' : currentTab === 'hotel' ? 'الفندق' : 'المقارنة'}\n\n`;
+            
+            if (currentTab === 'sale') {
+                text += 'عدد الأدوار\tمساحة البناء\tعدد الشقق\tالتكلفة الكلية\tالإيراد\tالربح\tالعائد\tسعر التعادل\n';
+                results.forEach(result => {
+                    text += `${result.floors}\t${formatNumber(result.totalBuildArea)}\t${result.numApts}\t${formatNumber(result.totalCost)}\t${formatNumber(result.revenue)}\t${formatNumber(result.profit)}\t${result.roi.toFixed(2)}%\t${formatNumber(result.breakeven)}\n`;
+                });
+            } else if (currentTab === 'rental') {
+                text += 'عدد الأدوار\tمساحة البناء\tعدد الشقق\tالتكلفة الكلية\tالدخل الشهري\tالدخل السنوي\tالعائد السنوي\tفترة الاسترداد\n';
+                results.forEach(result => {
+                    text += `${result.floors}\t${formatNumber(result.totalBuildArea)}\t${result.numApts}\t${formatNumber(result.totalCost)}\t${formatNumber(result.monthlyIncome)}\t${formatNumber(result.annualIncome)}\t${result.roi.toFixed(2)}%\t${result.paybackPeriod === Infinity ? '∞' : result.paybackPeriod.toFixed(1)}\n`;
+                });
+            } else if (currentTab === 'hotel') {
+                text += 'عدد الأدوار\tمساحة البناء\tعدد الغرف\tالتكلفة الكلية\tالإيراد السنوي\tالتكاليف التشغيلية\tالإهلاك\tإيجار الأرض\tإجمالي التكاليف\tالدخل الصافي\tالعائد الصافي\tفترة الاسترداد\n';
+                results.forEach(result => {
+                    text += `${result.floors}\t${formatNumber(result.totalBuildArea)}\t${result.numRooms}\t${formatNumber(result.totalCost)}\t${formatNumber(result.grossRevenue)}\t${formatNumber(result.operatingCosts)}\t${formatNumber(result.depreciation)}\t${formatNumber(result.landRentCost)}\t${formatNumber(result.totalCosts)}\t${formatNumber(result.netIncome)}\t${result.roi.toFixed(2)}%\t${result.paybackPeriod === Infinity ? '∞' : result.paybackPeriod.toFixed(1)}\n`;
+                });
+            } else {
+                text += 'عدد الأدوار\tعائد البيع\tعائد الإيجار\tعائد الفندق\tربح البيع\tدخل إيجار سنوي\tدخل فندق صافي\tالتوصية\n';
+                results.forEach(result => {
+                    text += `${result.floors}\t${result.saleROI.toFixed(2)}%\t${result.rentalROI.toFixed(2)}%\t${result.hotelROI.toFixed(2)}%\t${formatNumber(result.saleProfit)}\t${formatNumber(result.annualRent)}\t${formatNumber(result.hotelNetIncome)}\t${result.recommendation}\n`;
+                });
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                alert('تم نسخ النتائج إلى الحافظة');
+            });
+        }
+
+        // KPI Dashboard Functions
+        function updateKPIs() {
+            const saleResults = calculationResults.sale;
+            const rentalResults = calculationResults.rental;
+            const hotelResults = calculationResults.hotel;
+            const compResults = calculationResults.comparison;
+
+            if (!saleResults.length) return;
+
+            // Calculate average ROIs
+            const avgSaleROI = saleResults.reduce((sum, r) => sum + r.roi, 0) / saleResults.length;
+            const avgRentalROI = rentalResults.reduce((sum, r) => sum + r.roi, 0) / rentalResults.length;
+            const avgHotelROI = hotelResults.reduce((sum, r) => sum + r.roi, 0) / hotelResults.length;
+            const overallAvgROI = (avgSaleROI + avgRentalROI + avgHotelROI) / 3;
+
+            // Find best strategy
+            const strategyCounts = { 'البيع': 0, 'الإيجار': 0, 'الفندق': 0 };
+            compResults.forEach(r => strategyCounts[r.recommendation]++);
+            const bestStrat = Object.keys(strategyCounts).reduce((a, b) => strategyCounts[a] > strategyCounts[b] ? a : b);
+
+            // Calculate average payback period
+            const allPaybacks = [...rentalResults, ...hotelResults]
+                .map(r => r.paybackPeriod)
+                .filter(p => p !== Infinity && p > 0);
+            const avgPayback = allPaybacks.length > 0 ? allPaybacks.reduce((sum, p) => sum + p, 0) / allPaybacks.length : 0;
+
+            // Find maximum profit
+            const maxSaleProfit = Math.max(...saleResults.map(r => r.profit));
+            const maxRentalIncome = Math.max(...rentalResults.map(r => r.annualIncome));
+            const maxHotelIncome = Math.max(...hotelResults.map(r => r.netIncome));
+            
+            let maxProfitValue = maxSaleProfit;
+            let maxProfitType = 'البيع';
+            
+            if (maxRentalIncome > maxProfitValue) {
+                maxProfitValue = maxRentalIncome;
+                maxProfitType = 'الإيجار';
+            }
+            if (maxHotelIncome > maxProfitValue) {
+                maxProfitValue = maxHotelIncome;
+                maxProfitType = 'الفندق';
+            }
+
+            // Calculate income stability (coefficient of variation)
+            const roiValues = compResults.map(r => Math.max(r.saleROI, r.rentalROI, r.hotelROI));
+            const mean = roiValues.reduce((sum, val) => sum + val, 0) / roiValues.length;
+            const variance = roiValues.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / roiValues.length;
+            const cv = Math.sqrt(variance) / mean;
+            const stabilityScore = cv < 0.2 ? 'عالي' : cv < 0.4 ? 'متوسط' : 'منخفض';
+
+            // Expert recommendation
+            let expertRec = bestStrat;
+            let expertReason = 'الأعلى ربحية';
+            
+            if (overallAvgROI > 25) {
+                expertReason = 'عوائد ممتازة';
+            } else if (avgPayback < 5) {
+                expertRec = 'الإيجار';
+                expertReason = 'استرداد سريع';
+            } else if (stabilityScore === 'عالي') {
+                expertReason = 'استقرار جيد';
+            }
+
+            // Update KPI values
+            document.getElementById('avgROI').textContent = `${overallAvgROI.toFixed(1)}%`;
+            document.getElementById('avgROITrend').textContent = `بيع: ${avgSaleROI.toFixed(1)}% | إيجار: ${avgRentalROI.toFixed(1)}% | فندق: ${avgHotelROI.toFixed(1)}%`;
+            
+            document.getElementById('bestStrategy').textContent = bestStrat;
+            document.getElementById('bestStrategyCount').textContent = `${strategyCounts[bestStrat]} من ${compResults.length} مرة`;
+            
+            document.getElementById('avgPayback').textContent = avgPayback > 0 ? `${avgPayback.toFixed(1)} سنة` : 'غير محدد';
+            
+            document.getElementById('maxProfit').textContent = formatNumber(maxProfitValue);
+            document.getElementById('maxProfitType').textContent = maxProfitType;
+            
+            document.getElementById('incomeStability').textContent = stabilityScore;
+            
+            document.getElementById('expertRecommendation').textContent = expertRec;
+            document.getElementById('expertReason').textContent = expertReason;
+
+            // Update colors based on performance
+            const avgROIElement = document.getElementById('avgROI');
+            avgROIElement.className = overallAvgROI > 25 ? 'kpi-value kpi-positive' : 
+                                    overallAvgROI > 15 ? 'kpi-value kpi-neutral' : 'kpi-value kpi-negative';
+        }
+
+        // Chart Functions
+        function updateChart() {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            const compResults = calculationResults.comparison;
+
+            if (!compResults.length) return;
+
+            // Destroy existing chart
+            if (comparisonChart) {
+                comparisonChart.destroy();
+            }
+
+            const floors = compResults.map(r => r.floors);
+            const saleData = compResults.map(r => r.saleROI);
+            const rentalData = compResults.map(r => r.rentalROI);
+            const hotelData = compResults.map(r => r.hotelROI);
+
+            comparisonChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: floors.map(f => `${f} أدوار`),
+                    datasets: [
+                        {
+                            label: '🏢 البيع',
+                            data: saleData,
+                            borderColor: '#3498db',
+                            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.3,
+                            pointBackgroundColor: '#3498db',
+                            pointBorderColor: '#2980b9',
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        },
+                        {
+                            label: '🏠 الإيجار',
+                            data: rentalData,
+                            borderColor: '#2ecc71',
+                            backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.3,
+                            pointBackgroundColor: '#2ecc71',
+                            pointBorderColor: '#27ae60',
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        },
+                        {
+                            label: '🏨 الفندق',
+                            data: hotelData,
+                            borderColor: '#e67e22',
+                            backgroundColor: 'rgba(230, 126, 34, 0.1)',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.3,
+                            pointBackgroundColor: '#e67e22',
+                            pointBorderColor: '#d35400',
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'مقارنة العوائد حسب عدد الأدوار',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            },
+                            color: document.body.classList.contains('dark-mode') ? '#ecf0f1' : '#2c3e50'
+                        },
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    weight: '600'
+                                },
+                                color: document.body.classList.contains('dark-mode') ? '#ecf0f1' : '#2c3e50',
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: 'white',
+                            bodyColor: 'white',
+                            borderColor: '#667eea',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y.toFixed(1)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'عدد الأدوار',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: document.body.classList.contains('dark-mode') ? '#ecf0f1' : '#2c3e50'
+                            },
+                            ticks: {
+                                color: document.body.classList.contains('dark-mode') ? '#ecf0f1' : '#2c3e50'
+                            },
+                            grid: {
+                                color: document.body.classList.contains('dark-mode') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'العائد على الاستثمار (%)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: document.body.classList.contains('dark-mode') ? '#ecf0f1' : '#2c3e50'
+                            },
+                            ticks: {
+                                color: document.body.classList.contains('dark-mode') ? '#ecf0f1' : '#2c3e50',
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            },
+                            grid: {
+                                color: document.body.classList.contains('dark-mode') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    elements: {
+                        point: {
+                            hoverBorderWidth: 3
+                        }
+                    }
+                }
+            });
+        }
+
+        // Dark Mode Functions
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            
+            // Update toggle button
+            const toggleBtn = document.querySelector('.dark-mode-toggle');
+            toggleBtn.textContent = isDark ? '☀️' : '🌙';
+            toggleBtn.title = isDark ? 'تبديل للوضع النهاري' : 'تبديل للوضع الليلي';
+            
+            // Save preference
+            localStorage.setItem('darkMode', isDark);
+            
+            // Update chart if exists
+            if (comparisonChart) {
+                updateChart();
+            }
+        }
+
+        // Load dark mode preference
+        function loadDarkModePreference() {
+            const savedMode = localStorage.getItem('darkMode');
+            if (savedMode === 'true') {
+                document.body.classList.add('dark-mode');
+                const toggleBtn = document.querySelector('.dark-mode-toggle');
+                toggleBtn.textContent = '☀️';
+                toggleBtn.title = 'تبديل للوضع النهاري';
+            }
+        }
+
+        // Add input validation
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value < 0) this.value = 0;
+                if (this.id === 'buildRatio' && this.value > 100) this.value = 100;
+                if (this.id === 'occupancyRate' && this.value > 100) this.value = 100;
+                if (this.id === 'hotelOccupancy' && this.value > 100) this.value = 100;
+                if (this.id === 'operatingCosts' && this.value > 100) this.value = 100;
+                if (this.id === 'buildingDepreciation' && this.value > 10) this.value = 10;
+                if (this.id === 'landRent' && this.value > 20) this.value = 20;
+            });
+        });
+
+        // Auto-calculate on input change (with debounce)
+        let debounceTimer;
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', function() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    if (document.getElementById('resultsContainer').style.display !== 'none') {
+                        calculate();
+                    }
+                }, 1000);
+            });
+        });
+
+        // Calculate on page load
+        window.addEventListener('load', () => {
+            loadDarkModePreference();
+            calculate();
+        });
+
+        // Print styles
+        const printStyles = `
+            <style media="print">
+                body { background: white !important; }
+                .container { box-shadow: none !important; background: white !important; }
+                .export-buttons { display: none !important; }
+                .calculate-btn { display: none !important; }
+                .inputs-grid { display: none !important; }
+                .tabs { display: none !important; }
+                h1 { color: black !important; -webkit-text-fill-color: black !important; }
+                .results-table { box-shadow: none !important; }
+                .summary-card { border: 1px solid #ccc !important; }
+            </style>
+        `;
+        document.head.insertAdjacentHTML('beforeend', printStyles);
+    </script>
+</body>
+</html>
