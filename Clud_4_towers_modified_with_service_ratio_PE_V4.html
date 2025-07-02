@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>حاسبة المجمع المتكامل - مع حساب أرباح البيع والتخارج</title>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .project-overview {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #667eea;
+        }
+
+        .towers-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .tower-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 3px solid;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .tower-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .tower-sale-1 { border-color: #3498db; }
+        .tower-sale-2 { border-color: #2980b9; }
+        .tower-rental { border-color: #27ae60; }
+        .tower-hotel { border-color: #e67e22; }
+
+        .tower-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .tower-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .shared-area {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            z-index: 10;
+        }
+
+        .inputs-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .towers-inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .tower-inputs {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid;
+        }
+
+        .tower-inputs.sale1 { border-color: #3498db; }
+        .tower-inputs.sale2 { border-color: #2980b9; }
+        .tower-inputs.rental { border-color: #27ae60; }
+        .tower-inputs.hotel { border-color: #e67e22; }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            direction: ltr;
+            text-align: center;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .calculate-btn {
+            display: block;
+            width: 250px;
+            margin: 30px auto;
+            padding: 18px 35px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-container {
+            margin-top: 30px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .summary-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .summary-card .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .towers-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .tower-result {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            border: 3px solid;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .tower-result.sale1 { border-color: #3498db; }
+        .tower-result.sale2 { border-color: #2980b9; }
+        .tower-result.rental { border-color: #27ae60; }
+        .tower-result.hotel { border-color: #e67e22; }
+
+        .tower-result h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .result-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .profit-positive { color: #27ae60; }
+        .profit-negative { color: #e74c3c; }
+
+        .total-investment {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .total-investment h2 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .total-investment .amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .best-tower {
+            border: 4px solid #f39c12 !important;
+            box-shadow: 0 0 20px rgba(243, 156, 18, 0.3) !important;
+            position: relative;
+        }
+
+        .best-tower::before {
+            content: "🏆 الأفضل";
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #f39c12;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .shared-costs-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #667eea;
+        }
+
+        .exit-strategy-section {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #f39c12;
+        }
+
+        .exit-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .exit-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .export-buttons {
+            margin-top: 20px;
+            text-align: center;
+            gap: 10px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            padding: 12px 25px;
+            background: #34495e;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .export-btn:hover {
+            background: #2c3e50;
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #f5c6cb;
+            text-align: center;
+        }
+
+        .special-highlight {
+            background: rgba(243, 156, 18, 0.1) !important;
+            border: 2px solid #f39c12 !important;
+            font-weight: bold !important;
+        }
+
+        .exit-section {
+            background: rgba(46, 204, 113, 0.1);
+            border: 2px solid #2ecc71;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 1200px) {
+            .towers-inputs-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .towers-layout {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 1fr);
+            }
+
+            .shared-area {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                margin: 20px auto;
+            }
+
+            .towers-inputs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .inputs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .towers-results {
+                grid-template-columns: 1fr;
+            }
+        }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🏢 حاسبة المجمع المتكامل - مع حساب أرباح البيع والتخارج</h1>
+<div class="project-overview">
+<h2 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">📋 نظرة عامة على المشروع</h2>
+<div class="towers-layout">
+<div class="tower-card tower-sale-1">
+<div class="tower-icon">🏢</div>
+<div class="tower-title">برج شقق للبيع #1</div>
+<p>شقق سكنية متنوعة المساحات</p>
+</div>
+<div class="tower-card tower-sale-2">
+<div class="tower-icon">🏘️</div>
+<div class="tower-title">برج شقق للبيع #2</div>
+<p>شقق سكنية فاخرة</p>
+</div>
+<div class="tower-card tower-rental">
+<div class="tower-icon">🏠</div>
+<div class="tower-title">برج مكاتب للإيجار</div>
+<p>مكاتب تجارية وإدارية</p>
+</div>
+<div class="tower-card tower-hotel">
+<div class="tower-icon">🏨</div>
+<div class="tower-title">برج فندق للتشغيل</div>
+<p>فندق وخدمات ضيافة</p>
+</div>
+<div class="shared-area">
+                🌳 منطقة مشتركة<br/>
+                ومرافق عامة
+            </div>
+</div>
+</div>
+<div class="shared-costs-section">
+<h3 class="section-title">🏞️ معلومات الأرض والتكاليف المشتركة</h3>
+<div class="inputs-grid">
+<div class="input-group">
+<label for="totalLandArea">إجمالي مساحة الأرض (م²)</label>
+<input id="totalLandArea" min="0" step="100" type="number" value="18600"/>
+</div>
+<div class="input-group">
+<label for="landCostPerMeter">سعر متر الأرض (ريال)</label>
+<input id="landCostPerMeter" min="0" step="100" type="number" value="12000"/>
+</div>
+<div class="input-group">
+<label for="sharedAreaRatio">نسبة المنطقة المشتركة (%)</label>
+<input id="sharedAreaRatio" max="50" min="0" step="1" type="number" value="15"/>
+</div>
+<div class="input-group">
+<label for="sharedAreaCost">تكلفة تطوير المنطقة المشتركة (ريال/م²)</label>
+<input id="sharedAreaCost" min="0" step="100" type="number" value="3000"/>
+</div>
+<div class="input-group">
+<label for="infrastructureCost">تكلفة البنية التحتية المشتركة (ريال)</label>
+<input id="infrastructureCost" min="0" step="100000" type="number" value="5000000"/>
+</div>
+<div class="input-group">
+<label for="designAndPlanningCost">تكلفة التصميم والتخطيط (ريال)</label>
+<input id="designAndPlanningCost" min="0" step="50000" type="number" value="2000000"/>
+</div>
+</div>
+</div>
+
+<div class="exit-strategy-section">
+<h3 class="section-title">🚀 استراتيجية التخارج ومكررات الأرباح</h3>
+<div class="inputs-grid">
+<div class="input-group">
+<label for="rentalMultiplier">مكرر الأرباح للبرج التجاري (سنة)</label>
+<input id="rentalMultiplier" min="8" max="20" step="0.5" type="number" value="12"/>
+</div>
+<div class="input-group">
+<label for="hotelMultiplier">مكرر الأرباح للفندق (سنة)</label>
+<input id="hotelMultiplier" min="8" max="20" step="0.5" type="number" value="10"/>
+</div>
+<div class="input-group">
+<label for="operationYears">سنوات التشغيل قبل البيع</label>
+<input id="operationYears" min="1" max="10" step="1" type="number" value="3"/>
+</div>
+<div class="input-group">
+<label for="considerExit">احتساب أرباح التخارج</label>
+<select id="considerExit">
+<option value="true">نعم - احسب أرباح التخارج</option>
+<option value="false">لا - الاحتفاظ طويل المدى</option>
+</select>
+</div>
+</div>
+</div>
+
+<div class="towers-inputs-grid">
+<div class="tower-inputs sale1">
+<h3 class="section-title">🏢 برج شقق للبيع #1</h3>
+<div class="input-group">
+<label for="sale1Floors">عدد الأدوار</label>
+<input id="sale1Floors" min="1" step="1" type="number" value="10"/>
+</div>
+<div class="input-group">
+<label for="sale1FloorArea">مساحة الدور الواحد (م²)</label>
+<input id="sale1FloorArea" min="0" step="50" type="number" value="3000"/>
+</div>
+<div class="input-group">
+<label for="sale1ApartmentSize">متوسط مساحة الشقة (م²)</label>
+<input id="sale1ApartmentSize" min="1" step="10" type="number" value="140"/>
+</div>
+<div class="input-group">
+<label for="sale1BuildCost">تكلفة بناء المتر (ريال)</label>
+<input id="sale1BuildCost" min="0" step="50" type="number" value="4500"/>
+</div>
+<div class="input-group">
+<label for="sale1SellPrice">سعر بيع المتر (ريال)</label>
+<input id="sale1SellPrice" min="0" step="100" type="number" value="8500"/>
+</div>
+</div>
+<div class="tower-inputs sale2">
+<h3 class="section-title">🏘️ برج شقق للبيع #2</h3>
+<div class="input-group">
+<label for="sale2Floors">عدد الأدوار</label>
+<input id="sale2Floors" min="1" step="1" type="number" value="10"/>
+</div>
+<div class="input-group">
+<label for="sale2FloorArea">مساحة الدور الواحد (م²)</label>
+<input id="sale2FloorArea" min="0" step="50" type="number" value="3000"/>
+</div>
+<div class="input-group">
+<label for="sale2ApartmentSize">متوسط مساحة الشقة (م²)</label>
+<input id="sale2ApartmentSize" min="1" step="10" type="number" value="140"/>
+</div>
+<div class="input-group">
+<label for="sale2BuildCost">تكلفة بناء المتر (ريال)</label>
+<input id="sale2BuildCost" min="0" step="50" type="number" value="4500"/>
+</div>
+<div class="input-group">
+<label for="sale2SellPrice">سعر بيع المتر (ريال)</label>
+<input id="sale2SellPrice" min="0" step="100" type="number" value="8500"/>
+</div>
+</div>
+<div class="tower-inputs rental">
+<h3 class="section-title">🏠 برج مكاتب للإيجار</h3>
+<div class="input-group">
+<label for="rentalFloors">عدد الأدوار</label>
+<input id="rentalFloors" min="1" step="1" type="number" value="10"/>
+</div>
+<div class="input-group">
+<label for="rentalFloorArea">مساحة الدور الواحد (م²)</label>
+<input id="rentalFloorArea" min="0" step="50" type="number" value="3000"/>
+</div>
+<div class="input-group">
+<label for="rentalOfficeSize">متوسط مساحة المكتب (م²)</label>
+<input id="rentalOfficeSize" min="1" step="10" type="number" value="300"/>
+</div>
+<div class="input-group">
+<label for="rentalBuildCost">تكلفة بناء المتر (ريال)</label>
+<input id="rentalBuildCost" min="0" step="50" type="number" value="5000"/>
+</div>
+<div class="input-group">
+<label for="rentalPricePerMeter">إيجار المتر سنوياً (ريال)</label>
+<input id="rentalPricePerMeter" min="0" step="10" type="number" value="1200"/>
+</div>
+<div class="input-group">
+<label for="rentalOccupancyRate">معدل الإشغال (%)</label>
+<input id="rentalOccupancyRate" max="100" min="0" step="1" type="number" value="80"/>
+</div>
+</div>
+<div class="tower-inputs hotel">
+<h3 class="section-title">🏨 برج فندق للتشغيل</h3>
+<div class="input-group">
+<label for="hotelFloors">عدد الأدوار</label>
+<input id="hotelFloors" min="1" step="1" type="number" value="10"/>
+</div>
+<div class="input-group">
+<label for="hotelFloorArea">مساحة الدور الواحد (م²)</label>
+<input id="hotelFloorArea" min="0" step="50" type="number" value="3000"/>
+</div>
+<div class="input-group">
+<label for="hotelRoomSize">متوسط مساحة الغرفة (م²)</label>
+<input id="hotelRoomSize" min="1" step="5" type="number" value="70"/>
+</div>
+<div class="input-group">
+<label for="hotelBuildCost">تكلفة بناء المتر (ريال)</label>
+<input id="hotelBuildCost" min="0" step="50" type="number" value="6500"/>
+</div>
+<div class="input-group">
+<label for="hotelRoomRate">سعر الغرفة/ليلة (ريال)</label>
+<input id="hotelRoomRate" min="0" step="10" type="number" value="650"/>
+</div>
+<div class="input-group">
+<label for="hotelOccupancyRate">معدل إشغال الفندق (%)</label>
+<input id="hotelOccupancyRate" max="100" min="0" step="1" type="number" value="70"/>
+</div>
+<div class="input-group">
+<label for="hotelOperatingCosts">التكاليف التشغيلية (%)</label>
+<input id="hotelOperatingCosts" max="100" min="0" step="1" type="number" value="30"/>
+</div>
+
+<div class="input-group">
+<label for="hotelOperationalAreaRatio">نسبة المساحة التشغيلية (%)</label>
+<input id="hotelOperationalAreaRatio" max="50" min="0" step="1" type="number" value="25"/>
+</div>
+<div class="input-group">
+<label for="hotelServiceRatio">نسبة الخدمات من الإيراد (%)</label>
+<input id="hotelServiceRatio" max="100" min="0" step="1" type="number" value="5"/>
+</div>
+</div>
+</div>
+
+<button class="calculate-btn" onclick="calculateProject()">🔄 احسب العائد الإجمالي مع أرباح التخارج</button>
+<div class="loading" id="loading">
+<div class="spinner"></div>
+<p>جاري حساب العوائد مع أرباح البيع والتخارج...</p>
+</div>
+<div class="error-message" id="errorMessage" style="display: none;"></div>
+<div id="resultsSection" style="display: none;">
+<div class="total-investment" id="totalInvestment">
+<h2>💰 إجمالي الاستثمار المطلوب</h2>
+<div class="amount" id="totalInvestmentAmount">0 ريال</div>
+<p>شامل جميع التكاليف والمنطقة المشتركة</p>
+</div>
+<div class="summary-cards" id="summaryCards">
+<div class="summary-card">
+<h3>📊 إجمالي العائد السنوي</h3>
+<div class="value" id="totalAnnualReturn">0%</div>
+</div>
+<div class="summary-card">
+<h3>💵 إجمالي الدخل السنوي</h3>
+<div class="value" id="totalAnnualIncome">0 ريال</div>
+</div>
+<div class="summary-card">
+<h3>🎯 أرباح البيع الفوري</h3>
+<div class="value" id="totalSaleProfit">0 ريال</div>
+</div>
+<div class="summary-card">
+<h3>🚀 أرباح التخارج</h3>
+<div class="value" id="totalExitProfit">0 ريال</div>
+</div>
+                <div class="summary-card">
+<h3>💎 إجمالي الأرباح</h3>
+<div class="value" id="totalProfits">0 ريال</div>
+</div>
+<div class="summary-card">
+<h3>⏱️ فترة الاسترداد</h3>
+<div class="value" id="paybackPeriod">0 سنة</div>
+</div>
+</div>
+
+<div class="exit-options" id="exitStrategy" style="display: none;">
+<div class="exit-card">
+<h4 style="color: #27ae60; margin-bottom: 10px;">💰 سيناريو الاحتفاظ</h4>
+<p><strong>الدخل السنوي:</strong> <span id="keepIncome">0</span> ريال</p>
+<p><strong>العائد السنوي:</strong> <span id="keepROI">0</span>%</p>
+</div>
+<div class="exit-card">
+<h4 style="color: #e67e22; margin-bottom: 10px;">🚀 سيناريو التخارج</h4>
+<p><strong>أرباح التخارج:</strong> <span id="exitIncome">0</span> ريال</p>
+<p><strong>دخل التشغيل:</strong> <span id="operationIncome">0</span> ريال</p>
+<p><strong>إجمالي الأرباح:</strong> <span id="totalExitIncome">0</span> ريال</p>
+</div>
+</div>
+
+<div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+<h4 style="color: #1976d2; margin-bottom: 10px;">💡 ملاحظة مهمة حول الحسابات</h4>
+<p style="color: #424242; font-size: 0.9rem;">
+                📊 <strong>التكلفة الإجمالية</strong> تشمل: 
+                🏞️ <strong>تكلفة الأرض</strong> + 
+                🏗️ <strong>تكلفة البناء</strong> + 
+                🌳 <strong>المنطقة المشتركة</strong> + 
+                🚧 <strong>البنية التحتية</strong><br>
+                🚀 <strong>أرباح التخارج</strong> = (الدخل السنوي × المكرر) - التكلفة الأولية + أرباح سنوات التشغيل
+</p>
+</div>
+<div class="towers-results" id="towersResults">
+<div class="tower-result sale1" id="sale1Results">
+<h3>🏢 برج شقق للبيع #1</h3>
+<div class="result-item">
+<span class="result-label">إجمالي المساحة:</span>
+<span class="result-value" id="sale1TotalArea">0 م²</span>
+</div>
+<div class="result-item">
+<span class="result-label">عدد الشقق:</span>
+<span class="result-value" id="sale1Units">0</span>
+</div>
+<div class="result-item" style="background: rgba(255, 193, 7, 0.1);">
+<span class="result-label">🏞️ تكلفة الأرض (حصة البرج):</span>
+<span class="result-value" id="sale1LandCost">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">📊 نسبة الأرض من التكلفة:</span>
+<span class="result-value" id="sale1LandRatio">0%</span>
+</div>
+<div class="result-item">
+<span class="result-label">🏗️ تكلفة البناء فقط:</span>
+<span class="result-value" id="sale1BuildCostResult">0 ريال</span>
+</div>
+<div class="result-item" style="background: rgba(108, 117, 125, 0.1); font-weight: bold;">
+<span class="result-label">📊 التكلفة الإجمالية:</span>
+<span class="result-value" id="sale1TotalCost">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">إجمالي الإيرادات:</span>
+<span class="result-value profit-positive" id="sale1Revenue">0 ريال</span>
+</div>
+<div class="result-item special-highlight">
+<span class="result-label">🎯 صافي ربح البيع:</span>
+<span class="result-value" id="sale1Profit">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">العائد على الاستثمار:</span>
+<span class="result-value" id="sale1ROI">0%</span>
+</div>
+</div>
+<div class="tower-result sale2" id="sale2Results">
+<h3>🏘️ برج شقق للبيع #2</h3>
+<div class="result-item">
+<span class="result-label">إجمالي المساحة:</span>
+<span class="result-value" id="sale2TotalArea">0 م²</span>
+</div>
+<div class="result-item">
+<span class="result-label">عدد الشقق:</span>
+<span class="result-value" id="sale2Units">0</span>
+</div>
+<div class="result-item" style="background: rgba(255, 193, 7, 0.1);">
+<span class="result-label">🏞️ تكلفة الأرض (حصة البرج):</span>
+<span class="result-value" id="sale2LandCost">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">📊 نسبة الأرض من التكلفة:</span>
+<span class="result-value" id="sale2LandRatio">0%</span>
+</div>
+<div class="result-item">
+<span class="result-label">🏗️ تكلفة البناء فقط:</span>
+<span class="result-value" id="sale2BuildCostResult">0 ريال</span>
+</div>
+<div class="result-item" style="background: rgba(108, 117, 125, 0.1); font-weight: bold;">
+<span class="result-label">📊 التكلفة الإجمالية:</span>
+<span class="result-value" id="sale2TotalCost">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">إجمالي الإيرادات:</span>
+<span class="result-value profit-positive" id="sale2Revenue">0 ريال</span>
+</div>
+<div class="result-item special-highlight">
+<span class="result-label">🎯 صافي ربح البيع:</span>
+<span class="result-value" id="sale2Profit">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">العائد على الاستثمار:</span>
+<span class="result-value" id="sale2ROI">0%</span>
+</div>
+</div>
+<div class="tower-result rental" id="rentalResults">
+<h3>🏠 برج مكاتب للإيجار</h3>
+<div class="result-item">
+<span class="result-label">إجمالي المساحة:</span>
+<span class="result-value" id="rentalTotalArea">0 م²</span>
+</div>
+<div class="result-item">
+<span class="result-label">عدد المكاتب:</span>
+<span class="result-value" id="rentalUnits">0</span>
+</div>
+<div class="result-item" style="background: rgba(255, 193, 7, 0.1);">
+<span class="result-label">🏞️ تكلفة الأرض (حصة البرج):</span>
+<span class="result-value" id="rentalLandCost">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">📊 نسبة الأرض من التكلفة:</span>
+<span class="result-value" id="rentalLandRatio">0%</span>
+</div>
+<div class="result-item">
+<span class="result-label">🏗️ تكلفة البناء فقط:</span>
+<span class="result-value" id="rentalBuildCostResult">0 ريال</span>
+</div>
+<div class="result-item" style="background: rgba(108, 117, 125, 0.1); font-weight: bold;">
+<span class="result-label">📊 التكلفة الإجمالية:</span>
+<span class="result-value" id="rentalTotalCost">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">الدخل الشهري:</span>
+<span class="result-value profit-positive" id="rentalMonthlyIncome">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">الدخل السنوي:</span>
+<span class="result-value profit-positive" id="rentalAnnualIncome">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">العائد السنوي:</span>
+<span class="result-value" id="rentalROI">0%</span>
+</div>
+<div class="result-item">
+<span class="result-label">فترة الاسترداد:</span>
+<span class="result-value" id="rentalPayback">0 سنة</span>
+</div>
+<div class="exit-section" id="rentalExitSection" style="display: none;">
+<div class="result-item special-highlight">
+<span class="result-label">🚀 قيمة البيع (مكرر الأرباح):</span>
+<span class="result-value" id="rentalSaleValue">0 ريال</span>
+</div>
+<div class="result-item special-highlight">
+<span class="result-label">💰 ربح التخارج الصافي:</span>
+<span class="result-value" id="rentalExitProfit">0 ريال</span>
+</div>
+<div class="result-item special-highlight">
+<span class="result-label">💵 دخل سنوات التشغيل:</span>
+<span class="result-value" id="rentalOperationIncome">0 ريال</span>
+</div>
+<div class="result-item special-highlight">
+<span class="result-label">🎯 إجمالي أرباح التخارج:</span>
+<span class="result-value" id="rentalTotalExitProfit">0 ريال</span>
+</div>
+</div>
+</div>
+<div class="tower-result hotel" id="hotelResults">
+<h3>🏨 برج فندق للتشغيل</h3>
+<div class="result-item">
+<span class="result-label">إجمالي المساحة:</span>
+<span class="result-value" id="hotelTotalArea">0 م²</span>
+</div>
+<div class="result-item" style="background: rgba(255, 193, 7, 0.1);">
+<span class="result-label">🔧 المساحة التشغيلية:</span>
+<span class="result-value" id="hotelOperationalArea">0 م²</span>
+</div>
+<div class="result-item" style="background: rgba(39, 174, 96, 0.1);">
+<span class="result-label">🛏️ مساحة الغرف المتاحة:</span>
+<span class="result-value" id="hotelAvailableRoomArea">0 م²</span>
+</div>
+<div class="result-item">
+<span class="result-label">عدد الغرف:</span>
+<span class="result-value" id="hotelRooms">0</span>
+</div>
+<div class="result-item" style="background: rgba(255, 193, 7, 0.1);">
+<span class="result-label">🏞️ تكلفة الأرض (حصة البرج):</span>
+<span class="result-value" id="hotelLandCost">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">📊 نسبة الأرض من التكلفة:</span>
+<span class="result-value" id="hotelLandRatio">0%</span>
+</div>
+<div class="result-item">
+<span class="result-label">🏗️ تكلفة البناء فقط:</span>
+<span class="result-value" id="hotelBuildCostResult">0 ريال</span>
+</div>
+<div class="result-item" style="background: rgba(108, 117, 125, 0.1); font-weight: bold;">
+<span class="result-label">📊 التكلفة الإجمالية:</span>
+<span class="result-value" id="hotelTotalCost">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">الإيراد السنوي الإجمالي:</span>
+<span class="result-value profit-positive" id="hotelGrossRevenue">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">التكاليف التشغيلية:</span>
+<span class="result-value profit-negative" id="hotelOperatingCostsAmount">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">صافي الدخل السنوي:</span>
+<span class="result-value" id="hotelNetIncome">0 ريال</span>
+</div>
+<div class="result-item">
+<span class="result-label">العائد الصافي:</span>
+<span class="result-value" id="hotelROI">0%</span>
+</div>
+<div class="result-item">
+<span class="result-label">فترة الاسترداد:</span>
+<span class="result-value" id="hotelPayback">0 سنة</span>
+</div>
+<div class="exit-section" id="hotelExitSection" style="display: none;">
+<div class="result-item special-highlight">
+<span class="result-label">🚀 قيمة البيع (مكرر الأرباح):</span>
+<span class="result-value" id="hotelSaleValue">0 ريال</span>
+</div>
+<div class="result-item special-highlight">
+<span class="result-label">💰 ربح التخارج الصافي:</span>
+<span class="result-value" id="hotelExitProfit">0 ريال</span>
+</div>
+<div class="result-item special-highlight">
+<span class="result-label">💵 دخل سنوات التشغيل:</span>
+<span class="result-value" id="hotelOperationIncome">0 ريال</span>
+</div>
+<div class="result-item special-highlight">
+<span class="result-label">🎯 إجمالي أرباح التخارج:</span>
+<span class="result-value" id="hotelTotalExitProfit">0 ريال</span>
+</div>
+</div>
+</div>
+</div>
+<div class="comprehensive-summary" id="comprehensiveSummary" style="display: none;">
+<h2 style="text-align: center; color: #2c3e50; margin-bottom: 30px; font-size: 2rem;">📊 الملخص الشامل للمشروع</h2>
+
+<!-- ملخص التكاليف -->
+<div class="cost-summary-section">
+<h3 style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px;">💰 ملخص التكاليف الإجمالية</h3>
+<div class="cost-breakdown">
+<div class="cost-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px;">
+<div class="cost-card" style="background: #fff5f5; border: 2px solid #e74c3c; border-radius: 15px; padding: 20px;">
+<h4 style="color: #e74c3c; margin-bottom: 15px; text-align: center;">🏞️ تكاليف الأرض والمشتركة</h4>
+<div class="cost-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+<span>تكلفة الأرض الإجمالية:</span>
+<span id="summaryTotalLandCost" style="font-weight: bold;">0 ريال</span>
+</div>
+<div class="cost-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+<span>تطوير المنطقة المشتركة:</span>
+<span id="summarySharedAreaCost" style="font-weight: bold;">0 ريال</span>
+</div>
+<div class="cost-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+<span>البنية التحتية:</span>
+<span id="summaryInfrastructureCost" style="font-weight: bold;">0 ريال</span>
+</div>
+<div class="cost-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+<span>التصميم والتخطيط:</span>
+<span id="summaryDesignCost" style="font-weight: bold;">0 ريال</span>
+</div>
+<div class="cost-item" style="display: flex; justify-content: space-between; padding: 8px 0; background: rgba(231, 76, 60, 0.1); font-weight: bold;">
+<span>إجمالي التكاليف المشتركة:</span>
+<span id="summaryTotalSharedCost" style="color: #e74c3c;">0 ريال</span>
+</div>
+</div>
+
+<div class="cost-card" style="background: #f8f9fa; border: 2px solid #6c757d; border-radius: 15px; padding: 20px;">
+<h4 style="color: #6c757d; margin-bottom: 15px; text-align: center;">🏗️ تكاليف البناء</h4>
+<div class="cost-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+<span>برج البيع #1:</span>
+<span id="summarySale1BuildCost" style="font-weight: bold;">0 ريال</span>
+</div>
+<div class="cost-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+<span>برج البيع #2:</span>
+<span id="summarySale2BuildCost" style="font-weight: bold;">0 ريال</span>
+</div>
+<div class="cost-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+<span>البرج التجاري:</span>
+<span id="summaryRentalBuildCost" style="font-weight: bold;">0 ريال</span>
+</div>
+<div class="cost-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+<span>برج الفندق:</span>
+<span id="summaryHotelBuildCost" style="font-weight: bold;">0 ريال</span>
+</div>
+<div class="cost-item" style="display: flex; justify-content: space-between; padding: 8px 0; background: rgba(108, 117, 125, 0.1); font-weight: bold;">
+<span>إجمالي تكاليف البناء:</span>
+<span id="summaryTotalBuildCost" style="color: #6c757d;">0 ريال</span>
+</div>
+</div>
+</div>
+
+<div class="total-investment-summary" style="background: linear-gradient(135deg, #2c3e50, #34495e); color: white; padding: 25px; border-radius: 15px; text-align: center; margin: 20px 0;">
+<h3 style="margin-bottom: 20px;">💰 إجمالي الاستثمار المطلوب</h3>
+
+<!-- فصل تكلفة الأرض والبناء -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
+<div style="background: rgba(255, 193, 7, 0.2); padding: 20px; border-radius: 15px; border: 2px solid #f39c12;">
+<h4 style="color: #f39c12; margin-bottom: 10px;">🏞️ تكلفة الأرض والمشتركة</h4>
+<div style="font-size: 2rem; font-weight: bold; color: #f39c12;" id="summaryLandAndSharedTotal">0 ريال</div>
+<div style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8;">أرض + مشتركة + بنية تحتية</div>
+</div>
+
+<div style="background: rgba(231, 76, 60, 0.2); padding: 20px; border-radius: 15px; border: 2px solid #e74c3c;">
+<h4 style="color: #e74c3c; margin-bottom: 10px;">🏗️ تكلفة البناء</h4>
+<div style="font-size: 2rem; font-weight: bold; color: #e74c3c;" id="summaryBuildingTotal">0 ريال</div>
+<div style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8;">جميع الأبراج الأربعة</div>
+</div>
+</div>
+
+<!-- النسب المئوية -->
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; font-size: 0.9rem;">
+<div style="background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 8px;">
+<span>نسبة تكلفة الأرض: </span>
+<span style="font-weight: bold;" id="summaryLandPercentage">0%</span>
+</div>
+<div style="background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 8px;">
+<span>نسبة تكلفة البناء: </span>
+<span style="font-weight: bold;" id="summaryBuildingPercentage">0%</span>
+</div>
+</div>
+
+<!-- الإجمالي النهائي -->
+<div style="border-top: 2px solid rgba(255, 255, 255, 0.3); padding-top: 20px;">
+<h4 style="margin-bottom: 10px;">💎 الإجمالي النهائي</h4>
+<div style="font-size: 3rem; font-weight: bold; margin: 15px 0;" id="summaryGrandTotal">0 ريال</div>
+<p style="opacity: 0.9;">إجمالي الاستثمار المطلوب لتنفيذ المشروع بالكامل</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ملخص الإيرادات والأرباح -->
+<div class="revenue-summary-section">
+<h3 style="background: linear-gradient(135deg, #27ae60, #229954); color: white; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px;">💰 ملخص الإيرادات والأرباح</h3>
+
+<!-- أرباح البيع الفوري -->
+<div class="immediate-profits" style="background: rgba(39, 174, 96, 0.1); border: 2px solid #27ae60; border-radius: 15px; padding: 20px; margin-bottom: 20px;">
+<h4 style="color: #27ae60; margin-bottom: 15px; text-align: center;">🎯 أرباح البيع الفوري (البرجان السكنيان)</h4>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+<div class="profit-item" style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+<h5 style="color: #3498db; margin-bottom: 10px;">🏢 برج البيع #1</h5>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>إجمالي الإيرادات:</span>
+<span id="summarySale1Revenue" style="font-weight: bold; color: #27ae60;">0 ريال</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>التكلفة الإجمالية:</span>
+<span id="summarySale1TotalCost" style="font-weight: bold; color: #e74c3c;">0 ريال</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin: 5px 0; padding-top: 10px; border-top: 2px solid #27ae60;">
+<span><strong>صافي الربح:</strong></span>
+<span id="summarySale1Profit" style="font-weight: bold; color: #27ae60; font-size: 1.2em;">0 ريال</span>
+</div>
+</div>
+
+<div class="profit-item" style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+<h5 style="color: #2980b9; margin-bottom: 10px;">🏘️ برج البيع #2</h5>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>إجمالي الإيرادات:</span>
+<span id="summarySale2Revenue" style="font-weight: bold; color: #27ae60;">0 ريال</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>التكلفة الإجمالية:</span>
+<span id="summarySale2TotalCost" style="font-weight: bold; color: #e74c3c;">0 ريال</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin: 5px 0; padding-top: 10px; border-top: 2px solid #27ae60;">
+<span><strong>صافي الربح:</strong></span>
+<span id="summarySale2Profit" style="font-weight: bold; color: #27ae60; font-size: 1.2em;">0 ريال</span>
+</div>
+</div>
+</div>
+
+<div style="background: #27ae60; color: white; padding: 15px; border-radius: 10px; text-align: center; margin-top: 15px;">
+<h4 style="margin-bottom: 10px;">🎯 إجمالي أرباح البيع الفوري</h4>
+<div style="font-size: 2rem; font-weight: bold;" id="summaryTotalSaleProfit">0 ريال</div>
+</div>
+</div>
+
+<!-- الدخل السنوي المستمر -->
+<div class="annual-income" style="background: rgba(52, 152, 219, 0.1); border: 2px solid #3498db; border-radius: 15px; padding: 20px; margin-bottom: 20px;">
+<h4 style="color: #3498db; margin-bottom: 15px; text-align: center;">💵 الدخل السنوي المستمر</h4>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+<div class="income-item" style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+<h5 style="color: #27ae60; margin-bottom: 10px;">🏠 البرج التجاري</h5>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>الدخل السنوي:</span>
+<span id="summaryRentalIncome" style="font-weight: bold; color: #27ae60;">0 ريال</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>العائد السنوي:</span>
+<span id="summaryRentalROI" style="font-weight: bold; color: #3498db;">0%</span>
+</div>
+</div>
+
+<div class="income-item" style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+<h5 style="color: #e67e22; margin-bottom: 10px;">🏨 برج الفندق</h5>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>الدخل السنوي الصافي:</span>
+<span id="summaryHotelIncome" style="font-weight: bold; color: #27ae60;">0 ريال</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>العائد السنوي:</span>
+<span id="summaryHotelROI" style="font-weight: bold; color: #e67e22;">0%</span>
+</div>
+</div>
+</div>
+
+<div style="background: #3498db; color: white; padding: 15px; border-radius: 10px; text-align: center; margin-top: 15px;">
+<h4 style="margin-bottom: 10px;">💵 إجمالي الدخل السنوي</h4>
+<div style="font-size: 2rem; font-weight: bold;" id="summaryTotalAnnualIncome">0 ريال</div>
+<p style="margin-top: 10px; opacity: 0.9;">العائد السنوي على الاستثمار: <span id="summaryOverallROI" style="font-weight: bold;">0%</span></p>
+</div>
+</div>
+
+<!-- أرباح التخارج -->
+<div class="exit-profits" id="summaryExitSection" style="background: rgba(243, 156, 18, 0.1); border: 2px solid #f39c12; border-radius: 15px; padding: 20px; margin-bottom: 20px; display: none;">
+<h4 style="color: #f39c12; margin-bottom: 15px; text-align: center;">🚀 أرباح التخارج (البيع بمكررات الأرباح)</h4>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+<div class="exit-item" style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+<h5 style="color: #27ae60; margin-bottom: 10px;">🏠 البرج التجاري</h5>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>قيمة البيع:</span>
+<span id="summaryRentalSaleValue" style="font-weight: bold; color: #27ae60;">0 ريال</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>دخل سنوات التشغيل:</span>
+<span id="summaryRentalOperationIncome" style="font-weight: bold; color: #3498db;">0 ريال</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin: 5px 0; padding-top: 10px; border-top: 2px solid #f39c12;">
+<span><strong>إجمالي أرباح التخارج:</strong></span>
+<span id="summaryRentalExitProfit" style="font-weight: bold; color: #f39c12; font-size: 1.1em;">0 ريال</span>
+</div>
+</div>
+
+<div class="exit-item" style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+<h5 style="color: #e67e22; margin-bottom: 10px;">🏨 برج الفندق</h5>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>قيمة البيع:</span>
+<span id="summaryHotelSaleValue" style="font-weight: bold; color: #27ae60;">0 ريال</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+<span>دخل سنوات التشغيل:</span>
+<span id="summaryHotelOperationIncome" style="font-weight: bold; color: #3498db;">0 ريال</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin: 5px 0; padding-top: 10px; border-top: 2px solid #f39c12;">
+<span><strong>إجمالي أرباح التخارج:</strong></span>
+<span id="summaryHotelExitProfit" style="font-weight: bold; color: #f39c12; font-size: 1.1em;">0 ريال</span>
+</div>
+</div>
+</div>
+
+<div style="background: #f39c12; color: white; padding: 15px; border-radius: 10px; text-align: center; margin-top: 15px;">
+<h4 style="margin-bottom: 10px;">🚀 إجمالي أرباح التخارج</h4>
+<div style="font-size: 2rem; font-weight: bold;" id="summaryTotalExitProfit">0 ريال</div>
+</div>
+</div>
+
+<!-- الملخص النهائي -->
+<div style="background: linear-gradient(135deg, #8e44ad, #9b59b6); color: white; padding: 25px; border-radius: 15px; text-align: center; margin: 20px 0;">
+<h3 style="margin-bottom: 20px;">🏆 الملخص النهائي للمشروع</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+<div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+<h4>💰 إجمالي الاستثمار</h4>
+<div style="font-size: 1.5rem; font-weight: bold;" id="summaryFinalInvestment">0 ريال</div>
+</div>
+<div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+<h4>🎯 أرباح البيع الفوري</h4>
+<div style="font-size: 1.5rem; font-weight: bold;" id="summaryFinalSaleProfit">0 ريال</div>
+</div>
+<div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+<h4>💵 الدخل السنوي</h4>
+<div style="font-size: 1.5rem; font-weight: bold;" id="summaryFinalAnnualIncome">0 ريال</div>
+</div>
+<div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;" id="summaryFinalExitCard">
+<h4>🚀 أرباح التخارج</h4>
+<div style="font-size: 1.5rem; font-weight: bold;" id="summaryFinalExitProfit">0 ريال</div>
+</div>
+</div>
+<div style="border-top: 2px solid rgba(255,255,255,0.3); padding-top: 20px;">
+<h4>💎 إجمالي الأرباح المحتملة</h4>
+<div style="font-size: 3rem; font-weight: bold; margin-top: 10px;" id="summaryGrandTotalProfit">0 ريال</div>
+<p style="margin-top: 10px; opacity: 0.9;">شامل أرباح البيع الفوري + أرباح التخارج</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="export-buttons">
+<button class="export-btn" onclick="exportToCSV()">📁 تصدير إلى CSV</button>
+<button class="export-btn" onclick="exportToPDF()">🖨️ طباعة تقرير PDF</button>
+<button class="export-btn" onclick="generateDetailedReport()">📊 تقرير مفصل</button>
+<button class="export-btn" onclick="saveProject()">💾 حفظ المشروع</button>
+</div>
+</div>
+</div>
+<script>
+    let projectData = {};
+
+    function formatNumber(num) {
+        if (isNaN(num) || !isFinite(num)) return '0';
+        return new Intl.NumberFormat('en-US').format(Math.round(num));
+    }
+
+    function safeParseFloat(value, defaultValue = 0) {
+        const parsed = parseFloat(value);
+        return isNaN(parsed) ? defaultValue : parsed;
+    }
+
+    function safeParseInt(value, defaultValue = 0) {
+        const parsed = parseInt(value);
+        return isNaN(parsed) ? defaultValue : parsed;
+    }
+
+    function showError(message) {
+        const errorDiv = document.getElementById('errorMessage');
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        setTimeout(() => {
+            errorDiv.style.display = 'none';
+        }, 5000);
+    }
+
+    function validateInputs() {
+        const totalLandArea = safeParseFloat(document.getElementById('totalLandArea').value);
+        const landCostPerMeter = safeParseFloat(document.getElementById('landCostPerMeter').value);
+        
+        if (totalLandArea <= 0) {
+            throw new Error('مساحة الأرض يجب أن تكون أكبر من الصفر');
+        }
+        
+        if (landCostPerMeter <= 0) {
+            throw new Error('سعر متر الأرض يجب أن يكون أكبر من الصفر');
+        }
+
+        const towers = ['sale1', 'sale2', 'rental', 'hotel'];
+        for (let tower of towers) {
+            const floors = safeParseInt(document.getElementById(`${tower}Floors`).value);
+            const floorArea = safeParseFloat(document.getElementById(`${tower}FloorArea`).value);
+            
+            if (floors <= 0) {
+                throw new Error(`عدد أدوار ${tower} يجب أن يكون أكبر من الصفر`);
+            }
+            
+            if (floorArea <= 0) {
+                throw new Error(`مساحة الدور ${tower} يجب أن تكون أكبر من الصفر`);
+            }
+        }
+        
+        return true;
+    }
+
+    function calculateSharedCosts() {
+        try {
+            const totalLandArea = safeParseFloat(document.getElementById('totalLandArea').value);
+            const landCostPerMeter = safeParseFloat(document.getElementById('landCostPerMeter').value);
+            const sharedAreaRatio = safeParseFloat(document.getElementById('sharedAreaRatio').value) / 100;
+            const sharedAreaCost = safeParseFloat(document.getElementById('sharedAreaCost').value);
+            const infrastructureCost = safeParseFloat(document.getElementById('infrastructureCost').value);
+            const designAndPlanningCost = safeParseFloat(document.getElementById('designAndPlanningCost').value);
+
+            const totalLandCost = totalLandArea * landCostPerMeter;
+            const sharedArea = totalLandArea * sharedAreaRatio;
+            const buildableArea = totalLandArea - sharedArea;
+            const sharedAreaDevelopmentCost = sharedArea * sharedAreaCost;
+            
+            const totalSharedCosts = totalLandCost + sharedAreaDevelopmentCost + infrastructureCost + designAndPlanningCost;
+            
+            return {
+                totalLandCost,
+                sharedArea,
+                buildableArea,
+                sharedAreaDevelopmentCost,
+                infrastructureCost,
+                designAndPlanningCost,
+                totalSharedCosts
+            };
+        } catch (error) {
+            console.error('Error in calculateSharedCosts:', error);
+            throw new Error('خطأ في حساب التكاليف المشتركة');
+        }
+    }
+
+    async function calculateProject() {
+        try {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+
+            await new Promise(resolve => setTimeout(resolve, 500));
+            validateInputs();
+
+            const sharedCosts = calculateSharedCosts();
+            const sharedCostPerTower = sharedCosts.totalSharedCosts / 4;
+
+            // Calculate towers
+            const sale1 = calculateSaleTower('sale1', sharedCostPerTower);
+            const sale2 = calculateSaleTower('sale2', sharedCostPerTower);
+            const rental = calculateRentalTower(sharedCostPerTower);
+            const hotel = calculateHotelTower(sharedCostPerTower);
+
+            // Calculate exit strategies
+            const considerExit = document.getElementById('considerExit').value === 'true';
+            const operationYears = safeParseInt(document.getElementById('operationYears').value);
+            const rentalMultiplier = safeParseFloat(document.getElementById('rentalMultiplier').value);
+            const hotelMultiplier = safeParseFloat(document.getElementById('hotelMultiplier').value);
+
+            let rentalExitData = {};
+            let hotelExitData = {};
+
+            if (considerExit) {
+                rentalExitData = calculateExitStrategy(rental, rentalMultiplier, operationYears);
+                hotelExitData = calculateExitStrategy(hotel, hotelMultiplier, operationYears);
+            }
+
+            // Calculate totals
+            const totalInvestment = sale1.totalCost + sale2.totalCost + rental.totalCost + hotel.totalCost;
+            const saleProfit = (sale1.profit || 0) + (sale2.profit || 0);
+            const annualIncome = rental.annualRent + hotel.netIncome;
+            
+            let totalExitProfit = 0;
+            if (considerExit) {
+                totalExitProfit = (rentalExitData.totalExitProfit || 0) + (hotelExitData.totalExitProfit || 0);
+            }
+
+            const totalProfits = saleProfit + (considerExit ? totalExitProfit : 0);
+            const totalAnnualReturn = totalInvestment > 0 ? (annualIncome / totalInvestment) * 100 : 0;
+
+            // Store data
+            projectData = {
+                sale1, sale2, rental, hotel,
+                rentalExitData, hotelExitData,
+                sharedCosts,
+                totals: {
+                    investment: totalInvestment,
+                    annualIncome: annualIncome,
+                    annualReturn: totalAnnualReturn,
+                    saleProfit: saleProfit,
+                    exitProfit: totalExitProfit,
+                    totalProfits: totalProfits
+                },
+                settings: {
+                    considerExit,
+                    operationYears,
+                    rentalMultiplier,
+                    hotelMultiplier
+                }
+            };
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'block';
+            updateResults();
+
+        } catch (error) {
+            console.error('Error calculating project:', error);
+            document.getElementById('loading').style.display = 'none';
+            showError(error.message || 'حدث خطأ في الحسابات. يرجى التحقق من البيانات المدخلة.');
+        }
+    }
+
+    function calculateSaleTower(towerType, sharedCostPerTower) {
+        try {
+            const floors = safeParseInt(document.getElementById(`${towerType}Floors`).value);
+            const floorArea = safeParseFloat(document.getElementById(`${towerType}FloorArea`).value);
+            const apartmentSize = safeParseFloat(document.getElementById(`${towerType}ApartmentSize`).value, 1);
+            const buildCost = safeParseFloat(document.getElementById(`${towerType}BuildCost`).value);
+            const sellPrice = safeParseFloat(document.getElementById(`${towerType}SellPrice`).value);
+
+            const totalArea = floorArea * floors;
+            const units = Math.floor(totalArea / apartmentSize);
+            const buildingCost = totalArea * buildCost;
+            const totalCost = buildingCost + sharedCostPerTower;
+            const revenue = totalArea * sellPrice;
+            const profit = revenue - totalCost;
+            const roi = totalCost > 0 ? (profit / totalCost) * 100 : 0;
+
+            return {
+                floors, floorArea, apartmentSize, buildCost, sellPrice,
+                totalArea, units, buildingCost, totalCost, revenue, profit, roi
+            };
+        } catch (error) {
+            throw new Error(`خطأ في حساب ${towerType}: ${error.message}`);
+        }
+    }
+
+    function calculateRentalTower(sharedCostPerTower) {
+        try {
+            const floors = safeParseInt(document.getElementById('rentalFloors').value);
+            const floorArea = safeParseFloat(document.getElementById('rentalFloorArea').value);
+            const officeSize = safeParseFloat(document.getElementById('rentalOfficeSize').value, 1);
+            const buildCost = safeParseFloat(document.getElementById('rentalBuildCost').value);
+            const rentPerMeter = safeParseFloat(document.getElementById('rentalPricePerMeter').value);
+            const occupancyRate = safeParseFloat(document.getElementById('rentalOccupancyRate').value) / 100;
+
+            const totalArea = floorArea * floors;
+            const units = Math.floor(totalArea / officeSize);
+            const buildingCost = totalArea * buildCost;
+            const totalCost = buildingCost + sharedCostPerTower;
+            const annualRent = totalArea * rentPerMeter * Math.min(occupancyRate, 1);
+            const monthlyIncome = annualRent / 12;
+            const roi = totalCost > 0 ? (annualRent / totalCost) * 100 : 0;
+            const paybackPeriod = annualRent > 0 ? totalCost / annualRent : Infinity;
+
+            return {
+                floors, floorArea, officeSize, buildCost, rentPerMeter,
+                occupancyRate: occupancyRate * 100, totalArea, units, buildingCost,
+                totalCost, annualRent, monthlyIncome, roi, paybackPeriod
+            };
+        } catch (error) {
+            throw new Error('خطأ في حساب برج الإيجار');
+        }
+    }
+
+    function calculateHotelTower(sharedCostPerTower) {
+        try {
+            const floors = safeParseInt(document.getElementById('hotelFloors').value);
+            const floorArea = safeParseFloat(document.getElementById('hotelFloorArea').value);
+            const roomSize = safeParseFloat(document.getElementById('hotelRoomSize').value, 1);
+            const buildCost = safeParseFloat(document.getElementById('hotelBuildCost').value);
+            const roomRate = safeParseFloat(document.getElementById('hotelRoomRate').value);
+            const occupancyRate = safeParseFloat(document.getElementById('hotelOccupancyRate').value) / 100;
+            const operatingCostRatio = safeParseFloat(document.getElementById('hotelOperatingCosts').value) / 100;
+            const operationalAreaRatio = safeParseFloat(document.getElementById('hotelOperationalAreaRatio').value) / 100;
+            const serviceRatio = safeParseFloat(document.getElementById('hotelServiceRatio').value) / 100;
+
+            const totalArea = floorArea * floors;
+            const operationalArea = totalArea * operationalAreaRatio;
+            const availableRoomArea = totalArea - operationalArea;
+            const rooms = Math.floor(availableRoomArea / roomSize);
+            
+            const buildingCost = totalArea * buildCost;
+            const totalCost = buildingCost + sharedCostPerTower;
+            const grossRevenue = rooms * roomRate * 365 * Math.min(occupancyRate, 1);
+            const serviceCost = grossRevenue * serviceRatio;
+            const operatingCosts = grossRevenue * operatingCostRatio + serviceCost;
+            const netIncome = grossRevenue - operatingCosts;
+            const roi = totalCost > 0 ? (netIncome / totalCost) * 100 : 0;
+            const paybackPeriod = netIncome > 0 ? totalCost / netIncome : Infinity;
+
+            return {
+                floors, floorArea, roomSize, buildCost, roomRate,
+                occupancyRate: occupancyRate * 100,
+                operatingCostRatio: operatingCostRatio * 100,
+                operationalAreaRatio: operationalAreaRatio * 100,
+                totalArea, operationalArea, availableRoomArea, rooms,
+                buildingCost, totalCost, grossRevenue, operatingCosts,
+                netIncome, roi, paybackPeriod
+            };
+        } catch (error) {
+            throw new Error('خطأ في حساب برج الفندق');
+        }
+    }
+
+    function calculateExitStrategy(towerData, multiplier, operationYears) {
+        try {
+            const annualIncome = towerData.annualRent || towerData.netIncome || 0;
+            const saleValue = annualIncome * multiplier;
+            const exitProfit = saleValue - towerData.totalCost;
+            const operationIncome = annualIncome * operationYears;
+            const totalExitProfit = exitProfit + operationIncome;
+
+            return {
+                saleValue,
+                exitProfit,
+                operationIncome,
+                totalExitProfit,
+                multiplier,
+                operationYears
+            };
+        } catch (error) {
+            throw new Error('خطأ في حساب استراتيجية التخارج');
+        }
+    }
+
+    function updateResults() {
+        if (!projectData || Object.keys(projectData).length === 0) return;
+
+        try {
+            const { sale1, sale2, rental, hotel, rentalExitData, hotelExitData, totals, settings } = projectData;
+
+            // Update total investment
+            document.getElementById('totalInvestmentAmount').textContent = formatNumber(totals.investment) + ' ريال';
+
+            // Update summary cards
+            document.getElementById('totalAnnualReturn').textContent = totals.annualReturn.toFixed(2) + '%';
+            document.getElementById('totalAnnualIncome').textContent = formatNumber(totals.annualIncome) + ' ريال';
+            document.getElementById('totalSaleProfit').textContent = formatNumber(totals.saleProfit) + ' ريال';
+            document.getElementById('totalExitProfit').textContent = formatNumber(totals.exitProfit) + ' ريال';
+            document.getElementById('totalProfits').textContent = formatNumber(totals.totalProfits) + ' ريال';
+
+            // Calculate average payback period
+            const paybacks = [rental.paybackPeriod, hotel.paybackPeriod].filter(p => p !== Infinity && !isNaN(p));
+            const avgPayback = paybacks.length > 0 ? paybacks.reduce((a, b) => a + b, 0) / paybacks.length : 0;
+            document.getElementById('paybackPeriod').textContent = avgPayback > 0 ? avgPayback.toFixed(1) + ' سنة' : 'غير محدد';
+
+            // Show/hide exit strategy cards
+            const exitStrategyDiv = document.getElementById('exitStrategy');
+            if (settings.considerExit) {
+                exitStrategyDiv.style.display = 'grid';
+                document.getElementById('keepIncome').textContent = formatNumber(totals.annualIncome);
+                document.getElementById('keepROI').textContent = totals.annualReturn.toFixed(2);
+                document.getElementById('exitIncome').textContent = formatNumber(totals.exitProfit);
+                document.getElementById('operationIncome').textContent = formatNumber((rentalExitData.operationIncome || 0) + (hotelExitData.operationIncome || 0));
+                document.getElementById('totalExitIncome').textContent = formatNumber(totals.totalProfits);
+            } else {
+                exitStrategyDiv.style.display = 'none';
+            }
+
+            // Update individual tower results
+            updateTowerResults('sale1', sale1);
+            updateTowerResults('sale2', sale2);
+            updateTowerResults('rental', rental, rentalExitData, settings.considerExit);
+            updateTowerResults('hotel', hotel, hotelExitData, settings.considerExit);
+
+            // Update comprehensive summary
+            updateComprehensiveSummary();
+
+            // Highlight best tower
+            highlightBestTower();
+
+        } catch (error) {
+            console.error('Error updating results:', error);
+            showError('خطأ في عرض النتائج');
+        }
+    }
+
+    function updateTowerResults(towerType, data, exitData = null, showExit = false) {
+        try {
+            // Basic data
+            document.getElementById(`${towerType}TotalArea`).innerHTML = formatNumber(data.totalArea) + ' م²';
+            document.getElementById(`${towerType}TotalCost`).innerHTML = formatNumber(data.totalCost) + ' ريال';
+            document.getElementById(`${towerType}ROI`).innerHTML = data.roi.toFixed(2) + '%';
+
+            // Land cost calculation
+            const landCostPerTower = projectData.sharedCosts.totalLandCost / 4;
+            document.getElementById(`${towerType}LandCost`).innerHTML = `<strong style="color: #f39c12;">${formatNumber(landCostPerTower)} ريال</strong>`;
+            
+            // Land ratio
+            const landRatio = data.totalCost > 0 ? (landCostPerTower / data.totalCost) * 100 : 0;
+            document.getElementById(`${towerType}LandRatio`).innerHTML = `<strong style="color: #f39c12;">${landRatio.toFixed(1)}%</strong>`;
+
+            // Building cost
+            const buildingCost = data.buildingCost || (data.totalArea * (data.buildCost || 0));
+            document.getElementById(`${towerType}BuildCostResult`).innerHTML = `<strong style="color: #e74c3c; font-size: 1.1em;">${formatNumber(buildingCost)} ريال</strong>`; 
+
+            // Tower-specific data
+            if (towerType === 'sale1' || towerType === 'sale2') {
+                document.getElementById(`${towerType}Units`).innerHTML = (data.units || 0).toString();
+                document.getElementById(`${towerType}Revenue`).innerHTML = formatNumber(data.revenue || 0) + ' ريال';
+                const profitElement = document.getElementById(`${towerType}Profit`);
+                profitElement.innerHTML = formatNumber(data.profit || 0) + ' ريال';
+                profitElement.className = `result-value ${(data.profit || 0) >= 0 ? 'profit-positive' : 'profit-negative'}`;
+                
+            } else if (towerType === 'rental') {
+                document.getElementById('rentalUnits').innerHTML = (data.units || 0).toString();
+                document.getElementById('rentalMonthlyIncome').innerHTML = formatNumber(data.monthlyIncome || 0) + ' ريال';
+                document.getElementById('rentalAnnualIncome').innerHTML = formatNumber(data.annualRent || 0) + ' ريال';
+                document.getElementById('rentalPayback').innerHTML = (data.paybackPeriod === Infinity || !data.paybackPeriod) ? 'غير محدد' : data.paybackPeriod.toFixed(1) + ' سنة';
+                
+                // Exit strategy section
+                const exitSection = document.getElementById('rentalExitSection');
+                if (showExit && exitData) {
+                    exitSection.style.display = 'block';
+                    document.getElementById('rentalSaleValue').innerHTML = formatNumber(exitData.saleValue) + ' ريال';
+                    document.getElementById('rentalExitProfit').innerHTML = formatNumber(exitData.exitProfit) + ' ريال';
+                    document.getElementById('rentalOperationIncome').innerHTML = formatNumber(exitData.operationIncome) + ' ريال';
+                    document.getElementById('rentalTotalExitProfit').innerHTML = formatNumber(exitData.totalExitProfit) + ' ريال';
+                } else {
+                    exitSection.style.display = 'none';
+                }
+                    
+            } else if (towerType === 'hotel') {
+                document.getElementById('hotelRooms').innerHTML = (data.rooms || 0).toString();
+                document.getElementById('hotelOperationalArea').innerHTML = formatNumber(data.operationalArea || 0) + ' م²';
+                document.getElementById('hotelAvailableRoomArea').innerHTML = formatNumber(data.availableRoomArea || 0) + ' م²';
+                document.getElementById('hotelGrossRevenue').innerHTML = formatNumber(data.grossRevenue || 0) + ' ريال';
+                document.getElementById('hotelOperatingCostsAmount').innerHTML = formatNumber(data.operatingCosts || 0) + ' ريال';
+                const netElement = document.getElementById('hotelNetIncome');
+                netElement.innerHTML = formatNumber(data.netIncome || 0) + ' ريال';
+                netElement.className = `result-value ${(data.netIncome || 0) >= 0 ? 'profit-positive' : 'profit-negative'}`;
+                document.getElementById('hotelPayback').innerHTML = (data.paybackPeriod === Infinity || !data.paybackPeriod) ? 'غير محدد' : data.paybackPeriod.toFixed(1) + ' سنة';
+                
+                // Exit strategy section
+                const exitSection = document.getElementById('hotelExitSection');
+                if (showExit && exitData) {
+                    exitSection.style.display = 'block';
+                    document.getElementById('hotelSaleValue').innerHTML = formatNumber(exitData.saleValue) + ' ريال';
+                    document.getElementById('hotelExitProfit').innerHTML = formatNumber(exitData.exitProfit) + ' ريال';
+                    document.getElementById('hotelOperationIncome').innerHTML = formatNumber(exitData.operationIncome) + ' ريال';
+                    document.getElementById('hotelTotalExitProfit').innerHTML = formatNumber(exitData.totalExitProfit) + ' ريال';
+                } else {
+                    exitSection.style.display = 'none';
+                }
+            }
+            
+        } catch (error) {
+            console.error(`Error updating ${towerType}:`, error);
+        }
+    }
+
+    function updateComprehensiveSummary() {
+        if (!projectData || Object.keys(projectData).length === 0) return;
+
+        try {
+            const { sale1, sale2, rental, hotel, totals, settings, rentalExitData, hotelExitData, sharedCosts } = projectData;
+
+            // Show the comprehensive summary
+            document.getElementById('comprehensiveSummary').style.display = 'block';
+
+            // Update cost breakdown
+            document.getElementById('summaryTotalLandCost').textContent = formatNumber(sharedCosts.totalLandCost) + ' ريال';
+            document.getElementById('summarySharedAreaCost').textContent = formatNumber(sharedCosts.sharedAreaDevelopmentCost) + ' ريال';
+            document.getElementById('summaryInfrastructureCost').textContent = formatNumber(sharedCosts.infrastructureCost) + ' ريال';
+            document.getElementById('summaryDesignCost').textContent = formatNumber(sharedCosts.designAndPlanningCost) + ' ريال';
+            document.getElementById('summaryTotalSharedCost').textContent = formatNumber(sharedCosts.totalSharedCosts) + ' ريال';
+
+            // Building costs
+            document.getElementById('summarySale1BuildCost').textContent = formatNumber(sale1.buildingCost) + ' ريال';
+            document.getElementById('summarySale2BuildCost').textContent = formatNumber(sale2.buildingCost) + ' ريال';
+            document.getElementById('summaryRentalBuildCost').textContent = formatNumber(rental.buildingCost) + ' ريال';
+            document.getElementById('summaryHotelBuildCost').textContent = formatNumber(hotel.buildingCost) + ' ريال';
+            
+            const totalBuildingCost = sale1.buildingCost + sale2.buildingCost + rental.buildingCost + hotel.buildingCost;
+            document.getElementById('summaryTotalBuildCost').textContent = formatNumber(totalBuildingCost) + ' ريال';
+            document.getElementById('summaryGrandTotal').textContent = formatNumber(totals.investment) + ' ريال';
+
+            // Update separated investment summary
+            document.getElementById('summaryLandAndSharedTotal').textContent = formatNumber(sharedCosts.totalSharedCosts) + ' ريال';
+            document.getElementById('summaryBuildingTotal').textContent = formatNumber(totalBuildingCost) + ' ريال';
+            
+            // Calculate and update percentages
+            const landPercentage = totals.investment > 0 ? (sharedCosts.totalSharedCosts / totals.investment) * 100 : 0;
+            const buildingPercentage = totals.investment > 0 ? (totalBuildingCost / totals.investment) * 100 : 0;
+            document.getElementById('summaryLandPercentage').textContent = landPercentage.toFixed(1) + '%';
+            document.getElementById('summaryBuildingPercentage').textContent = buildingPercentage.toFixed(1) + '%';
+
+            // Sale profits (immediate)
+            document.getElementById('summarySale1Revenue').textContent = formatNumber(sale1.revenue) + ' ريال';
+            document.getElementById('summarySale1TotalCost').textContent = formatNumber(sale1.totalCost) + ' ريال';
+            document.getElementById('summarySale1Profit').textContent = formatNumber(sale1.profit) + ' ريال';
+            
+            document.getElementById('summarySale2Revenue').textContent = formatNumber(sale2.revenue) + ' ريال';
+            document.getElementById('summarySale2TotalCost').textContent = formatNumber(sale2.totalCost) + ' ريال';
+            document.getElementById('summarySale2Profit').textContent = formatNumber(sale2.profit) + ' ريال';
+            
+            document.getElementById('summaryTotalSaleProfit').textContent = formatNumber(totals.saleProfit) + ' ريال';
+
+            // Annual income
+            document.getElementById('summaryRentalIncome').textContent = formatNumber(rental.annualRent) + ' ريال';
+            document.getElementById('summaryRentalROI').textContent = rental.roi.toFixed(2) + '%';
+            document.getElementById('summaryHotelIncome').textContent = formatNumber(hotel.netIncome) + ' ريال';
+            document.getElementById('summaryHotelROI').textContent = hotel.roi.toFixed(2) + '%';
+            document.getElementById('summaryTotalAnnualIncome').textContent = formatNumber(totals.annualIncome) + ' ريال';
+            document.getElementById('summaryOverallROI').textContent = totals.annualReturn.toFixed(2) + '%';
+
+            // Exit strategy section
+            const exitSection = document.getElementById('summaryExitSection');
+            const finalExitCard = document.getElementById('summaryFinalExitCard');
+            
+            if (settings.considerExit && rentalExitData && hotelExitData) {
+                exitSection.style.display = 'block';
+                finalExitCard.style.display = 'block';
+                
+                // Rental exit
+                document.getElementById('summaryRentalSaleValue').textContent = formatNumber(rentalExitData.saleValue) + ' ريال';
+                document.getElementById('summaryRentalOperationIncome').textContent = formatNumber(rentalExitData.operationIncome) + ' ريال';
+                document.getElementById('summaryRentalExitProfit').textContent = formatNumber(rentalExitData.totalExitProfit) + ' ريال';
+                
+                // Hotel exit
+                document.getElementById('summaryHotelSaleValue').textContent = formatNumber(hotelExitData.saleValue) + ' ريال';
+                document.getElementById('summaryHotelOperationIncome').textContent = formatNumber(hotelExitData.operationIncome) + ' ريال';
+                document.getElementById('summaryHotelExitProfit').textContent = formatNumber(hotelExitData.totalExitProfit) + ' ريال';
+                
+                document.getElementById('summaryTotalExitProfit').textContent = formatNumber(totals.exitProfit) + ' ريال';
+            } else {
+                exitSection.style.display = 'none';
+                finalExitCard.style.display = 'none';
+            }
+
+            // Final summary
+            document.getElementById('summaryFinalInvestment').textContent = formatNumber(totals.investment) + ' ريال';
+            document.getElementById('summaryFinalSaleProfit').textContent = formatNumber(totals.saleProfit) + ' ريال';
+            document.getElementById('summaryFinalAnnualIncome').textContent = formatNumber(totals.annualIncome) + ' ريال';
+            
+            if (settings.considerExit) {
+                document.getElementById('summaryFinalExitProfit').textContent = formatNumber(totals.exitProfit) + ' ريال';
+                document.getElementById('summaryGrandTotalProfit').textContent = formatNumber(totals.totalProfits) + ' ريال';
+            } else {
+                document.getElementById('summaryFinalExitProfit').textContent = '0 ريال';
+                document.getElementById('summaryGrandTotalProfit').textContent = formatNumber(totals.saleProfit) + ' ريال';
+            }
+
+        } catch (error) {
+            console.error('Error updating comprehensive summary:', error);
+        }
+    }
+
+    function highlightBestTower() {
+        try {
+            document.querySelectorAll('.tower-result').forEach(el => el.classList.remove('best-tower'));
+
+            if (!projectData) return;
+
+            const { sale1, sale2, rental, hotel, settings, rentalExitData, hotelExitData } = projectData;
+            
+            let rois;
+            if (settings.considerExit) {
+                // Use exit profits for comparison
+                const sale1ExitROI = sale1.roi;
+                const sale2ExitROI = sale2.roi;
+                const rentalExitROI = rental.totalCost > 0 ? (rentalExitData.totalExitProfit / rental.totalCost) * 100 : 0;
+                const hotelExitROI = hotel.totalCost > 0 ? (hotelExitData.totalExitProfit / hotel.totalCost) * 100 : 0;
+                
+                rois = [
+                    { element: 'sale1Results', value: sale1ExitROI },
+                    { element: 'sale2Results', value: sale2ExitROI },
+                    { element: 'rentalResults', value: rentalExitROI },
+                    { element: 'hotelResults', value: hotelExitROI }
+                ];
+            } else {
+                rois = [
+                    { element: 'sale1Results', value: sale1.roi },
+                    { element: 'sale2Results', value: sale2.roi },
+                    { element: 'rentalResults', value: rental.roi },
+                    { element: 'hotelResults', value: hotel.roi }
+                ];
+            }
+
+            const bestTower = rois.reduce((prev, current) => (prev.value > current.value) ? prev : current);
+            const bestElement = document.getElementById(bestTower.element);
+            if (bestElement) {
+                bestElement.classList.add('best-tower');
+            }
+        } catch (error) {
+            console.error('Error highlighting best tower:', error);
+        }
+    }
+
+    function exportToCSV() {
+        if (!projectData || Object.keys(projectData).length === 0) {
+            alert('يرجى إجراء الحسابات أولاً');
+            return;
+        }
+
+        try {
+            const { sale1, sale2, rental, hotel, totals, settings, rentalExitData, hotelExitData } = projectData;
+            
+            let csv = 'نوع البرج,إجمالي المساحة (م²),عدد الوحدات,التكلفة الإجمالية (ريال),الدخل/الربح السنوي (ريال),العائد (%),';
+            
+            if (settings.considerExit) {
+                csv += 'قيمة البيع (ريال),ربح التخارج (ريال),دخل سنوات التشغيل (ريال),إجمالي أرباح التخارج (ريال)\n';
+            } else {
+                csv += 'فترة الاسترداد (سنة)\n';
+            }
+            
+            const landCostPerTower = projectData.sharedCosts.totalLandCost / 4;
+            
+            csv += `برج البيع #1,${sale1.totalArea},${sale1.units},${sale1.totalCost},${sale1.profit},${sale1.roi.toFixed(2)},`;
+            if (settings.considerExit) {
+                csv += `فوري,${sale1.profit},0,${sale1.profit}\n`;
+            } else {
+                csv += `فوري\n`;
+            }
+            
+            csv += `برج البيع #2,${sale2.totalArea},${sale2.units},${sale2.totalCost},${sale2.profit},${sale2.roi.toFixed(2)},`;
+            if (settings.considerExit) {
+                csv += `فوري,${sale2.profit},0,${sale2.profit}\n`;
+            } else {
+                csv += `فوري\n`;
+            }
+            
+            csv += `برج الإيجار,${rental.totalArea},${rental.units},${rental.totalCost},${rental.annualRent},${rental.roi.toFixed(2)},`;
+            if (settings.considerExit && rentalExitData) {
+                csv += `${rentalExitData.saleValue},${rentalExitData.exitProfit},${rentalExitData.operationIncome},${rentalExitData.totalExitProfit}\n`;
+            } else {
+                csv += `${rental.paybackPeriod === Infinity ? 'غير محدد' : rental.paybackPeriod.toFixed(1)}\n`;
+            }
+            
+            csv += `برج الفندق,${hotel.totalArea},${hotel.rooms},${hotel.totalCost},${hotel.netIncome},${hotel.roi.toFixed(2)},`;
+            if (settings.considerExit && hotelExitData) {
+                csv += `${hotelExitData.saleValue},${hotelExitData.exitProfit},${hotelExitData.operationIncome},${hotelExitData.totalExitProfit}\n`;
+            } else {
+                csv += `${hotel.paybackPeriod === Infinity ? 'غير محدد' : hotel.paybackPeriod.toFixed(1)}\n`;
+            }
+            
+            csv += `\nالإجماليات\n`;
+            csv += `إجمالي الاستثمار,,,${totals.investment}\n`;
+            csv += `إجمالي الدخل السنوي,,,${totals.annualIncome}\n`;
+            csv += `أرباح البيع الفوري,,,${totals.saleProfit}\n`;
+            if (settings.considerExit) {
+                csv += `أرباح التخارج,,,${totals.exitProfit}\n`;
+                csv += `إجمالي الأرباح,,,${totals.totalProfits}\n`;
+            }
+
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `تقرير_المجمع_المتكامل_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        } catch (error) {
+            console.error('Error exporting CSV:', error);
+            alert('حدث خطأ في تصدير البيانات');
+        }
+    }
+
+    function exportToPDF() {
+        window.print();
+    }
+
+    function generateDetailedReport() {
+        if (!projectData || Object.keys(projectData).length === 0) {
+            alert('يرجى إجراء الحسابات أولاً');
+            return;
+        }
+
+        try {
+            const reportWindow = window.open('', '_blank');
+            const reportHTML = createDetailedReportHTML();
+            reportWindow.document.write(reportHTML);
+            reportWindow.document.close();
+        } catch (error) {
+            console.error('Error generating report:', error);
+            alert('حدث خطأ في إنشاء التقرير');
+        }
+    }
+
+    function createDetailedReportHTML() {
+        const { sale1, sale2, rental, hotel, totals, settings, rentalExitData, hotelExitData } = projectData;
+        const currentDate = new Date().toLocaleDateString('ar');
+        
+        const landCostPerTower = projectData.sharedCosts.totalLandCost / 4;
+        const sale1LandRatio = sale1.totalCost > 0 ? (landCostPerTower / sale1.totalCost) * 100 : 0;
+        const sale2LandRatio = sale2.totalCost > 0 ? (landCostPerTower / sale2.totalCost) * 100 : 0;
+        const rentalLandRatio = rental.totalCost > 0 ? (landCostPerTower / rental.totalCost) * 100 : 0;
+        const hotelLandRatio = hotel.totalCost > 0 ? (landCostPerTower / hotel.totalCost) * 100 : 0;
+
+        let exitStrategyHTML = '';
+        if (settings.considerExit) {
+            exitStrategyHTML = `
+            <div class="exit-strategy">
+                <h2>🚀 استراتيجية التخارج</h2>
+                <ul>
+                    <li><strong>مكرر أرباح البرج التجاري:</strong> ${settings.rentalMultiplier} سنة</li>
+                    <li><strong>مكرر أرباح الفندق:</strong> ${settings.hotelMultiplier} سنة</li>
+                    <li><strong>سنوات التشغيل قبل البيع:</strong> ${settings.operationYears} سنة</li>
+                    <li><strong>إجمالي أرباح التخارج:</strong> ${formatNumber(totals.exitProfit)} ريال</li>
+                    <li><strong>إجمالي الأرباح (بيع + تخارج):</strong> ${formatNumber(totals.totalProfits)} ريال</li>
+                </ul>
+            </div>`;
+        }
+
+        return `
+        <!DOCTYPE html>
+        <html dir="rtl" lang="ar">
+        <head>
+            <meta charset="utf-8">
+            <title>تقرير مفصل - المجمع المتكامل مع أرباح التخارج</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+                .header { text-align: center; border-bottom: 3px solid #667eea; padding-bottom: 20px; margin-bottom: 30px; }
+                .summary { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px; }
+                .tower-section { margin: 30px 0; padding: 20px; border-radius: 10px; }
+                .sale1 { background: rgba(52, 152, 219, 0.1); border-left: 5px solid #3498db; }
+                .sale2 { background: rgba(41, 128, 185, 0.1); border-left: 5px solid #2980b9; }
+                .rental { background: rgba(39, 174, 96, 0.1); border-left: 5px solid #27ae60; }
+                .hotel { background: rgba(230, 126, 34, 0.1); border-left: 5px solid #e67e22; }
+                .exit-strategy { background: rgba(243, 156, 18, 0.1); border-left: 5px solid #f39c12; margin: 30px 0; padding: 20px; border-radius: 10px; }
+                .profit-positive { color: #27ae60; font-weight: bold; }
+                .profit-negative { color: #e74c3c; font-weight: bold; }
+                .recommendations { background: #e8f5e8; padding: 20px; border-radius: 10px; margin-top: 30px; }
+                @media print { body { margin: 20px; } }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🏢 تقرير تحليل المجمع المتكامل - مع حساب أرباح التخارج</h1>
+                <p>📅 تاريخ التقرير: ${currentDate}</p>
+                <p>📍 مجمع متعدد الاستخدامات مع استراتيجية تخارج متقدمة</p>
+            </div>
+            
+            <div class="summary">
+                <h2>📋 الملخص التنفيذي</h2>
+                <ul>
+                    <li><strong>إجمالي الاستثمار المطلوب:</strong> ${formatNumber(totals.investment)} ريال</li>
+                    <li><strong>أرباح البيع الفوري:</strong> ${formatNumber(totals.saleProfit)} ريال</li>
+                    <li><strong>إجمالي الدخل السنوي:</strong> ${formatNumber(totals.annualIncome)} ريال</li>
+                    <li><strong>متوسط العائد السنوي:</strong> ${totals.annualReturn.toFixed(2)}%</li>
+                    ${settings.considerExit ? `<li><strong>أرباح التخارج المتوقعة:</strong> ${formatNumber(totals.exitProfit)} ريال</li>` : ''}
+                    ${settings.considerExit ? `<li><strong>إجمالي الأرباح:</strong> ${formatNumber(totals.totalProfits)} ريال</li>` : ''}
+                </ul>
+            </div>
+
+            ${exitStrategyHTML}
+
+            <h2>🏗️ تفاصيل الأبراج</h2>
+            
+            <div class="tower-section sale1">
+                <h3>🏢 برج شقق للبيع #1</h3>
+                <ul>
+                    <li>عدد الأدوار: ${sale1.floors}</li>
+                    <li>إجمالي المساحة: ${formatNumber(sale1.totalArea)} م²</li>
+                    <li>عدد الشقق: ${sale1.units}</li>
+                    <li>التكلفة الإجمالية: ${formatNumber(sale1.totalCost)} ريال</li>
+                    <li>إجمالي الإيرادات: ${formatNumber(sale1.revenue)} ريال</li>
+                    <li class="${sale1.profit >= 0 ? 'profit-positive' : 'profit-negative'}">صافي ربح البيع: ${formatNumber(sale1.profit)} ريال</li>
+                    <li>العائد على الاستثمار: ${sale1.roi.toFixed(2)}%</li>
+                </ul>
+            </div>
+
+            <div class="tower-section sale2">
+                <h3>🏘️ برج شقق للبيع #2</h3>
+                <ul>
+                    <li>عدد الأدوار: ${sale2.floors}</li>
+                    <li>إجمالي المساحة: ${formatNumber(sale2.totalArea)} م²</li>
+                    <li>عدد الشقق: ${sale2.units}</li>
+                    <li>التكلفة الإجمالية: ${formatNumber(sale2.totalCost)} ريال</li>
+                    <li>إجمالي الإيرادات: ${formatNumber(sale2.revenue)} ريال</li>
+                    <li class="${sale2.profit >= 0 ? 'profit-positive' : 'profit-negative'}">صافي ربح البيع: ${formatNumber(sale2.profit)} ريال</li>
+                    <li>العائد على الاستثمار: ${sale2.roi.toFixed(2)}%</li>
+                </ul>
+            </div>
+
+            <div class="tower-section rental">
+                <h3>🏠 برج مكاتب للإيجار</h3>
+                <ul>
+                    <li>عدد الأدوار: ${rental.floors}</li>
+                    <li>إجمالي المساحة: ${formatNumber(rental.totalArea)} م²</li>
+                    <li>عدد المكاتب: ${rental.units}</li>
+                    <li>التكلفة الإجمالية: ${formatNumber(rental.totalCost)} ريال</li>
+                    <li class="profit-positive">الدخل السنوي: ${formatNumber(rental.annualRent)} ريال</li>
+                    <li>العائد السنوي: ${rental.roi.toFixed(2)}%</li>
+                    ${settings.considerExit && rentalExitData ? `
+                    <li style="background: rgba(243, 156, 18, 0.2); padding: 5px;"><strong>قيمة البيع بمكرر ${settings.rentalMultiplier}:</strong> ${formatNumber(rentalExitData.saleValue)} ريال</li>
+                    <li style="background: rgba(243, 156, 18, 0.2); padding: 5px;"><strong>ربح التخارج:</strong> ${formatNumber(rentalExitData.exitProfit)} ريال</li>
+                    <li style="background: rgba(243, 156, 18, 0.2); padding: 5px;"><strong>دخل ${settings.operationYears} سنوات تشغيل:</strong> ${formatNumber(rentalExitData.operationIncome)} ريال</li>
+                    <li style="background: rgba(243, 156, 18, 0.2); padding: 5px;"><strong>إجمالي أرباح التخارج:</strong> ${formatNumber(rentalExitData.totalExitProfit)} ريال</li>
+                    ` : ''}
+                </ul>
+            </div>
+
+            <div class="tower-section hotel">
+                <h3>🏨 برج فندق للتشغيل</h3>
+                <ul>
+                    <li>عدد الأدوار: ${hotel.floors}</li>
+                    <li>إجمالي المساحة: ${formatNumber(hotel.totalArea)} م²</li>
+                    <li>عدد الغرف: ${hotel.rooms}</li>
+                    <li>التكلفة الإجمالية: ${formatNumber(hotel.totalCost)} ريال</li>
+                    <li class="profit-positive">الإيراد السنوي الإجمالي: ${formatNumber(hotel.grossRevenue)} ريال</li>
+                    <li class="profit-negative">التكاليف التشغيلية: ${formatNumber(hotel.operatingCosts)} ريال</li>
+                    <li class="${hotel.netIncome >= 0 ? 'profit-positive' : 'profit-negative'}">صافي الدخل السنوي: ${formatNumber(hotel.netIncome)} ريال</li>
+                    <li>العائد الصافي: ${hotel.roi.toFixed(2)}%</li>
+                    ${settings.considerExit && hotelExitData ? `
+                    <li style="background: rgba(243, 156, 18, 0.2); padding: 5px;"><strong>قيمة البيع بمكرر ${settings.hotelMultiplier}:</strong> ${formatNumber(hotelExitData.saleValue)} ريال</li>
+                    <li style="background: rgba(243, 156, 18, 0.2); padding: 5px;"><strong>ربح التخارج:</strong> ${formatNumber(hotelExitData.exitProfit)} ريال</li>
+                    <li style="background: rgba(243, 156, 18, 0.2); padding: 5px;"><strong>دخل ${settings.operationYears} سنوات تشغيل:</strong> ${formatNumber(hotelExitData.operationIncome)} ريال</li>
+                    <li style="background: rgba(243, 156, 18, 0.2); padding: 5px;"><strong>إجمالي أرباح التخارج:</strong> ${formatNumber(hotelExitData.totalExitProfit)} ريال</li>
+                    ` : ''}
+                </ul>
+            </div>
+
+            <div class="recommendations">
+                <h2>💡 التوصيات والملاحظات</h2>
+                <ul>
+                    <li><strong>استراتيجية متدرجة:</strong> ابدأ بالبرجين السكنيين لتوفير السيولة</li>
+                    <li><strong>التنويع الذكي:</strong> مزيج من الاستثمارات قصيرة وطويلة المدى</li>
+                    <li><strong>مرونة التخارج:</strong> إمكانية بيع البرج التجاري والفندق بمكررات ربحية مجزية</li>
+                    ${settings.considerExit ? `<li><strong>أرباح التخارج المتوقعة:</strong> ${formatNumber(totals.exitProfit)} ريال إضافية عند البيع</li>` : ''}
+                    <li><strong>إدارة المخاطر:</strong> توزيع المخاطر على 4 أنواع استثمار مختلفة</li>
+                    <li><strong>التوقيت الأمثل:</strong> ${settings.operationYears} سنوات تشغيل قبل التخارج تضمن استقرار الدخل</li>
+                </ul>
+            </div>
+            
+            <footer style="margin-top: 50px; text-align: center; color: #666; border-top: 1px solid #ddd; padding-top: 20px;">
+                <p>تم إنشاء هذا التقرير بواسطة حاسبة المجمع المتكامل المطورة</p>
+                <p><small>هذا التقرير للأغراض الاستشارية فقط ولا يشكل نصيحة استثمارية ملزمة</small></p>
+            </footer>
+        </body>
+        </html>
+        `;
+    }
+
+    function saveProject() {
+        if (!projectData || Object.keys(projectData).length === 0) {
+            alert('يرجى إجراء الحسابات أولاً');
+            return;
+        }
+
+        try {
+            const inputs = {};
+            document.querySelectorAll('input, select').forEach(input => {
+                inputs[input.id] = input.value;
+            });
+
+            const saveData = {
+                inputs: inputs,
+                results: projectData,
+                timestamp: new Date().toISOString(),
+                projectType: 'مجمع متكامل - 4 أبراج مع أرباح التخارج'
+            };
+
+            const projectName = prompt('اسم المشروع:', `مجمع_متكامل_${new Date().toLocaleDateString('ar')}`);
+            if (projectName) {
+                const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `${projectName}.json`;
+                link.click();
+                
+                alert('تم حفظ المشروع بنجاح');
+            }
+        } catch (error) {
+            console.error('Error saving project:', error);
+            alert('حدث خطأ في حفظ المشروع');
+        }
+    }
+
+    // Input validation
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('input', function() {
+            let value = parseFloat(this.value);
+            
+            if (isNaN(value) || value < 0) {
+                this.value = 0;
+                return;
+            }
+            
+            // Specific validations
+            if (this.id === 'sharedAreaRatio' && value > 50) {
+                this.value = 50;
+            } else if (this.id === 'hotelOperationalAreaRatio' && value > 50) {
+                this.value = 50;
+            } else if (this.id.includes('OccupancyRate') && value > 100) {
+                this.value = 100;
+            } else if (this.id.includes('OperatingCosts') && value > 100) {
+                this.value = 100;
+            } else if (this.id === 'rentalMultiplier' && value > 20) {
+                this.value = 20;
+            } else if (this.id === 'hotelMultiplier' && value > 20) {
+                this.value = 20;
+            } else if (this.id === 'operationYears' && value > 10) {
+                this.value = 10;
+            }
+            
+            // Ensure minimum values for critical fields
+            if ((this.id.includes('Size') || this.id.includes('Floors')) && value < 1) {
+                this.value = 1;
+            }
+            
+            // Minimum multipliers
+            if ((this.id === 'rentalMultiplier' || this.id === 'hotelMultiplier') && value < 8) {
+                this.value = 8;
+            }
+        });
+    });
+
+    // Auto-calculate with debounce
+    let debounceTimer;
+    document.querySelectorAll('input, select').forEach(input => {
+        input.addEventListener('change', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                if (Object.keys(projectData).length > 0) {
+                    calculateProject();
+                }
+            }, 1000);
+        });
+    });
+
+    // Print styles
+    const printStyles = `
+        <style media="print">
+            body { background: white !important; }
+            .container { box-shadow: none !important; background: white !important; }
+            .export-buttons, .calculate-btn, .towers-inputs-grid, .inputs-section, .shared-costs-section, .exit-strategy-section { display: none !important; }
+            h1 { color: black !important; -webkit-text-fill-color: black !important; }
+            .tower-result, .summary-card { border: 2px solid #333 !important; }
+            .project-overview { page-break-after: always; }
+            .exit-section { background: #f0f0f0 !important; border: 1px solid #333 !important; }
+        </style>
+    `;
+    document.head.insertAdjacentHTML('beforeend', printStyles);
+
+    // Initialize with sample calculation
+    window.addEventListener('load', function() {
+        // Auto-calculate after a short delay to show functionality
+        setTimeout(() => {
+            calculateProject();
+        }, 1000);
+    });
+
+</script>
+</body>
+</html>
