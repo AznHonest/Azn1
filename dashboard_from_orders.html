@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>لوحة المبيعات</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  :root {
+    --bg: #050816;
+    --card-bg: #0b1020;
+    --accent: #22c55e;
+    --accent2: #3b82f6;
+    --text: #f9fafb;
+    --muted: #9ca3af;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, #111827, #020617);
+    color: var(--text);
+  }
+  h1 { margin: 0 0 4px; font-size: 28px; }
+  .subtitle { color: var(--muted); margin-bottom: 24px; font-size: 13px; }
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2.3fr) minmax(0, 1.3fr);
+    gap: 20px;
+    max-width: 1280px;
+    margin: 0 auto 40px;
+  }
+  @media (max-width: 1024px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+  }
+  @media (max-width: 640px) {
+    body {
+      padding: 12px;
+    }
+    h1 {
+      font-size: 22px;
+    }
+    .subtitle {
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+  }
+  .card {
+    background: radial-gradient(circle at top left, rgba(56,189,248,0.12), rgba(15,23,42,0.98));
+    border-radius: 18px;
+    padding: 16px 14px 18px;
+    border: 1px solid rgba(148,163,184,0.25);
+    box-shadow: 0 16px 38px rgba(15,23,42,0.8);
+    backdrop-filter: blur(16px);
+  }
+  @media (max-width: 640px) {
+    .card {
+      border-radius: 14px;
+      padding: 12px 10px 14px;
+    }
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+  .card-title { font-size: 16px; font-weight: 600; }
+  @media (max-width: 640px) {
+    .card-title { font-size: 14px; }
+  }
+  .chip {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(148,163,184,0.16);
+    color: var(--muted);
+    border: none;
+  }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .kpi-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(34,197,94,0.12), rgba(15,23,42,0.95));
+    border-radius: 16px;
+    padding: 10px 11px;
+    border: 1px solid rgba(34,197,94,0.35);
+    overflow: hidden;
+  }
+  .kpi-card.blue {
+    background: linear-gradient(135deg, rgba(59,130,246,0.16), rgba(15,23,42,0.95));
+    border-color: rgba(59,130,246,0.5);
+  }
+  .kpi-card.purple {
+    background: linear-gradient(135deg, rgba(168,85,247,0.18), rgba(15,23,42,0.95));
+    border-color: rgba(168,85,247,0.5);
+  }
+  .kpi-card.orange {
+    background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(15,23,42,0.95));
+    border-color: rgba(249,115,22,0.7);
+  }
+  .kpi-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .kpi-value { font-size: 20px; font-weight: 700; }
+  @media (max-width: 640px) {
+    .kpi-value { font-size: 18px; }
+  }
+  .kpi-pill {
+    font-size: 10px;
+    margin-top: 4px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: rgba(15,23,42,0.85);
+    border: 1px solid rgba(148,163,184,0.4);
+    display: inline-block;
+  }
+  .glow-circle {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(34,197,94,0.7), transparent);
+    opacity: 0.2;
+    right: -20px;
+    top: -20px;
+  }
+  .kpi-card.blue .glow-circle {
+    background: radial-gradient(circle, rgba(59,130,246,0.7), transparent);
+  }
+  .kpi-card.purple .glow-circle {
+    background: radial-gradient(circle, rgba(168,85,247,0.7), transparent);
+  }
+  .kpi-card.orange .glow-circle {
+    background: radial-gradient(circle, rgba(249,115,22,0.8), transparent);
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  .table th,
+  .table td {
+    padding: 7px 6px;
+    text-align: right;
+    border-bottom: 1px solid rgba(30,64,175,0.4);
+  }
+  .table th {
+    font-weight: 500;
+    color: var(--muted);
+    background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(15,23,42,0.5));
+  }
+  .small-text { font-size: 11px; color: var(--muted); }
+  @media (max-width: 640px) {
+    .small-text { font-size: 10px; }
+  }
+  .segment-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  @media (max-width: 640px) {
+    .segment-row { font-size: 12px; }
+  }
+  .chart-container {
+    position: relative;
+    width: 100%;
+    height: 260px;
+  }
+  @media (max-width: 640px) {
+    .chart-container {
+      height: 220px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div style="max-width:1280px;margin:0 auto 10px;">
+    <h1>لوحة المبيعات</h1>
+    <div class="subtitle">تم إنشاء هذه الصفحة تلقائيًا من ملف الطلبات: orders_2025-12-06T14_27_25.193127Z.json</div>
+  </div>
+
+  <div class="layout">
+    <!-- العمود الأيسر: منحنى + KPIs + ساعات -->
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">منحنى المبيعات</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">
+              العرض الافتراضي: أسبوعي. يمكنك التبديل إلى يومي أو شهري.
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button data-mode="daily" class="chip" style="cursor:pointer;">
+              يومي
+            </button>
+            <button data-mode="weekly" class="chip" style="cursor:pointer;background:rgba(34,197,94,0.3);">
+              أسبوعي
+            </button>
+            <button data-mode="monthly" class="chip" style="cursor:pointer;">
+              شهري
+            </button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="salesChart"></canvas>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="glow-circle"></div>
+          <div class="kpi-label">إجمالي المبيعات المكتملة</div>
+          <div class="kpi-value">1,739,092.35 ر.س</div>
+          <span class="kpi-pill">يشمل كل الطلبات بحالة تم التوصيل</span>
+        </div>
+
+        <div class="kpi-card blue">
+          <div class="glow-circle"></div>
+          <div class="kpi-label">عدد الطلبات المكتملة</div>
+          <div class="kpi-value">5548</div>
+          <span class="kpi-pill">Delivered Orders</span>
+        </div>
+
+        <div class="kpi-card purple">
+          <div class="glow-circle"></div>
+          <div class="kpi-label">عدد الطلبات الملغاة</div>
+          <div class="kpi-value">31</div>
+          <span class="kpi-pill">Canceled Orders</span>
+        </div>
+
+        <div class="kpi-card orange">
+          <div class="glow-circle"></div>
+          <div class="kpi-label">متوسط قيمة الطلب</div>
+          <div class="kpi-value">313.46 ر.س</div>
+          <span class="kpi-pill">إجمالي المبيعات / عدد الطلبات</span>
+        </div>
+      </div>
+
+      <div class="small-text" style="margin-top:8px;">
+        إجمالي رسوم الشحن التقديرية: 93,230.58 ر.س
+        &nbsp;•&nbsp;
+        إجمالي الخصومات من الكوبونات (تقديري): 288,603.29 ر.س
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <div class="card-header">
+          <div class="card-title">توزيع الطلبات حسب الساعة (مجمّعة)</div>
+          <span class="chip">Hourly Buckets</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="hourChart"></canvas>
+        </div>
+        <div class="small-text" style="margin-top:6px;">
+          أكثر ساعة طلبًا تقريبًا (قبل التجميع) هي الساعة 14:00 من حيث عدد الطلبات المكتملة.
+        </div>
+      </div>
+    </div>
+
+    <!-- العمود الأيمن: مدن + طرق الدفع + أيام الأسبوع + سلوك الشهر -->
+    <div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-header">
+          <div class="card-title">أفضل المدن مبيعًا (Top Cities)</div>
+          <span class="chip">By City</span>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>المدينة</th>
+              <th>عدد الطلبات</th>
+              <th>المبيعات (ر.س)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>الرياض</td>
+              <td>2716</td>
+              <td>890,260.99</td>
+            </tr>
+            <tr>
+              <td>جدة</td>
+              <td>552</td>
+              <td>260,775.84</td>
+            </tr>
+            <tr>
+              <td>الدمام</td>
+              <td>343</td>
+              <td>91,526.49</td>
+            </tr>
+            <tr>
+              <td>الخبر</td>
+              <td>230</td>
+              <td>65,549.25</td>
+            </tr>
+            <tr>
+              <td>مكة المكرمة</td>
+              <td>114</td>
+              <td>29,022.44</td>
+            </tr>
+            <tr>
+              <td>المدينة المنورة</td>
+              <td>106</td>
+              <td>27,611.56</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-header">
+          <div class="card-title">توزيع المبيعات حسب طريقة الدفع</div>
+          <span class="chip">Payment Methods</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="paymentChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-header">
+          <div class="card-title">توزيع الطلبات حسب يوم الأسبوع</div>
+          <span class="chip">By Weekday</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="weekdayChart"></canvas>
+        </div>
+        <div class="small-text" style="margin-top:6px;">
+          أكثر يوم طلبًا تقريبًا هو: الاثنين.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">سلوك الشراء داخل الشهر</div>
+          <span class="chip">أول / وسط / آخر 10 أيام &amp; كل 5 أيام</span>
+        </div>
+        <div>
+          <div class="segment-row">
+            <span>الأيام 1-10:</span>
+            <span id="seg-1-10"></span>
+          </div>
+          <div class="segment-row">
+            <span>الأيام 11-20:</span>
+            <span id="seg-11-20"></span>
+          </div>
+          <div class="segment-row">
+            <span>الأيام 21-31:</span>
+            <span id="seg-21-31"></span>
+          </div>
+          <div class="small-text" style="margin-top:6px;">
+            هذه التقسيمة تساعدك تعرف هل عملاءك يشترون أكثر في أول الشهر، وسطه، أو آخره.
+          </div>
+        </div>
+        <div style="margin-top:12px;">
+          <div class="chart-container">
+            <canvas id="monthBucketChart"></canvas>
+          </div>
+          <div class="small-text" style="margin-top:6px;">
+            توزيع عدد الطلبات حسب اليوم داخل الشهر (كل 5 أيام معًا).
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+  // بيانات من البايثون
+  const dailyLabels = ["2025-02-17", "2025-02-25", "2025-03-08", "2025-03-12", "2025-03-13", "2025-03-14", "2025-03-15", "2025-03-16", "2025-03-17", "2025-03-18", "2025-03-19", "2025-03-20", "2025-03-21", "2025-03-22", "2025-03-23", "2025-03-24", "2025-03-25", "2025-03-26", "2025-03-27", "2025-03-28", "2025-03-29", "2025-03-30", "2025-03-31", "2025-04-01", "2025-04-02", "2025-04-03", "2025-04-04", "2025-04-05", "2025-04-06", "2025-04-07", "2025-04-08", "2025-04-09", "2025-04-10", "2025-04-11", "2025-04-12", "2025-04-13", "2025-04-14", "2025-04-15", "2025-04-16", "2025-04-17", "2025-04-18", "2025-04-19", "2025-04-20", "2025-04-21", "2025-04-22", "2025-04-23", "2025-04-24", "2025-04-25", "2025-04-26", "2025-04-27", "2025-04-28", "2025-04-29", "2025-04-30", "2025-05-01", "2025-05-02", "2025-05-03", "2025-05-04", "2025-05-05", "2025-05-06", "2025-05-07", "2025-05-08", "2025-05-09", "2025-05-10", "2025-05-11", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-17", "2025-05-18", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-24", "2025-05-25", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-05-31", "2025-06-01", "2025-06-02", "2025-06-03", "2025-06-04", "2025-06-07", "2025-06-08", "2025-06-09", "2025-06-10", "2025-06-11", "2025-06-12", "2025-06-13", "2025-06-14", "2025-06-15", "2025-06-16", "2025-06-17", "2025-06-18", "2025-06-19", "2025-06-20", "2025-06-21", "2025-06-23", "2025-06-24", "2025-06-25", "2025-06-26", "2025-06-27", "2025-06-28", "2025-06-29", "2025-06-30", "2025-07-01", "2025-07-02", "2025-07-03", "2025-07-04", "2025-07-05", "2025-07-06", "2025-07-07", "2025-07-08", "2025-07-09", "2025-07-10", "2025-07-11", "2025-07-12", "2025-07-13", "2025-07-14", "2025-07-15", "2025-07-16", "2025-07-17", "2025-07-18", "2025-07-19", "2025-07-20", "2025-07-21", "2025-07-22", "2025-07-23", "2025-07-24", "2025-07-25", "2025-07-26", "2025-07-27", "2025-07-28", "2025-07-29", "2025-07-30", "2025-07-31", "2025-08-01", "2025-08-02", "2025-08-03", "2025-08-04", "2025-08-05", "2025-08-06", "2025-08-07", "2025-08-08", "2025-08-09", "2025-08-10", "2025-08-11", "2025-08-12", "2025-08-13", "2025-08-14", "2025-08-15", "2025-08-16", "2025-08-17", "2025-08-18", "2025-08-19", "2025-08-20", "2025-08-21", "2025-08-22", "2025-08-23", "2025-08-24", "2025-08-25", "2025-08-26", "2025-08-27", "2025-08-28", "2025-08-29", "2025-08-30", "2025-08-31", "2025-09-01", "2025-09-02", "2025-09-03", "2025-09-04", "2025-09-05", "2025-09-06", "2025-09-07", "2025-09-08", "2025-09-09", "2025-09-10", "2025-09-11", "2025-09-12", "2025-09-13", "2025-09-14", "2025-09-15", "2025-09-16", "2025-09-17", "2025-09-18", "2025-09-19", "2025-09-20", "2025-09-21", "2025-09-22", "2025-09-23", "2025-09-24", "2025-09-25", "2025-09-26", "2025-09-27", "2025-09-28", "2025-09-29", "2025-09-30", "2025-10-01", "2025-10-02", "2025-10-03", "2025-10-04", "2025-10-05", "2025-10-06", "2025-10-07", "2025-10-08", "2025-10-09", "2025-10-10", "2025-10-11", "2025-10-12", "2025-10-13", "2025-10-14", "2025-10-15", "2025-10-16", "2025-10-17", "2025-10-18", "2025-10-19", "2025-10-20", "2025-10-21", "2025-10-22", "2025-10-23", "2025-10-24", "2025-10-25", "2025-10-26", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-01", "2025-11-02", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-08", "2025-11-09", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13", "2025-11-14", "2025-11-15", "2025-11-16", "2025-11-17", "2025-11-18", "2025-11-19", "2025-11-20", "2025-11-21", "2025-11-22", "2025-11-23", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-27", "2025-11-28", "2025-11-29", "2025-11-30", "2025-12-01", "2025-12-02", "2025-12-03"];
+  const dailyData   = [309.0, 299.0, 317.9, 267.9, 1263.9, 2519.6, 6857.2, 4710.0, 2750.15, 4750.1, 1947.65, 12067.75, 27654.27, 19435.6, 4928.6, 115463.98, 18790.0, 12152.33, 3412.41, 2043.67, 4559.08, 2328.87, 883.2, 897.0, 1703.27, 4690.85, 7652.22, 4172.2, 3513.25, 1436.35, 2235.84, 1749.15, 3214.25, 1101.82, 584.2, 842.95, 1199.95, 284.05, 3841.32, 33509.22, 2812.42, 3112.57, 882.05, 2188.09, 3762.62, 286.32, 847.37, 832.42, 1400.52, 34330.5, 16869.59, 10417.53, 7678.64, 17207.0, 8022.22, 8197.99, 3579.64, 1403.51, 3328.51, 1649.88, 1166.1, 1674.4, 4186.0, 598.0, 548.37, 0.0, 249.37, 2347.15, 2317.25, 1166.1, 867.1, 568.1, 279.27, 871.58, 1614.6, 1138.5, 598.0, 583.05, 299.0, 2691.0, 1342.51, 2179.71, 553.15, 1103.31, 1360.45, 0.0, 807.3, 1333.54, 568.1, 269.1, 1073.41, 852.15, 269.1, 563.32, 538.2, 1537.2, 1106.3, 999.0, 269.1, 269.1, 269.1, 1397.2, 269.1, 2430.28, 568.1, 1881.05, 3995.71, 568.1, 266.11, 1181.05, 2911.64, 3936.86, 2302.3, 5440.55, 4146.68, 1694.73, 4410.25, 4432.05, 1988.35, 279.27, 269.1, 3702.3, 183757.0, 1068.3, 834.21, 3429.5, 1375.4, 26890.5, 25211.41, 7818.85, 1360.45, 1420.25, 4555.85, 2239.51, 1898.65, 8020.92, 5741.11, 4268.25, 2105.3, 7301.55, 7951.7, 7780.85, 8630.35, 5358.05, 3274.05, 1106.3, 3525.21, 3064.75, 2870.4, 2750.8, 3872.05, 5845.45, 10315.5, 6951.75, 9568.0, 8760.7, 8560.37, 8461.7, 11287.25, 8491.6, 7250.75, 6461.6, 6352.01, 3503.97, 6865.7, 9844.0, 16604.6, 9882.86, 10445.5, 14379.95, 19619.95, 13813.75, 12164.1, 7926.9, 13856.3, 4919.1, 5858.93, 8172.1, 6466.8, 3249.6, 8118.0, 13332.75, 16638.1, 20781.15, 15405.75, 13841.7, 21009.21, 68094.65, 17612.32, 13275.44, 10817.48, 10489.3, 7484.1, 11615.49, 13593.9, 11491.55, 7968.7, 9853.5, 12052.75, 15560.8, 13067.95, 16447.3, 12796.85, 9074.75, 10860.4, 11716.5, 3548.4, 8119.45, 3762.9, 9220.8, 3311.55, 4517.29, 3575.7, 3482.65, 4807.05, 4095.1, 2847.0, 5282.3, 2811.9, 2938.7, 2377.65, 3261.9, 14218.8, 1152.6, 3148.15, 1991.4, 1714.35, 1966.65, 2066.2, 2774.35, 4750.5, 3499.15, 2876.25, 2398.3, 3115.0, 3087.6, 5510.65, 1544.95, 2294.9, 2389.9, 2068.3, 2273.75, 753.7, 2734.65, 2591.65, 2849.15, 3968.5, 1796.45, 1339.5, 3492.9, 1862.85, 1607.4, 2585.2, 3332.2, 1520.05, 2604.1, 2803.3, 4078.95, 1862.85, 1813.05, 3076.75, 2311.3, 4856.45, 8060.8, 2882.4, 2897.1];
+
+  const pmLabels = ["الدفع عند التوصيل", "Apple Pay", "Visa MasterCard", "STC Pay", "Mada", "Tamara", "prepaid_mazeed", "حوالة بنكية"];
+  const pmData   = [309.0, 1154408.59, 115235.48, 51554.25, 63158.47, 171019.41, 1247.15, 182160.0];
+
+  const hourLabels = ["00-03", "04-07", "08-11", "12-15", "16-19", "20-23"];
+  const hourOrders = [836, 619, 797, 1110, 1099, 1087];
+
+  const weekdayLabels = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+  const weekdayOrders = [668, 1032, 987, 659, 713, 749, 740];
+
+  const segment10Labels = ["الأيام 1-10", "الأيام 11-20", "الأيام 21-31"];
+  const segment10Sales  = [362559.05, 709350.02, 667183.28];
+
+  const fiveBucketLabels = ["1-5", "6-10", "11-15", "16-20", "21-25", "26-31"];
+  const fiveBucketOrders = [786, 462, 726, 1193, 1167, 1214];
+
+  // ===== منحنى المبيعات (أسبوعي افتراضيًا) =====
+  function parseDate(str) {
+    const d = new Date(str);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function aggregateWeekly() {
+    const points = dailyLabels
+      .map((dStr, i) => ({ d: parseDate(dStr), v: dailyData[i] || 0 }))
+      .filter(p => p.d !== null)
+      .sort((a, b) => a.d - b.d);
+
+    if (!points.length) return { labels: [], data: [] };
+
+    const outLabels = [];
+    const outData = [];
+
+    let bucketStart = points[0].d;
+    let bucketSum = 0;
+    let lastInBucket = points[0].d;
+
+    function pushBucket() {
+      const from = bucketStart.toISOString().slice(0, 10);
+      const to   = lastInBucket.toISOString().slice(0, 10);
+      outLabels.push(from + " → " + to);
+      outData.push(bucketSum);
+    }
+
+    for (const p of points) {
+      const diffDays = (p.d - bucketStart) / (1000 * 60 * 60 * 24);
+      if (diffDays >= 7) {
+        pushBucket();
+        bucketStart = p.d;
+        bucketSum = 0;
+      }
+      bucketSum += p.v;
+      lastInBucket = p.d;
+    }
+    pushBucket();
+    return { labels: outLabels, data: outData };
+  }
+
+  function aggregateMonthly() {
+    const monthlyMap = new Map();
+    dailyLabels.forEach((dStr, i) => {
+      const d = parseDate(dStr);
+      if (!d) return;
+      const key = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+      const val = dailyData[i] || 0;
+      monthlyMap.set(key, (monthlyMap.get(key) || 0) + val);
+    });
+
+    const outLabels = Array.from(monthlyMap.keys()).sort();
+    const outData = outLabels.map(k => monthlyMap.get(k));
+    return { labels: outLabels, data: outData };
+  }
+
+  const dailyAgg   = { labels: dailyLabels, data: dailyData };
+  const weeklyAgg  = aggregateWeekly();
+  const monthlyAgg = aggregateMonthly();
+
+  const aggregations = {
+    daily:  dailyAgg,
+    weekly: weeklyAgg,
+    monthly: monthlyAgg,
+  };
+
+  const salesCtx = document.getElementById("salesChart").getContext("2d");
+
+  let currentMode = "weekly";
+  let salesChart = new Chart(salesCtx, {
+    type: "line",
+    data: {
+      labels: aggregations[currentMode].labels,
+      datasets: [{
+        label: "إجمالي المبيعات (ر.س)",
+        data: aggregations[currentMode].data,
+        tension: 0.35,
+        fill: true,
+        borderColor: "#22c55e",
+        backgroundColor: function(context) {
+          const chart = context.chart;
+          const ctx = chart.ctx;
+          const chartArea = chart.chartArea;
+          if (!chartArea) {
+            return null;
+          }
+          const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+          gradient.addColorStop(0, "rgba(34,197,94,0)");
+          gradient.addColorStop(1, "rgba(34,197,94,0.25)");
+          return gradient;
+        },
+        pointRadius: 3,
+        pointHoverRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: "#e5e7eb",
+            font: { size: 11 }
+          }
+        },
+        tooltip: {
+          backgroundColor: "rgba(15,23,42,0.95)",
+          borderColor: "rgba(148,163,184,0.6)",
+          borderWidth: 1,
+          titleFont: { size: 12 },
+          bodyFont: { size: 12 },
+          padding: 10,
+          callbacks: {
+            label: function(context) {
+              const value = context.parsed.y || 0;
+              return " " + value.toLocaleString("ar-SA") + " ر.س";
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: "#9ca3af",
+            maxRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 7
+          },
+          grid: { color: "rgba(31,41,55,0.6)" }
+        },
+        y: {
+          ticks: {
+            color: "#9ca3af",
+            callback: function(value) {
+              return value.toLocaleString("ar-SA");
+            }
+          },
+          grid: { color: "rgba(31,41,55,0.7)" }
+        }
+      }
+    }
+  });
+
+  function setMode(mode) {
+    if (!aggregations[mode]) return;
+    currentMode = mode;
+    const agg = aggregations[mode];
+
+    salesChart.data.labels = agg.labels;
+    salesChart.data.datasets[0].data = agg.data;
+    salesChart.update();
+
+    document.querySelectorAll("[data-mode]").forEach(btn => {
+      if (btn.getAttribute("data-mode") === mode) {
+        btn.style.background = "rgba(34,197,94,0.3)";
+      } else {
+        btn.style.background = "rgba(148,163,184,0.16)";
+      }
+    });
+  }
+
+  document.querySelectorAll("[data-mode]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const mode = btn.getAttribute("data-mode");
+      setMode(mode);
+    });
+  });
+
+  // ===== توزيع حسب الساعة (فترات) =====
+  const hourCtx = document.getElementById("hourChart").getContext("2d");
+  new Chart(hourCtx, {
+    type: "bar",
+    data: {
+      labels: hourLabels,
+      datasets: [{
+        label: "عدد الطلبات المكتملة",
+        data: hourOrders,
+        backgroundColor: "#3b82f6",
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: "#e5e7eb",
+            font: { size: 11 }
+          }
+        },
+        tooltip: {
+          backgroundColor: "rgba(15,23,42,0.95)",
+          borderColor: "rgba(148,163,184,0.6)",
+          borderWidth: 1,
+          titleFont: { size: 12 },
+          bodyFont: { size: 12 },
+          padding: 10
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#9ca3af" },
+          grid: { color: "rgba(31,41,55,0.6)" }
+        },
+        y: {
+          ticks: { color: "#9ca3af" },
+          grid: { color: "rgba(31,41,55,0.7)" }
+        }
+      }
+    }
+  });
+
+  // ===== طرق الدفع (نسب + مبالغ) =====
+  const pmCtx = document.getElementById("paymentChart").getContext("2d");
+  const pmTotal = pmData.reduce((sum, v) => sum + (v || 0), 0);
+
+  new Chart(pmCtx, {
+    type: "doughnut",
+    data: {
+      labels: pmLabels,
+      datasets: [{
+        data: pmData,
+        backgroundColor: [
+          "#22c55e",
+          "#3b82f6",
+          "#a855f7",
+          "#f97316",
+          "#e11d48",
+          "#14b8a6"
+        ],
+        borderColor: "#020617",
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            color: "#e5e7eb",
+            font: { size: 11 },
+            padding: 12
+          }
+        },
+        tooltip: {
+          backgroundColor: "rgba(15,23,42,0.95)",
+          borderColor: "rgba(148,163,184,0.6)",
+          borderWidth: 1,
+          titleFont: { size: 12 },
+          bodyFont: { size: 12 },
+          padding: 10,
+          callbacks: {
+            label: function(context) {
+              const label = context.label || "";
+              const value = context.parsed || 0;
+              const pct = pmTotal ? (value / pmTotal * 100) : 0;
+              const valueStr = value.toLocaleString("ar-SA");
+              const pctStr = pct.toFixed(1);
+              return " " + label + ": " + valueStr + " ر.س (" + pctStr + "٪)";
+            }
+          }
+        }
+      },
+      cutout: "60%"
+    }
+  });
+
+  // ===== أيام الأسبوع =====
+  const weekdayCtx = document.getElementById("weekdayChart").getContext("2d");
+  new Chart(weekdayCtx, {
+    type: "bar",
+    data: {
+      labels: weekdayLabels,
+      datasets: [{
+        label: "عدد الطلبات المكتملة",
+        data: weekdayOrders,
+        backgroundColor: "#a855f7",
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: "#e5e7eb",
+            font: { size: 11 }
+          }
+        },
+        tooltip: {
+          backgroundColor: "rgba(15,23,42,0.95)",
+          borderColor: "rgba(148,163,184,0.6)",
+          borderWidth: 1,
+          titleFont: { size: 12 },
+          bodyFont: { size: 12 },
+          padding: 10
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#9ca3af" },
+          grid: { color: "rgba(31,41,55,0.6)" }
+        },
+        y: {
+          ticks: { color: "#9ca3af" },
+          grid: { color: "rgba(31,41,55,0.7)" }
+        }
+      }
+    }
+  });
+
+  // ===== عرض مبيعات أول/وسط/آخر 10 أيام =====
+  if (segment10Labels.length === 3 && segment10Sales.length === 3) {
+    const fmt = v => v.toLocaleString("ar-SA") + " ر.س";
+    document.getElementById("seg-1-10").textContent  = fmt(segment10Sales[0] || 0);
+    document.getElementById("seg-11-20").textContent = fmt(segment10Sales[1] || 0);
+    document.getElementById("seg-21-31").textContent = fmt(segment10Sales[2] || 0);
+  }
+
+  // ===== توزيع الطلبات في الشهر كل 5 أيام =====
+  const monthBucketCtx = document.getElementById("monthBucketChart").getContext("2d");
+  new Chart(monthBucketCtx, {
+    type: "bar",
+    data: {
+      labels: fiveBucketLabels,
+      datasets: [{
+        label: "عدد الطلبات",
+        data: fiveBucketOrders,
+        backgroundColor: "#f97316",
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: "#e5e7eb",
+            font: { size: 11 }
+          }
+        },
+        tooltip: {
+          backgroundColor: "rgba(15,23,42,0.95)",
+          borderColor: "rgba(148,163,184,0.6)",
+          borderWidth: 1,
+          titleFont: { size: 12 },
+          bodyFont: { size: 12 },
+          padding: 10
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#9ca3af" },
+          grid: { color: "rgba(31,41,55,0.6)" }
+        },
+        y: {
+          ticks: { color: "#9ca3af" },
+          grid: { color: "rgba(31,41,55,0.7)" }
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>
