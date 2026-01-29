@@ -14,7 +14,7 @@
   .bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
   select, input[type="text"], button { padding: 6px; }
 
-  /* ===== HEADERS ALWAYS CENTER ===== */
+  /* ===== HEADERS CENTER ===== */
   #csvTable thead th {
     text-align: center !important;
     vertical-align: middle;
@@ -26,12 +26,33 @@
     vertical-align: middle;
   }
 
-  /* ===== TITLE COLUMN CONTENT LEFT ===== */
+  /* ===== TITLE LEFT ===== */
   #csvTable td.col-title {
     text-align: left !important;
   }
 
-  img { max-height: 40px; border-radius: 6px; }
+  /* ===== IMAGE BASE ===== */
+  .img-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
+  .img-wrap img {
+    max-height: 40px;
+    border-radius: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: zoom-in;
+    background: #fff;
+  }
+
+  /* ===== HOVER ZOOM ===== */
+  .img-wrap:hover img {
+    transform: scale(4);
+    z-index: 9999;
+    position: relative;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+    border-radius: 12px;
+  }
 
   table.dataTable thead th {
     position: sticky;
@@ -59,9 +80,6 @@
 
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <script>
@@ -150,7 +168,7 @@ function buildTable(rows){
     r.revenue30Day_num = moneyToNum(r.revenue30Day);
 
     r.image = r.image
-      ? `<a href="${r.image}" target="_blank"><img src="${r.image}"></a>`
+      ? `<div class="img-wrap"><img src="${r.image}" loading="lazy"></div>`
       : "";
 
     r.url = r.url
