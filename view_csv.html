@@ -22,25 +22,6 @@
   img { max-height: 40px; border-radius: 6px; }
   .right { text-align: right; }
   .wrap { white-space: normal !important; }
-
-  /* Simple modal */
-  .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9998; }
-  .modal {
-    display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
-    background:#fff; width:min(900px, 92vw); max-height:80vh; overflow:auto; z-index:9999;
-    border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.25);
-  }
-  .modal header {
-    display:flex; align-items:center; justify-content:space-between;
-    padding:12px 14px; border-bottom:1px solid #eee;
-  }
-  .modal header b { font-size: 14px; }
-  .modal .content { padding: 12px 14px; }
-  .kv { display:grid; grid-template-columns: 180px 1fr; gap:8px 12px; }
-  .kv div { padding: 6px 0; border-bottom: 1px dashed #eee; }
-  .kv .k { color:#555; font-weight:600; }
-  .kv .v { color:#111; word-break: break-word; }
-  .close-btn { border:1px solid #ddd; background:#fff; border-radius:10px; padding:6px 10px; }
 </style>
 </head>
 
@@ -49,22 +30,6 @@
 
   <div class="bar">
     <input type="file" id="fileInput" accept=".csv" />
-
-    <select id="primeFilter" disabled>
-      <option value="">Prime: All</option>
-      <option value="true">Prime: True</option>
-      <option value="false">Prime: False</option>
-    </select>
-
-    <select id="sponsoredFilter" disabled>
-      <option value="">Sponsored: All</option>
-      <option value="true">Sponsored: True</option>
-      <option value="false">Sponsored: False</option>
-    </select>
-
-    <select id="fulfillmentFilter" disabled>
-      <option value="">Fulfillment: All</option>
-    </select>
 
     <input id="quickSearch" type="text" placeholder="Quick search..." disabled />
 
@@ -90,16 +55,6 @@
 
   <table id="csvTable" class="display compact stripe" style="width:100%"></table>
 
-  <!-- Modal -->
-  <div class="modal-backdrop" id="backdrop"></div>
-  <div class="modal" id="modal">
-    <header>
-      <b id="modalTitle">Row details</b>
-      <button class="close-btn" id="modalClose">Close</button>
-    </header>
-    <div class="content" id="modalContent"></div>
-  </div>
-
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 
@@ -112,10 +67,17 @@
 
 <script>
 /* ================== CONFIG ================== */
-const AUTO_CSV = "first_aid_Search_7pages_amazon_2026-01-28_320_products.csv"; // in same folder
+const AUTO_CSV = "first_aid_Search_7pages_amazon_2026-01-28_320_products.csv";
+
+// الترتيب اللي طلبته — أي أعمدة غير موجودة هنا لن تظهر
+const VISIBLE_COLS = [
+  "image", "title", "price", "rating", "reviews",
+  "revenue30Day", "unitSales30Day",
+  "category1", "bsr1", "category2", "bsr2", "category3", "bsr3",
+  "url"
+];
 /* ============================================ */
 
-/* ---------------- helpers ---------------- */
 function moneyToNum(v){
   if (v === null || v === undefined) return 0;
   const s = String(v).trim().replace(/[^0-9.]/g,'');
@@ -126,22 +88,6 @@ function numToFloat(v){
   const s = String(v).trim().replace(/[^0-9.]/g,'');
   return s ? parseFloat(s) : 0;
 }
-function uniqValues(arr){
-  return Array.from(new Set(arr.filter(v => v !== null && v !== undefined && String(v).trim() !== '')))
-              .map(v => String(v));
-}
-function safeIndex(columns, name){
-  const i = columns.findIndex(c => c.data === name);
-  return i >= 0 ? i : null;
-}
-function escapeHtml(s){
-  return String(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
 function fmtNum(n){
   try { return new Intl.NumberFormat().format(n); } catch { return String(n); }
 }
@@ -150,66 +96,21 @@ function fmtMoney(n){
   catch { return String(n); }
 }
 function setText(id, txt){ document.getElementById(id).textContent = txt; }
-
-/* ---------------- modal ---------------- */
-const backdrop = document.getElementById("backdrop");
-const modal = document.getElementById("modal");
-const modalClose = document.getElementById("modalClose");
-
-function openModal(title, rowObj){
-  document.getElementById("modalTitle").textContent = title || "Row details";
-  const keys = Object.keys(rowObj || {});
-  const rows = keys.map(k => {
-    const v = rowObj[k];
-    let out = "";
-    if (k === "url" && v) {
-      out = `<a href="${escapeHtml(v)}" target="_blank" rel="noopener">${escapeHtml(v)}</a>`;
-    } else if (k === "image" && v) {
-      out = `<a href="${escapeHtml(v)}" target="_blank" rel="noopener"><img src="${escapeHtml(v)}" style="max-height:140px;border-radius:12px;"></a>`;
-    } else {
-      out = escapeHtml(v ?? "");
-    }
-    return `<div class="k">${escapeHtml(k)}</div><div class="v">${out}</div>`;
-  }).join("");
-  document.getElementById("modalContent").innerHTML = `<div class="kv">${rows}</div>`;
-  backdrop.style.display = "block";
-  modal.style.display = "block";
+function safeIndex(columns, name){
+  const i = columns.findIndex(c => c.data === name);
+  return i >= 0 ? i : null;
 }
-function closeModal(){
-  backdrop.style.display = "none";
-  modal.style.display = "none";
-}
-backdrop.addEventListener("click", closeModal);
-modalClose.addEventListener("click", closeModal);
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
-/* ---------------- state ---------------- */
 let table = null;
-let allData = [];
-let columns = [];
 let idx = {};
 
-const primeFilter = document.getElementById("primeFilter");
-const sponsoredFilter = document.getElementById("sponsoredFilter");
-const fulfillSelect = document.getElementById("fulfillmentFilter");
 const quickSearch = document.getElementById("quickSearch");
 const toggleImages = document.getElementById("toggleImages");
 const toggleWrap = document.getElementById("toggleWrap");
 const btnReset = document.getElementById("btnReset");
 const btnReload = document.getElementById("btnReload");
 
-function enableControls(enabled){
-  primeFilter.disabled = !enabled;
-  sponsoredFilter.disabled = !enabled;
-  fulfillSelect.disabled = !enabled;
-  quickSearch.disabled = !enabled;
-  btnReset.disabled = !enabled;
-}
-
 function resetFilters(){
-  primeFilter.value = "";
-  sponsoredFilter.value = "";
-  fulfillSelect.value = "";
   quickSearch.value = "";
   if (!table) return;
   table.search("").columns().search("").draw();
@@ -217,90 +118,69 @@ function resetFilters(){
 }
 btnReset.addEventListener("click", resetFilters);
 
-/* ---------------- load & build table ---------------- */
+function buildColumnsFromOrder(sampleRow){
+  const existing = new Set(Object.keys(sampleRow || {}));
+
+  // فقط الأعمدة المطلوبة وبنفس الترتيب
+  const cols = VISIBLE_COLS
+    .filter(c => existing.has(c))
+    .map(k => ({
+      title: k,
+      data: k,
+      className: (
+        ["price","rating","reviews","revenue30Day","unitSales30Day","bsr1","bsr2","bsr3"].includes(k)
+      ) ? "right" : ""
+    }));
+
+  return cols;
+}
+
 function loadTableFromParsed(data){
-  allData = data || [];
-  if (!allData.length) {
+  const rows = (data || []).filter(r => r && Object.keys(r).length);
+  if (!rows.length) {
     setText("statusText", "No rows found in CSV.");
     return;
   }
 
-  setText("statusText", `Loaded ${allData.length} rows`);
+  // enrich rows (link/image) + numeric helpers
+  rows.forEach(r => {
+    // money helpers for proper sorting
+    if ("revenue30Day" in r) r.revenue30Day_num = moneyToNum(r.revenue30Day);
+    if ("price" in r)        r.price_num        = moneyToNum(r.price);
+    if ("unitSales30Day" in r) r.unitSales30Day_num = numToFloat(r.unitSales30Day);
 
-  // Build columns from headers
-  columns = Object.keys(allData[0]).map(k => ({
-    title: k,
-    data: k,
-    className: (k.toLowerCase().includes("price") ||
-                k.toLowerCase().includes("revenue") ||
-                k.toLowerCase().includes("sales") ||
-                k.toLowerCase().includes("reviews") ||
-                k.toLowerCase().includes("rating") ||
-                k.toLowerCase().includes("bsr")) ? "right" : ""
-  }));
-
-  // Enrich rows
-  allData.forEach(row => {
-    // money helpers
-    if ("revenue30Day" in row) row.revenue30Day_num = moneyToNum(row.revenue30Day);
-    if ("price" in row) row.price_num = moneyToNum(row.price);
-    if ("unitSales30Day" in row) row.unitSales30Day_num = numToFloat(row.unitSales30Day);
-
-    // raw links for modal
-    if (row.url) row._raw_url = String(row.url).trim();
-    if (row.image) row._raw_image = String(row.image).trim();
-
-    // clickable url cell
-    if (row.url) {
-      const u = String(row.url).trim();
-      row.url = u ? `<a href="${u}" target="_blank" rel="noopener">open</a>` : "";
-    }
-    // image cell
-    if (row.image) {
-      const img = String(row.image).trim();
-      row.image = img
-        ? `<a href="${img}" target="_blank" rel="noopener"><img src="${img}" loading="lazy"></a>`
-        : "";
+    // clickable url
+    if (r.url) {
+      const u = String(r.url).trim();
+      r._raw_url = u;
+      r.url = u ? `<a href="${u}" target="_blank" rel="noopener">open</a>` : "";
     }
 
-    // normalize booleans as "true"/"false" for filtering
-    if ("isPrime" in row) row.isPrime = String(row.isPrime).toLowerCase();
-    if ("isSponsored" in row) row.isSponsored = String(row.isSponsored).toLowerCase();
+    // image preview
+    if (r.image) {
+      const img = String(r.image).trim();
+      r._raw_image = img;
+      r.image = img ? `<a href="${img}" target="_blank" rel="noopener"><img src="${img}" loading="lazy"></a>` : "";
+    }
   });
 
-  // Ensure helper columns exist (hidden but used for sort/stats)
-  if (!columns.find(c => c.data === "revenue30Day_num") && allData[0].revenue30Day_num !== undefined) {
+  // Build visible columns in your order
+  let columns = buildColumnsFromOrder(rows[0]);
+
+  // Add helper columns (hidden) to enable correct numeric sorting
+  if (!columns.find(c => c.data === "revenue30Day_num") && rows[0].revenue30Day_num !== undefined) {
     columns.push({ title: "revenue30Day_num", data: "revenue30Day_num", className: "right" });
   }
-  if (!columns.find(c => c.data === "price_num") && allData[0].price_num !== undefined) {
+  if (!columns.find(c => c.data === "price_num") && rows[0].price_num !== undefined) {
     columns.push({ title: "price_num", data: "price_num", className: "right" });
   }
-  if (!columns.find(c => c.data === "unitSales30Day_num") && allData[0].unitSales30Day_num !== undefined) {
+  if (!columns.find(c => c.data === "unitSales30Day_num") && rows[0].unitSales30Day_num !== undefined) {
     columns.push({ title: "unitSales30Day_num", data: "unitSales30Day_num", className: "right" });
   }
 
-  // indices
   idx.revenueNum = safeIndex(columns, "revenue30Day_num");
-  idx.priceNum   = safeIndex(columns, "price_num");
   idx.unitsNum   = safeIndex(columns, "unitSales30Day_num");
-
-  idx.prime      = safeIndex(columns, "isPrime");
-  idx.sponsored  = safeIndex(columns, "isSponsored");
-  idx.fulfill    = safeIndex(columns, "fulfillment");
   idx.image      = safeIndex(columns, "image");
-
-  // fulfillment dropdown
-  fulfillSelect.innerHTML = `<option value="">Fulfillment: All</option>`;
-  if (idx.fulfill !== null) {
-    const fulfills = uniqValues(allData.map(r => r.fulfillment));
-    fulfills.sort();
-    fulfills.forEach(v => {
-      const opt = document.createElement("option");
-      opt.value = v;
-      opt.textContent = `Fulfillment: ${v}`;
-      fulfillSelect.appendChild(opt);
-    });
-  }
 
   // Destroy old table
   if (table) {
@@ -312,17 +192,17 @@ function loadTableFromParsed(data){
   // Hide helper numeric columns
   const columnDefs = [];
   if (idx.revenueNum !== null) columnDefs.push({ targets: idx.revenueNum, visible: false, searchable: false });
-  if (idx.priceNum !== null)   columnDefs.push({ targets: idx.priceNum, visible: false, searchable: false });
-  if (idx.unitsNum !== null)   columnDefs.push({ targets: idx.unitsNum, visible: false, searchable: false });
+  if (safeIndex(columns, "price_num") !== null) columnDefs.push({ targets: safeIndex(columns, "price_num"), visible: false, searchable: false });
+  if (idx.unitsNum !== null) columnDefs.push({ targets: idx.unitsNum, visible: false, searchable: false });
 
-  // Default sort by revenue desc if present
+  // Default sort by revenue desc
   const defaultOrder = (idx.revenueNum !== null) ? [[idx.revenueNum, "desc"]] : [];
 
-  // Init DataTable
   table = $('#csvTable').DataTable({
-    data: allData,
-    columns: columns,
+    data: rows,
+    columns,
     columnDefs,
+
     pageLength: 50,
     lengthMenu: [10, 25, 50, 100, 200],
     scrollX: true,
@@ -336,57 +216,8 @@ function loadTableFromParsed(data){
     buttons: ["copy", "csv", "excel", "print"]
   });
 
-  // row click -> modal
-  $('#csvTable tbody').off("click").on("click", "tr", function() {
-    const row = table.row(this);
-    const d = row.data();
-    if (!d) return;
-
-    const obj = { ...d };
-    if (obj._raw_url) obj.url = obj._raw_url;
-    if (obj._raw_image) obj.image = obj._raw_image;
-
-    const title = obj.asin ? `ASIN: ${obj.asin}` : "Row details";
-    openModal(title, obj);
-  });
-
-  // Enable controls (only if columns exist)
-  primeFilter.disabled     = (idx.prime === null);
-  sponsoredFilter.disabled = (idx.sponsored === null);
-  fulfillSelect.disabled   = (idx.fulfill === null);
-  quickSearch.disabled     = false;
-  btnReset.disabled        = false;
-
-  // Filters wiring
-  primeFilter.onchange = function(){
-    if (idx.prime === null) return;
-    table.column(idx.prime).search(this.value).draw();
-    updateStats();
-  };
-  sponsoredFilter.onchange = function(){
-    if (idx.sponsored === null) return;
-    table.column(idx.sponsored).search(this.value).draw();
-    updateStats();
-  };
-  fulfillSelect.onchange = function(){
-    if (idx.fulfill === null) return;
-    const v = this.value;
-    const escaped = v ? v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : "";
-    table.column(idx.fulfill).search(v ? `^${escaped}$` : "", true, false).draw();
-    updateStats();
-  };
-
-  // Quick search (debounced)
-  let t = null;
-  quickSearch.oninput = function(){
-    clearTimeout(t);
-    t = setTimeout(() => {
-      table.search(this.value).draw();
-      updateStats();
-    }, 200);
-  };
-
-  // Toggle images
+  // Toggle images show/hide
+  if (idx.image !== null) table.column(idx.image).visible(toggleImages.checked);
   toggleImages.onchange = function(){
     if (!table || idx.image === null) return;
     table.column(idx.image).visible(this.checked);
@@ -400,11 +231,22 @@ function loadTableFromParsed(data){
     else el.classList.remove("wrap");
   };
 
-  // Keep image visibility
-  if (idx.image !== null) table.column(idx.image).visible(toggleImages.checked);
+  // Search
+  quickSearch.disabled = false;
+  btnReset.disabled = false;
 
-  // update stats on every draw
+  let t = null;
+  quickSearch.oninput = function(){
+    clearTimeout(t);
+    t = setTimeout(() => {
+      table.search(this.value).draw();
+      updateStats();
+    }, 200);
+  };
+
   table.on("draw", updateStats);
+
+  setText("statusText", `Loaded ${rows.length} rows`);
   updateStats();
 }
 
@@ -415,8 +257,8 @@ function updateStats(){
   const visible = table.rows({ filter: "applied" }).data().length;
 
   let rev = 0, units = 0;
-  const rows = table.rows({ filter: "applied" }).data().toArray();
-  for (const r of rows) {
+  const filtered = table.rows({ filter: "applied" }).data().toArray();
+  for (const r of filtered) {
     if (idx.revenueNum !== null) rev += (r.revenue30Day_num || 0);
     if (idx.unitsNum !== null) units += (r.unitSales30Day_num || 0);
   }
@@ -427,30 +269,25 @@ function updateStats(){
   setText("statUnits", `Units (visible): ${fmtNum(units)}`);
 }
 
-/* ---------------- manual upload ---------------- */
+/* -------- manual upload -------- */
 document.getElementById('fileInput').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (!file) return;
 
   setText("statusText", "Loading local CSV...");
-  enableControls(false);
-
   Papa.parse(file, {
     header: true,
     skipEmptyLines: true,
     worker: true,
     complete: function(results) {
-      enableControls(true);
       loadTableFromParsed(results.data);
     }
   });
 });
 
-/* ---------------- auto-load from server ---------------- */
+/* -------- auto-load from server -------- */
 function loadServerCSV(){
   setText("statusText", `Loading server CSV: ${AUTO_CSV} ...`);
-  enableControls(false);
-
   fetch(AUTO_CSV, { cache: "no-store" })
     .then(res => {
       if (!res.ok) throw new Error("CSV not found: " + AUTO_CSV);
@@ -461,20 +298,17 @@ function loadServerCSV(){
         header: true,
         skipEmptyLines: true,
         complete: function(results) {
-          enableControls(true);
           loadTableFromParsed(results.data);
         }
       });
     })
     .catch(err => {
       console.warn(err);
-      setText("statusText", `Auto-load failed. You can still use Choose File. (${err.message})`);
+      setText("statusText", `Auto-load failed. Use Choose File. (${err.message})`);
     });
 }
 
 btnReload.addEventListener("click", loadServerCSV);
-
-// Auto-load on page open
 loadServerCSV();
 </script>
 </body>
