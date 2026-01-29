@@ -14,14 +14,31 @@
   .bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
   select, input[type="text"], button { padding: 6px; }
 
-  /* Center all cells */
-  #csvTable th, #csvTable td { text-align: center; vertical-align: middle; }
+  /* ===== HEADERS ALWAYS CENTER ===== */
+  #csvTable thead th {
+    text-align: center !important;
+    vertical-align: middle;
+  }
 
-  /* Title column: align left */
-  #csvTable th.col-title, #csvTable td.col-title { text-align: left !important; }
+  /* ===== CELLS CENTER ===== */
+  #csvTable tbody td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  /* ===== TITLE COLUMN CONTENT LEFT ===== */
+  #csvTable td.col-title {
+    text-align: left !important;
+  }
 
   img { max-height: 40px; border-radius: 6px; }
-  table.dataTable thead th { position: sticky; top: 0; background: #fff; z-index: 2; }
+
+  table.dataTable thead th {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 2;
+  }
 </style>
 </head>
 
@@ -69,11 +86,12 @@ const CSV_FILES = [
   "400pages_all_split_final.csv"
 ];
 
-// show only these columns, in this order (anything else in CSV is hidden)
 const VISIBLE_COLS = [
   "image","title","price","rating","reviews",
   "revenue30Day","unitSales30Day",
-  "category1","bsr1","category2","bsr2","category3","bsr3",
+  "category1","bsr1",
+  "category2","bsr2",
+  "category3","bsr3",
   "url"
 ];
 /* ================================ */
@@ -104,10 +122,7 @@ function loadCSV(filename){
   currentCSV = filename;
   setStatus("Loading: " + filename);
 
-  // encodeURI مهم جدًا لأن عندك ملفات فيها مسافات و & و , و ()
-  const url = encodeURI(filename);
-
-  fetch(url, { cache: "no-store" })
+  fetch(encodeURI(filename), { cache: "no-store" })
     .then(res => {
       if (!res.ok) throw new Error("CSV not found: " + filename);
       return res.text();
@@ -116,54 +131,36 @@ function loadCSV(filename){
       Papa.parse(text, {
         header: true,
         skipEmptyLines: true,
-        complete: (res) => buildTable(res.data || [])
+        complete: res => buildTable(res.data || [])
       });
     })
     .catch(err => {
-      alert(err.message);
       console.error(err);
       setStatus("Error: " + err.message);
+      alert(err.message);
     });
 }
 
 function buildTable(rows){
-  // remove empty rows
-  rows = (rows || []).filter(r => r && Object.keys(r).length);
+  rows = rows.filter(r => r && Object.keys(r).length);
+  if (!rows.length) return;
 
-  if (!rows.length) {
-    if (table) { table.destroy(); $("#csvTable").empty(); table = null; }
-    setStatus("No rows found.");
-    return;
-  }
-
-  // Ensure helpers exist for EVERY row (prevents "unknown parameter" errors)
-  for (const r of rows) {
+  rows.forEach(r => {
     r.price_num = moneyToNum(r.price);
     r.revenue30Day_num = moneyToNum(r.revenue30Day);
 
-    // image (clickable)
-    if (r.image) {
-      const img = String(r.image).trim();
-      r.image = img ? `<a href="${img}" target="_blank" rel="noopener"><img src="${img}" loading="lazy"></a>` : "";
-    } else {
-      r.image = "";
-    }
+    r.image = r.image
+      ? `<a href="${r.image}" target="_blank"><img src="${r.image}"></a>`
+      : "";
 
-    // url (clickable)
-    if (r.url) {
-      const u = String(r.url).trim();
-      r.url = u ? `<a href="${u}" target="_blank" rel="noopener">open</a>` : "";
-    } else {
-      r.url = "";
-    }
-  }
+    r.url = r.url
+      ? `<a href="${r.url}" target="_blank">open</a>`
+      : "";
+  });
 
-  // Build only the columns you want, in your order
   let columns = buildColumns(rows[0]);
-
-  // Add hidden numeric helper columns for correct sorting
-  columns.push({ title:"revenue30Day_num", data:"revenue30Day_num" });
-  columns.push({ title:"price_num", data:"price_num" });
+  columns.push({ data:"revenue30Day_num" });
+  columns.push({ data:"price_num" });
 
   const revIdx = columns.findIndex(c => c.data === "revenue30Day_num");
   const priceIdx = columns.findIndex(c => c.data === "price_num");
@@ -175,47 +172,41 @@ function buildTable(rows){
 
   table = $("#csvTable").DataTable({
     data: rows,
-    columns: columns,
+    columns,
     columnDefs: [
-      { targets: [revIdx, priceIdx], visible: false, searchable: false }
+      { targets: [revIdx, priceIdx], visible:false, searchable:false }
     ],
-    order: revIdx >= 0 ? [[revIdx, "desc"]] : [],
+    order: revIdx >= 0 ? [[revIdx,"desc"]] : [],
     pageLength: 50,
-    lengthMenu: [10, 25, 50, 100, 200],
+    lengthMenu: [10,25,50,100,200],
     scrollX: true,
     deferRender: true,
     processing: true,
     dom: "Bfrtip",
-    buttons: ["copy", "csv", "excel", "print"]
+    buttons: ["copy","csv","excel","print"]
   });
 
-  // Quick search
-  const qs = document.getElementById("quickSearch");
-  qs.value = "";
-  qs.oninput = function(){
-    if (!table) return;
+  document.getElementById("quickSearch").oninput = function(){
     table.search(this.value).draw();
   };
 
   setStatus(`Loaded ${rows.length} rows`);
 }
 
-/* Dropdown setup */
+/* dropdown */
 const sel = document.getElementById("csvSelect");
 CSV_FILES.forEach(f => {
-  const opt = document.createElement("option");
-  opt.value = f;
-  opt.textContent = f;
-  sel.appendChild(opt);
+  const o = document.createElement("option");
+  o.value = f;
+  o.textContent = f;
+  sel.appendChild(o);
 });
 sel.value = currentCSV;
-
 sel.onchange = () => loadCSV(sel.value);
 
-/* Reload button */
 document.getElementById("reloadBtn").onclick = () => loadCSV(currentCSV);
 
-/* Auto-load first CSV on open */
+/* auto-load */
 loadCSV(currentCSV);
 </script>
 </body>
