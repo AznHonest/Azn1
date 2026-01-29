@@ -13,26 +13,14 @@
   h2 { margin: 0 0 10px 0; font-size: 18px; }
 
   /* Center everything */
-  #csvTable th,
-  #csvTable td {
-    text-align: center;
-    vertical-align: middle;
-  }
+  #csvTable th, #csvTable td { text-align: center; vertical-align: middle; }
 
   /* Title column: align left */
-  #csvTable th.col-title,
-  #csvTable td.col-title {
-    text-align: left !important;
-  }
+  #csvTable th.col-title, #csvTable td.col-title { text-align: left !important; }
 
   img { max-height: 40px; border-radius: 6px; }
 
-  table.dataTable thead th {
-    position: sticky;
-    top: 0;
-    background: #fff;
-    z-index: 2;
-  }
+  table.dataTable thead th { position: sticky; top: 0; background: #fff; z-index: 2; }
 </style>
 </head>
 
@@ -46,6 +34,8 @@
 
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <script>
@@ -63,8 +53,8 @@ const VISIBLE_COLS = [
 /* ========================================== */
 
 function moneyToNum(v){
-  if (!v) return 0;
-  const s = String(v).replace(/[^0-9.]/g,'');
+  if (v === null || v === undefined) return 0;
+  const s = String(v).trim().replace(/[^0-9.]/g,'');
   return s ? parseFloat(s) : 0;
 }
 
@@ -76,8 +66,8 @@ function safeIndex(cols, name){
 let table = null;
 let idx = {};
 
-function buildColumns(row){
-  const keys = new Set(Object.keys(row || {}));
+function buildColumns(sampleRow){
+  const keys = new Set(Object.keys(sampleRow || {}));
   return VISIBLE_COLS
     .filter(c => keys.has(c))
     .map(c => ({
@@ -87,30 +77,40 @@ function buildColumns(row){
     }));
 }
 
-function loadTable(data){
-  if (!data || !data.length) return;
+function loadTable(rows){
+  // تنظيف صفوف فاضية
+  rows = (rows || []).filter(r => r && Object.keys(r).length);
 
-  data.forEach(r => {
+  if (!rows.length) return;
+
+  // ✅ مهم: نضمن الأعمدة المساعدة موجودة في كل صف
+  rows.forEach(r => {
+    r.price_num = moneyToNum(r.price);
+    r.revenue30Day_num = moneyToNum(r.revenue30Day);
+
     if (r.image) {
-      const img = r.image;
-      r.image = `<a href="${img}" target="_blank"><img src="${img}"></a>`;
+      const img = String(r.image).trim();
+      r.image = img ? `<a href="${img}" target="_blank" rel="noopener"><img src="${img}" loading="lazy"></a>` : "";
+    } else {
+      r.image = "";
     }
+
     if (r.url) {
-      const u = r.url;
-      r.url = `<a href="${u}" target="_blank">open</a>`;
+      const u = String(r.url).trim();
+      r.url = u ? `<a href="${u}" target="_blank" rel="noopener">open</a>` : "";
+    } else {
+      r.url = "";
     }
-    if (r.revenue30Day) r.revenue30Day_num = moneyToNum(r.revenue30Day);
-    if (r.price) r.price_num = moneyToNum(r.price);
   });
 
-  let columns = buildColumns(data[0]);
+  let columns = buildColumns(rows[0]);
 
-  // hidden numeric helpers
+  // أضف الأعمدة المساعدة (مخفية) للفرز الصحيح
   columns.push({ title:"revenue30Day_num", data:"revenue30Day_num" });
   columns.push({ title:"price_num", data:"price_num" });
 
-  idx.rev = safeIndex(columns,"revenue30Day_num");
-  idx.price = safeIndex(columns,"price_num");
+  idx.rev = safeIndex(columns, "revenue30Day_num");
+  idx.price = safeIndex(columns, "price_num");
 
   if (table) {
     table.destroy();
@@ -118,28 +118,37 @@ function loadTable(data){
   }
 
   table = $('#csvTable').DataTable({
-    data,
+    data: rows,
     columns,
     columnDefs: [
-      { targets: [idx.rev, idx.price], visible:false, searchable:false }
+      { targets: [idx.rev, idx.price], visible: false, searchable: false }
     ],
-    order: idx.rev !== null ? [[idx.rev,"desc"]] : [],
+    order: idx.rev !== null ? [[idx.rev, "desc"]] : [],
     pageLength: 50,
     scrollX: true,
+    deferRender: true,
     dom: "Bfrtip",
-    buttons: ["csv","excel"],
-    deferRender: true
+    buttons: ["copy", "csv", "excel", "print"]
   });
 }
 
 /* auto load CSV from same folder */
 fetch(AUTO_CSV, { cache: "no-store" })
-  .then(r => r.text())
-  .then(t => Papa.parse(t, {
-    header:true,
-    skipEmptyLines:true,
-    complete: res => loadTable(res.data)
-  }));
+  .then(res => {
+    if (!res.ok) throw new Error("CSV not found: " + AUTO_CSV);
+    return res.text();
+  })
+  .then(csvText => {
+    Papa.parse(csvText, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => loadTable(results.data)
+    });
+  })
+  .catch(err => {
+    alert("Failed to load CSV: " + err.message);
+    console.error(err);
+  });
 </script>
 
 </body>
