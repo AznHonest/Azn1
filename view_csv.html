@@ -11,21 +11,28 @@
 <style>
   body { font-family: Arial, sans-serif; margin: 18px; }
   h2 { margin: 0 0 10px 0; font-size: 18px; }
+  .bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
+  select, input[type="text"], button { padding: 6px; }
 
-  /* Center everything */
+  /* Center all cells */
   #csvTable th, #csvTable td { text-align: center; vertical-align: middle; }
 
   /* Title column: align left */
   #csvTable th.col-title, #csvTable td.col-title { text-align: left !important; }
 
   img { max-height: 40px; border-radius: 6px; }
-
   table.dataTable thead th { position: sticky; top: 0; background: #fff; z-index: 2; }
 </style>
 </head>
 
 <body>
 <h2>CSV Browser</h2>
+
+<div class="bar">
+  <select id="csvSelect"></select>
+  <input id="quickSearch" type="text" placeholder="Search..." />
+  <button id="reloadBtn">Reload</button>
+</div>
 
 <table id="csvTable" class="display compact stripe" style="width:100%"></table>
 
@@ -34,37 +41,35 @@
 
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <script>
-/* ================= CONFIG ================= */
-const AUTO_CSV = "first_aid_Search_7pages_amazon_2026-01-28_320_products.csv";
+/* ============ CONFIG ============ */
+const CSV_FILES = [
+  "first_aid_Search_7pages_amazon_2026-01-28_320_products.csv",
+  "collagen_best_7_pages_manual_amazon_2026-01-27_280_products.csv"
+];
 
+// show only these columns, in this order (anything else in CSV is hidden)
 const VISIBLE_COLS = [
-  "image", "title", "price", "rating", "reviews",
-  "revenue30Day", "unitSales30Day",
-  "category1", "bsr1",
-  "category2", "bsr2",
-  "category3", "bsr3",
+  "image","title","price","rating","reviews",
+  "revenue30Day","unitSales30Day",
+  "category1","bsr1","category2","bsr2","category3","bsr3",
   "url"
 ];
-/* ========================================== */
+/* ================================ */
+
+let table = null;
+let currentCSV = CSV_FILES[0];
 
 function moneyToNum(v){
   if (v === null || v === undefined) return 0;
   const s = String(v).trim().replace(/[^0-9.]/g,'');
   return s ? parseFloat(s) : 0;
 }
-
-function safeIndex(cols, name){
-  const i = cols.findIndex(c => c.data === name);
-  return i >= 0 ? i : null;
-}
-
-let table = null;
-let idx = {};
 
 function buildColumns(sampleRow){
   const keys = new Set(Object.keys(sampleRow || {}));
@@ -73,21 +78,46 @@ function buildColumns(sampleRow){
     .map(c => ({
       title: c,
       data: c,
-      className: c === "title" ? "col-title" : ""
+      className: (c === "title") ? "col-title" : ""
     }));
 }
 
-function loadTable(rows){
-  // تنظيف صفوف فاضية
-  rows = (rows || []).filter(r => r && Object.keys(r).length);
+function loadCSV(filename){
+  currentCSV = filename;
 
-  if (!rows.length) return;
+  fetch(filename, { cache: "no-store" })
+    .then(res => {
+      if (!res.ok) throw new Error("CSV not found: " + filename);
+      return res.text();
+    })
+    .then(text => {
+      Papa.parse(text, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (res) => buildTable(res.data || [])
+      });
+    })
+    .catch(err => {
+      alert(err.message);
+      console.error(err);
+    });
+}
 
-  // ✅ مهم: نضمن الأعمدة المساعدة موجودة في كل صف
-  rows.forEach(r => {
+function buildTable(rows){
+  // remove empty rows
+  rows = rows.filter(r => r && Object.keys(r).length);
+
+  if (!rows.length) {
+    if (table) { table.destroy(); $("#csvTable").empty(); table = null; }
+    return;
+  }
+
+  // ensure helpers exist for EVERY row (prevents DataTables "unknown parameter" errors)
+  for (const r of rows) {
     r.price_num = moneyToNum(r.price);
     r.revenue30Day_num = moneyToNum(r.revenue30Day);
 
+    // image (clickable)
     if (r.image) {
       const img = String(r.image).trim();
       r.image = img ? `<a href="${img}" target="_blank" rel="noopener"><img src="${img}" loading="lazy"></a>` : "";
@@ -95,61 +125,70 @@ function loadTable(rows){
       r.image = "";
     }
 
+    // url (clickable)
     if (r.url) {
       const u = String(r.url).trim();
       r.url = u ? `<a href="${u}" target="_blank" rel="noopener">open</a>` : "";
     } else {
       r.url = "";
     }
-  });
+  }
 
   let columns = buildColumns(rows[0]);
 
-  // أضف الأعمدة المساعدة (مخفية) للفرز الصحيح
+  // add hidden numeric helper columns for correct sorting
   columns.push({ title:"revenue30Day_num", data:"revenue30Day_num" });
   columns.push({ title:"price_num", data:"price_num" });
 
-  idx.rev = safeIndex(columns, "revenue30Day_num");
-  idx.price = safeIndex(columns, "price_num");
+  const revIdx = columns.findIndex(c => c.data === "revenue30Day_num");
+  const priceIdx = columns.findIndex(c => c.data === "price_num");
 
   if (table) {
     table.destroy();
-    document.querySelector("#csvTable").innerHTML = "";
+    $("#csvTable").empty();
   }
 
-  table = $('#csvTable').DataTable({
+  table = $("#csvTable").DataTable({
     data: rows,
-    columns,
+    columns: columns,
     columnDefs: [
-      { targets: [idx.rev, idx.price], visible: false, searchable: false }
+      { targets: [revIdx, priceIdx], visible: false, searchable: false }
     ],
-    order: idx.rev !== null ? [[idx.rev, "desc"]] : [],
+    order: revIdx >= 0 ? [[revIdx, "desc"]] : [],
     pageLength: 50,
+    lengthMenu: [10, 25, 50, 100, 200],
     scrollX: true,
     deferRender: true,
+    processing: true,
     dom: "Bfrtip",
     buttons: ["copy", "csv", "excel", "print"]
   });
+
+  // wire quick search to DataTables search
+  const qs = document.getElementById("quickSearch");
+  qs.value = "";
+  qs.oninput = function(){
+    if (!table) return;
+    table.search(this.value).draw();
+  };
 }
 
-/* auto load CSV from same folder */
-fetch(AUTO_CSV, { cache: "no-store" })
-  .then(res => {
-    if (!res.ok) throw new Error("CSV not found: " + AUTO_CSV);
-    return res.text();
-  })
-  .then(csvText => {
-    Papa.parse(csvText, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => loadTable(results.data)
-    });
-  })
-  .catch(err => {
-    alert("Failed to load CSV: " + err.message);
-    console.error(err);
-  });
-</script>
+/* Dropdown setup */
+const sel = document.getElementById("csvSelect");
+CSV_FILES.forEach(f => {
+  const opt = document.createElement("option");
+  opt.value = f;
+  opt.textContent = f;
+  sel.appendChild(opt);
+});
+sel.value = currentCSV;
+sel.onchange = () => loadCSV(sel.value);
 
+/* Reload button */
+document.getElementById("reloadBtn").onclick = () => loadCSV(currentCSV);
+
+/* Auto-load first CSV on open */
+loadCSV(currentCSV);
+</script>
 </body>
 </html>
