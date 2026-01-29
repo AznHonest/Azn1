@@ -24,7 +24,7 @@
   #csvTable tbody td {
     text-align: center;
     vertical-align: middle;
-    overflow: visible; /* مهم جدًا */
+    overflow: visible;
   }
 
   /* ===== TITLE LEFT ===== */
@@ -36,19 +36,19 @@
   .img-wrap {
     position: relative;
     display: inline-block;
-    overflow: visible; /* مهم */
+    overflow: visible;
   }
 
   .img-wrap img {
     max-height: 40px;
     border-radius: 6px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: zoom-in;
+    cursor: pointer;
     background: #fff;
-    transform-origin: left center; /* 🔥 يكبر لليمين */
+    transform-origin: left center;
   }
 
-  /* ===== HOVER ZOOM (RIGHT) ===== */
+  /* ===== HOVER ZOOM RIGHT ===== */
   .img-wrap:hover img {
     transform: scale(4);
     z-index: 9999;
@@ -170,9 +170,16 @@ function buildTable(rows){
     r.price_num = moneyToNum(r.price);
     r.revenue30Day_num = moneyToNum(r.revenue30Day);
 
-    r.image = r.image
-      ? `<div class="img-wrap"><img src="${r.image}" loading="lazy"></div>`
-      : "";
+    if (r.image && r.url) {
+      r.image = `
+        <a href="${r.url}" target="_blank" rel="noopener">
+          <div class="img-wrap">
+            <img src="${r.image}" loading="lazy">
+          </div>
+        </a>`;
+    } else {
+      r.image = "";
+    }
 
     r.url = r.url
       ? `<a href="${r.url}" target="_blank">open</a>`
