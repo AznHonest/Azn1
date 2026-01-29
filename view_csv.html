@@ -22,12 +22,9 @@
   img { max-height: 40px; border-radius: 6px; }
   .right { text-align: right; }
   .wrap { white-space: normal !important; }
-  .small { font-size: 12px; }
 
   /* Simple modal */
-  .modal-backdrop {
-    display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9998;
-  }
+  .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9998; }
   .modal {
     display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
     background:#fff; width:min(900px, 92vw); max-height:80vh; overflow:auto; z-index:9999;
@@ -79,6 +76,7 @@
       <input type="checkbox" id="toggleWrap" /> Wrap text
     </label>
 
+    <button id="btnReload">Reload server CSV</button>
     <button id="btnReset" disabled>Reset filters</button>
   </div>
 
@@ -87,7 +85,7 @@
     <span class="pill" id="statVisible">Visible: -</span>
     <span class="pill" id="statRev">Revenue (visible): -</span>
     <span class="pill" id="statUnits">Units (visible): -</span>
-    <span class="muted">Tip: click any row to open details.</span>
+    <span class="muted" id="statusText">Waiting for CSV...</span>
   </div>
 
   <table id="csvTable" class="display compact stripe" style="width:100%"></table>
@@ -113,13 +111,17 @@
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <script>
+/* ================== CONFIG ================== */
+const AUTO_CSV = "first_aid_Search_7pages_amazon_2026-01-28_320_products.csv"; // in same folder
+/* ============================================ */
+
 /* ---------------- helpers ---------------- */
 function moneyToNum(v){
   if (v === null || v === undefined) return 0;
   const s = String(v).trim().replace(/[^0-9.]/g,'');
   return s ? parseFloat(s) : 0;
 }
-function intToNum(v){
+function numToFloat(v){
   if (v === null || v === undefined) return 0;
   const s = String(v).trim().replace(/[^0-9.]/g,'');
   return s ? parseFloat(s) : 0;
@@ -144,7 +146,6 @@ function fmtNum(n){
   try { return new Intl.NumberFormat().format(n); } catch { return String(n); }
 }
 function fmtMoney(n){
-  // lightweight formatting (no currency symbol assumption)
   try { return new Intl.NumberFormat(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(n); }
   catch { return String(n); }
 }
@@ -154,19 +155,17 @@ function setText(id, txt){ document.getElementById(id).textContent = txt; }
 const backdrop = document.getElementById("backdrop");
 const modal = document.getElementById("modal");
 const modalClose = document.getElementById("modalClose");
+
 function openModal(title, rowObj){
   document.getElementById("modalTitle").textContent = title || "Row details";
   const keys = Object.keys(rowObj || {});
   const rows = keys.map(k => {
     const v = rowObj[k];
-    // render links/images nicely inside modal
     let out = "";
     if (k === "url" && v) {
-      const raw = String(v).replace(/<[^>]*>/g,''); // if it's already HTML
-      out = `<a href="${escapeHtml(raw)}" target="_blank" rel="noopener">${escapeHtml(raw)}</a>`;
+      out = `<a href="${escapeHtml(v)}" target="_blank" rel="noopener">${escapeHtml(v)}</a>`;
     } else if (k === "image" && v) {
-      const raw = String(v).replace(/<[^>]*>/g,'');
-      out = `<a href="${escapeHtml(raw)}" target="_blank" rel="noopener"><img src="${escapeHtml(raw)}" style="max-height:140px;border-radius:12px;"></a>`;
+      out = `<a href="${escapeHtml(v)}" target="_blank" rel="noopener"><img src="${escapeHtml(v)}" style="max-height:140px;border-radius:12px;"></a>`;
     } else {
       out = escapeHtml(v ?? "");
     }
@@ -188,7 +187,7 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal
 let table = null;
 let allData = [];
 let columns = [];
-let idx = {}; // indices
+let idx = {};
 
 const primeFilter = document.getElementById("primeFilter");
 const sponsoredFilter = document.getElementById("sponsoredFilter");
@@ -197,6 +196,7 @@ const quickSearch = document.getElementById("quickSearch");
 const toggleImages = document.getElementById("toggleImages");
 const toggleWrap = document.getElementById("toggleWrap");
 const btnReset = document.getElementById("btnReset");
+const btnReload = document.getElementById("btnReload");
 
 function enableControls(enabled){
   primeFilter.disabled = !enabled;
@@ -215,230 +215,210 @@ function resetFilters(){
   table.search("").columns().search("").draw();
   updateStats();
 }
-
 btnReset.addEventListener("click", resetFilters);
 
-/* ---------------- core: load CSV ---------------- */
-document.getElementById('fileInput').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+/* ---------------- load & build table ---------------- */
+function loadTableFromParsed(data){
+  allData = data || [];
+  if (!allData.length) {
+    setText("statusText", "No rows found in CSV.");
+    return;
+  }
 
-  enableControls(false);
-  setText("statRows", "Rows: -");
-  setText("statVisible", "Visible: -");
-  setText("statRev", "Revenue (visible): -");
-  setText("statUnits", "Units (visible): -");
+  setText("statusText", `Loaded ${allData.length} rows`);
 
-  Papa.parse(file, {
-    header: true,
-    skipEmptyLines: true,
-    dynamicTyping: false,
-    worker: true,              // faster parsing on big files
-    complete: function(results) {
-      allData = results.data || [];
-      if (!allData.length) {
-        alert("No rows found in CSV.");
-        return;
-      }
+  // Build columns from headers
+  columns = Object.keys(allData[0]).map(k => ({
+    title: k,
+    data: k,
+    className: (k.toLowerCase().includes("price") ||
+                k.toLowerCase().includes("revenue") ||
+                k.toLowerCase().includes("sales") ||
+                k.toLowerCase().includes("reviews") ||
+                k.toLowerCase().includes("rating") ||
+                k.toLowerCase().includes("bsr")) ? "right" : ""
+  }));
 
-      // Build columns from headers
-      columns = Object.keys(allData[0]).map(k => ({ title: k, data: k, className: (k.includes("price") || k.includes("revenue") || k.includes("Sales") || k.includes("reviews") || k.includes("rating")) ? "right" : "" }));
+  // Enrich rows
+  allData.forEach(row => {
+    // money helpers
+    if ("revenue30Day" in row) row.revenue30Day_num = moneyToNum(row.revenue30Day);
+    if ("price" in row) row.price_num = moneyToNum(row.price);
+    if ("unitSales30Day" in row) row.unitSales30Day_num = numToFloat(row.unitSales30Day);
 
-      // Enrich rows: numeric helpers + clickable url + image
-      allData.forEach(row => {
-        if ("revenue30Day" in row) row.revenue30Day_num = moneyToNum(row.revenue30Day);
-        if ("price" in row) row.price_num = moneyToNum(row.price);
-        if ("unitSales30Day" in row) row.unitSales30Day_num = intToNum(row.unitSales30Day);
+    // raw links for modal
+    if (row.url) row._raw_url = String(row.url).trim();
+    if (row.image) row._raw_image = String(row.image).trim();
 
-        // keep raw for modal
-        if (row.url) row._raw_url = String(row.url).trim();
-        if (row.image) row._raw_image = String(row.image).trim();
-
-        // clickable url cell
-        if (row.url) {
-          const u = String(row.url).trim();
-          row.url = u ? `<a href="${u}" target="_blank" rel="noopener">open</a>` : "";
-        }
-
-        // image cell (toggle-able later)
-        if (row.image) {
-          const img = String(row.image).trim();
-          row.image = img
-            ? `<a href="${img}" target="_blank" rel="noopener"><img src="${img}" loading="lazy"></a>`
-            : "";
-        }
-
-        // normalize booleans as "true"/"false"
-        if ("isPrime" in row) row.isPrime = String(row.isPrime).toLowerCase();
-        if ("isSponsored" in row) row.isSponsored = String(row.isSponsored).toLowerCase();
-      });
-
-      // Ensure helper columns exist (hidden but used for sorting/stats)
-      if (!columns.find(c => c.data === "revenue30Day_num") && allData[0].revenue30Day_num !== undefined) {
-        columns.push({ title: "revenue30Day_num", data: "revenue30Day_num", className: "right" });
-      }
-      if (!columns.find(c => c.data === "price_num") && allData[0].price_num !== undefined) {
-        columns.push({ title: "price_num", data: "price_num", className: "right" });
-      }
-      if (!columns.find(c => c.data === "unitSales30Day_num") && allData[0].unitSales30Day_num !== undefined) {
-        columns.push({ title: "unitSales30Day_num", data: "unitSales30Day_num", className: "right" });
-      }
-
-      // indices
-      idx.revenueNum = safeIndex(columns, "revenue30Day_num");
-      idx.priceNum   = safeIndex(columns, "price_num");
-      idx.unitsNum   = safeIndex(columns, "unitSales30Day_num");
-
-      idx.prime      = safeIndex(columns, "isPrime");
-      idx.sponsored  = safeIndex(columns, "isSponsored");
-      idx.fulfill    = safeIndex(columns, "fulfillment");
-      idx.image      = safeIndex(columns, "image");
-
-      // Build fulfillment dropdown
-      fulfillSelect.innerHTML = `<option value="">Fulfillment: All</option>`;
-      if (idx.fulfill !== null) {
-        const fulfills = uniqValues(allData.map(r => r.fulfillment));
-        fulfills.sort();
-        fulfills.forEach(v => {
-          const opt = document.createElement("option");
-          opt.value = v;
-          opt.textContent = `Fulfillment: ${v}`;
-          fulfillSelect.appendChild(opt);
-        });
-      }
-
-      // Destroy old table
-      if (table) {
-        table.destroy();
-        document.querySelector("#csvTable").innerHTML = "";
-        table = null;
-      }
-
-      // Hide helper numeric columns
-      const columnDefs = [];
-      if (idx.revenueNum !== null) columnDefs.push({ targets: idx.revenueNum, visible: false, searchable: false });
-      if (idx.priceNum !== null)   columnDefs.push({ targets: idx.priceNum, visible: false, searchable: false });
-      if (idx.unitsNum !== null)   columnDefs.push({ targets: idx.unitsNum, visible: false, searchable: false });
-
-      // Default sort by revenue desc if exists
-      const defaultOrder = (idx.revenueNum !== null) ? [[idx.revenueNum, "desc"]] : [];
-
-      // Init DataTable
-      table = $('#csvTable').DataTable({
-        data: allData,
-        columns: columns,
-        columnDefs,
-
-        // UX
-        pageLength: 50,
-        lengthMenu: [10, 25, 50, 100, 200],
-        scrollX: true,
-        stateSave: true,      // remembers sort/search
-        order: defaultOrder,
-
-        // Performance
-        deferRender: true,
-        processing: true,
-
-        // Export
-        dom: "Bfrtip",
-        buttons: ["copy", "csv", "excel", "print"]
-      });
-
-      // Click row -> modal details
-      $('#csvTable tbody').off("click").on("click", "tr", function() {
-        if (!table) return;
-        const row = table.row(this);
-        const data = row.data();
-        if (!data) return;
-
-        // show raw url/image in modal if we kept them
-        const obj = { ...data };
-        if (obj._raw_url) obj.url = obj._raw_url;
-        if (obj._raw_image) obj.image = obj._raw_image;
-
-        const title = (obj.asin ? `ASIN: ${obj.asin}` : "Row details");
-        openModal(title, obj);
-      });
-
-      // Enable/disable filters only if columns exist
-      primeFilter.disabled     = (idx.prime === null);
-      sponsoredFilter.disabled = (idx.sponsored === null);
-      fulfillSelect.disabled   = (idx.fulfill === null);
-      quickSearch.disabled     = false;
-      btnReset.disabled        = false;
-
-      // Wire filters
-      primeFilter.onchange = function(){
-        if (idx.prime === null) return;
-        table.column(idx.prime).search(this.value).draw();
-        updateStats();
-      };
-      sponsoredFilter.onchange = function(){
-        if (idx.sponsored === null) return;
-        table.column(idx.sponsored).search(this.value).draw();
-        updateStats();
-      };
-      fulfillSelect.onchange = function(){
-        if (idx.fulfill === null) return;
-        const v = this.value;
-        const escaped = v ? v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : "";
-        table.column(idx.fulfill).search(v ? `^${escaped}$` : "", true, false).draw();
-        updateStats();
-      };
-
-      // Quick search (debounced)
-      let t = null;
-      quickSearch.oninput = function(){
-        clearTimeout(t);
-        t = setTimeout(() => {
-          table.search(this.value).draw();
-          updateStats();
-        }, 200);
-      };
-
-      // Toggle images
-      toggleImages.onchange = function(){
-        if (!table || idx.image === null) return;
-        table.column(idx.image).visible(this.checked);
-        updateStats();
-      };
-
-      // Toggle wrap
-      toggleWrap.onchange = function(){
-        const el = document.getElementById("csvTable");
-        if (this.checked) el.classList.add("wrap");
-        else el.classList.remove("wrap");
-      };
-
-      // Update stats on every draw (sort/filter/page)
-      table.on("draw", updateStats);
-
-      // Initial stats + remember image visibility
-      if (idx.image !== null) {
-        table.column(idx.image).visible(toggleImages.checked);
-      }
-      updateStats();
+    // clickable url cell
+    if (row.url) {
+      const u = String(row.url).trim();
+      row.url = u ? `<a href="${u}" target="_blank" rel="noopener">open</a>` : "";
     }
-  });
-});
+    // image cell
+    if (row.image) {
+      const img = String(row.image).trim();
+      row.image = img
+        ? `<a href="${img}" target="_blank" rel="noopener"><img src="${img}" loading="lazy"></a>`
+        : "";
+    }
 
-/* ---------------- stats (visible rows) ---------------- */
+    // normalize booleans as "true"/"false" for filtering
+    if ("isPrime" in row) row.isPrime = String(row.isPrime).toLowerCase();
+    if ("isSponsored" in row) row.isSponsored = String(row.isSponsored).toLowerCase();
+  });
+
+  // Ensure helper columns exist (hidden but used for sort/stats)
+  if (!columns.find(c => c.data === "revenue30Day_num") && allData[0].revenue30Day_num !== undefined) {
+    columns.push({ title: "revenue30Day_num", data: "revenue30Day_num", className: "right" });
+  }
+  if (!columns.find(c => c.data === "price_num") && allData[0].price_num !== undefined) {
+    columns.push({ title: "price_num", data: "price_num", className: "right" });
+  }
+  if (!columns.find(c => c.data === "unitSales30Day_num") && allData[0].unitSales30Day_num !== undefined) {
+    columns.push({ title: "unitSales30Day_num", data: "unitSales30Day_num", className: "right" });
+  }
+
+  // indices
+  idx.revenueNum = safeIndex(columns, "revenue30Day_num");
+  idx.priceNum   = safeIndex(columns, "price_num");
+  idx.unitsNum   = safeIndex(columns, "unitSales30Day_num");
+
+  idx.prime      = safeIndex(columns, "isPrime");
+  idx.sponsored  = safeIndex(columns, "isSponsored");
+  idx.fulfill    = safeIndex(columns, "fulfillment");
+  idx.image      = safeIndex(columns, "image");
+
+  // fulfillment dropdown
+  fulfillSelect.innerHTML = `<option value="">Fulfillment: All</option>`;
+  if (idx.fulfill !== null) {
+    const fulfills = uniqValues(allData.map(r => r.fulfillment));
+    fulfills.sort();
+    fulfills.forEach(v => {
+      const opt = document.createElement("option");
+      opt.value = v;
+      opt.textContent = `Fulfillment: ${v}`;
+      fulfillSelect.appendChild(opt);
+    });
+  }
+
+  // Destroy old table
+  if (table) {
+    table.destroy();
+    document.querySelector("#csvTable").innerHTML = "";
+    table = null;
+  }
+
+  // Hide helper numeric columns
+  const columnDefs = [];
+  if (idx.revenueNum !== null) columnDefs.push({ targets: idx.revenueNum, visible: false, searchable: false });
+  if (idx.priceNum !== null)   columnDefs.push({ targets: idx.priceNum, visible: false, searchable: false });
+  if (idx.unitsNum !== null)   columnDefs.push({ targets: idx.unitsNum, visible: false, searchable: false });
+
+  // Default sort by revenue desc if present
+  const defaultOrder = (idx.revenueNum !== null) ? [[idx.revenueNum, "desc"]] : [];
+
+  // Init DataTable
+  table = $('#csvTable').DataTable({
+    data: allData,
+    columns: columns,
+    columnDefs,
+    pageLength: 50,
+    lengthMenu: [10, 25, 50, 100, 200],
+    scrollX: true,
+    stateSave: true,
+    order: defaultOrder,
+
+    deferRender: true,
+    processing: true,
+
+    dom: "Bfrtip",
+    buttons: ["copy", "csv", "excel", "print"]
+  });
+
+  // row click -> modal
+  $('#csvTable tbody').off("click").on("click", "tr", function() {
+    const row = table.row(this);
+    const d = row.data();
+    if (!d) return;
+
+    const obj = { ...d };
+    if (obj._raw_url) obj.url = obj._raw_url;
+    if (obj._raw_image) obj.image = obj._raw_image;
+
+    const title = obj.asin ? `ASIN: ${obj.asin}` : "Row details";
+    openModal(title, obj);
+  });
+
+  // Enable controls (only if columns exist)
+  primeFilter.disabled     = (idx.prime === null);
+  sponsoredFilter.disabled = (idx.sponsored === null);
+  fulfillSelect.disabled   = (idx.fulfill === null);
+  quickSearch.disabled     = false;
+  btnReset.disabled        = false;
+
+  // Filters wiring
+  primeFilter.onchange = function(){
+    if (idx.prime === null) return;
+    table.column(idx.prime).search(this.value).draw();
+    updateStats();
+  };
+  sponsoredFilter.onchange = function(){
+    if (idx.sponsored === null) return;
+    table.column(idx.sponsored).search(this.value).draw();
+    updateStats();
+  };
+  fulfillSelect.onchange = function(){
+    if (idx.fulfill === null) return;
+    const v = this.value;
+    const escaped = v ? v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : "";
+    table.column(idx.fulfill).search(v ? `^${escaped}$` : "", true, false).draw();
+    updateStats();
+  };
+
+  // Quick search (debounced)
+  let t = null;
+  quickSearch.oninput = function(){
+    clearTimeout(t);
+    t = setTimeout(() => {
+      table.search(this.value).draw();
+      updateStats();
+    }, 200);
+  };
+
+  // Toggle images
+  toggleImages.onchange = function(){
+    if (!table || idx.image === null) return;
+    table.column(idx.image).visible(this.checked);
+    updateStats();
+  };
+
+  // Toggle wrap
+  toggleWrap.onchange = function(){
+    const el = document.getElementById("csvTable");
+    if (this.checked) el.classList.add("wrap");
+    else el.classList.remove("wrap");
+  };
+
+  // Keep image visibility
+  if (idx.image !== null) table.column(idx.image).visible(toggleImages.checked);
+
+  // update stats on every draw
+  table.on("draw", updateStats);
+  updateStats();
+}
+
 function updateStats(){
   if (!table) return;
 
   const total = table.data().length;
   const visible = table.rows({ filter: "applied" }).data().length;
 
-  // Sum on filtered rows using helper numeric fields if present
   let rev = 0, units = 0;
-
-  if (idx.revenueNum !== null || idx.unitsNum !== null) {
-    const rows = table.rows({ filter: "applied" }).data().toArray();
-    for (const r of rows) {
-      if (idx.revenueNum !== null) rev += (r.revenue30Day_num || 0);
-      if (idx.unitsNum !== null) units += (r.unitSales30Day_num || 0);
-    }
+  const rows = table.rows({ filter: "applied" }).data().toArray();
+  for (const r of rows) {
+    if (idx.revenueNum !== null) rev += (r.revenue30Day_num || 0);
+    if (idx.unitsNum !== null) units += (r.unitSales30Day_num || 0);
   }
 
   setText("statRows", `Rows: ${fmtNum(total)}`);
@@ -446,6 +426,56 @@ function updateStats(){
   setText("statRev", `Revenue (visible): ${fmtMoney(rev)}`);
   setText("statUnits", `Units (visible): ${fmtNum(units)}`);
 }
+
+/* ---------------- manual upload ---------------- */
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  setText("statusText", "Loading local CSV...");
+  enableControls(false);
+
+  Papa.parse(file, {
+    header: true,
+    skipEmptyLines: true,
+    worker: true,
+    complete: function(results) {
+      enableControls(true);
+      loadTableFromParsed(results.data);
+    }
+  });
+});
+
+/* ---------------- auto-load from server ---------------- */
+function loadServerCSV(){
+  setText("statusText", `Loading server CSV: ${AUTO_CSV} ...`);
+  enableControls(false);
+
+  fetch(AUTO_CSV, { cache: "no-store" })
+    .then(res => {
+      if (!res.ok) throw new Error("CSV not found: " + AUTO_CSV);
+      return res.text();
+    })
+    .then(csvText => {
+      Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          enableControls(true);
+          loadTableFromParsed(results.data);
+        }
+      });
+    })
+    .catch(err => {
+      console.warn(err);
+      setText("statusText", `Auto-load failed. You can still use Choose File. (${err.message})`);
+    });
+}
+
+btnReload.addEventListener("click", loadServerCSV);
+
+// Auto-load on page open
+loadServerCSV();
 </script>
 </body>
 </html>
