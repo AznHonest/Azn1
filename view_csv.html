@@ -14,10 +14,8 @@
 
   .bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
   select, input[type="text"], button {
-    padding: 9px;
-    font-size: 14px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
+    padding: 9px; font-size: 14px;
+    border-radius: 12px; border: 1px solid #ddd;
   }
   button { background:#fff; cursor:pointer; }
   #status { color:#666; font-size:12px; }
@@ -28,10 +26,8 @@
   #csvTable td.col-title { text-align: left !important; }
 
   .img-wrap img {
-    max-height: 40px;
-    border-radius: 6px;
-    cursor:pointer;
-    background:#fff;
+    max-height: 40px; border-radius: 6px;
+    cursor:pointer; background:#fff;
     transition: transform .2s ease, box-shadow .2s ease;
   }
   @media (hover:hover){
@@ -45,53 +41,105 @@
 
   /* ===== Mobile Cards ===== */
   #cards { display:none; }
-  .card {
+
+  .mcard{
     background:#fff;
-    border-radius: 16px;
+    border-radius: 18px;
     padding: 12px;
     margin: 12px 0;
     box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  }
+
+  .mhead{
     display:flex;
     gap:12px;
+    align-items:flex-start;
   }
-  .card-img img {
-    width: 82px;
-    height: 82px;
+
+  .mimg{
+    flex: 0 0 92px;
+  }
+  .mimg img{
+    width: 92px;
+    height: 92px;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 14px;
     background:#fff;
     border:1px solid #eee;
+    display:block;
   }
-  .card-main { flex:1; min-width:0; }
-  .card-title {
-    font-size: 14px;
-    font-weight: 700;
+
+  .mtitlewrap{
+    flex:1;
+    min-width:0; /* مهم عشان ellipsis يشتغل */
+  }
+
+  .mtitle{
+    font-size: 15px;
+    font-weight: 800;
     line-height: 1.25;
-    margin-bottom: 8px;
+    margin: 2px 0 8px 0;
+    word-break: break-word;
   }
-  .meta {
+
+  /* سطر واحد: سعر + تقييم + مراجعات */
+  .mstats{
     display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-    font-size: 12px;
+    flex-wrap:nowrap;
+    gap:8px;
+    align-items:center;
+    overflow:hidden;
   }
-  .pill {
+  .chip{
     background:#f1f3f5;
-    padding: 5px 9px;
-    border-radius: 999px;
-    white-space: nowrap;
     border:1px solid #e5e5e5;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
-  .card-actions { margin-top: 10px; }
-  .btn {
-    padding: 8px 14px;
-    border-radius: 12px;
-    border:1px solid #ccc;
+  .chip.ghost{
+    font-weight: 600;
+  }
+
+  /* باقي المعلومات تحت */
+  .mlines{
+    margin-top: 10px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .line{
+    background:#f6f7f8;
+    border:1px solid #eee;
+    border-radius: 14px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.2;
+    color:#222;
+
+    /* ✅ يمنع خروج النص */
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .line strong{ font-weight:800; }
+
+  .mactions{
+    margin-top: 12px;
+  }
+  .btn{
+    display:inline-block;
+    padding: 10px 16px;
+    border-radius: 14px;
+    border:1px solid #cfcfcf;
     text-decoration:none;
     color:#111;
-    font-weight:600;
+    font-weight:800;
     background:#fff;
-    display:inline-block;
   }
 
   @media (max-width: 820px){
@@ -121,7 +169,6 @@
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <script>
-/* ====== Put your CSV file names here ====== */
 const CSV_FILES = [
   "Best Sellers in Toys & Games_amazon_2026-02-01_100.csv",
   "Best Sellers in Beauty & Personal Care_amazon_2026-02-01_100.csv",
@@ -185,38 +232,69 @@ function render(){
   else renderTable(q);
 }
 
-/* ===== Mobile cards ===== */
+/* ===== Mobile cards (new layout) ===== */
 function renderCards(q){
   const box = document.getElementById("cards");
 
   const rows = rowsAll
-    .filter(r => !q || (r.title||"").toLowerCase().includes(q))
+    .filter(r => {
+      if(!q) return true;
+      const t = (r.title||"").toLowerCase();
+      return t.includes(q);
+    })
     .sort((a,b)=> num(b.revenue30d||b.revenue30Day) - num(a.revenue30d||a.revenue30Day));
 
-  box.innerHTML = rows.map(r=>`
-    <div class="card">
-      <a class="card-img" href="${r.url||"#"}" target="_blank" rel="noopener">
-        <img src="${r.image||""}" loading="lazy" decoding="async">
-      </a>
-      <div class="card-main">
-        <div class="card-title">${r.title||""}</div>
+  box.innerHTML = rows.map(r=>{
+    const title = r.title || "";
+    const url = r.url || "#";
+    const img = r.image || "";
 
-        <div class="meta">
-          ${r.price ? `<span class="pill">💰 ${r.price}</span>` : ""}
-          ${r.rating ? `<span class="pill">⭐ ${r.rating}</span>` : ""}
-          ${r.reviews ? `<span class="pill">🧾 ${r.reviews}</span>` : ""}
-          ${(r.category1||r.bsr1) ? `<span class="pill">🏷 ${r.category1||""} ${r.bsr1?`(#${r.bsr1})`:""}</span>` : ""}
-          ${(r.category2||r.bsr2) ? `<span class="pill">🏷 ${r.category2||""} ${r.bsr2?`(#${r.bsr2})`:""}</span>` : ""}
-          ${(r.revenue30d||r.revenue30Day) ? `<span class="pill">📈 30 Days Sales (Revenue): ${r.revenue30d||r.revenue30Day}</span>` : ""}
-          ${(r.unitSales30d||r.unitSales30Day) ? `<span class="pill">📦 30 Days Units Sold: ${r.unitSales30d||r.unitSales30Day}</span>` : ""}
+    const price = r.price || "";
+    const rating = r.rating || "";
+    const reviews = r.reviews || "";
+
+    const c1 = r.category1 || "";
+    const b1 = r.bsr1 ? `#${r.bsr1}` : "";
+    const c2 = r.category2 || "";
+    const b2 = r.bsr2 ? `#${r.bsr2}` : "";
+
+    const revenue = r.revenue30d || r.revenue30Day || "";
+    const units = r.unitSales30d || r.unitSales30Day || "";
+
+    // clean lines (only show if exists)
+    const line = (label, val) => val ? `<div class="line"><strong>${label}:</strong> ${val}</div>` : "";
+
+    return `
+      <div class="mcard">
+        <div class="mhead">
+          <a class="mimg" href="${url}" target="_blank" rel="noopener">
+            <img src="${img}" loading="lazy" decoding="async">
+          </a>
+
+          <div class="mtitlewrap">
+            <div class="mtitle">${title}</div>
+
+            <div class="mstats">
+              ${price ? `<span class="chip">💰 ${price}</span>` : ""}
+              ${rating ? `<span class="chip ghost">⭐ ${rating}</span>` : ""}
+              ${reviews ? `<span class="chip ghost">🧾 ${reviews}</span>` : ""}
+            </div>
+          </div>
         </div>
 
-        <div class="card-actions">
-          ${r.url ? `<a class="btn" href="${r.url}" target="_blank" rel="noopener">Open</a>` : ""}
+        <div class="mlines">
+          ${line("Category 1", `${c1}${b1 ? ` (${b1})` : ""}`)}
+          ${line("Category 2", `${c2}${b2 ? ` (${b2})` : ""}`)}
+          ${line("30 Days Sales (Revenue)", revenue)}
+          ${line("30 Days Units Sold", units)}
+        </div>
+
+        <div class="mactions">
+          ${url && url !== "#" ? `<a class="btn" href="${url}" target="_blank" rel="noopener">Open</a>` : ""}
         </div>
       </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 
   document.getElementById("status").textContent = `Loaded ${rows.length} rows`;
 }
@@ -234,7 +312,6 @@ function renderTable(q){
         render:(d,t,r)=>{
           const url = r.url || "#";
           const img = d || "";
-          // ✅ lazy load image in desktop table
           return `<a href="${url}" target="_blank" rel="noopener">
                     <div class="img-wrap">
                       <img src="${img}" loading="lazy" decoding="async">
@@ -253,19 +330,12 @@ function renderTable(q){
       { title:"30 Days Sales (Revenue)", data:"revenue30d" },
       { title:"30 Days Units Sold", data:"unitSales30d" }
     ],
-    // ✅ no pages
     paging: false,
-    // keep search + sort
     searching: true,
     ordering: true,
-    // cleaner UI
     info: false,
     lengthChange: false,
-
-    // faster render for big tables
     deferRender: true,
-
-    // remove default search box (we already have one)
     dom:"Brt",
     buttons:["copy","csv","excel"]
   });
