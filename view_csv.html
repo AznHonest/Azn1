@@ -12,10 +12,7 @@
   body { font-family: Arial, sans-serif; margin: 14px; }
   h2 { margin: 0 0 10px 0; font-size: 18px; }
 
-  .bar {
-    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-    margin-bottom:10px;
-  }
+  .bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
   select, input[type="text"], button { padding: 8px; font-size: 14px; }
   #status { color:#666; font-size:12px; }
 
@@ -44,39 +41,44 @@
   #cards { display:none; }
   .card {
     border: 1px solid #e6e6e6;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 10px;
     margin: 10px 0;
     display:flex;
     gap:10px;
     align-items:flex-start;
+    background:#fff;
   }
   .card-img img{
-    width: 76px; height: 76px; object-fit: cover;
-    border-radius: 10px; background:#fff;
+    width: 78px; height: 78px; object-fit: cover;
+    border-radius: 12px; background:#fff;
+    border: 1px solid #f0f0f0;
   }
   .card-main{ flex:1; min-width:0; }
   .card-title{
     font-size: 14px; line-height: 1.25;
-    margin: 0 0 6px 0;
+    margin: 0 0 8px 0;
     word-break: break-word;
+    font-weight: 600;
   }
   .meta{
-    display:flex; flex-wrap:wrap; gap:8px;
-    font-size: 12px; color:#333;
+    display:flex; flex-wrap:wrap; gap:7px;
+    font-size: 12px; color:#222;
   }
   .pill{
     background:#f4f4f4; border-radius: 999px;
     padding: 4px 8px;
+    border: 1px solid #eee;
+    white-space: nowrap;
   }
   .card-actions{
-    margin-top: 8px;
+    margin-top: 9px;
     display:flex; gap:8px; flex-wrap:wrap;
   }
   .btn{
     display:inline-block;
     padding: 8px 10px;
-    border-radius: 10px;
+    border-radius: 12px;
     border: 1px solid #ddd;
     text-decoration:none;
     color:#111;
@@ -85,7 +87,7 @@
   }
   .btn.primary{
     border-color:#cfcfcf;
-    font-weight:600;
+    font-weight:700;
   }
 
   @media (max-width: 820px){
@@ -162,12 +164,13 @@ const CSV_FILES = [
   "400pages_all_split_final.csv"
 ];
 
+// Desktop columns (supports both naming styles)
 const VISIBLE_COLS = [
   "image","title","price","rating","reviews",
-  "revenue30Day","unitSales30Day",
+  "revenue30d","unitSales30d",
+  "revenue30Day","unitSales30Day",   // fallback if some files use Day
   "category1","bsr1",
   "category2","bsr2",
-  "category3","bsr3",
   "url"
 ];
 /* ================================ */
@@ -185,10 +188,14 @@ function moneyToNum(v){
   const s = String(v).trim().replace(/[^0-9.]/g,'');
   return s ? parseFloat(s) : 0;
 }
+function safeText(v){ return (v === null || v === undefined) ? "" : String(v); }
 
-function safeText(v){
-  if (v === null || v === undefined) return "";
-  return String(v);
+// get first existing field value among multiple possible names
+function field(row, names){
+  for (const n of names) {
+    if (row && Object.prototype.hasOwnProperty.call(row, n) && safeText(row[n]).trim() !== "") return row[n];
+  }
+  return "";
 }
 
 function buildColumns(sampleRow){
@@ -231,25 +238,32 @@ function loadCSV(filename){
 function normalizeRows(rows){
   return rows.map(r => {
     const out = {...r};
-    out.price_num = moneyToNum(out.price);
-    out.revenue30Day_num = moneyToNum(out.revenue30Day);
 
-    // desktop image HTML (click image -> url)
-    if (out.image && out.url) {
+    const rev = field(out, ["revenue30d","revenue30Day"]);
+    const units = field(out, ["unitSales30d","unitSales30Day"]);
+
+    out.__revenue_num = moneyToNum(rev);
+    out.__price_num = moneyToNum(out.price);
+
+    // image clickable to url
+    const img = safeText(out.image);
+    const url = safeText(out.url);
+
+    if (img && url) {
       out.image = `
-        <a href="${out.url}" target="_blank" rel="noopener">
-          <div class="img-wrap"><img src="${out.image}" loading="lazy"></div>
+        <a href="${url}" target="_blank" rel="noopener">
+          <div class="img-wrap"><img src="${img}" loading="lazy"></div>
         </a>`;
     } else {
       out.image = "";
     }
 
-    out.url = out.url ? `<a href="${out.url}" target="_blank" rel="noopener">open</a>` : "";
+    out.url = url ? `<a href="${url}" target="_blank" rel="noopener">open</a>` : "";
     return out;
   });
 }
 
-/* ===== Mobile cards renderer ===== */
+/* ===== Mobile cards renderer (clean + focused) ===== */
 function renderCards(rows, query){
   const cards = document.getElementById("cards");
   const q = (query || "").trim().toLowerCase();
@@ -259,53 +273,59 @@ function renderCards(rows, query){
     filtered = rows.filter(r => {
       const hay = [
         safeText(r.title),
-        safeText(r.category1), safeText(r.category2), safeText(r.category3),
+        safeText(r.category1), safeText(r.category2),
         safeText(r.price), safeText(r.rating)
       ].join(" ").toLowerCase();
       return hay.includes(q);
     });
   }
 
-  // sort by revenue30Day_num desc (if exists)
-  filtered.sort((a,b) => (moneyToNum(b.revenue30Day) - moneyToNum(a.revenue30Day)));
+  // sort by revenue desc
+  filtered.sort((a,b) => moneyToNum(field(b,["revenue30d","revenue30Day"])) - moneyToNum(field(a,["revenue30d","revenue30Day"])));
 
   cards.innerHTML = filtered.map(r => {
-    const img = r.image ? safeText(r.image) : "";
-    const url = safeText(r.url);
-
     const title = safeText(r.title);
     const price = safeText(r.price);
     const rating = safeText(r.rating);
     const reviews = safeText(r.reviews);
-    const rev = safeText(r.revenue30Day);
-    const units = safeText(r.unitSales30Day);
 
     const cat1 = safeText(r.category1);
     const bsr1 = safeText(r.bsr1);
+    const cat2 = safeText(r.category2);
+    const bsr2 = safeText(r.bsr2);
 
-    const imgTag = (img && url)
+    const rev = safeText(field(r, ["revenue30d","revenue30Day"]));
+    const units = safeText(field(r, ["unitSales30d","unitSales30Day"]));
+
+    const img = safeText(r.image);
+    const url = safeText(r.url);
+
+    const imgBox = (img && url)
       ? `<a class="card-img" href="${url}" target="_blank" rel="noopener">
            <img src="${img}" loading="lazy" />
          </a>`
-      : `<div class="card-img"><img src="" style="display:none"/></div>`;
+      : `<div class="card-img" style="width:78px;height:78px;"></div>`;
 
-    const openBtn = url
-      ? `<a class="btn primary" href="${url}" target="_blank" rel="noopener">Open</a>`
-      : "";
+    const openBtn = url ? `<a class="btn primary" href="${url}" target="_blank" rel="noopener">Open</a>` : "";
+
+    const pill = (label, val) => (val ? `<span class="pill">${label} ${val}</span>` : "");
 
     return `
       <div class="card">
-        ${imgTag}
+        ${imgBox}
         <div class="card-main">
           <div class="card-title">${title || "(no title)"}</div>
+
           <div class="meta">
-            ${price ? `<span class="pill">💰 ${price}</span>` : ""}
-            ${rating ? `<span class="pill">⭐ ${rating}</span>` : ""}
-            ${reviews ? `<span class="pill">🧾 ${reviews}</span>` : ""}
-            ${rev ? `<span class="pill">📈 Rev30 ${rev}</span>` : ""}
-            ${units ? `<span class="pill">📦 Units30 ${units}</span>` : ""}
-            ${(cat1 || bsr1) ? `<span class="pill">🏷 ${cat1} ${bsr1 ? `(#${bsr1})` : ""}</span>` : ""}
+            ${pill("💰", price)}
+            ${pill("⭐", rating)}
+            ${pill("🧾", reviews)}
+            ${cat1 ? `<span class="pill">🏷 ${cat1}${bsr1 ? ` (#${bsr1})` : ""}</span>` : ""}
+            ${cat2 ? `<span class="pill">🏷 ${cat2}${bsr2 ? ` (#${bsr2})` : ""}</span>` : ""}
+            ${pill("📈 Rev30", rev)}
+            ${pill("📦 Units30", units)}
           </div>
+
           <div class="card-actions">
             ${openBtn}
           </div>
@@ -321,21 +341,19 @@ function renderCards(rows, query){
 function renderTable(rows, query){
   const norm = normalizeRows(rows);
 
-  // apply quick search in DT after init
   if (table) {
     table.destroy();
     $("#csvTable").empty();
     table = null;
   }
-
   if (!norm.length) return;
 
   let columns = buildColumns(norm[0]);
-  columns.push({ data:"revenue30Day_num" });
-  columns.push({ data:"price_num" });
+  columns.push({ title:"__revenue_num", data:"__revenue_num" });
+  columns.push({ title:"__price_num", data:"__price_num" });
 
-  const revIdx = columns.findIndex(c => c.data === "revenue30Day_num");
-  const priceIdx = columns.findIndex(c => c.data === "price_num");
+  const revIdx = columns.findIndex(c => c.data === "__revenue_num");
+  const priceIdx = columns.findIndex(c => c.data === "__price_num");
 
   table = $("#csvTable").DataTable({
     data: norm,
@@ -349,28 +367,23 @@ function renderTable(rows, query){
     scrollX: true,
     deferRender: true,
     processing: true,
-    // IMPORTANT: remove default DT search box so you don't get two searches
+    // remove default DT search box (we already have one)
     dom: "Brtip",
     buttons: ["copy","csv","excel","print"]
   });
 
   if (query) table.search(query).draw();
-
   setStatus(`Loaded ${norm.length} rows`);
 }
 
 function render(){
   const q = document.getElementById("quickSearch").value || "";
 
-  // toggle UI
   document.getElementById("cards").style.display = isMobile() ? "block" : "none";
   document.getElementById("csvTable").style.display = isMobile() ? "none" : "table";
 
-  if (isMobile()) {
-    renderCards(lastRows, q);
-  } else {
-    renderTable(lastRows, q);
-  }
+  if (isMobile()) renderCards(lastRows, q);
+  else renderTable(lastRows, q);
 }
 
 /* dropdown */
@@ -380,14 +393,9 @@ sel.value = currentCSV;
 sel.onchange = () => loadCSV(sel.value);
 
 document.getElementById("reloadBtn").onclick = () => loadCSV(currentCSV);
+document.getElementById("quickSearch").addEventListener("input", render);
 
-document.getElementById("quickSearch").addEventListener("input", () => {
-  render();
-});
-
-// re-render on resize/orientation change
 window.addEventListener("resize", () => {
-  // avoid heavy rerender on every pixel change
   clearTimeout(window.__rT);
   window.__rT = setTimeout(render, 150);
 });
