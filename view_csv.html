@@ -7,34 +7,38 @@
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
 
 <style>
-  body { font-family: Arial, sans-serif; margin: 18px; }
+  body { font-family: Arial, sans-serif; margin: 14px; }
   h2 { margin: 0 0 10px 0; font-size: 18px; }
-  .bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
-  select, input[type="text"], button { padding: 6px; }
 
-  #csvTable thead th {
-    text-align: center !important;
-    vertical-align: middle;
+  .bar {
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-bottom:10px;
   }
 
-  #csvTable tbody td {
-    text-align: center;
-    vertical-align: middle;
-    overflow: visible;
+  select, input[type="text"], button {
+    padding: 8px;
+    font-size: 14px;
   }
 
-  #csvTable td.col-title {
-    text-align: left !important;
-  }
+  #status { color:#666; font-size:12px; }
 
-  .img-wrap {
-    position: relative;
-    display: inline-block;
-    overflow: visible;
-  }
+  /* ===== HEADERS CENTER ===== */
+  #csvTable thead th { text-align: center !important; vertical-align: middle; }
 
+  /* ===== CELLS CENTER ===== */
+  #csvTable tbody td { text-align: center; vertical-align: middle; overflow: visible; }
+
+  /* ===== TITLE LEFT ===== */
+  #csvTable td.col-title { text-align: left !important; }
+
+  /* ===== IMAGE ===== */
+  .img-wrap { position: relative; display: inline-block; overflow: visible; }
   .img-wrap img {
     max-height: 40px;
     border-radius: 6px;
@@ -44,12 +48,25 @@
     transform-origin: left center;
   }
 
-  .img-wrap:hover img {
-    transform: scale(4);
-    z-index: 9999;
-    position: relative;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.35);
-    border-radius: 12px;
+  /* Hover zoom (desktop) */
+  @media (hover:hover) and (pointer:fine){
+    .img-wrap:hover img {
+      transform: scale(4);
+      z-index: 9999;
+      position: relative;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+      border-radius: 12px;
+    }
+  }
+
+  /* Mobile: tap-friendly, no huge hover */
+  @media (max-width: 720px){
+    body { margin: 10px; }
+    .bar { flex-direction: column; align-items: stretch; gap:8px; }
+    #csvSelect, #quickSearch, #reloadBtn { width: 100%; }
+    #status { display:block; margin-top:2px; }
+    /* make table text slightly smaller */
+    table.dataTable { font-size: 12px; }
   }
 
   table.dataTable thead th {
@@ -57,6 +74,13 @@
     top: 0;
     background: #fff;
     z-index: 2;
+  }
+
+  /* Responsive details look nicer */
+  table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before,
+  table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
+    top: 50%;
+    transform: translateY(-50%);
   }
 </style>
 </head>
@@ -68,21 +92,25 @@
   <select id="csvSelect"></select>
   <input id="quickSearch" type="text" placeholder="Search..." />
   <button id="reloadBtn">Reload</button>
-  <span id="status" style="color:#666;font-size:12px;"></span>
+  <span id="status"></span>
 </div>
 
-<table id="csvTable" class="display compact stripe" style="width:100%"></table>
+<table id="csvTable" class="display compact stripe nowrap" style="width:100%"></table>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.dataTables.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <script>
 /* ============ CONFIG ============ */
 const CSV_FILES = [
-
   /* ===== BEST SELLERS ===== */
   "Best Sellers in Toys & Games_amazon_2026-02-01_100.csv",
   "Best Sellers in Beauty & Personal Care_amazon_2026-02-01_100.csv",
@@ -143,18 +171,20 @@ let currentCSV = CSV_FILES[0];
 function setStatus(msg){ document.getElementById("status").textContent = msg || ""; }
 
 function moneyToNum(v){
-  if (!v) return 0;
-  const s = String(v).replace(/[^0-9.]/g,'');
+  if (v === null || v === undefined) return 0;
+  const s = String(v).trim().replace(/[^0-9.]/g,'');
   return s ? parseFloat(s) : 0;
 }
 
 function buildColumns(sampleRow){
   const keys = new Set(Object.keys(sampleRow || {}));
-  return VISIBLE_COLS.filter(c => keys.has(c)).map(c => ({
-    title: c,
-    data: c,
-    className: (c === "title") ? "col-title" : ""
-  }));
+  return VISIBLE_COLS
+    .filter(c => keys.has(c))
+    .map(c => ({
+      title: c,
+      data: c,
+      className: (c === "title") ? "col-title" : ""
+    }));
 }
 
 function loadCSV(filename){
@@ -162,59 +192,98 @@ function loadCSV(filename){
   setStatus("Loading: " + filename);
 
   fetch(encodeURI(filename), { cache: "no-store" })
-    .then(r => r.text())
-    .then(text => Papa.parse(text, {
-      header:true,
-      skipEmptyLines:true,
-      complete: r => buildTable(r.data || [])
-    }))
-    .catch(e => alert(e.message));
+    .then(res => {
+      if (!res.ok) throw new Error("CSV not found: " + filename);
+      return res.text();
+    })
+    .then(text => {
+      Papa.parse(text, {
+        header: true,
+        skipEmptyLines: true,
+        complete: res => buildTable(res.data || [])
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      setStatus("Error: " + err.message);
+      alert(err.message);
+    });
 }
 
 function buildTable(rows){
-  rows = rows.filter(r => Object.keys(r).length);
+  rows = rows.filter(r => r && Object.keys(r).length);
+  if (!rows.length) return;
 
   rows.forEach(r => {
     r.price_num = moneyToNum(r.price);
     r.revenue30Day_num = moneyToNum(r.revenue30Day);
 
     if (r.image && r.url) {
-      r.image = `<a href="${r.url}" target="_blank">
-        <div class="img-wrap"><img src="${r.image}"></div></a>`;
-    } else r.image = "";
+      r.image = `
+        <a href="${r.url}" target="_blank" rel="noopener">
+          <div class="img-wrap">
+            <img src="${r.image}" loading="lazy">
+          </div>
+        </a>`;
+    } else {
+      r.image = "";
+    }
 
-    r.url = r.url ? `<a href="${r.url}" target="_blank">open</a>` : "";
+    r.url = r.url ? `<a href="${r.url}" target="_blank" rel="noopener">open</a>` : "";
   });
 
-  const columns = buildColumns(rows[0]);
-  columns.push({data:"revenue30Day_num"});
-  columns.push({data:"price_num"});
+  let columns = buildColumns(rows[0]);
+  columns.push({ data:"revenue30Day_num" });
+  columns.push({ data:"price_num" });
 
-  if (table) { table.destroy(); $("#csvTable").empty(); }
+  const revIdx = columns.findIndex(c => c.data === "revenue30Day_num");
+  const priceIdx = columns.findIndex(c => c.data === "price_num");
+
+  if (table) {
+    table.destroy();
+    $("#csvTable").empty();
+  }
 
   table = $("#csvTable").DataTable({
     data: rows,
     columns,
-    order: [[columns.length-2,"desc"]],
-    pageLength: 50,
-    scrollX: true,
+    columnDefs: [
+      { targets: [revIdx, priceIdx], visible:false, searchable:false }
+    ],
+    order: revIdx >= 0 ? [[revIdx,"desc"]] : [],
+    pageLength: window.matchMedia("(max-width: 720px)").matches ? 25 : 50,
+    lengthMenu: [10,25,50,100,200],
+    scrollX: false,          // مهم للموبايل: نخلي Responsive يسوي شغله
+    responsive: true,        // ✅ هذا اللي يخلي الأعمدة تتحول لتفاصيل
+    deferRender: true,
+    processing: true,
     dom: "Bfrtip",
-    buttons: ["copy","csv","excel","print"]
+    buttons: window.matchMedia("(max-width: 720px)").matches
+      ? []                   // بالموبايل نخفي الأزرار عشان ما تزحم
+      : ["copy","csv","excel","print"]
   });
 
-  document.getElementById("quickSearch").oninput = e =>
-    table.search(e.target.value).draw();
+  document.getElementById("quickSearch").oninput = function(){
+    table.search(this.value).draw();
+  };
 
   setStatus(`Loaded ${rows.length} rows`);
 }
 
 /* dropdown */
 const sel = document.getElementById("csvSelect");
-CSV_FILES.forEach(f => sel.add(new Option(f,f)));
+CSV_FILES.forEach(f => {
+  const o = document.createElement("option");
+  o.value = f;
+  o.textContent = f;
+  sel.appendChild(o);
+});
+sel.value = currentCSV;
 sel.onchange = () => loadCSV(sel.value);
 
 document.getElementById("reloadBtn").onclick = () => loadCSV(currentCSV);
 
+/* auto-load */
 loadCSV(currentCSV);
 </script>
 </body>
