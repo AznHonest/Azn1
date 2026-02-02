@@ -7,48 +7,29 @@
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
 
 <style>
   body { font-family: Arial, sans-serif; margin: 14px; }
   h2 { margin: 0 0 10px 0; font-size: 18px; }
 
   .bar {
-    display:flex;
-    gap:10px;
-    align-items:center;
-    flex-wrap:wrap;
+    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
     margin-bottom:10px;
   }
-
-  select, input[type="text"], button {
-    padding: 8px;
-    font-size: 14px;
-  }
-
+  select, input[type="text"], button { padding: 8px; font-size: 14px; }
   #status { color:#666; font-size:12px; }
 
-  /* ===== HEADERS CENTER ===== */
+  /* Desktop table tweaks */
   #csvTable thead th { text-align: center !important; vertical-align: middle; }
-
-  /* ===== CELLS CENTER ===== */
   #csvTable tbody td { text-align: center; vertical-align: middle; overflow: visible; }
-
-  /* ===== TITLE LEFT ===== */
   #csvTable td.col-title { text-align: left !important; }
 
-  /* ===== IMAGE ===== */
-  .img-wrap { position: relative; display: inline-block; overflow: visible; }
+  .img-wrap { display:inline-block; overflow:visible; }
   .img-wrap img {
-    max-height: 40px;
-    border-radius: 6px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
-    background: #fff;
+    max-height: 40px; border-radius: 6px; background:#fff; cursor:pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
     transform-origin: left center;
   }
-
-  /* Hover zoom (desktop) */
   @media (hover:hover) and (pointer:fine){
     .img-wrap:hover img {
       transform: scale(4);
@@ -59,14 +40,57 @@
     }
   }
 
-  /* Mobile: tap-friendly, no huge hover */
-  @media (max-width: 720px){
-    body { margin: 10px; }
-    .bar { flex-direction: column; align-items: stretch; gap:8px; }
+  /* ====== Mobile Cards ====== */
+  #cards { display:none; }
+  .card {
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    padding: 10px;
+    margin: 10px 0;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+  }
+  .card-img img{
+    width: 76px; height: 76px; object-fit: cover;
+    border-radius: 10px; background:#fff;
+  }
+  .card-main{ flex:1; min-width:0; }
+  .card-title{
+    font-size: 14px; line-height: 1.25;
+    margin: 0 0 6px 0;
+    word-break: break-word;
+  }
+  .meta{
+    display:flex; flex-wrap:wrap; gap:8px;
+    font-size: 12px; color:#333;
+  }
+  .pill{
+    background:#f4f4f4; border-radius: 999px;
+    padding: 4px 8px;
+  }
+  .card-actions{
+    margin-top: 8px;
+    display:flex; gap:8px; flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    text-decoration:none;
+    color:#111;
+    font-size: 13px;
+    background:#fff;
+  }
+  .btn.primary{
+    border-color:#cfcfcf;
+    font-weight:600;
+  }
+
+  @media (max-width: 820px){
+    .bar{ flex-direction: column; align-items: stretch; gap:8px; }
     #csvSelect, #quickSearch, #reloadBtn { width: 100%; }
-    #status { display:block; margin-top:2px; }
-    /* make table text slightly smaller */
-    table.dataTable { font-size: 12px; }
   }
 
   table.dataTable thead th {
@@ -74,13 +98,6 @@
     top: 0;
     background: #fff;
     z-index: 2;
-  }
-
-  /* Responsive details look nicer */
-  table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before,
-  table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
-    top: 50%;
-    transform: translateY(-50%);
   }
 </style>
 </head>
@@ -90,28 +107,26 @@
 
 <div class="bar">
   <select id="csvSelect"></select>
-  <input id="quickSearch" type="text" placeholder="Search..." />
+  <input id="quickSearch" type="text" placeholder="Search title / keyword..." />
   <button id="reloadBtn">Reload</button>
   <span id="status"></span>
 </div>
 
-<table id="csvTable" class="display compact stripe nowrap" style="width:100%"></table>
+<!-- Desktop -->
+<table id="csvTable" class="display compact stripe" style="width:100%"></table>
+
+<!-- Mobile -->
+<div id="cards"></div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-
-<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.dataTables.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <script>
 /* ============ CONFIG ============ */
 const CSV_FILES = [
-  /* ===== BEST SELLERS ===== */
   "Best Sellers in Toys & Games_amazon_2026-02-01_100.csv",
   "Best Sellers in Beauty & Personal Care_amazon_2026-02-01_100.csv",
   "Best Sellers in Home Travel-Size Air Purifiers_amazon_2026-02-01_100.csv",
@@ -126,20 +141,14 @@ const CSV_FILES = [
   "Best_Sellers_in_Matcha_Tea_amazon_2026-02-01_100.csv",
   "Best_Sellers_in_Kitchen_&_Dining_amazon_2026-02-01_100.csv",
   "Best_Sellers_in_Home_&_Kitchen_amazon_2026-02-01_100.csv",
-
-  /* ===== SEARCH / POWER ===== */
   "Power_Strips_&_Surge_Protectors_7pages_outof400pages_amazon_2026-02-01_169.csv",
   "Search_Bath_Soaps_7outof_7pages_amazon_2026-02-01_325.csv",
-
-  /* ===== SAFETY / MEDICAL ===== */
   "Fire_Safety_best_8pages_outof_400pagesamazon_2026_01_28_183_products (2).csv",
   "Fire_Extinguishers_10pages_outof_67pages_amazon_2026_01_28_267_products.csv",
   "Fire_Safety_best_8pages_outof_400p_Testing - Copy.csv",
   "first_aid_Search_7pages_amazon_2026-01-28_320_products.csv",
   "Baby_Safety_Products_best_10pages_outof_400pages_amazon_2026_01.csv",
   "Baby_Safety_Products_best_10pages_outof_400pages_amazon_2026-01-28_263_products.csv",
-
-  /* ===== SUPPLEMENTS ===== */
   "collagen_best_7_pages_manual_amazon_2026-01-27_280_products.csv",
   "collagen_best_7_pages_manual_amazon_2026-01-27_280_products (2).csv",
   "Collagen_Supplements_166Pages_amazon_2026_01_27_4066_products_1.csv",
@@ -148,8 +157,6 @@ const CSV_FILES = [
   "Vitamins,_Minerals_&_Supplements_10pages_outof_400_amazon_2026_01.csv",
   "Vitamins_15Pages_out_of_400page_amazon_2026_01_27_233_products.csv",
   "sleep_supplements_170pages_amazon_us.csv",
-
-  /* ===== SPLIT / FINAL ===== */
   "collagen_117pages.csv",
   "collagen_117pages_all_split_final.csv",
   "400pages_all_split_final.csv"
@@ -167,6 +174,9 @@ const VISIBLE_COLS = [
 
 let table = null;
 let currentCSV = CSV_FILES[0];
+let lastRows = [];
+
+const isMobile = () => window.matchMedia("(max-width: 820px)").matches;
 
 function setStatus(msg){ document.getElementById("status").textContent = msg || ""; }
 
@@ -174,6 +184,11 @@ function moneyToNum(v){
   if (v === null || v === undefined) return 0;
   const s = String(v).trim().replace(/[^0-9.]/g,'');
   return s ? parseFloat(s) : 0;
+}
+
+function safeText(v){
+  if (v === null || v === undefined) return "";
+  return String(v);
 }
 
 function buildColumns(sampleRow){
@@ -200,7 +215,10 @@ function loadCSV(filename){
       Papa.parse(text, {
         header: true,
         skipEmptyLines: true,
-        complete: res => buildTable(res.data || [])
+        complete: res => {
+          lastRows = (res.data || []).filter(r => r && Object.keys(r).length);
+          render();
+        }
       });
     })
     .catch(err => {
@@ -210,78 +228,169 @@ function loadCSV(filename){
     });
 }
 
-function buildTable(rows){
-  rows = rows.filter(r => r && Object.keys(r).length);
-  if (!rows.length) return;
+function normalizeRows(rows){
+  return rows.map(r => {
+    const out = {...r};
+    out.price_num = moneyToNum(out.price);
+    out.revenue30Day_num = moneyToNum(out.revenue30Day);
 
-  rows.forEach(r => {
-    r.price_num = moneyToNum(r.price);
-    r.revenue30Day_num = moneyToNum(r.revenue30Day);
-
-    if (r.image && r.url) {
-      r.image = `
-        <a href="${r.url}" target="_blank" rel="noopener">
-          <div class="img-wrap">
-            <img src="${r.image}" loading="lazy">
-          </div>
+    // desktop image HTML (click image -> url)
+    if (out.image && out.url) {
+      out.image = `
+        <a href="${out.url}" target="_blank" rel="noopener">
+          <div class="img-wrap"><img src="${out.image}" loading="lazy"></div>
         </a>`;
     } else {
-      r.image = "";
+      out.image = "";
     }
 
-    r.url = r.url ? `<a href="${r.url}" target="_blank" rel="noopener">open</a>` : "";
+    out.url = out.url ? `<a href="${out.url}" target="_blank" rel="noopener">open</a>` : "";
+    return out;
   });
+}
 
-  let columns = buildColumns(rows[0]);
+/* ===== Mobile cards renderer ===== */
+function renderCards(rows, query){
+  const cards = document.getElementById("cards");
+  const q = (query || "").trim().toLowerCase();
+
+  let filtered = rows;
+  if (q) {
+    filtered = rows.filter(r => {
+      const hay = [
+        safeText(r.title),
+        safeText(r.category1), safeText(r.category2), safeText(r.category3),
+        safeText(r.price), safeText(r.rating)
+      ].join(" ").toLowerCase();
+      return hay.includes(q);
+    });
+  }
+
+  // sort by revenue30Day_num desc (if exists)
+  filtered.sort((a,b) => (moneyToNum(b.revenue30Day) - moneyToNum(a.revenue30Day)));
+
+  cards.innerHTML = filtered.map(r => {
+    const img = r.image ? safeText(r.image) : "";
+    const url = safeText(r.url);
+
+    const title = safeText(r.title);
+    const price = safeText(r.price);
+    const rating = safeText(r.rating);
+    const reviews = safeText(r.reviews);
+    const rev = safeText(r.revenue30Day);
+    const units = safeText(r.unitSales30Day);
+
+    const cat1 = safeText(r.category1);
+    const bsr1 = safeText(r.bsr1);
+
+    const imgTag = (img && url)
+      ? `<a class="card-img" href="${url}" target="_blank" rel="noopener">
+           <img src="${img}" loading="lazy" />
+         </a>`
+      : `<div class="card-img"><img src="" style="display:none"/></div>`;
+
+    const openBtn = url
+      ? `<a class="btn primary" href="${url}" target="_blank" rel="noopener">Open</a>`
+      : "";
+
+    return `
+      <div class="card">
+        ${imgTag}
+        <div class="card-main">
+          <div class="card-title">${title || "(no title)"}</div>
+          <div class="meta">
+            ${price ? `<span class="pill">💰 ${price}</span>` : ""}
+            ${rating ? `<span class="pill">⭐ ${rating}</span>` : ""}
+            ${reviews ? `<span class="pill">🧾 ${reviews}</span>` : ""}
+            ${rev ? `<span class="pill">📈 Rev30 ${rev}</span>` : ""}
+            ${units ? `<span class="pill">📦 Units30 ${units}</span>` : ""}
+            ${(cat1 || bsr1) ? `<span class="pill">🏷 ${cat1} ${bsr1 ? `(#${bsr1})` : ""}</span>` : ""}
+          </div>
+          <div class="card-actions">
+            ${openBtn}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  setStatus(`Loaded ${filtered.length} rows`);
+}
+
+/* ===== Desktop table renderer ===== */
+function renderTable(rows, query){
+  const norm = normalizeRows(rows);
+
+  // apply quick search in DT after init
+  if (table) {
+    table.destroy();
+    $("#csvTable").empty();
+    table = null;
+  }
+
+  if (!norm.length) return;
+
+  let columns = buildColumns(norm[0]);
   columns.push({ data:"revenue30Day_num" });
   columns.push({ data:"price_num" });
 
   const revIdx = columns.findIndex(c => c.data === "revenue30Day_num");
   const priceIdx = columns.findIndex(c => c.data === "price_num");
 
-  if (table) {
-    table.destroy();
-    $("#csvTable").empty();
-  }
-
   table = $("#csvTable").DataTable({
-    data: rows,
+    data: norm,
     columns,
     columnDefs: [
       { targets: [revIdx, priceIdx], visible:false, searchable:false }
     ],
     order: revIdx >= 0 ? [[revIdx,"desc"]] : [],
-    pageLength: window.matchMedia("(max-width: 720px)").matches ? 25 : 50,
+    pageLength: 50,
     lengthMenu: [10,25,50,100,200],
-    scrollX: false,          // مهم للموبايل: نخلي Responsive يسوي شغله
-    responsive: true,        // ✅ هذا اللي يخلي الأعمدة تتحول لتفاصيل
+    scrollX: true,
     deferRender: true,
     processing: true,
-    dom: "Bfrtip",
-    buttons: window.matchMedia("(max-width: 720px)").matches
-      ? []                   // بالموبايل نخفي الأزرار عشان ما تزحم
-      : ["copy","csv","excel","print"]
+    // IMPORTANT: remove default DT search box so you don't get two searches
+    dom: "Brtip",
+    buttons: ["copy","csv","excel","print"]
   });
 
-  document.getElementById("quickSearch").oninput = function(){
-    table.search(this.value).draw();
-  };
+  if (query) table.search(query).draw();
 
-  setStatus(`Loaded ${rows.length} rows`);
+  setStatus(`Loaded ${norm.length} rows`);
+}
+
+function render(){
+  const q = document.getElementById("quickSearch").value || "";
+
+  // toggle UI
+  document.getElementById("cards").style.display = isMobile() ? "block" : "none";
+  document.getElementById("csvTable").style.display = isMobile() ? "none" : "table";
+
+  if (isMobile()) {
+    renderCards(lastRows, q);
+  } else {
+    renderTable(lastRows, q);
+  }
 }
 
 /* dropdown */
 const sel = document.getElementById("csvSelect");
-CSV_FILES.forEach(f => {
-  const o = document.createElement("option");
-  o.value = f;
-  o.textContent = f;
-  sel.appendChild(o);
-});
+CSV_FILES.forEach(f => sel.add(new Option(f,f)));
 sel.value = currentCSV;
 sel.onchange = () => loadCSV(sel.value);
 
 document.getElementById("reloadBtn").onclick = () => loadCSV(currentCSV);
+
+document.getElementById("quickSearch").addEventListener("input", () => {
+  render();
+});
+
+// re-render on resize/orientation change
+window.addEventListener("resize", () => {
+  // avoid heavy rerender on every pixel change
+  clearTimeout(window.__rT);
+  window.__rT = setTimeout(render, 150);
+});
 
 /* auto-load */
 loadCSV(currentCSV);
