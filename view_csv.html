@@ -20,7 +20,6 @@
   button { background:#fff; cursor:pointer; }
   #status { color:#666; font-size:12px; }
 
-  /* ===== Desktop Table ===== */
   #csvTable thead th { text-align: center !important; }
   #csvTable tbody td { text-align: center; vertical-align: middle; }
   #csvTable td.col-title { text-align: left !important; }
@@ -39,7 +38,6 @@
     }
   }
 
-  /* ===== Mobile Cards ===== */
   #cards { display:none; }
 
   .mcard{
@@ -71,7 +69,7 @@
 
   .mtitlewrap{
     flex:1;
-    min-width:0; /* مهم عشان ellipsis يشتغل */
+    min-width:0;
   }
 
   .mtitle{
@@ -82,7 +80,6 @@
     word-break: break-word;
   }
 
-  /* سطر واحد: سعر + تقييم + مراجعات */
   .mstats{
     display:flex;
     flex-wrap:nowrap;
@@ -101,11 +98,7 @@
     flex: 0 0 auto;
     white-space: nowrap;
   }
-  .chip.ghost{
-    font-weight: 600;
-  }
 
-  /* باقي المعلومات تحت */
   .mlines{
     margin-top: 10px;
     display:flex;
@@ -120,8 +113,6 @@
     font-size: 12px;
     line-height: 1.2;
     color:#222;
-
-    /* ✅ يمنع خروج النص */
     white-space: normal;
     overflow-wrap: anywhere;
     word-break: break-word;
@@ -170,190 +161,113 @@
 
 <script>
 const CSV_FILES = [
-  "Best Sellers in Toys & Games_amazon_2026-02-01_100.csv",
-  "Best Sellers in Beauty & Personal Care_amazon_2026-02-01_100.csv",
-  "Best Sellers in Home Travel-Size Air Purifiers_amazon_2026-02-01_100.csv",
-  "Best Sellers in Home Air Ionizers_amazon_2026-02-01_100.csv",
-  "Best Sellers in Home Air Purifiers_amazon_2026-02-01_100.csv",
-  "Best Sellers in Humidifiers_amazon_2026-02-01_100.csv",
-  "Best_Sellers_in_Mattress_Pads_amazon_2026-02-01_100.csv",
-  "Best_Sellers_in_Ironing_Products_amazon_2026-02-01_50.csv",
-  "Best_Sellers_in_Choppers_&_Mincers_amazon_2026-02-01_100.csv",
-  "Best_Sellers_in_Seasoning_&_Spice_Choppers_amazon_2026-02-01_100.csv",
-  "Best_Sellers_in_Grocery_&_Gourmet_Food_amazon_2026-02-01_100.csv",
-  "Best_Sellers_in_Matcha_Tea_amazon_2026-02-01_100.csv",
-  "Best_Sellers_in_Kitchen_&_Dining_amazon_2026-02-01_100.csv",
-  "Best_Sellers_in_Home_&_Kitchen_amazon_2026-02-01_100.csv",
-  "Power_Strips_&_Surge_Protectors_7pages_outof400pages_amazon_2026-02-01_169.csv",
-  "Search_Bath_Soaps_7outof_7pages_amazon_2026-02-01_325.csv"
+  "Best Sellers in Stove Safety Covers & Appliance Latches_amazon_2026-02-04_100.csv",
+  "Best Sellers in Furniture Corner & Edge Safety Bumpers_amazon_2026-02-04_100.csv",
+  "Best Sellers in Kids' Bathroom Safety Products_amazon_2026-02-04_100.csv",
+  "Best Sellers in Electrical Safety Baby Products_amazon_2026-02-04_100.csv",
+  "Best Sellers in Child Safety Equipment_amazon_2026-02-04_100.csv",
+  "Best Sellers in Safety & Security_amazon_2026-02-04_100.csv",
+  "Best Sellers in Fire Extinguisher Mounts & Brackets_amazon_2026-02-04_100.csv",
+  "Best Sellers in Toys & Games_amazon_2026-02-01_100.csv"
 ];
 
-let table = null;
-let rowsAll = [];
-let currentCSV = CSV_FILES[0];
-const isMobile = () => window.innerWidth <= 820;
+let table=null, rowsAll=[], currentCSV=CSV_FILES[0];
+const isMobile=()=>window.innerWidth<=820;
 
 function num(v){
   if(!v) return 0;
-  const s = String(v).replace(/[^0-9.]/g,'');
-  return s ? parseFloat(s) : 0;
+  const s=String(v).replace(/[^0-9.]/g,'');
+  return s?parseFloat(s):0;
 }
 
 function loadCSV(file){
-  document.getElementById("status").textContent = "Loading...";
-  fetch(encodeURI(file), {cache:"no-store"})
-    .then(r=>{
-      if(!r.ok) throw new Error("CSV not found: " + file);
-      return r.text();
-    })
+  document.getElementById("status").textContent="Loading...";
+  fetch(encodeURI(file),{cache:"no-store"})
+    .then(r=>r.text())
     .then(t=>{
-      Papa.parse(t,{
-        header:true,
-        skipEmptyLines:true,
-        complete:r=>{
-          rowsAll = (r.data || []).filter(x => x && Object.keys(x).length);
-          render();
-        }
-      });
-    })
-    .catch(e=>{
-      document.getElementById("status").textContent = "Error: " + e.message;
-      alert(e.message);
+      Papa.parse(t,{header:true,skipEmptyLines:true,complete:r=>{
+        rowsAll=(r.data||[]).filter(x=>x&&Object.keys(x).length);
+        render();
+      }});
     });
 }
 
 function render(){
-  const q = document.getElementById("quickSearch").value.toLowerCase();
-
-  document.getElementById("cards").style.display = isMobile() ? "block":"none";
-  document.getElementById("csvTable").style.display = isMobile() ? "none":"table";
-
-  if(isMobile()) renderCards(q);
-  else renderTable(q);
+  const q=document.getElementById("quickSearch").value.toLowerCase();
+  document.getElementById("cards").style.display=isMobile()?"block":"none";
+  document.getElementById("csvTable").style.display=isMobile()?"none":"table";
+  if(isMobile()) renderCards(q); else renderTable(q);
 }
 
-/* ===== Mobile cards (new layout) ===== */
 function renderCards(q){
-  const box = document.getElementById("cards");
+  const box=document.getElementById("cards");
+  const rows=rowsAll
+    .filter(r=>!q||(r.title||"").toLowerCase().includes(q))
+    .sort((a,b)=>num(b.revenue30d||b.revenue30Day)-num(a.revenue30d||a.revenue30Day));
 
-  const rows = rowsAll
-    .filter(r => {
-      if(!q) return true;
-      const t = (r.title||"").toLowerCase();
-      return t.includes(q);
-    })
-    .sort((a,b)=> num(b.revenue30d||b.revenue30Day) - num(a.revenue30d||a.revenue30Day));
-
-  box.innerHTML = rows.map(r=>{
-    const title = r.title || "";
-    const url = r.url || "#";
-    const img = r.image || "";
-
-    const price = r.price || "";
-    const rating = r.rating || "";
-    const reviews = r.reviews || "";
-
-    const c1 = r.category1 || "";
-    const b1 = r.bsr1 ? `#${r.bsr1}` : "";
-    const c2 = r.category2 || "";
-    const b2 = r.bsr2 ? `#${r.bsr2}` : "";
-
-    const revenue = r.revenue30d || r.revenue30Day || "";
-    const units = r.unitSales30d || r.unitSales30Day || "";
-
-    // clean lines (only show if exists)
-    const line = (label, val) => val ? `<div class="line"><strong>${label}:</strong> ${val}</div>` : "";
-
-    return `
-      <div class="mcard">
-        <div class="mhead">
-          <a class="mimg" href="${url}" target="_blank" rel="noopener">
-            <img src="${img}" loading="lazy" decoding="async">
-          </a>
-
-          <div class="mtitlewrap">
-            <div class="mtitle">${title}</div>
-
-            <div class="mstats">
-              ${price ? `<span class="chip">💰 ${price}</span>` : ""}
-              ${rating ? `<span class="chip ghost">⭐ ${rating}</span>` : ""}
-              ${reviews ? `<span class="chip ghost">🧾 ${reviews}</span>` : ""}
-            </div>
+  box.innerHTML=rows.map(r=>`
+    <div class="mcard">
+      <div class="mhead">
+        <a class="mimg" href="${r.url||"#"}" target="_blank">
+          <img src="${r.image||""}" loading="lazy">
+        </a>
+        <div class="mtitlewrap">
+          <div class="mtitle">${r.title||""}</div>
+          <div class="mstats">
+            ${r.price?`<span class="chip">💰 ${r.price}</span>`:""}
+            ${r.rating?`<span class="chip">⭐ ${r.rating}</span>`:""}
+            ${r.reviews?`<span class="chip">🧾 ${r.reviews}</span>`:""}
           </div>
         </div>
-
-        <div class="mlines">
-          ${line("Category 1", `${c1}${b1 ? ` (${b1})` : ""}`)}
-          ${line("Category 2", `${c2}${b2 ? ` (${b2})` : ""}`)}
-          ${line("30 Days Sales (Revenue)", revenue)}
-          ${line("30 Days Units Sold", units)}
-        </div>
-
-        <div class="mactions">
-          ${url && url !== "#" ? `<a class="btn" href="${url}" target="_blank" rel="noopener">Open</a>` : ""}
-        </div>
       </div>
-    `;
-  }).join("");
+      <div class="mlines">
+        ${r.category1?`<div class="line"><strong>Category 1:</strong> ${r.category1} ${r.bsr1?`(#${r.bsr1})`:""}</div>`:""}
+        ${r.category2?`<div class="line"><strong>Category 2:</strong> ${r.category2} ${r.bsr2?`(#${r.bsr2})`:""}</div>`:""}
+        ${(r.revenue30d||r.revenue30Day)?`<div class="line"><strong>30 Days Sales (Revenue):</strong> ${r.revenue30d||r.revenue30Day}</div>`:""}
+        ${(r.unitSales30d||r.unitSales30Day)?`<div class="line"><strong>30 Days Units Sold:</strong> ${r.unitSales30d||r.unitSales30Day}</div>`:""}
+      </div>
+      <div class="mactions">
+        ${r.url?`<a class="btn" href="${r.url}" target="_blank">Open</a>`:""}
+      </div>
+    </div>
+  `).join("");
 
-  document.getElementById("status").textContent = `Loaded ${rows.length} rows`;
+  document.getElementById("status").textContent=`Loaded ${rows.length} rows`;
 }
 
-/* ===== Desktop table (ONE PAGE + lazy images) ===== */
 function renderTable(q){
-  if(table){ table.destroy(); $("#csvTable").empty(); }
-
-  table = $("#csvTable").DataTable({
-    data: rowsAll,
-    columns: [
-      {
-        title:"image",
-        data:"image",
-        render:(d,t,r)=>{
-          const url = r.url || "#";
-          const img = d || "";
-          return `<a href="${url}" target="_blank" rel="noopener">
-                    <div class="img-wrap">
-                      <img src="${img}" loading="lazy" decoding="async">
-                    </div>
-                  </a>`;
-        }
-      },
-      { title:"title", data:"title", className:"col-title" },
-      { title:"price", data:"price" },
-      { title:"rating", data:"rating" },
-      { title:"reviews", data:"reviews" },
-      { title:"category1", data:"category1" },
-      { title:"bsr1", data:"bsr1" },
-      { title:"category2", data:"category2" },
-      { title:"bsr2", data:"bsr2" },
-      { title:"30 Days Sales (Revenue)", data:"revenue30d" },
-      { title:"30 Days Units Sold", data:"unitSales30d" }
+  if(table){table.destroy();$("#csvTable").empty();}
+  table=$("#csvTable").DataTable({
+    data:rowsAll,
+    columns:[
+      {title:"image",data:"image",render:(d,t,r)=>`<a href="${r.url||"#"}" target="_blank"><div class="img-wrap"><img src="${d}" loading="lazy"></div></a>`},
+      {title:"title",data:"title",className:"col-title"},
+      {title:"price",data:"price"},
+      {title:"rating",data:"rating"},
+      {title:"reviews",data:"reviews"},
+      {title:"category1",data:"category1"},
+      {title:"bsr1",data:"bsr1"},
+      {title:"category2",data:"category2"},
+      {title:"bsr2",data:"bsr2"},
+      {title:"30 Days Sales (Revenue)",data:"revenue30d"},
+      {title:"30 Days Units Sold",data:"unitSales30d"}
     ],
-    paging: false,
-    searching: true,
-    ordering: true,
-    info: false,
-    lengthChange: false,
-    deferRender: true,
-    dom:"Brt",
+    paging:false,info:false,lengthChange:false,dom:"Brt",
     buttons:["copy","csv","excel"]
   });
-
   if(q) table.search(q).draw();
-  document.getElementById("status").textContent = `Loaded ${rowsAll.length} rows`;
+  document.getElementById("status").textContent=`Loaded ${rowsAll.length} rows`;
 }
 
-document.getElementById("quickSearch").addEventListener("input", render);
-document.getElementById("reloadBtn").onclick = ()=>loadCSV(currentCSV);
+document.getElementById("quickSearch").addEventListener("input",render);
+document.getElementById("reloadBtn").onclick=()=>loadCSV(currentCSV);
 
-const sel = document.getElementById("csvSelect");
+const sel=document.getElementById("csvSelect");
 CSV_FILES.forEach(f=>sel.add(new Option(f,f)));
-sel.value = currentCSV;
-sel.onchange = ()=>loadCSV(sel.value);
+sel.value=currentCSV;
+sel.onchange=()=>loadCSV(sel.value);
 
-window.addEventListener("resize", ()=>setTimeout(render,150));
-
+window.addEventListener("resize",()=>setTimeout(render,150));
 loadCSV(currentCSV);
 </script>
 </body>
