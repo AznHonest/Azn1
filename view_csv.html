@@ -161,6 +161,7 @@
 
 <script>
 const CSV_FILES = [
+  // ===== 2026-02-04 (NEW) =====
   "Best Sellers in Stove Safety Covers & Appliance Latches_amazon_2026-02-04_100.csv",
   "Best Sellers in Furniture Corner & Edge Safety Bumpers_amazon_2026-02-04_100.csv",
   "Best Sellers in Kids' Bathroom Safety Products_amazon_2026-02-04_100.csv",
@@ -168,8 +169,47 @@ const CSV_FILES = [
   "Best Sellers in Child Safety Equipment_amazon_2026-02-04_100.csv",
   "Best Sellers in Safety & Security_amazon_2026-02-04_100.csv",
   "Best Sellers in Fire Extinguisher Mounts & Brackets_amazon_2026-02-04_100.csv",
-  "Best Sellers in Toys & Games_amazon_2026-02-01_100.csv"
+
+  // ===== 2026-02-01 =====
+  "Best Sellers in Toys & Games_amazon_2026-02-01_100.csv",
+  "Best Sellers in Beauty & Personal Care_amazon_2026-02-01_100.csv",
+  "Best Sellers in Home Travel-Size Air Purifiers_amazon_2026-02-01_100.csv",
+  "Best Sellers in Home Air Ionizers_amazon_2026-02-01_100.csv",
+  "Best Sellers in Home Air Purifiers_amazon_2026-02-01_100.csv",
+  "Best Sellers in Humidifiers_amazon_2026-02-01_100.csv",
+  "Best_Sellers_in_Mattress_Pads_amazon_2026-02-01_100.csv",
+  "Best_Sellers_in_Ironing_Products_amazon_2026-02-01_50.csv",
+  "Best_Sellers_in_Choppers_&_Mincers_amazon_2026-02-01_100.csv",
+  "Best_Sellers_in_Seasoning_&_Spice_Choppers_amazon_2026-02-01_100.csv",
+  "Best_Sellers_in_Grocery_&_Gourmet_Food_amazon_2026-02-01_100.csv",
+  "Best_Sellers_in_Matcha_Tea_amazon_2026-02-01_100.csv",
+  "Best_Sellers_in_Kitchen_&_Dining_amazon_2026-02-01_100.csv",
+  "Best_Sellers_in_Home_&_Kitchen_amazon_2026-02-01_100.csv",
+
+  // ===== Searches / Other =====
+  "Power_Strips_&_Surge_Protectors_7pages_outof400pages_amazon_2026-02-01_169.csv",
+  "Search_Bath_Soaps_7outof_7pages_amazon_2026-02-01_325.csv",
+
+  // ===== Safety / Medical / Supplements (from your earlier list) =====
+  "Fire_Safety_best_8pages_outof_400pagesamazon_2026_01_28_183_products (2).csv",
+  "first_aid_Search_7pages_amazon_2026-01-28_320_products.csv",
+  "collagen_best_7_pages_manual_amazon_2026-01-27_280_products (2).csv",
+  "Fire_Extinguishers_10pages_outof_67pages_amazon_2026_01_28_267_products.csv",
+  "Fire_Safety_best_8pages_outof_400p_Testing - Copy.csv",
+  "Baby_Safety_Products_best_10pages_outof_400pages_amazon_2026_01.csv",
+  "Collagen_Supplements_166Pages_amazon_2026_01_27_4066_products_1.csv",
+  "Vitamin_C_Supplements_15pages_outof_117pages_amazon_2026_01_28_358.csv",
+  "Vitamins,_Minerals_&_Supplements_10pages_outof_400_amazon_2026_01.csv",
+  "Vitamins_15Pages_out_of_400page_amazon_2026_01_27_233_products.csv",
+  "Baby_Safety_Products_best_10pages_outof_400pages_amazon_2026-01-28_263_products.csv",
+  "collagen_best_7_pages_manual_amazon_2026-01-27_280_products.csv",
+  "Collagen_Supplements_166Pages_amazon_2026-01-27_4066_products (1).csv",
+  "sleep_supplements_170pages_amazon_us.csv",
+  "collagen_117pages_all_split_final.csv",
+  "collagen_117pages.csv",
+  "400pages_all_split_final.csv"
 ];
+
 
 let table=null, rowsAll=[], currentCSV=CSV_FILES[0];
 const isMobile=()=>window.innerWidth<=820;
