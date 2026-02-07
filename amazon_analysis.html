@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تحليل أمازون أمريكا - Health & Household</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+--bg:#0a0e1a;
+--surface:#111827;
+--surface2:#1a2235;
+--surface3:#232d42;
+--border:#2a3550;
+--text:#e8edf5;
+--text2:#8b95a8;
+--text3:#5a6478;
+--accent:#3b82f6;
+--accent2:#60a5fa;
+--green:#10b981;
+--green-bg:rgba(16,185,129,.08);
+--amber:#f59e0b;
+--amber-bg:rgba(245,158,11,.08);
+--rose:#f43f5e;
+--rose-bg:rgba(244,63,94,.08);
+--purple:#a78bfa;
+--purple-bg:rgba(167,139,250,.08);
+--cyan:#22d3ee;
+--cyan-bg:rgba(34,211,238,.08);
+}
+
+body{
+font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;
+background:var(--bg);
+color:var(--text);
+line-height:1.7;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+.noise{
+position:fixed;inset:0;
+background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+pointer-events:none;z-index:0;
+}
+
+.glow-orb{
+position:fixed;border-radius:50%;filter:blur(120px);opacity:.07;pointer-events:none;
+}
+.glow-orb.blue{width:600px;height:600px;background:#3b82f6;top:-200px;right:-100px}
+.glow-orb.green{width:400px;height:400px;background:#10b981;bottom:-100px;left:-50px}
+
+.container{
+max-width:1400px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;
+}
+
+/* Header */
+.header{
+text-align:center;margin-bottom:56px;
+animation:fadeUp .8s ease both;
+}
+.header .badge{
+display:inline-flex;align-items:center;gap:8px;
+background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(96,165,250,.06));
+border:1px solid rgba(59,130,246,.2);
+border-radius:100px;padding:8px 20px;margin-bottom:20px;
+font-size:13px;color:var(--accent2);font-weight:500;letter-spacing:.3px;
+}
+.header .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.header h1{
+font-family:'Tajawal',sans-serif;
+font-size:clamp(28px,5vw,44px);font-weight:900;
+background:linear-gradient(135deg,#fff 0%,#94a3b8 100%);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+margin-bottom:12px;line-height:1.3;
+}
+.header p{font-size:17px;color:var(--text2);max-width:600px;margin:0 auto}
+
+/* KPI Cards */
+.kpi-grid{
+display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:48px;
+}
+.kpi{
+background:var(--surface);border:1px solid var(--border);border-radius:16px;
+padding:24px;text-align:center;
+animation:fadeUp .6s ease both;
+transition:transform .25s,border-color .25s;
+}
+.kpi:hover{transform:translateY(-3px);border-color:var(--accent)}
+.kpi .kpi-value{
+font-family:'JetBrains Mono',monospace;
+font-size:28px;font-weight:600;color:#fff;margin-bottom:4px;
+}
+.kpi .kpi-label{font-size:13px;color:var(--text2);font-weight:400}
+.kpi:nth-child(1){animation-delay:.1s}
+.kpi:nth-child(2){animation-delay:.15s}
+.kpi:nth-child(3){animation-delay:.2s}
+.kpi:nth-child(4){animation-delay:.25s}
+
+/* Section */
+.section{margin-bottom:48px;animation:fadeUp .7s ease both}
+.section-header{
+display:flex;align-items:center;justify-content:space-between;
+margin-bottom:20px;padding-bottom:12px;
+border-bottom:1px solid var(--border);
+}
+.section-title{
+font-family:'Tajawal',sans-serif;
+font-size:22px;font-weight:700;color:#fff;
+display:flex;align-items:center;gap:10px;
+}
+.section-title .icon{
+width:36px;height:36px;border-radius:10px;
+display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+
+/* Segment Cards */
+.segments-grid{display:flex;flex-direction:column;gap:20px}
+
+.segment-card{
+background:var(--surface);border:1px solid var(--border);border-radius:16px;
+overflow:hidden;transition:border-color .3s;
+}
+.segment-card:hover{border-color:var(--accent)}
+
+.segment-head{
+display:flex;align-items:center;justify-content:space-between;
+padding:20px 24px;cursor:pointer;user-select:none;
+transition:background .2s;
+}
+.segment-head:hover{background:var(--surface2)}
+.segment-head .right{display:flex;align-items:center;gap:14px}
+.segment-head .seg-icon{
+width:42px;height:42px;border-radius:12px;
+display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.segment-head .seg-info h3{font-size:17px;font-weight:700;color:#fff}
+.segment-head .seg-info span{font-size:13px;color:var(--text2)}
+.segment-head .left{display:flex;align-items:center;gap:24px;text-align:center}
+.segment-head .stat{text-align:center}
+.segment-head .stat .val{
+font-family:'JetBrains Mono',monospace;
+font-size:16px;font-weight:600;color:#fff;display:block;
+}
+.segment-head .stat .lbl{font-size:11px;color:var(--text3);display:block}
+.segment-head .chevron{
+color:var(--text3);transition:transform .3s;font-size:20px;margin-right:8px;
+}
+.segment-card.open .chevron{transform:rotate(180deg)}
+
+.segment-body{
+max-height:0;overflow:hidden;transition:max-height .5s ease;
+}
+.segment-card.open .segment-body{max-height:2000px}
+
+.sub-table{width:100%;border-collapse:collapse}
+.sub-table th{
+font-size:12px;color:var(--text3);font-weight:500;
+padding:10px 20px;text-align:right;
+background:var(--surface2);border-top:1px solid var(--border);
+}
+.sub-table td{
+font-size:14px;padding:12px 20px;
+border-top:1px solid rgba(42,53,80,.5);
+}
+.sub-table tr:hover td{background:rgba(59,130,246,.03)}
+.sub-table .mono{font-family:'JetBrains Mono',monospace;font-size:13px}
+.sub-table .sub-name{font-weight:600;color:#fff}
+
+/* Bar inside table */
+.bar-cell{position:relative;min-width:120px}
+.bar-bg{
+height:6px;border-radius:3px;background:var(--surface3);overflow:hidden;
+}
+.bar-fill{
+height:100%;border-radius:3px;
+background:linear-gradient(90deg,var(--accent),var(--cyan));
+transition:width .8s ease;
+}
+
+/* Opportunity Section */
+.opp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.opp-card{
+background:var(--surface);border:1px solid var(--border);border-radius:16px;
+padding:24px;transition:all .3s;position:relative;overflow:hidden;
+}
+.opp-card:hover{border-color:var(--green);transform:translateY(-2px)}
+.opp-card.hot::before{
+content:'';position:absolute;top:0;right:0;left:0;height:3px;
+background:linear-gradient(90deg,var(--green),var(--cyan));
+}
+.opp-card .opp-rank{
+position:absolute;top:16px;left:16px;
+width:28px;height:28px;border-radius:8px;
+background:var(--surface3);display:flex;align-items:center;justify-content:center;
+font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2);font-weight:600;
+}
+.opp-card h4{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.opp-card .opp-seg{font-size:12px;color:var(--text3);margin-bottom:16px}
+.opp-card .opp-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opp-card .opp-stat .v{
+font-family:'JetBrains Mono',monospace;
+font-size:15px;font-weight:600;color:#fff;
+}
+.opp-card .opp-stat .l{font-size:11px;color:var(--text3)}
+.opp-card .opp-tag{
+display:inline-flex;padding:3px 10px;border-radius:6px;
+font-size:11px;font-weight:600;margin-top:12px;
+}
+.opp-tag.high{background:var(--green-bg);color:var(--green)}
+.opp-tag.mid{background:var(--amber-bg);color:var(--amber)}
+
+/* Products Table */
+.products-wrap{
+background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;
+}
+.products-table{width:100%;border-collapse:collapse}
+.products-table th{
+font-size:12px;color:var(--text3);font-weight:500;
+padding:14px 16px;text-align:right;background:var(--surface2);
+position:sticky;top:0;
+}
+.products-table td{
+font-size:13px;padding:12px 16px;
+border-top:1px solid rgba(42,53,80,.4);
+vertical-align:middle;
+}
+.products-table tr:hover td{background:rgba(59,130,246,.03)}
+.products-table .rank-badge{
+width:28px;height:28px;border-radius:8px;
+display:inline-flex;align-items:center;justify-content:center;
+font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;
+}
+.rank-badge.gold{background:rgba(245,158,11,.15);color:var(--amber)}
+.rank-badge.silver{background:rgba(148,163,184,.12);color:#94a3b8}
+.rank-badge.bronze{background:rgba(180,130,90,.12);color:#c4956a}
+.rank-badge.normal{background:var(--surface3);color:var(--text2)}
+.products-table .prod-name{max-width:300px;font-weight:500;color:#fff;line-height:1.4}
+.products-table .tag{
+display:inline-block;padding:2px 8px;border-radius:5px;
+font-size:11px;font-weight:500;
+}
+
+/* Filter Tabs */
+.filter-tabs{
+display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;
+}
+.filter-tab{
+padding:8px 16px;border-radius:10px;border:1px solid var(--border);
+background:transparent;color:var(--text2);font-size:13px;font-weight:500;
+cursor:pointer;transition:all .2s;font-family:inherit;
+}
+.filter-tab:hover{border-color:var(--accent);color:var(--accent2)}
+.filter-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Stars */
+.stars{color:var(--amber);font-size:12px;letter-spacing:1px}
+
+/* Scrollable */
+.table-scroll{max-height:600px;overflow-y:auto}
+.table-scroll::-webkit-scrollbar{width:6px}
+.table-scroll::-webkit-scrollbar-track{background:var(--surface)}
+.table-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* Animations */
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+@keyframes pulse{
+0%,100%{opacity:1}50%{opacity:.4}
+}
+
+.delay-1{animation-delay:.1s}
+.delay-2{animation-delay:.2s}
+.delay-3{animation-delay:.3s}
+.delay-4{animation-delay:.4s}
+
+/* Responsive */
+@media(max-width:768px){
+.segment-head{flex-direction:column;gap:16px;align-items:stretch}
+.segment-head .left{justify-content:space-around}
+.opp-grid{grid-template-columns:1fr}
+.kpi-grid{grid-template-columns:repeat(2,1fr)}
+.container{padding:20px 12px}
+}
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="glow-orb blue"></div>
+<div class="glow-orb green"></div>
+
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+<div class="badge"><span class="dot"></span>بيانات محدثة — فبراير 2026</div>
+<h1>تحليل أفضل 100 منتج في أمازون أمريكا</h1>
+<p>قسم Health & Household — تحليل القطاعات والفرص الاستثمارية</p>
+</div>
+
+<!-- KPIs -->
+<div class="kpi-grid" id="kpis"></div>
+
+<!-- Segments -->
+<div class="section delay-2">
+<div class="section-header">
+<div class="section-title">
+<span class="icon" style="background:var(--purple-bg);color:var(--purple)">📊</span>
+القطاعات والفئات الفرعية
+</div>
+</div>
+<div class="segments-grid" id="segments"></div>
+</div>
+
+<!-- Opportunities -->
+<div class="section delay-3">
+<div class="section-header">
+<div class="section-title">
+<span class="icon" style="background:var(--green-bg);color:var(--green)">🎯</span>
+أفضل فرص الاستثمار
+</div>
+</div>
+<div class="opp-grid" id="opportunities"></div>
+</div>
+
+<!-- Products -->
+<div class="section delay-4">
+<div class="section-header">
+<div class="section-title">
+<span class="icon" style="background:var(--cyan-bg);color:var(--cyan)">🏆</span>
+أفضل المنتجات مبيعاً
+</div>
+</div>
+<div class="filter-tabs" id="filterTabs"></div>
+<div class="products-wrap">
+<div class="table-scroll">
+<table class="products-table">
+<thead><tr>
+<th>#</th><th>المنتج</th><th>الفئة</th><th>السعر</th><th>الإيراد (30 يوم)</th><th>الوحدات</th><th>التقييم</th>
+</tr></thead>
+<tbody id="productsBody"></tbody>
+</table>
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+const data = {
+  segments: [
+    {
+      name: 'المكملات الغذائية والفيتامينات',
+      nameEn: 'Supplements & Vitamins',
+      icon: '💊', color: 'var(--green)', colorBg: 'var(--green-bg)',
+      revenue: 72473946, units: 2952053, products: 16, avgPrice: 28.19,
+      subs: [
+        {name:'كرياتين', revenue:17453562, units:630003, count:3, avgPrice:26.82, rating:4.63},
+        {name:'كولاجين', revenue:11197848, units:353161, count:2, avgPrice:31.29, rating:4.45},
+        {name:'مغنيسيوم', revenue:8109872, units:223090, count:1, avgPrice:27.00, rating:4.60},
+        {name:'بروبيوتيك', revenue:9857765, units:350919, count:3, avgPrice:26.64, rating:4.60},
+        {name:'بيوتين (B7)', revenue:5921382, units:144739, count:1, avgPrice:34.95, rating:4.40},
+        {name:'أوميقا 3 وزيت سمك', revenue:9866730, units:270120, count:2, avgPrice:30.85, rating:4.70},
+        {name:'فيتامين D', revenue:5887302, units:332067, count:2, avgPrice:19.47, rating:4.70},
+        {name:'ملتي فيتامين', revenue:1637503, units:25365, count:1, avgPrice:39.95, rating:4.50},
+        {name:'هوميوباثي', revenue:2541981, units:132873, count:1, avgPrice:25.46, rating:4.70},
+      ]
+    },
+    {
+      name: 'التغذية الرياضية',
+      nameEn: 'Sports Nutrition',
+      icon: '🏋️', color: 'var(--amber)', colorBg: 'var(--amber-bg)',
+      revenue: 51186319, units: 1955074, products: 9, avgPrice: 23.31,
+      subs: [
+        {name:'إلكتروليت', revenue:25056499, units:849125, count:4, avgPrice:19.58, rating:4.58},
+        {name:'واي بروتين', revenue:12516479, units:246340, count:1, avgPrice:36.83, rating:4.60},
+        {name:'بروتين بار', revenue:7387762, units:353372, count:2, avgPrice:20.63, rating:4.30},
+        {name:'بروتين جاهز', revenue:3482311, units:127152, count:1, avgPrice:27.97, rating:4.60},
+        {name:'شيبس بروتين', revenue:2743269, units:132785, count:1, avgPrice:25.44, rating:4.50},
+      ]
+    },
+    {
+      name: 'الورقيات والأطباق',
+      nameEn: 'Paper & Disposables',
+      icon: '🧻', color: 'var(--cyan)', colorBg: 'var(--cyan-bg)',
+      revenue: 90664879, units: 5090704, products: 25, avgPrice: 16.40,
+      subs: [
+        {name:'مناديل حمام', revenue:42059289, units:1969349, count:9, avgPrice:22.14, rating:4.69},
+        {name:'مناديل مطبخ', revenue:33268778, units:1518328, count:6, avgPrice:16.44, rating:4.63},
+        {name:'مناديل وجه', revenue:5534221, units:408257, count:3, avgPrice:12.25, rating:4.77},
+        {name:'أطباق ورقية', revenue:7147134, units:636804, count:4, avgPrice:12.54, rating:4.78},
+        {name:'مناديل سفرة', revenue:699918, units:160266, count:1, avgPrice:3.48, rating:4.80},
+        {name:'أكياس حفظ طعام', revenue:1955538, units:315315, count:2, avgPrice:7.90, rating:4.65},
+      ]
+    },
+    {
+      name: 'المنظفات والمنزلية',
+      nameEn: 'Cleaning & Household',
+      icon: '🧹', color: 'var(--rose)', colorBg: 'var(--rose-bg)',
+      revenue: 44511347, units: 3167596, products: 20, avgPrice: 12.81,
+      subs: [
+        {name:'مزيل بقع غسيل', revenue:7249884, units:389689, count:2, avgPrice:9.88, rating:4.60},
+        {name:'منظف غسيل سائل', revenue:6493325, units:382508, count:3, avgPrice:13.31, rating:4.80},
+        {name:'كبسولات غسيل', revenue:5495786, units:235536, count:1, avgPrice:26.51, rating:4.80},
+        {name:'أكياس قمامة', revenue:10198970, units:654541, count:3, avgPrice:15.98, rating:4.67},
+        {name:'منظف غسالة أطباق', revenue:2780281, units:123887, count:1, avgPrice:20.99, rating:4.30},
+        {name:'صابون أطباق', revenue:2714980, units:258871, count:2, avgPrice:13.27, rating:4.80},
+        {name:'مناديل تعقيم', revenue:2263309, units:196324, count:1, avgPrice:11.66, rating:4.70},
+        {name:'منظف غسالة ملابس', revenue:1882058, units:150494, count:1, avgPrice:10.98, rating:4.70},
+        {name:'منظف حمامات', revenue:1387629, units:270397, count:2, avgPrice:5.11, rating:4.80},
+        {name:'مزيل انسداد', revenue:1198836, units:111809, count:1, avgPrice:16.97, rating:4.50},
+        {name:'منظف زجاج', revenue:580826, units:128351, count:1, avgPrice:3.48, rating:4.80},
+        {name:'منظف متعدد الأغراض', revenue:564414, units:121380, count:1, avgPrice:8.30, rating:4.80},
+        {name:'معطر أقمشة', revenue:1701050, units:130573, count:1, avgPrice:12.97, rating:4.80},
+      ]
+    },
+    {
+      name: 'العناية الشخصية',
+      nameEn: 'Personal Care',
+      icon: '🪥', color: 'var(--purple)', colorBg: 'var(--purple-bg)',
+      revenue: 28412681, units: 2040047, products: 11, avgPrice: 14.46,
+      subs: [
+        {name:'مناديل تنظيف شخصية', revenue:9513218, units:746564, count:3, avgPrice:12.98, rating:4.63},
+        {name:'معجون أسنان', revenue:8635608, units:675072, count:4, avgPrice:11.83, rating:4.68},
+        {name:'عناية نسائية', revenue:4186064, units:134157, count:1, avgPrice:28.97, rating:4.50},
+        {name:'منظف أطقم أسنان', revenue:2344520, units:114710, count:1, avgPrice:18.54, rating:4.70},
+        {name:'غسول فم', revenue:1933581, units:126390, count:1, avgPrice:15.34, rating:4.80},
+        {name:'زيوت عطرية', revenue:1799689, units:169302, count:1, avgPrice:9.99, rating:4.40},
+      ]
+    },
+    {
+      name: 'الأدوية والعناية الطبية',
+      nameEn: 'Medical & OTC',
+      icon: '🏥', color: '#f472b6', colorBg: 'rgba(244,114,182,.08)',
+      revenue: 21442731, units: 1009786, products: 9, avgPrice: 23.23,
+      subs: [
+        {name:'حفاضات كبار', revenue:8965940, units:265934, count:2, avgPrice:52.86, rating:4.50},
+        {name:'قطرات حساسية', revenue:3315636, units:152858, count:1, avgPrice:19.56, rating:4.70},
+        {name:'أجهزة قياس ضغط', revenue:3259402, units:93119, count:1, avgPrice:27.98, rating:4.40},
+        {name:'أدوية برد وانفلونزا', revenue:2430138, units:151111, count:1, avgPrice:13.99, rating:4.60},
+        {name:'مسكنات (باراسيتامول)', revenue:1686604, units:177964, count:2, avgPrice:10.23, rating:4.80},
+        {name:'قطرات جفاف العين', revenue:1466736, units:122945, count:1, avgPrice:11.93, rating:4.60},
+        {name:'مسكنات (ايبوبروفين)', revenue:318275, units:46553, count:1, avgPrice:9.40, rating:4.80},
+      ]
+    },
+    {
+      name: 'البطاريات',
+      nameEn: 'Batteries',
+      icon: '🔋', color: 'var(--amber)', colorBg: 'var(--amber-bg)',
+      revenue: 22713093, units: 1504998, products: 8, avgPrice: 13.59,
+      subs: [
+        {name:'بطاريات AA', revenue:13578283, units:795329, count:3, avgPrice:15.85, rating:4.77},
+        {name:'بطاريات AAA', revenue:5480031, units:358783, count:2, avgPrice:16.17, rating:4.75},
+        {name:'بطاريات أزرار', revenue:1893332, units:223470, count:2, avgPrice:8.09, rating:4.75},
+        {name:'بطاريات 9V', revenue:1761447, units:127416, count:1, avgPrice:12.69, rating:4.70},
+      ]
+    },
+  ],
+  products: [
+    {rank:1,name:'Bounty Paper Towels Quick Size, White, 16 Family Rolls',cat:'مناديل مطبخ',seg:'Paper & Disposables',price:43.49,revenue:15432554,units:441191,rating:4.8},
+    {rank:2,name:'Amazon Basics 20-Pack AA Alkaline Batteries',cat:'بطاريات AA',seg:'Batteries',price:8.83,revenue:5718655,units:373942,rating:4.7},
+    {rank:3,name:'Scott ComfortPlus Toilet Paper, 12 Double Rolls',cat:'مناديل حمام',seg:'Paper & Disposables',price:6.49,revenue:2526650,units:189877,rating:4.5},
+    {rank:4,name:'Amazon Basics Everyday Paper Plates, 100 Count',cat:'أطباق ورقية',seg:'Paper & Disposables',price:5.81,revenue:2213433,units:244683,rating:4.7},
+    {rank:5,name:'LMNT Zero Sugar Electrolytes - Variety Pack',cat:'إلكتروليت',seg:'Sports Nutrition',price:23.99,revenue:13595519,units:313390,rating:4.6},
+    {rank:6,name:'Optimum Nutrition Gold Standard 100% Whey Protein',cat:'واي بروتين',seg:'Sports Nutrition',price:36.83,revenue:12516479,units:246340,rating:4.6},
+    {rank:7,name:'Charmin Ultra Soft Cushiony Touch Toilet Paper, 18 Mega Rolls',cat:'مناديل حمام',seg:'Paper & Disposables',price:27.94,revenue:10093291,units:258735,rating:4.8},
+    {rank:8,name:'Pure Encapsulations Magnesium (Glycinate)',cat:'مغنيسيوم',seg:'Supplements & Vitamins',price:27.00,revenue:8109872,units:223090,rating:4.6},
+    {rank:9,name:'Cottonelle GentlePlus Flushable Wet Wipes, 336 Total',cat:'مناديل تنظيف شخصية',seg:'Personal Care',price:14.94,revenue:4963843,units:212672,rating:4.5},
+    {rank:10,name:'OxiClean Versatile Stain Remover Powder',cat:'مزيل بقع غسيل',seg:'Cleaning & Household',price:10.97,revenue:4758700,units:254989,rating:4.6},
+    {rank:11,name:'Optimum Nutrition Micronized Creatine Powder',cat:'كرياتين',seg:'Supplements & Vitamins',price:14.97,revenue:6502595,units:330133,rating:4.6},
+    {rank:12,name:'Vital Proteins Collagen Peptides Advanced',cat:'كولاجين',seg:'Supplements & Vitamins',price:42.99,revenue:6060612,units:113458,rating:4.4},
+    {rank:13,name:'THORNE Creatine Monohydrate Powder',cat:'كرياتين',seg:'Supplements & Vitamins',price:44.00,revenue:6045219,units:107200,rating:4.7},
+    {rank:14,name:'Bounty Quick-Size Paper Towels, 8 Family Rolls',cat:'مناديل مطبخ',seg:'Paper & Disposables',price:18.59,revenue:5766830,units:336290,rating:4.8},
+    {rank:15,name:'WEEM Hair Skin and Nails Gummies - Biotin',cat:'بيوتين (B7)',seg:'Supplements & Vitamins',price:34.95,revenue:5921382,units:144739,rating:4.4},
+    {rank:16,name:'Nordic Naturals Ultimate Omega, Lemon Flavor',cat:'أوميقا 3 وزيت سمك',seg:'Supplements & Vitamins',price:33.74,revenue:5853804,units:141893,rating:4.7},
+    {rank:17,name:'Liquid I.V. Hydration Multiplier - Lemon Lime',cat:'إلكتروليت',seg:'Sports Nutrition',price:17.60,revenue:5508057,units:269048,rating:4.6},
+    {rank:18,name:'Vital Proteins Collagen Peptides Powder',cat:'كولاجين',seg:'Supplements & Vitamins',price:19.58,revenue:5137236,units:239703,rating:4.5},
+    {rank:19,name:'Nutricost Creatine Monohydrate 500G',cat:'كرياتين',seg:'Supplements & Vitamins',price:21.50,revenue:4905748,units:192670,rating:4.6},
+    {rank:20,name:'Quest Nutrition Chocolate Chip Cookie Dough Bars',cat:'بروتين بار',seg:'Sports Nutrition',price:26.24,revenue:4636698,units:149380,rating:4.3},
+  ]
+};
+
+// Format number
+function fmt(n){
+  if(n>=1000000)return '$'+( n/1000000).toFixed(1)+'M';
+  if(n>=1000)return '$'+(n/1000).toFixed(0)+'K';
+  return '$'+n;
+}
+function fmtN(n){return n.toLocaleString('en-US')}
+
+// KPIs
+const totalRev=data.segments.reduce((s,g)=>s+g.revenue,0);
+const totalUnits=data.segments.reduce((s,g)=>s+g.units,0);
+const totalProducts=data.segments.reduce((s,g)=>s+g.products,0);
+const kpis=[
+  {value:'$334.5M',label:'إجمالي الإيرادات (30 يوم)'},
+  {value:'17.1M',label:'إجمالي الوحدات المباعة'},
+  {value:'100',label:'عدد المنتجات'},
+  {value:'7',label:'قطاعات رئيسية'},
+];
+document.getElementById('kpis').innerHTML=kpis.map((k,i)=>`
+  <div class="kpi" style="animation-delay:${.1+i*.05}s">
+    <div class="kpi-value">${k.value}</div>
+    <div class="kpi-label">${k.label}</div>
+  </div>
+`).join('');
+
+// Segments
+const maxRev=Math.max(...data.segments.map(s=>s.revenue));
+document.getElementById('segments').innerHTML=data.segments
+  .sort((a,b)=>b.revenue-a.revenue)
+  .map((seg,i)=>{
+    const maxSubRev=Math.max(...seg.subs.map(s=>s.revenue));
+    return `
+    <div class="segment-card${i<2?' open':''}" onclick="this.classList.toggle('open')">
+      <div class="segment-head">
+        <div class="right">
+          <span class="chevron">▼</span>
+          <div class="seg-icon" style="background:${seg.colorBg};color:${seg.color}">${seg.icon}</div>
+          <div class="seg-info">
+            <h3>${seg.name}</h3>
+            <span>${seg.products} منتج · متوسط السعر $${seg.avgPrice.toFixed(0)}</span>
+          </div>
+        </div>
+        <div class="left">
+          <div class="stat"><span class="val">${fmt(seg.revenue)}</span><span class="lbl">الإيراد</span></div>
+          <div class="stat"><span class="val">${(seg.revenue/totalRev*100).toFixed(1)}%</span><span class="lbl">الحصة</span></div>
+          <div class="stat"><span class="val">${fmtN(seg.units)}</span><span class="lbl">الوحدات</span></div>
+        </div>
+      </div>
+      <div class="segment-body">
+        <table class="sub-table">
+          <thead><tr><th>الفئة الفرعية</th><th>الإيراد</th><th>الحصة من القطاع</th><th>المنتجات</th><th>متوسط السعر</th><th>التقييم</th></tr></thead>
+          <tbody>
+          ${seg.subs.sort((a,b)=>b.revenue-a.revenue).map(sub=>`
+            <tr>
+              <td class="sub-name">${sub.name}</td>
+              <td class="mono">${fmt(sub.revenue)}</td>
+              <td class="bar-cell">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div class="bar-bg" style="flex:1"><div class="bar-fill" style="width:${(sub.revenue/maxSubRev*100).toFixed(0)}%;background:linear-gradient(90deg,${seg.color},${seg.color}88)"></div></div>
+                  <span class="mono" style="font-size:11px;color:var(--text2)">${(sub.revenue/seg.revenue*100).toFixed(0)}%</span>
+                </div>
+              </td>
+              <td style="text-align:center">${sub.count}</td>
+              <td class="mono">$${sub.avgPrice.toFixed(0)}</td>
+              <td><span class="stars">${'★'.repeat(Math.round(sub.rating))}${'☆'.repeat(5-Math.round(sub.rating))}</span> ${sub.rating.toFixed(1)}</td>
+            </tr>
+          `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}).join('');
+
+// Opportunities
+const allSubs=[];
+data.segments.forEach(seg=>{
+  seg.subs.forEach(sub=>{
+    allSubs.push({...sub,segName:seg.name,segIcon:seg.icon,segColor:seg.color,revPerProduct:sub.revenue/sub.count});
+  });
+});
+allSubs.sort((a,b)=>b.revPerProduct-a.revPerProduct);
+
+document.getElementById('opportunities').innerHTML=allSubs.slice(0,12).map((o,i)=>`
+  <div class="opp-card${o.revPerProduct>5000000?' hot':''}">
+    <div class="opp-rank">${i+1}</div>
+    <h4>${o.segIcon} ${o.name}</h4>
+    <div class="opp-seg">${o.segName}</div>
+    <div class="opp-stats">
+      <div class="opp-stat"><div class="v">${fmt(o.revPerProduct)}</div><div class="l">إيراد لكل منتج</div></div>
+      <div class="opp-stat"><div class="v">${fmt(o.revenue)}</div><div class="l">إجمالي الإيراد</div></div>
+      <div class="opp-stat"><div class="v">${o.count}</div><div class="l">عدد المنافسين</div></div>
+      <div class="opp-stat"><div class="v">$${o.avgPrice.toFixed(0)}</div><div class="l">متوسط السعر</div></div>
+    </div>
+    <span class="opp-tag ${o.revPerProduct>5000000?'high':'mid'}">${o.revPerProduct>5000000?'🔥 فرصة ممتازة':'⭐ فرصة جيدة'}</span>
+  </div>
+`).join('');
+
+// Products
+const segFilters=['الكل',...new Set(data.segments.map(s=>s.name))];
+const tabsEl=document.getElementById('filterTabs');
+tabsEl.innerHTML=segFilters.map((f,i)=>`<button class="filter-tab${i===0?' active':''}" data-filter="${f}">${f}</button>`).join('');
+
+let activeFilter='الكل';
+tabsEl.addEventListener('click',e=>{
+  if(!e.target.classList.contains('filter-tab'))return;
+  tabsEl.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  e.target.classList.add('active');
+  activeFilter=e.target.dataset.filter;
+  renderProducts();
+});
+
+function renderProducts(){
+  const filtered=activeFilter==='الكل'?data.products:data.products.filter(p=>{
+    const seg=data.segments.find(s=>s.subs.some(sub=>sub.name===p.cat));
+    return seg&&seg.name===activeFilter;
+  });
+  document.getElementById('productsBody').innerHTML=filtered.map((p,i)=>{
+    const rankClass=p.rank<=3?['gold','silver','bronze'][p.rank-1]:'normal';
+    return `<tr>
+      <td><span class="rank-badge ${rankClass}">${p.rank}</span></td>
+      <td class="prod-name">${p.name}</td>
+      <td><span class="tag" style="background:var(--surface3);color:var(--text2)">${p.cat}</span></td>
+      <td class="mono">$${p.price.toFixed(2)}</td>
+      <td class="mono" style="color:var(--green)">${fmt(p.revenue)}</td>
+      <td class="mono">${fmtN(p.units)}</td>
+      <td><span class="stars">${'★'.repeat(Math.round(p.rating))}</span> ${p.rating}</td>
+    </tr>`;
+  }).join('');
+}
+renderProducts();
+</script>
+</body>
+</html>
