@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار خربوش 🦞</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            color: white;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .emoji {
+            font-size: 60px;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .test-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: right;
+        }
+        
+        .button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .timestamp {
+            margin-top: 30px;
+            font-size: 14px;
+            opacity: 0.8;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 20px;
+        }
+        
+        .success {
+            color: #4ade80;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">🦞</div>
+        <h1>اختبار رفع الملفات</h1>
+        
+        <div class="test-box">
+            <p><strong>✅ الاختبار الناجح!</strong></p>
+            <p>تم رفع هذا الملف بنجاح على GitHub</p>
+            <p class="success">الملف: test2.html</p>
+            <p>الريبو: AznHonest/Azn1</p>
+        </div>
+        
+        <p>اضغط الزر لاختبار التفاعل:</p>
+        
+        <div>
+            <button class="button" onclick="runTest()">🎯 اختبر الآن</button>
+            <button class="button" onclick="showInfo()">ℹ️ معلومات</button>
+        </div>
+        
+        <div id="testResult" class="result">
+            <!-- النتيجة تظهر هنا -->
+        </div>
+        
+        <div class="timestamp">
+            <p>تم الإنشاء: <span id="time"></span></p>
+            <p>🦞 صنع بكل حب من خربوش</p>
+        </div>
+    </div>
+
+    <script>
+        // عرض الوقت
+        const now = new Date();
+        document.getElementById('time').textContent = 
+            now.toLocaleString('ar-SA', { 
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        
+        // دالة الاختبار
+        function runTest() {
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h3>🎉 الاختبار ناجح!</h3>
+                <p>جميع المكونات تعمل بشكل صحيح:</p>
+                <ul style="text-align: right; list-style: none; padding: 0;">
+                    <li>✅ JavaScript - يعمل</li>
+                    <li>✅ CSS - يعمل</li>
+                    <li>✅ HTML - يعمل</li>
+                    <li>✅ التفاعل - يعمل</li>
+                </ul>
+                <p class="success">الملف جاهز للاستخدام!</p>
+            `;
+        }
+        
+        // دالة المعلومات
+        function showInfo() {
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h3>📋 معلومات الملف:</h3>
+                <p><strong>الاسم:</strong> test2.html</p>
+                <p><strong>الحجم:</strong> ${document.documentElement.outerHTML.length} بايت</p>
+                <p><strong>التاريخ:</strong> ${now.toLocaleDateString('ar-SA')}</p>
+                <p><strong>الغرض:</strong> اختبار رفع الملفات على GitHub</p>
+                <p><strong>المطور:</strong> خربوش 🦞</p>
+            `;
+        }
+    </script>
+</body>
+</html>
