@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة مؤشر كتلة الجسم (BMI)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            text-align: right;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s;
+            text-align: center;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .unit {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bmi-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        .bmi-category {
+            font-size: 1.4rem;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 15px 0;
+        }
+        
+        .underweight { background: #4dc9f6; color: white; }
+        .normal { background: #7ac943; color: white; }
+        .overweight { background: #ffd166; color: #333; }
+        .obese { background: #ef476f; color: white; }
+        
+        .bmi-info {
+            color: #666;
+            line-height: 1.6;
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+        
+        .bmi-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .scale-item {
+            text-align: center;
+            flex: 1;
+            padding: 5px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .bmi-value {
+                font-size: 2.8rem;
+            }
+            
+            .bmi-scale {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦞 حاسبة مؤشر كتلة الجسم</h1>
+        <p class="subtitle">احسب مؤشر كتلة جسمك (BMI) بسرعة ودقة</p>
+        
+        <div class="input-group">
+            <label for="weight">الوزن (كيلوجرام)</label>
+            <input type="number" id="weight" placeholder="أدخل وزنك" min="20" max="300" step="0.1">
+            <div class="unit">كجم</div>
+        </div>
+        
+        <div class="input-group">
+            <label for="height">الطول (سنتيمتر)</label>
+            <input type="number" id="height" placeholder="أدخل طولك" min="100" max="250" step="0.1">
+            <div class="unit">سم</div>
+        </div>
+        
+        <button class="calculate-btn" onclick="calculateBMI()">احسب مؤشر كتلة الجسم</button>
+        
+        <div class="result" id="result">
+            <h2>نتيجة حسابك:</h2>
+            <div class="bmi-value" id="bmiValue">--</div>
+            <div class="bmi-category" id="bmiCategory">--</div>
+            <p class="bmi-info" id="bmiInfo">--</p>
+            
+            <div class="bmi-scale">
+                <div class="scale-item" style="color: #4dc9f6;">نحافة<br>&lt; 18.5</div>
+                <div class="scale-item" style="color: #7ac943;">طبيعي<br>18.5 - 24.9</div>
+                <div class="scale-item" style="color: #ffd166;">وزن زائد<br>25 - 29.9</div>
+                <div class="scale-item" style="color: #ef476f;">سمنة<br>≥ 30</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            ⚠️ هذا الحساب لأغراض إرشادية فقط. استشار طبيباً للتقييم الدقيق.
+        </div>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            // الحصول على القيم من المدخلات
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            
+            // التحقق من صحة المدخلات
+            if (!weight || !height || weight < 20 || weight > 300 || height < 100 || height > 250) {
+                alert('الرجاء إدخال وزن صحيح (20-300 كجم) وطول صحيح (100-250 سم)');
+                return;
+            }
+            
+            // حساب BMI: الوزن (كجم) ÷ (الطول (م) × الطول (م))
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+            
+            // تقريب النتيجة إلى منزلة عشرية واحدة
+            const roundedBMI = bmi.toFixed(1);
+            
+            // تحديد الفئة
+            let category = '';
+            let categoryClass = '';
+            let info = '';
+            
+            if (bmi < 18.5) {
+                category = 'نحافة';
+                categoryClass = 'underweight';
+                info = 'وزنك أقل من الطبيعي. قد تحتاج إلى زيادة الوزن لتحسين صحتك.';
+            } else if (bmi >= 18.5 && bmi <= 24.9) {
+                category = 'وزن طبيعي';
+                categoryClass = 'normal';
+                info = 'ممتاز! وزنك ضمن النطاق الصحي. حافظ على نمط حياتك الحالي.';
+            } else if (bmi >= 25 && bmi <= 29.9) {
+                category = 'وزن زائد';
+                categoryClass = 'overweight';
+                info = 'وزنك أعلى من الطبيعي. قد تحتاج إلى تعديل النظام الغذائي وممارسة الرياضة.';
+            } else {
+                category = 'سمنة';
+                categoryClass = 'obese';
+                info = 'وزنك أعلى بكثير من الطبيعي. ننصح باستشارة طبيب أو أخصائي تغذية.';
+            }
+            
+            // عرض النتيجة
+            document.getElementById('bmiValue').textContent = roundedBMI;
+            document.getElementById('bmiCategory').textContent = category;
+            document.getElementById('bmiCategory').className = 'bmi-category ' + categoryClass;
+            document.getElementById('bmiInfo').textContent = info;
+            
+            // إظهار قسم النتائج
+            document.getElementById('result').classList.add('show');
+            
+            // تمرير إلى الأعلى لرؤية النتيجة
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // السماح بالضغط على Enter لحساب BMI
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                calculateBMI();
+            }
+        });
+        
+        // تعبئة أمثلة للمستخدم
+        window.onload = function() {
+            document.getElementById('weight').placeholder = 'مثال: 75';
+            document.getElementById('height').placeholder = 'مثال: 175';
+        };
+    </script>
+</body>
+</html>
