@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تقرير تحليل Quest Bar - Chocolate Chip Cookie Dough</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark: #0d0d0f;
+  --dark2: #141417;
+  --card: #1a1a1f;
+  --border: rgba(255,255,255,0.07);
+  --accent: #f5a623;
+  --accent2: #e8541e;
+  --green: #22c55e;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --purple: #a855f7;
+  --text: #e8e4de;
+  --muted: rgba(232,228,222,0.5);
+  --gold: #f5a623;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+}
+.glow-1 { width:600px;height:600px;background:rgba(245,166,35,0.12);top:-200px;right:-100px; }
+.glow-2 { width:500px;height:500px;background:rgba(232,84,30,0.08);bottom:-100px;left:-150px; }
+.glow-3 { width:300px;height:300px;background:rgba(59,130,246,0.06);top:40%;left:30%; }
+
+.hero-nav {
+  position: relative; z-index: 10;
+  padding: 28px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.nav-date { color: var(--muted); font-size: 0.8rem; }
+
+.hero-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 520px;
+  gap: 0;
+  position: relative; z-index: 5;
+}
+
+@media(max-width:900px){
+  .hero-body { grid-template-columns:1fr; }
+  .hero-img-col { display:none; }
+  .hero-nav { padding:20px; }
+}
+
+.hero-text-col {
+  padding: 70px 60px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media(max-width:900px){ .hero-text-col { padding:40px 20px; } }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(245,166,35,0.12);
+  border: 1px solid rgba(245,166,35,0.25);
+  color: var(--accent);
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  width: fit-content;
+}
+.eyebrow-dot { width:7px;height:7px;border-radius:50%;background:var(--accent);animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(3rem, 5.5vw, 5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.hero-title .brand { color: var(--accent); display: block; }
+.hero-title .product {
+  display: block;
+  font-size: 0.42em;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 300;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-top: 6px;
+}
+
+.hero-desc {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.85;
+  max-width: 540px;
+  margin: 24px 0 48px;
+}
+
+.hero-kpis {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+  width: fit-content;
+}
+.kpi {
+  padding: 22px 36px;
+  border-left: 1px solid var(--border);
+  text-align: center;
+}
+.kpi:last-child { border-left: none; }
+.kpi-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  color: var(--accent);
+  display: block;
+  line-height: 1;
+}
+.kpi-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 5px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.hero-img-col {
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+.hero-img-col::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--dark) 0%, transparent 30%);
+  z-index: 2;
+  pointer-events: none;
+}
+.hero-img-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.7;
+}
+.product-badge {
+  position: absolute;
+  top: 40px; right: 40px;
+  z-index: 5;
+  background: var(--accent);
+  color: #000;
+  padding: 14px 20px;
+  border-radius: 16px;
+  font-weight: 900;
+  font-size: 0.85rem;
+  text-align: center;
+  line-height: 1.4;
+  box-shadow: 0 12px 40px rgba(245,166,35,0.4);
+}
+.product-badge .big { font-size: 1.5rem; display: block; }
+
+/* ── SECTION WRAPPER ── */
+.section { padding: 90px 60px; }
+@media(max-width:900px){ .section { padding:60px 20px; } }
+
+.section-alt { background: rgba(255,255,255,0.018); }
+
+.s-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.s-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.9rem, 3.5vw, 3rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.s-sub {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  max-width: 620px;
+}
+
+.container { max-width: 1200px; margin: 0 auto; }
+
+/* ── REVENUE BANNER ── */
+.revenue-banner {
+  background: linear-gradient(135deg, rgba(245,166,35,0.1), rgba(232,84,30,0.08));
+  border: 1px solid rgba(245,166,35,0.2);
+  border-radius: 20px;
+  padding: 40px 50px;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
+  position: relative;
+  overflow: hidden;
+}
+.revenue-banner::after {
+  content: '💰';
+  position: absolute;
+  font-size: 120px;
+  right: 40px; top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.06;
+}
+.rev-item { text-align: center; }
+.rev-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.6rem;
+  color: var(--accent);
+  display: block;
+  line-height: 1;
+}
+.rev-label { color: var(--muted); font-size: 0.82rem; margin-top: 6px; font-weight: 500; }
+.rev-divider { width: 1px; height: 60px; background: var(--border); }
+
+/* ── PRODUCT SPEC CARD ── */
+.spec-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  align-items: start;
+  margin-bottom: 60px;
+}
+@media(max-width:768px){ .spec-grid { grid-template-columns:1fr; } }
+
+.spec-img {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 20px;
+  text-align: center;
+}
+.spec-img img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+.spec-info { }
+.spec-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.spec-brand { color: var(--accent); font-size: 0.85rem; font-weight: 700; margin-bottom: 20px; }
+
+.macro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media(max-width:500px){ .macro-grid { grid-template-columns: repeat(2,1fr); } }
+
+.macro-pill {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-align: center;
+}
+.macro-val { font-size: 1.5rem; font-weight: 900; color: var(--accent); line-height: 1; }
+.macro-label { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+
+.cert-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.cert {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.25);
+  color: var(--green);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* ── STRENGTHS & WEAKNESSES ── */
+.sw-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media(max-width:768px){ .sw-grid { grid-template-columns:1fr; } }
+
+.sw-panel {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.sw-panel-header {
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sw-panel.strengths .sw-panel-header { background: rgba(34,197,94,0.08); border-bottom: 1px solid rgba(34,197,94,0.15); }
+.sw-panel.weaknesses .sw-panel-header { background: rgba(239,68,68,0.08); border-bottom: 1px solid rgba(239,68,68,0.15); }
+
+.sw-icon-wrap {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+}
+.strengths .sw-icon-wrap { background: rgba(34,197,94,0.15); }
+.weaknesses .sw-icon-wrap { background: rgba(239,68,68,0.15); }
+
+.sw-panel-title { font-size: 1.05rem; font-weight: 800; }
+.strengths .sw-panel-title { color: var(--green); }
+.weaknesses .sw-panel-title { color: var(--red); }
+
+.sw-panel-subtitle { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+.sw-items { padding: 8px 0; }
+.sw-item {
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  gap: 10px;
+}
+.sw-item:last-child { border-bottom: none; }
+
+.sw-item-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.sw-bullet {
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-top: 1px;
+}
+.strengths .sw-bullet { background: rgba(34,197,94,0.15); color: var(--green); }
+.weaknesses .sw-bullet { background: rgba(239,68,68,0.15); color: var(--red); }
+
+.sw-item-text { }
+.sw-item-title { font-weight: 700; font-size: 0.92rem; color: #fff; margin-bottom: 5px; }
+.sw-item-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+
+.sw-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sw-bar-bg {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.sw-bar-fill { height: 100%; border-radius: 2px; transition: width 1.5s ease; }
+.strengths .sw-bar-fill { background: linear-gradient(90deg, var(--green), #16a34a); }
+.weaknesses .sw-bar-fill { background: linear-gradient(90deg, var(--red), #dc2626); }
+.sw-bar-pct { font-size: 0.75rem; font-weight: 700; min-width: 34px; text-align: left; }
+.strengths .sw-bar-pct { color: var(--green); }
+.weaknesses .sw-bar-pct { color: var(--red); }
+
+/* ── SENTIMENT CHART ── */
+.sentiment-section-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+@media(max-width:900px){ .sentiment-section-grid { grid-template-columns:1fr; } }
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.stat-card-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.donut-container {
+  position: relative;
+  width: 160px; height: 160px;
+  margin: 0 auto 24px;
+}
+.donut-container svg { transform: rotate(-90deg); }
+
+.donut-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+}
+.donut-big { font-size: 2rem; font-weight: 900; color: #fff; line-height: 1; }
+.donut-small { font-size: 0.65rem; color: var(--muted); margin-top: 4px; }
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+}
+.legend-dot { width:10px;height:10px;border-radius:50%;flex-shrink:0; }
+.legend-text { flex:1; color:var(--muted); }
+.legend-num { font-weight:700; color:#fff; }
+.legend-pct { color:var(--muted); font-size:0.75rem; }
+
+/* bar chart */
+.bar-chart { display: flex; flex-direction: column; gap: 14px; }
+.bc-row { }
+.bc-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  font-size: 0.82rem;
+}
+.bc-label { color: var(--muted); }
+.bc-val { font-weight: 700; color: #fff; }
+.bc-bg {
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.bc-fill { height:100%; border-radius:4px; }
+
+/* ── REVIEWS ── */
+.reviews-masonry {
+  columns: 3;
+  column-gap: 20px;
+}
+@media(max-width:900px){ .reviews-masonry { columns:1; } }
+@media(max-width:1100px) and (min-width:901px){ .reviews-masonry { columns:2; } }
+
+.rv-card {
+  break-inside: avoid;
+  margin-bottom: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  position: relative;
+}
+.rv-card.rv-pos { border-top: 2px solid var(--green); }
+.rv-card.rv-neg { border-top: 2px solid var(--red); }
+.rv-card.rv-mid { border-top: 2px solid var(--gold); }
+
+.rv-quote {
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: rgba(232,228,222,0.75);
+  margin-bottom: 16px;
+  font-style: italic;
+}
+.rv-quote::before { content: '"'; color: var(--accent); font-size: 1.3rem; line-height: 0; vertical-align: -0.3em; margin-left: 2px; }
+.rv-quote::after  { content: '"'; color: var(--accent); font-size: 1.3rem; line-height: 0; vertical-align: -0.3em; margin-right: 2px; }
+
+.rv-footer { display:flex; align-items:center; gap:10px; }
+.rv-avatar {
+  width:34px;height:34px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.85rem;color:#000;
+  flex-shrink:0;
+}
+.rv-pos .rv-avatar { background: var(--green); }
+.rv-neg .rv-avatar { background: var(--red); color:#fff; }
+.rv-mid .rv-avatar { background: var(--gold); }
+
+.rv-meta { flex:1; }
+.rv-name { font-size:0.82rem; font-weight:700; color:#fff; }
+.rv-info { font-size:0.72rem; color:var(--muted); }
+.rv-stars { font-size:0.8rem; }
+
+.rv-tag {
+  font-size:0.7rem;font-weight:700;
+  padding:4px 10px;border-radius:6px;
+  flex-shrink:0;
+}
+.rv-pos .rv-tag { background:rgba(34,197,94,0.12);color:var(--green); }
+.rv-neg .rv-tag { background:rgba(239,68,68,0.12);color:var(--red); }
+.rv-mid .rv-tag { background:rgba(245,166,35,0.12);color:var(--gold); }
+
+/* ── COMPETITOR TABLE ── */
+.comp-wrap {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.comp-table { width:100%; border-collapse:collapse; }
+.comp-table thead tr { background:rgba(255,255,255,0.04); }
+.comp-table th {
+  padding:14px 18px;
+  font-size:0.75rem;
+  font-weight:700;
+  color:var(--muted);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+}
+.comp-table td {
+  padding:15px 18px;
+  font-size:0.88rem;
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  color:var(--text);
+}
+.comp-table tbody tr:hover { background:rgba(255,255,255,0.025); }
+.comp-table tbody tr:last-child td { border-bottom:none; }
+.quest-r { }
+.quest-r td { }
+.quest-r td:first-child { font-weight:800; color:var(--accent); }
+.target-r td { background:rgba(34,197,94,0.04); }
+.target-r td:first-child { font-weight:800; color:var(--green); }
+.ck { color:var(--green);font-weight:700; }
+.cx { color:var(--red);font-weight:700; }
+.cn { color:var(--gold);font-weight:700; }
+.tag-pill {
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:6px;
+  font-size:0.73rem;
+  font-weight:700;
+}
+
+/* ── OPPORTUNITIES ── */
+.opp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+@media(max-width:768px){ .opp-grid { grid-template-columns:1fr; } }
+
+.opp-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.opp-card:hover { transform: translateY(-3px); }
+
+.opp-card.opp-a { border-bottom: 2px solid var(--accent); }
+.opp-card.opp-b { border-bottom: 2px solid var(--green); }
+.opp-card.opp-c { border-bottom: 2px solid var(--purple); }
+.opp-card.opp-d { border-bottom: 2px solid var(--blue); }
+
+.opp-card-num {
+  position:absolute;top:20px;left:24px;
+  font-family:'DM Serif Display',serif;
+  font-size:4rem;opacity:0.05;color:#fff;line-height:1;
+}
+
+.opp-emoji { font-size:2rem; margin-bottom:14px; }
+.opp-title { font-size:1.05rem; font-weight:800; color:#fff; margin-bottom:10px; }
+.opp-desc { font-size:0.88rem; color:var(--muted); line-height:1.75; margin-bottom:16px; }
+
+.opp-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 14px;
+  border-radius:20px;
+  font-size:0.75rem;
+  font-weight:700;
+}
+.badge-hot { background:rgba(239,68,68,0.15);color:var(--red);border:1px solid rgba(239,68,68,0.25); }
+.badge-star { background:rgba(245,166,35,0.15);color:var(--gold);border:1px solid rgba(245,166,35,0.25); }
+.badge-grow { background:rgba(34,197,94,0.15);color:var(--green);border:1px solid rgba(34,197,94,0.25); }
+.badge-blue { background:rgba(59,130,246,0.15);color:var(--blue);border:1px solid rgba(59,130,246,0.25); }
+
+.opp-points { list-style:none; margin-top:14px; }
+.opp-points li {
+  font-size:0.82rem;
+  color:var(--muted);
+  padding:5px 0;
+  padding-right:16px;
+  position:relative;
+}
+.opp-points li::before {
+  content:'→';
+  position:absolute;right:0;
+  color:var(--accent);
+  font-weight:700;
+}
+
+/* ── STRATEGY ── */
+.strat-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+}
+@media(max-width:768px){ .strat-grid { grid-template-columns:1fr; } }
+
+.strat-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:32px;
+}
+.strat-num {
+  font-family:'DM Serif Display',serif;
+  font-size:3.5rem;
+  color:rgba(245,166,35,0.1);
+  line-height:1;
+  margin-bottom:6px;
+}
+.strat-title { font-size:1.05rem; font-weight:800; color:#fff; margin-bottom:12px; }
+.strat-desc { font-size:0.88rem; color:var(--muted); line-height:1.75; }
+.strat-list { list-style:none; margin-top:12px; }
+.strat-list li {
+  font-size:0.85rem;
+  color:var(--muted);
+  padding:6px 0;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+.strat-list li:last-child { border-bottom:none; }
+.strat-list li::before { content:'◆'; color:var(--accent); font-size:0.5rem; flex-shrink:0; margin-top:6px; }
+
+/* ── CLOSING INSIGHT ── */
+.closing {
+  background: radial-gradient(ellipse at 60% 50%, rgba(245,166,35,0.08) 0%, transparent 70%),
+              radial-gradient(ellipse at 20% 80%, rgba(232,84,30,0.06) 0%, transparent 60%),
+              var(--dark2);
+  padding: 100px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+}
+@media(max-width:900px){ .closing { padding:60px 20px; } }
+
+.closing-title {
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2rem,4.5vw,4rem);
+  color:#fff;
+  line-height:1.2;
+  max-width:800px;
+  margin:0 auto 20px;
+}
+.closing-title em { color:var(--accent); font-style:normal; }
+
+.closing-desc {
+  color:var(--muted);
+  font-size:1rem;
+  line-height:1.9;
+  max-width:640px;
+  margin:0 auto 50px;
+}
+
+.closing-kpis {
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.closing-kpi {
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px 32px;
+  text-align:center;
+  min-width:160px;
+}
+.ckpi-val { font-size:2rem; font-weight:900; line-height:1; display:block; }
+.ckpi-label { font-size:0.75rem; color:var(--muted); margin-top:6px; }
+
+/* ── FOOTER ── */
+.footer {
+  border-top:1px solid var(--border);
+  padding:30px 60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+}
+@media(max-width:900px){ .footer { padding:20px; flex-direction:column; text-align:center; } }
+.footer-brand { color:var(--accent); font-weight:700; font-size:0.85rem; }
+.footer-copy { color:var(--muted); font-size:0.78rem; }
+
+/* ── ANIMATIONS ── */
+.fade-in {
+  opacity:0; transform:translateY(24px);
+  transition:opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.show { opacity:1; transform:translateY(0); }
+
+/* ── DIVIDER ── */
+.divider {
+  border:none;
+  height:1px;
+  background:var(--border);
+}
+
+/* ── SECTION HEADER GRID ── */
+.s-header {
+  margin-bottom:50px;
+}
+
+/* scrolling ticker */
+.ticker-wrap {
+  background:rgba(245,166,35,0.08);
+  border-top:1px solid rgba(245,166,35,0.15);
+  border-bottom:1px solid rgba(245,166,35,0.15);
+  overflow:hidden;
+  padding:12px 0;
+  white-space:nowrap;
+}
+.ticker-inner {
+  display:inline-flex;
+  gap:0;
+  animation:ticker 30s linear infinite;
+}
+.ticker-item {
+  padding:0 40px;
+  font-size:0.8rem;
+  font-weight:700;
+  color:rgba(245,166,35,0.7);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+}
+.ticker-sep { color:rgba(245,166,35,0.3); }
+@keyframes ticker { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow glow-1"></div>
+  <div class="hero-glow glow-2"></div>
+  <div class="hero-glow glow-3"></div>
+
+  <nav class="hero-nav">
+    <span class="nav-brand">تقرير تنافسي تفصيلي</span>
+    <span class="nav-date">فبراير 2026 · 160 تقييم موثق</span>
+  </nav>
+
+  <div class="hero-body">
+    <div class="hero-text-col">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Amazon Best Seller Analysis
+      </div>
+
+      <h1 class="hero-title">
+        <span class="brand">Quest Nutrition</span>
+        Chocolate Chip<br>Cookie Dough
+        <span class="product">Protein Bar · B00DLDH1N2</span>
+      </h1>
+
+      <p class="hero-desc">
+        تحليل معمّق لـ 160 تقييم من مشترين موثقين، يكشف أسرار المنتج الأعلى مبيعاً في أمازون — نقاط قوته، عيوبه الخفية، والفرص الذهبية للمنافسة.
+      </p>
+
+      <div class="hero-kpis">
+        <div class="kpi">
+          <span class="kpi-val">$5.1M</span>
+          <div class="kpi-label">إيرادات 30 يوماً</div>
+        </div>
+        <div class="kpi">
+          <span class="kpi-val">203K</span>
+          <div class="kpi-label">وحدة مباعة / شهر</div>
+        </div>
+        <div class="kpi">
+          <span class="kpi-val">$25</span>
+          <div class="kpi-label">متوسط قيمة الطلب</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-img-col">
+      <img src="https://m.media-amazon.com/images/I/81bOQhkUXFL._AC_SL1500_.jpg" 
+           alt="Quest Bar Chocolate Chip Cookie Dough"
+           onerror="this.src='https://via.placeholder.com/600x700/1a1a1f/f5a623?text=Quest+Bar'">
+      <div class="product-badge">
+        <span class="big">#1</span>
+        Best Seller
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">20g بروتين <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">4g كارب صافي <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">190 سعرة <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">203,622 وحدة/شهر <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">$5.1M إيرادات شهرية <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">خالي من الجلوتين <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Keto Friendly <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">160 تقييم موثق <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">20g بروتين <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">4g كارب صافي <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">190 سعرة <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">203,622 وحدة/شهر <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">$5.1M إيرادات شهرية <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">خالي من الجلوتين <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Keto Friendly <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">160 تقييم موثق <span class="ticker-sep">◆</span></span>
+  </div>
+</div>
+
+<!-- PRODUCT & REVENUE -->
+<section class="section">
+  <div class="container">
+
+    <!-- Revenue Banner -->
+    <div class="revenue-banner fade-in">
+      <div class="rev-item">
+        <span class="rev-val">$5,101,431</span>
+        <div class="rev-label">إيرادات أمازون — 30 يوماً</div>
+      </div>
+      <div class="rev-divider"></div>
+      <div class="rev-item">
+        <span class="rev-val">203,622</span>
+        <div class="rev-label">وحدة مباعة خلال شهر</div>
+      </div>
+      <div class="rev-divider"></div>
+      <div class="rev-item">
+        <span class="rev-val">$25.05</span>
+        <div class="rev-label">متوسط قيمة الطلب الواحد</div>
+      </div>
+      <div class="rev-divider"></div>
+      <div class="rev-item">
+        <span class="rev-val">~$2.08</span>
+        <div class="rev-label">سعر البار الواحد (صندوق 12)</div>
+      </div>
+      <div class="rev-divider"></div>
+      <div class="rev-item">
+        <span class="rev-val">~$61M</span>
+        <div class="rev-label">تقدير الإيرادات السنوية</div>
+      </div>
+    </div>
+
+    <!-- Product Spec -->
+    <div class="spec-grid fade-in">
+      <div class="spec-img">
+        <img src="https://m.media-amazon.com/images/I/81bOQhkUXFL._AC_SL1500_.jpg" 
+             alt="Quest Bar"
+             onerror="this.src='https://via.placeholder.com/280x280/ffffff/1a1a1f?text=Quest'">
+      </div>
+      <div class="spec-info">
+        <div class="spec-brand">Quest Nutrition · ASIN: B00DLDH1N2</div>
+        <div class="spec-name">Chocolate Chip Cookie Dough Protein Bar</div>
+        <div class="macro-grid">
+          <div class="macro-pill">
+            <div class="macro-val">20g</div>
+            <div class="macro-label">بروتين</div>
+          </div>
+          <div class="macro-pill">
+            <div class="macro-val">4g</div>
+            <div class="macro-label">كارب صافي</div>
+          </div>
+          <div class="macro-pill">
+            <div class="macro-val">190</div>
+            <div class="macro-label">سعرة حرارية</div>
+          </div>
+          <div class="macro-pill">
+            <div class="macro-val">2g</div>
+            <div class="macro-label">سكر</div>
+          </div>
+          <div class="macro-pill">
+            <div class="macro-val">13g</div>
+            <div class="macro-label">ألياف</div>
+          </div>
+          <div class="macro-pill">
+            <div class="macro-val">60g</div>
+            <div class="macro-label">الوزن</div>
+          </div>
+        </div>
+        <div class="cert-row">
+          <span class="cert">✓ Gluten Free</span>
+          <span class="cert">✓ Keto Friendly</span>
+          <span class="cert">✓ Low Sugar</span>
+          <span class="cert">✓ Soy Free</span>
+          <span class="cert">✓ No Added Sugar</span>
+          <span class="cert">✓ High Fiber</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SENTIMENT ANALYSIS -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="s-header fade-in">
+      <div class="s-eyebrow">تحليل المشاعر والبيانات</div>
+      <h2 class="s-title">ماذا قال المشترون؟</h2>
+      <p class="s-sub">تحليل 160 تقييم موثق مقسّم إلى إيجابي ونقدي وسلبي، مع استخراج المواضيع الأكثر تكراراً.</p>
+    </div>
+
+    <div class="sentiment-section-grid fade-in">
+
+      <!-- Donut: Rating Distribution -->
+      <div class="stat-card">
+        <div class="stat-card-title">📊 توزيع التقييمات</div>
+        <div class="donut-container">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="64" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="20"/>
+            <!-- Green: 60/160 = 37.5% of 402.1 = 150.8 -->
+            <circle cx="80" cy="80" r="64" fill="none" stroke="#22c55e" stroke-width="20"
+              stroke-dasharray="150.8 251.3" stroke-dashoffset="0"/>
+            <!-- Gold: 50/160 = 31.25% = 125.7 -->
+            <circle cx="80" cy="80" r="64" fill="none" stroke="#f5a623" stroke-width="20"
+              stroke-dasharray="125.7 276.4" stroke-dashoffset="-150.8"/>
+            <!-- Red: 50/160 = 31.25% = 125.7 -->
+            <circle cx="80" cy="80" r="64" fill="none" stroke="#ef4444" stroke-width="20"
+              stroke-dasharray="125.7 276.4" stroke-dashoffset="-276.5"/>
+          </svg>
+          <div class="donut-center">
+            <div class="donut-big">160</div>
+            <div class="donut-small">تقييم موثق</div>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#22c55e"></span>
+            <span class="legend-text">إيجابي — 5 نجوم</span>
+            <span class="legend-num">60</span>
+            <span class="legend-pct">37.5%</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#f5a623"></span>
+            <span class="legend-text">نقدي — 2-4 نجوم</span>
+            <span class="legend-num">50</span>
+            <span class="legend-pct">31.3%</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#ef4444"></span>
+            <span class="legend-text">سلبي — 1 نجمة</span>
+            <span class="legend-num">50</span>
+            <span class="legend-pct">31.3%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Positive themes -->
+      <div class="stat-card">
+        <div class="stat-card-title">✅ أسباب الإعجاب (من 60 إيجابي)</div>
+        <div class="bar-chart">
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">الطعم والنكهة المميزة</span><span class="bc-val">65%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:65%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">محتوى البروتين (20g)</span><span class="bc-val">43%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:43%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">سهولة الحمل والتنقل</span><span class="bc-val">25%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:25%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">مكونات تبدو حقيقية</span><span class="bc-val">20%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:20%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">مناسب للكيتو/Low Carb</span><span class="bc-val">8%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:8%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">مثالي بعد التمرين</span><span class="bc-val">5%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:5%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Negative themes -->
+      <div class="stat-card">
+        <div class="stat-card-title">⚠️ أسباب عدم الرضا (من 100 نقدي/سلبي)</div>
+        <div class="bar-chart">
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">مشاكل القوام والصلابة</span><span class="bc-val">27%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:27%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">قساوة البار — صلب كالصخر</span><span class="bc-val">24%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:24%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">طعم كيميائي ومر</span><span class="bc-val">17%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:17%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">مشاكل التغليف وعدم الإحكام</span><span class="bc-val">14%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:14%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">حلاوة مفرطة</span><span class="bc-val">13%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:13%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">تغيير الفورمولا عبر الزمن</span><span class="bc-val">12%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:12%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-header"><span class="bc-label">مشاكل هضمية وانتفاخ</span><span class="bc-val">8%</span></div>
+            <div class="bc-bg"><div class="bc-fill" style="width:8%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- STRENGTHS & WEAKNESSES -->
+<section class="section">
+  <div class="container">
+    <div class="s-header fade-in">
+      <div class="s-eyebrow">تحليل القوة والضعف</div>
+      <h2 class="s-title">نقاط القوة مقابل نقاط الضعف</h2>
+      <p class="s-sub">كل نقطة ضعف في Quest هي فرصة مباشرة لك لتقديم بديل أفضل.</p>
+    </div>
+
+    <div class="sw-grid fade-in">
+
+      <!-- STRENGTHS -->
+      <div class="sw-panel strengths">
+        <div class="sw-panel-header">
+          <div class="sw-icon-wrap">💪</div>
+          <div>
+            <div class="sw-panel-title">نقاط القوة</div>
+            <div class="sw-panel-subtitle">لماذا يُهيمن على السوق؟</div>
+          </div>
+        </div>
+        <div class="sw-items">
+          <div class="sw-item">
+            <div class="sw-item-top">
+              <div class="sw-bullet">✓</div>
+              <div class="sw-item-text">
+                <div class="sw-item-title">طعم استثنائي يشبه الحلوى الحقيقية</div>
+                <div class="sw-item-desc">65% من المراجعات الإيجابية تمدح الطعم صراحةً. كثيرون يقارنونه بـ "عجينة بسكويت حقيقية" وليس بار بروتين مؤلم.</div>
+              </div>
+            </div>
+            <div class="sw-bar-row">
+              <div class="sw-bar-bg"><div class="sw-bar-fill" style="width:65%"></div></div>
+              <span class="sw-bar-pct">65%</span>
+            </div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-item-top">
+              <div class="sw-bullet">✓</div>
+              <div class="sw-item-text">
+                <div class="sw-item-title">20g بروتين بسعرات منخفضة (190 كالوري)</div>
+                <div class="sw-item-desc">نسبة بروتين/سعرة ممتازة لا تجدها في معظم المنافسين. 43% من المراجعين يذكرون هذا كسبب رئيسي للشراء.</div>
+              </div>
+            </div>
+            <div class="sw-bar-row">
+              <div class="sw-bar-bg"><div class="sw-bar-fill" style="width:43%"></div></div>
+              <span class="sw-bar-pct">43%</span>
+            </div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-item-top">
+              <div class="sw-bullet">✓</div>
+              <div class="sw-item-text">
+                <div class="sw-item-title">علامة تجارية #1 راسخة منذ أكثر من 10 سنوات</div>
+                <div class="sw-item-desc">Quest صانع Bar #1 في أمريكا. الثقة العالية تجعل الشراء التكراري تلقائياً دون بحث عن بدائل.</div>
+              </div>
+            </div>
+            <div class="sw-bar-row">
+              <div class="sw-bar-bg"><div class="sw-bar-fill" style="width:70%"></div></div>
+              <span class="sw-bar-pct">Brand</span>
+            </div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-item-top">
+              <div class="sw-bullet">✓</div>
+              <div class="sw-item-text">
+                <div class="sw-item-title">سهولة الحمل والاستخدام اليومي</div>
+                <div class="sw-item-desc">25% يذكرون الراحة في الحمل — للجيم، المكتب، السفر، دون تبريد. يحل محل وجبة خفيفة كاملة.</div>
+              </div>
+            </div>
+            <div class="sw-bar-row">
+              <div class="sw-bar-bg"><div class="sw-bar-fill" style="width:25%"></div></div>
+              <span class="sw-bar-pct">25%</span>
+            </div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-item-top">
+              <div class="sw-bullet">✓</div>
+              <div class="sw-item-text">
+                <div class="sw-item-title">ملاءمة الكيتو والأنظمة قليلة الكارب</div>
+                <div class="sw-item-desc">4g كارب صافي فقط يجعله الاختيار الأول لمجتمع الكيتو الضخم. تسويق ذكي يستهدف هذا الجمهور مباشرة.</div>
+              </div>
+            </div>
+            <div class="sw-bar-row">
+              <div class="sw-bar-bg"><div class="sw-bar-fill" style="width:35%"></div></div>
+              <span class="sw-bar-pct">Keto</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEAKNESSES -->
+      <div class="sw-panel weaknesses">
+        <div class="sw-panel-header">
+          <div class="sw-icon-wrap">⚠️</div>
+          <div>
+            <div class="sw-panel-title">نقاط الضعف = فرصك</div>
+            <div class="sw-panel-subtitle">كل مشكلة هي باب مفتوح لك</div>
+          </div>
+        </div>
+        <div class="sw-items">
+          <div class="sw-item">
+            <div class="sw-item-top">
+              <div class="sw-bullet">✗</div>
+              <div class="sw-item-text">
+                <div class="sw-item-title">مشكلة القوام: صلب أو طري بشكل غير متسق</div>
+                <div class="sw-item-desc">27% من المراجعات السلبية تذكر مشاكل في القوام. بعضها صلب "كالصخر" لا يُعضّ، وبعضها طري جداً — عدم اتساق واضح في الإنتاج.</div>
+              </div>
+            </div>
+            <div class="sw-bar-row">
+              <div class="sw-bar-bg"><div class="sw-bar-fill" style="width:27%"></div></div>
+              <span class="sw-bar-pct">27%</span>
+            </div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-item-top">
+              <div class="sw-bullet">✗</div>
+              <div class="sw-item-text">
+                <div class="sw-item-title">طعم مرّ / كيميائي من المحليات البديلة</div>
+                <div class="sw-item-desc">17% يشكون من طعم كيميائي مر، خاصة عند Erythritol. هذا يُزعج كثيرين حساسين للمحليات الاصطناعية.</div>
+              </div>
+            </div>
+            <div class="sw-bar-row">
+              <div class="sw-bar-bg"><div class="sw-bar-fill" style="width:17%"></div></div>
+              <span class="sw-bar-pct">17%</span>
+            </div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-item-top">
+              <div class="sw-bullet">✗</div>
+              <div class="sw-item-text">
+                <div class="sw-item-title">مشاكل التغليف — بارات غير مختومة</div>
+                <div class="sw-item-desc">14% واجهوا مشاكل في التغليف: بارات لم تُختم بالكامل، أو تغليف ممزق. مباشرة يؤثر على النضارة والسلامة الغذائية.</div>
+              </div>
+            </div>
+            <div class="sw-bar-row">
+              <div class="sw-bar-bg"><div class="sw-bar-fill" style="width:14%"></div></div>
+              <span class="sw-bar-pct">14%</span>
+            </div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-item-top">
+              <div class="sw-bullet">✗</div>
+              <div class="sw-item-text">
+                <div class="sw-item-title">تغيير الفورمولا يُخيّب العملاء القدامى</div>
+                <div class="sw-item-desc">12% يذكرون تغيير الطعم عن السابق. مراجعون قضوا سنوات وأنفقوا آلاف الدولارات يرفضون الاستمرار بعد تغيير الفورمولا.</div>
+              </div>
+            </div>
+            <div class="sw-bar-row">
+              <div class="sw-bar-bg"><div class="sw-bar-fill" style="width:12%"></div></div>
+              <span class="sw-bar-pct">12%</span>
+            </div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-item-top">
+              <div class="sw-bullet">✗</div>
+              <div class="sw-item-text">
+                <div class="sw-item-title">مشاكل هضمية من الألياف والسكريات الكحولية</div>
+                <div class="sw-item-desc">8% يعانون انتفاخاً وغازات من Corn Fiber وErythritol. بعضهم يأكله فقط في المنزل بسبب هذه المشكلة.</div>
+              </div>
+            </div>
+            <div class="sw-bar-row">
+              <div class="sw-bar-bg"><div class="sw-bar-fill" style="width:8%"></div></div>
+              <span class="sw-bar-pct">8%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- KEY REVIEWS -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="s-header fade-in">
+      <div class="s-eyebrow">أبرز الشهادات</div>
+      <h2 class="s-title">تقييمات من المشترين الحقيقيين</h2>
+    </div>
+
+    <div class="reviews-masonry fade-in">
+
+      <div class="rv-card rv-pos">
+        <p class="rv-quote">جربت 20 نوعاً من بارات البروتين، معظمها يطعم كالطباشير. هذه البارات الأولى التي أتطلع لأكلها — طعم عجينة البسكويت حقيقي، مش تقريبي كيميائي.</p>
+        <div class="rv-footer">
+          <div class="rv-avatar">S</div>
+          <div class="rv-meta">
+            <div class="rv-name">مشترٍ موثق ✓</div>
+            <div class="rv-info">يناير 2026 · الولايات المتحدة</div>
+          </div>
+          <div class="rv-stars">★★★★★</div>
+          <span class="rv-tag">طعم</span>
+        </div>
+      </div>
+
+      <div class="rv-card rv-pos">
+        <p class="rv-quote">أحتفظ بصندوق في درج مكتبي. الساعة 3 عصراً حين أبدأ بالانهيار وكنت أذهب للوجبات السريعة، أتناول هذا. 20g بروتين تُبقيني ممتلئاً حتى العشاء دون انهيار السكر.</p>
+        <div class="rv-footer">
+          <div class="rv-avatar">A</div>
+          <div class="rv-meta">
+            <div class="rv-name">مشترٍ موثق ✓</div>
+            <div class="rv-info">يناير 2026 · الولايات المتحدة</div>
+          </div>
+          <div class="rv-stars">★★★★★</div>
+          <span class="rv-tag">شبع</span>
+        </div>
+      </div>
+
+      <div class="rv-card rv-neg">
+        <p class="rv-quote">أخذت البار للعمل غداءً، حاولت أعضّه — مستحيل! صلب لدرجة أني رميته في سلة المهملات. تاريخ الصلاحية كان غد الاستلام. بار بـ$3 في القمامة.</p>
+        <div class="rv-footer">
+          <div class="rv-avatar">T</div>
+          <div class="rv-meta">
+            <div class="rv-name">مشترٍ موثق ✓</div>
+            <div class="rv-info">يناير 2026 · الولايات المتحدة</div>
+          </div>
+          <div class="rv-stars" style="color:#ef4444">★☆☆☆☆</div>
+          <span class="rv-tag">قساوة</span>
+        </div>
+      </div>
+
+      <div class="rv-card rv-neg">
+        <p class="rv-quote">استلمت كل بار في الصندوق مفتوحاً وغير مختوم. كل الـ12 بار لم تُختم. رميت الصندوق كله في القمامة. كيف تمر مراقبة الجودة على هذا؟</p>
+        <div class="rv-footer">
+          <div class="rv-avatar">J</div>
+          <div class="rv-meta">
+            <div class="rv-name">مشترٍ موثق ✓</div>
+            <div class="rv-info">2025 · الولايات المتحدة</div>
+          </div>
+          <div class="rv-stars" style="color:#ef4444">★☆☆☆☆</div>
+          <span class="rv-tag">تغليف</span>
+        </div>
+      </div>
+
+      <div class="rv-card rv-neg">
+        <p class="rv-quote">كنت أشتري هذا كل شهر لسنوات وأنفقت آلاف الدولارات. عام 2017 غيّروا الفورمولا، ثم 2022 مرة أخرى — صارت رملية مع طعم كيميائي حارق. انتهيت منها نهائياً.</p>
+        <div class="rv-footer">
+          <div class="rv-avatar">K</div>
+          <div class="rv-meta">
+            <div class="rv-name">عميل وفي سابق ✓</div>
+            <div class="rv-info">منذ 2018 · الولايات المتحدة</div>
+          </div>
+          <div class="rv-stars" style="color:#ef4444">★☆☆☆☆</div>
+          <span class="rv-tag">فورمولا</span>
+        </div>
+      </div>
+
+      <div class="rv-card rv-mid">
+        <p class="rv-quote">من ناحية الطعم ممتازة بالتأكيد، لكن كيف يكون حلواً هكذا مع هذا القدر الضئيل من السكر؟ هنا المشكلة. مصنّع بشدة والمكونات مثيرة للقلق.</p>
+        <div class="rv-footer">
+          <div class="rv-avatar">C</div>
+          <div class="rv-meta">
+            <div class="rv-name">مشترٍ موثق ✓</div>
+            <div class="rv-info">يناير 2026 · الولايات المتحدة</div>
+          </div>
+          <div class="rv-stars" style="color:#f5a623">★★★☆☆</div>
+          <span class="rv-tag">مكونات</span>
+        </div>
+      </div>
+
+      <div class="rv-card rv-neg">
+        <p class="rv-quote">نصف البار — خلال 5 دقائق — معدتي بدأت تحتج: غازات، أصوات، انتفاخ، ألم. أشك في Corn Fiber. لن أتناوله مرة أخرى.</p>
+        <div class="rv-footer">
+          <div class="rv-avatar">M</div>
+          <div class="rv-meta">
+            <div class="rv-name">مشترٍ موثق ✓</div>
+            <div class="rv-info">2025 · الولايات المتحدة</div>
+          </div>
+          <div class="rv-stars" style="color:#ef4444">★☆☆☆☆</div>
+          <span class="rv-tag">هضم</span>
+        </div>
+      </div>
+
+      <div class="rv-card rv-pos">
+        <p class="rv-quote">مثالي للكيتو — 4g كارب صافي فقط. أضعه في حقيبة الجيم دائماً، بعد التمرين أفضل من خلط البودرة في السيارة. الماكرو مثالي.</p>
+        <div class="rv-footer">
+          <div class="rv-avatar">R</div>
+          <div class="rv-meta">
+            <div class="rv-name">مشترٍ موثق ✓</div>
+            <div class="rv-info">فبراير 2026 · الولايات المتحدة</div>
+          </div>
+          <div class="rv-stars">★★★★★</div>
+          <span class="rv-tag">كيتو</span>
+        </div>
+      </div>
+
+      <div class="rv-card rv-mid">
+        <p class="rv-quote">ثلاثة نجوم للثلاثة بارات الصلبة كالصخر في الصندوق. كانت بسبب شق في التغليف. مراقبة الجودة غائبة كلياً. الطعم ممتاز لكن لا أثق بالاتساق.</p>
+        <div class="rv-footer">
+          <div class="rv-avatar">R</div>
+          <div class="rv-meta">
+            <div class="rv-name">مشترٍ موثق ✓</div>
+            <div class="rv-info">فبراير 2026 · الولايات المتحدة</div>
+          </div>
+          <div class="rv-stars" style="color:#f5a623">★★★☆☆</div>
+          <span class="rv-tag">جودة</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- COMPETITOR TABLE -->
+<section class="section">
+  <div class="container">
+    <div class="s-header fade-in">
+      <div class="s-eyebrow">خريطة السوق</div>
+      <h2 class="s-title">مقارنة المنافسين</h2>
+    </div>
+
+    <div class="comp-wrap fade-in">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th style="text-align:right">المنتج</th>
+            <th>بروتين</th>
+            <th>كارب صافي</th>
+            <th>سعرات</th>
+            <th>سكر</th>
+            <th>كيتو</th>
+            <th>خالي جلوتين</th>
+            <th>سعر/بار</th>
+            <th>مشاكل</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="quest-r">
+            <td style="text-align:right">
+              ⭐ Quest Nutrition<br>
+              <small style="color:var(--muted);font-weight:400">Cookie Dough</small>
+            </td>
+            <td>20g</td>
+            <td>4g</td>
+            <td>190</td>
+            <td>2g</td>
+            <td class="ck">✓</td>
+            <td class="ck">✓</td>
+            <td>~$2.50</td>
+            <td><span class="tag-pill" style="background:rgba(239,68,68,0.15);color:#ef4444">قساوة · تغليف</span></td>
+          </tr>
+          <tr>
+            <td style="text-align:right">RXBar<br><small style="color:var(--muted)">Chocolate Sea Salt</small></td>
+            <td>12g</td>
+            <td>22g</td>
+            <td>210</td>
+            <td>13g</td>
+            <td class="cx">✗</td>
+            <td class="ck">✓</td>
+            <td>~$3.00</td>
+            <td><span class="tag-pill" style="background:rgba(245,166,35,0.12);color:var(--gold)">سكر عالٍ</span></td>
+          </tr>
+          <tr>
+            <td style="text-align:right">KIND Protein<br><small style="color:var(--muted)">Dark Chocolate Nut</small></td>
+            <td>12g</td>
+            <td>15g</td>
+            <td>250</td>
+            <td>8g</td>
+            <td class="cx">✗</td>
+            <td class="ck">✓</td>
+            <td>~$2.80</td>
+            <td><span class="tag-pill" style="background:rgba(245,166,35,0.12);color:var(--gold)">بروتين منخفض</span></td>
+          </tr>
+          <tr>
+            <td style="text-align:right">ONE Bar<br><small style="color:var(--muted)">Birthday Cake</small></td>
+            <td>20g</td>
+            <td>8g</td>
+            <td>220</td>
+            <td>1g</td>
+            <td class="cn">~</td>
+            <td class="ck">✓</td>
+            <td>~$2.50</td>
+            <td><span class="tag-pill" style="background:rgba(245,166,35,0.12);color:var(--gold)">كارب أعلى</span></td>
+          </tr>
+          <tr>
+            <td style="text-align:right">Clif Bar<br><small style="color:var(--muted)">Chocolate Chip</small></td>
+            <td>9g</td>
+            <td>42g</td>
+            <td>250</td>
+            <td>21g</td>
+            <td class="cx">✗</td>
+            <td class="cx">✗</td>
+            <td>~$2.00</td>
+            <td><span class="tag-pill" style="background:rgba(239,68,68,0.15);color:#ef4444">كارب وسكر عاليين</span></td>
+          </tr>
+          <tr class="target-r">
+            <td style="text-align:right">
+              🎯 منتجك المقترح<br>
+              <small style="color:var(--green);font-weight:600">بار خليجي بروتين</small>
+            </td>
+            <td style="color:var(--green);font-weight:800">20g+</td>
+            <td style="color:var(--green);font-weight:800">≤4g</td>
+            <td style="color:var(--green);font-weight:800">≤190</td>
+            <td style="color:var(--green);font-weight:800">≤2g</td>
+            <td class="ck">✓</td>
+            <td class="ck">✓</td>
+            <td style="color:var(--green);font-weight:800">$2.00-2.50</td>
+            <td><span class="tag-pill" style="background:rgba(34,197,94,0.15);color:var(--green)">هدف: صفر مشاكل</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- OPPORTUNITIES -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="s-header fade-in">
+      <div class="s-eyebrow">فرص المنافسة</div>
+      <h2 class="s-title">أربع فرص ذهبية لا يراها Quest</h2>
+    </div>
+
+    <div class="opp-grid fade-in">
+
+      <div class="opp-card opp-a">
+        <div class="opp-card-num">01</div>
+        <div class="opp-emoji">🏗️</div>
+        <div class="opp-title">إصلاح مشكلة القوام والاتساق</div>
+        <p class="opp-desc">أكبر نقطة ضعف موثقة: 27% من المراجعات السلبية تشكو من قوام غير متسق. بار يصل دائماً بنفس القوام الطري المثالي هو ميزة تنافسية فورية.</p>
+        <span class="opp-badge badge-hot">🔥 أولوية قصوى</span>
+        <ul class="opp-points">
+          <li>تغليف Barrier فائق يمنع أكسدة الرطوبة</li>
+          <li>ضبط نسبة الجلسرين الطبيعي للحفاظ على الطراوة</li>
+          <li>اختبار شحن في 45°C لضمان الجودة</li>
+        </ul>
+      </div>
+
+      <div class="opp-card opp-b">
+        <div class="opp-card-num">02</div>
+        <div class="opp-emoji">🌿</div>
+        <div class="opp-title">فورمولا "نظيفة" بمحليات طبيعية</div>
+        <p class="opp-desc">17% يشكون من طعم كيميائي مرّ. الاستبدال بـ Monk Fruit + Allulose (بدلاً من Erythritol) يحل هذا ويضع منتجك في فئة "Premium Clean Label".</p>
+        <span class="opp-badge badge-grow">✓ تمييز حقيقي</span>
+        <ul class="opp-points">
+          <li>Monk Fruit + Allulose بدلاً من Erythritol</li>
+          <li>قائمة مكونات قصيرة ومفهومة</li>
+          <li>الألياف من مصادر طبيعية (Chicory Root)</li>
+        </ul>
+      </div>
+
+      <div class="opp-card opp-c">
+        <div class="opp-card-num">03</div>
+        <div class="opp-emoji">🌙</div>
+        <div class="opp-title">نكهات خليجية — فجوة سوقية لا أحد يملأها</div>
+        <p class="opp-desc">صفر منافسة في سوق بروتين بار بنكهات خليجية أصيلة. سوق الخليج الرياضي ضخم ومتنامٍ ولا يجد منتجاً يعبّر عن ذوقه المحلي.</p>
+        <span class="opp-badge badge-star">⭐ فرصة استراتيجية</span>
+        <ul class="opp-points">
+          <li>تمر وقرفة وهيل</li>
+          <li>حلاوة اللوز والعسل</li>
+          <li>نكهة كنافة أو أم علي</li>
+          <li>قهوة عربية بالهيل</li>
+        </ul>
+      </div>
+
+      <div class="opp-card opp-d">
+        <div class="opp-card-num">04</div>
+        <div class="opp-emoji">🔒</div>
+        <div class="opp-title">الثبات على الفورمولا — وعد تجاري</div>
+        <p class="opp-desc">12% تركوا Quest بعد تغيير الفورمولا مرات. الالتزام العلني بعدم تغيير الطعم يحوّل المحبطين من Quest إلى عملاء مخلصين لك.</p>
+        <span class="opp-badge badge-blue">🎯 ولاء دائم</span>
+        <ul class="opp-points">
+          <li>"نفس الطعم منذ اليوم الأول" كوعد تسويقي</li>
+          <li>Batch number واضح على كل منتج</li>
+          <li>سياسة استبدال بدون أسئلة</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- STRATEGY -->
+<section class="section">
+  <div class="container">
+    <div class="s-header fade-in">
+      <div class="s-eyebrow">خطة العمل</div>
+      <h2 class="s-title">كيف تبني المنتج المنافس؟</h2>
+    </div>
+
+    <div class="strat-grid fade-in">
+
+      <div class="strat-card">
+        <div class="strat-num">01</div>
+        <div class="strat-title">🧪 طوّر الفورمولا الصحيحة</div>
+        <div class="strat-desc">الهدف: 20g+ بروتين، ≤4g كارب، ≤190 سعرة، بدون Erythritol، قوام طري يدوم.</div>
+        <ul class="strat-list">
+          <li>Whey Isolate 80% + Micellar Casein 20% لأفضل قوام</li>
+          <li>Monk Fruit + Allulose للحلاوة الطبيعية</li>
+          <li>Chicory Root Fiber للألياف بدون انتفاخ</li>
+          <li>Natural Glycerin للحفاظ على الطراوة أشهراً</li>
+          <li>قطع Freeze-Dried للنكهة الأصيلة</li>
+        </ul>
+      </div>
+
+      <div class="strat-card">
+        <div class="strat-num">02</div>
+        <div class="strat-title">📦 حل مشكلة التغليف والشحن</div>
+        <div class="strat-desc">أكبر شكوى تقنية في Quest. حلها يجعلك الأفضل بشكل فوري.</div>
+        <ul class="strat-list">
+          <li>تغليف Barrier متعدد الطبقات (مقاوم للحرارة والرطوبة)</li>
+          <li>Silica Gel نانو بداخل كل تغليف فردي</li>
+          <li>Heat Seal مزدوج لضمان الإحكام</li>
+          <li>اختبار ضغط وحرارة (45°C لـ 30 يوم) قبل الإطلاق</li>
+        </ul>
+      </div>
+
+      <div class="strat-card">
+        <div class="strat-num">03</div>
+        <div class="strat-title">🎯 سوقك المستهدف الأول: الخليج</div>
+        <div class="strat-desc">عندك ميزة تنافسية جغرافية وثقافية لا يملكها Quest أو أي منافس دولي.</div>
+        <ul class="strat-list">
+          <li>البداية بـ 4 نكهات: كوكيز دو، تمر، شوكولاتة، فانيليا</li>
+          <li>تدريج النكهات الخليجية بعد ثبوت السوق</li>
+          <li>سعر مستهدف: 15-20 ريال للبار (جذاب vs. الاستيراد)</li>
+          <li>توزيع أولي: أمازون SA + Noon + متاجر الجيم</li>
+        </ul>
+      </div>
+
+      <div class="strat-card">
+        <div class="strat-num">04</div>
+        <div class="strat-title">📱 استراتيجية الإطلاق التسويقي</div>
+        <div class="strat-desc">Quest بنى نفسه من مجتمع الـ Fitness. نفس الاستراتيجية لكن بالعربي وللسوق المحلي.</div>
+        <ul class="strat-list">
+          <li>Seeding لـ 50 مؤثر لياقة خليجي قبل الإطلاق</li>
+          <li>Unboxing + Blind Taste Test vs. Quest</li>
+          <li>Amazon Ads: استهداف كلمة "Quest Bar" نفسها</li>
+          <li>عروض Launch: صندوق تجربة 6 بارات بسعر ترويجي</li>
+          <li>برنامج مراجعات مبكرة: 100 مشترٍ مجاني مقابل تقييم</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CLOSING INSIGHT -->
+<div class="closing">
+  <div class="hero-eyebrow" style="margin:0 auto 24px">
+    <span class="eyebrow-dot"></span>
+    الخلاصة الاستراتيجية
+  </div>
+
+  <h2 class="closing-title">
+    Quest Bar يبيع <em>$5 مليون شهرياً</em><br>
+    رغم كل هذه العيوب الموثقة
+  </h2>
+
+  <p class="closing-desc">
+    سر نجاحه ليس أنه مثالي — بل لأنه <strong>أقنع السوق</strong> أن البار اللذيذ الصحي ممكن. والآن المستهلك جاهز لمنتج أفضل: نفس الطعم والبروتين، لكن بجودة إنتاج أعلى، مكونات أنظف، وتغليف موثوق. هذا هو منتجك.
+  </p>
+
+  <div class="closing-kpis">
+    <div class="closing-kpi">
+      <span class="ckpi-val" style="color:#ef4444">27%</span>
+      <div class="ckpi-label">يشكون من القوام — حلّها</div>
+    </div>
+    <div class="closing-kpi">
+      <span class="ckpi-val" style="color:#22c55e">65%</span>
+      <div class="ckpi-label">أحبوا الطعم — استنسخ الفكرة</div>
+    </div>
+    <div class="closing-kpi">
+      <span class="ckpi-val" style="color:var(--purple)">ZERO</span>
+      <div class="ckpi-label">منافس خليجي بنكهات محلية</div>
+    </div>
+    <div class="closing-kpi">
+      <span class="ckpi-val" style="color:var(--gold)">$61M</span>
+      <div class="ckpi-label">إيرادات سنوية تقديرية</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-brand">تقرير تحليل تنافسي — Quest Bar</span>
+  <span class="footer-copy">استناداً إلى 160 تقييم موثق · أمازون · فبراير 2026</span>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('show'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
