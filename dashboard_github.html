@@ -107,6 +107,75 @@
     .g2.full { grid-template-columns: 1fr; }
     @media (max-width: 900px) { .g2 { grid-template-columns: 1fr; } .main { padding: 16px; } }
 
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      /* header */
+      header { padding: 12px 16px; gap: 10px; }
+      header .icon { font-size: 26px; }
+      header h1 { font-size: 16px; }
+      header .sub { font-size: 11px; }
+
+      /* layout */
+      .main { padding: 10px; }
+      .card { padding: 14px 12px; }
+      .card h3 { font-size: 13px; line-height: 1.4; }
+
+      /* stats */
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .stat-card { padding: 14px 12px; }
+      .stat-card .val { font-size: 22px; }
+
+      /* charts */
+      .chart-wrap { height: 220px; }
+      .chart-wrap.tall { height: 260px; }
+
+      /* toggles — bigger touch target */
+      .toggle-btn { padding: 8px 14px; font-size: 12px; }
+
+      /* heatmap */
+      .hm-box { width: 36px; height: 30px; font-size: 9px; }
+
+      /* umrah planner — stack vertically */
+      .umrah-flow { flex-direction: column; gap: 8px; }
+      .umrah-step { min-width: unset; border-radius: var(--r) !important; border-right: 1px solid var(--border) !important; }
+      .umrah-arrow { transform: rotate(90deg); height: 24px; }
+      .umrah-total { min-width: unset; }
+      .umrah-hour-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; }
+      .uhc-total { font-size: 16px; }
+
+      /* scenario tabs */
+      .sc-tab { padding: 8px 12px; font-size: 12px; }
+      .sc-compare { grid-template-columns: 1fr 1fr; }
+
+      /* best times */
+      .best-times-grid { grid-template-columns: 1fr; }
+      .bt-area-card .best-window { font-size: 16px; }
+
+      /* rec/warn banners */
+      .rec-banner { padding: 14px; gap: 10px; }
+      .rec-banner .rec-icon { font-size: 22px; }
+      .rec-banner ul li { font-size: 12px; }
+      .warn-banner { padding: 12px 14px; font-size: 12px; }
+
+      /* table */
+      .filter-bar input { width: 100px; }
+      .data-tbl th, .data-tbl td { padding: 7px 8px; font-size: 11px; }
+      .badge { padding: 2px 7px; font-size: 10px; }
+
+      /* legend */
+      .legend-bar { flex-wrap: wrap; gap: 8px; }
+      .legend-grad { width: 120px; }
+
+      /* hour ranking */
+      .hour-pill { min-width: 46px; padding: 8px 4px; }
+      .hour-pill .hr-label { font-size: 11px; }
+    }
+
+    @media (max-width: 360px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .sc-compare { grid-template-columns: 1fr; }
+    }
+
     .card {
       background: var(--card);
       border: 1px solid var(--border);
