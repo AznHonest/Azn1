@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🕋 داشبورد مراقبة الحرم المكي</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --green: #4ade80;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --r: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      direction: rtl;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    header .icon { font-size: 36px; }
+    header h1 { font-size: 22px; font-weight: 700; }
+    header .sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    /* ── LAYOUT ── */
+    .main { padding: 24px 32px; max-width: 1500px; margin: 0 auto; }
+
+    /* ── UPLOAD ── */
+    .upload-zone {
+      background: var(--card);
+      border: 2px dashed var(--border);
+      border-radius: var(--r);
+      padding: 56px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .25s, background .25s;
+      margin-bottom: 24px;
+    }
+    .upload-zone:hover, .upload-zone.over { border-color: var(--accent); background: #1a2f4a; }
+    .upload-zone .ico { font-size: 52px; margin-bottom: 12px; }
+    .upload-zone h3 { font-size: 18px; margin-bottom: 6px; }
+    .upload-zone p { color: var(--muted); font-size: 13px; }
+    #fileInput { display: none; }
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #0f172a;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 18px;
+      transition: opacity .2s;
+    }
+    .btn:hover { opacity: .85; }
+    .btn.secondary { background: #475569; color: var(--text); }
+
+    /* ── STATS CARDS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 4px; height: 100%;
+      background: var(--accent-bar, var(--accent));
+      border-radius: 0 var(--r) var(--r) 0;
+    }
+    .stat-card .lbl { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .stat-card .val { font-size: 30px; font-weight: 700; }
+    .stat-card .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    /* ── CHARTS GRID ── */
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .g2.full { grid-template-columns: 1fr; }
+    @media (max-width: 900px) { .g2 { grid-template-columns: 1fr; } .main { padding: 16px; } }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px;
+    }
+    .card h3 { font-size: 15px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .chart-wrap { position: relative; height: 280px; }
+    .chart-wrap.tall { height: 360px; }
+
+    /* ── TOGGLES ── */
+    .toggles { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .toggle-btn {
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1.5px solid currentColor;
+      background: transparent;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all .2s;
+    }
+    .toggle-btn.active { color: #0f172a !important; }
+
+    /* ── HEATMAP ── */
+    .heatmap-scroll { overflow-x: auto; }
+    .hm-table { border-collapse: collapse; direction: ltr; font-size: 11px; }
+    .hm-table th {
+      padding: 5px 3px;
+      color: var(--muted);
+      text-align: center;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .hm-area { padding: 4px 10px; text-align: right !important; direction: rtl; color: var(--muted); white-space: nowrap; font-size: 11px; }
+    .hm-cell {
+      padding: 2px;
+    }
+    .hm-box {
+      width: 44px; height: 34px;
+      border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600; color: rgba(255,255,255,.9);
+    }
+    .legend-bar {
+      margin-top: 12px;
+      display: flex; align-items: center; gap: 14px;
+      font-size: 12px; color: var(--muted);
+    }
+    .legend-grad {
+      background: linear-gradient(90deg, #1d4ed8, #4ade80, #fbbf24, #f87171, #dc2626);
+      width: 180px; height: 14px; border-radius: 4px;
+    }
+
+    /* ── DATA TABLE ── */
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+    .filter-bar label { font-size: 13px; color: var(--muted); }
+    .filter-bar input, .filter-bar select {
+      background: #334155; border: 1px solid var(--border);
+      color: var(--text); padding: 6px 12px; border-radius: 6px; font-size: 13px;
+    }
+    .tbl-scroll { overflow-x: auto; max-height: 420px; overflow-y: auto; }
+    .data-tbl { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
+    .data-tbl th {
+      background: #1a2f4a; padding: 10px 14px; text-align: center;
+      position: sticky; top: 0; font-weight: 600; border-bottom: 1px solid var(--border);
+    }
+    .data-tbl td { padding: 8px 14px; border-bottom: 1px solid #162032; text-align: center; }
+    .data-tbl tr:hover { background: #1a2f4a; }
+    .badge {
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 600; display: inline-block;
+    }
+    .b-red { background: rgba(248,113,113,.15); color: #f87171; border: 1px solid #f8717155; }
+    .b-grn { background: rgba(74,222,128,.15); color: #4ade80; border: 1px solid #4ade8055; }
+    .b-gray { background: rgba(100,116,139,.15); color: #94a3b8; border: 1px solid #94a3b855; }
+
+    .hidden { display: none; }
+
+    /* ── BEST TIMES ── */
+    .best-times-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .bt-area-card {
+      background: #162032;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .bt-area-card .area-name {
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .bt-area-card .best-window {
+      font-size: 18px;
+      font-weight: 700;
+      color: #4ade80;
+      font-family: monospace;
+    }
+    .bt-area-card .best-val {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .bt-area-card .worst-window {
+      font-size: 12px;
+      color: #f87171;
+    }
+
+    .hour-ranking {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .hour-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 52px;
+      padding: 10px 6px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      background: #162032;
+      flex-shrink: 0;
+    }
+    .hour-pill .hr-label { font-weight: 700; font-family: monospace; font-size: 13px; }
+    .hour-pill .hr-val   { color: var(--muted); }
+    .hour-pill .hr-rank  { font-size: 10px; font-weight: 700; }
+
+    .rec-banner {
+      background: linear-gradient(135deg, #14532d55, #052e1655);
+      border: 1px solid #4ade8033;
+      border-radius: var(--r);
+      padding: 18px 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .rec-banner .rec-icon { font-size: 30px; flex-shrink: 0; }
+    .rec-banner h4 { font-size: 15px; color: #4ade80; margin-bottom: 6px; }
+    .rec-banner ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .rec-banner ul li { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+    .rec-banner ul li::before { content: '•'; color: #4ade80; }
+
+    .warn-banner {
+      background: linear-gradient(135deg, #7f1d1d55, #450a0a55);
+      border: 1px solid #f8717133;
+      border-radius: var(--r);
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+      font-size: 13px;
+    }
+    .warn-banner .warn-icon { font-size: 24px; flex-shrink: 0; }
+    .warn-banner strong { color: #f87171; }
+
+    /* ── UMRAH PLANNER ── */
+    .umrah-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .umrah-step {
+      flex: 1;
+      min-width: 160px;
+      background: #162032;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 18px;
+      position: relative;
+    }
+    .umrah-step + .umrah-step { border-right: none; border-radius: 0 var(--r) var(--r) 0; }
+    .umrah-step:first-child { border-radius: var(--r) 0 0 var(--r); }
+    .umrah-arrow {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: var(--muted); flex-shrink: 0;
+      padding: 0 4px;
+    }
+    .umrah-step .step-num {
+      font-size: 11px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;
+    }
+    .umrah-step .step-title {
+      font-size: 15px; font-weight: 700; margin-bottom: 10px;
+    }
+    .umrah-step .step-best {
+      font-size: 13px; color: #4ade80; font-weight: 600; margin-bottom: 4px;
+    }
+    .umrah-step .step-time {
+      font-size: 22px; font-weight: 800; font-family: monospace;
+    }
+    .umrah-step .step-hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    .umrah-total {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #1e3a5f, #162032);
+      border: 2px solid var(--accent);
+      border-radius: var(--r);
+      padding: 18px 24px;
+      text-align: center;
+      min-width: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+    }
+    .umrah-total .tot-lbl { font-size: 12px; color: var(--muted); }
+    .umrah-total .tot-val { font-size: 36px; font-weight: 800; color: var(--accent); font-family: monospace; }
+    .umrah-total .tot-unit { font-size: 13px; color: var(--muted); }
+
+    .umrah-hour-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .umrah-hour-card {
+      background: #162032;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+    .umrah-hour-card.best-hour {
+      border-color: #4ade80;
+      background: #0d2318;
+    }
+    .umrah-hour-card.worst-hour {
+      border-color: #f87171;
+      background: #2d0d0d;
+    }
+    .uhc-time { font-size: 14px; font-weight: 700; font-family: monospace; }
+    .uhc-total { font-size: 20px; font-weight: 800; font-family: monospace; margin: 4px 0; }
+    .uhc-detail { font-size: 10px; color: var(--muted); line-height: 1.5; }
+
+    /* ── SCENARIO TABS ── */
+    .scenario-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+    }
+    .sc-tab {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sc-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .sc-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0f172a;
+    }
+
+    /* comparison table */
+    .sc-compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .sc-compare-card {
+      background: #162032;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .sc-compare-card.active-sc { border-color: var(--accent); background: #1a2f4a; }
+    .sc-compare-card .sc-name  { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+    .sc-compare-card .sc-total { font-size: 26px; font-weight: 800; font-family: monospace; }
+    .sc-compare-card .sc-sub   { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="icon">🕋</div>
+  <div>
+    <h1>داشبورد مراقبة الحرم المكي</h1>
+    <div class="sub" id="hdrSub">جاري تحميل البيانات…</div>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- LOADING -->
+  <div id="dropZone" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:40px;text-align:center;margin-bottom:24px;">
+    <div style="font-size:40px;margin-bottom:12px;">⏳</div>
+    <h3 id="loadMsg" style="font-size:16px;">جاري تحميل haram_data_2026-02-26.csv …</h3>
+    <p id="loadErr" style="color:var(--red);margin-top:8px;display:none;"></p>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dash" class="hidden">
+
+    <!-- STAT CARDS -->
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <!-- LINE CHART (full width) -->
+    <div class="card" style="margin-bottom:16px;">
+      <h3>📈 وقت إتمام الشعيرة عبر اليوم (دقيقة) — أقل = أسرع = أقل ازدحاماً</h3>
+      <div class="toggles" id="areaToggles"></div>
+      <div class="chart-wrap tall"><canvas id="lineChart"></canvas></div>
+    </div>
+
+    <!-- BAR + PIE -->
+    <div class="g2" style="margin-bottom:16px;">
+      <div class="card">
+        <h3>📊 متوسط وقت الإتمام لكل منطقة (دقيقة)</h3>
+        <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>🥧 توزيع حالات الإشارة — أخضر / أحمر / غير متاح</h3>
+        <div class="chart-wrap"><canvas id="pieChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- HEATMAP (full width) -->
+    <div class="card" style="margin-bottom:16px;">
+      <h3>🌡️ خريطة حرارية — وقت الإتمام (دق) حسب الساعة والمنطقة — أزرق/أخضر = سريع، أحمر = بطيء</h3>
+      <div class="heatmap-scroll" id="heatmapWrap"></div>
+      <div class="legend-bar">
+        <span>أسرع (أقل ازدحاماً)</span>
+        <div class="legend-grad"></div>
+        <span>أبطأ (أكثر ازدحاماً)</span>
+        <span style="margin-right:auto;color:var(--muted);font-size:11px;">الأرقام = متوسط وقت الإتمام بالدقيقة</span>
+      </div>
+    </div>
+
+    <!-- UMRAH PLANNER -->
+    <div class="card" style="margin-bottom:16px;" id="umrahPlannerCard">
+      <h3>🕋 مخطط العمرة الكاملة — طواف ثم سعي</h3>
+
+      <!-- scenario selector -->
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">اختر سيناريو الطواف:</div>
+      <div class="scenario-tabs" id="scenarioTabs"></div>
+
+      <!-- best combo flow -->
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px;" id="flowDesc"></div>
+      <div class="umrah-flow" id="umrahFlow"></div>
+
+      <!-- scenario comparison -->
+      <div style="font-size:13px;color:var(--muted);margin:18px 0 10px;">مقارنة كل السيناريوهات — أفضل ساعة في اليوم:</div>
+      <div class="sc-compare" id="scCompare"></div>
+
+      <!-- per-hour breakdown -->
+      <div style="font-size:13px;color:var(--muted);margin:18px 0 10px;" id="hourGridLabel">
+        وقت العمرة الكاملة لكل ساعة:
+      </div>
+      <div class="umrah-hour-grid" id="umrahHourGrid"></div>
+    </div>
+
+    <!-- BEST TIMES -->
+    <div class="card" style="margin-bottom:16px;" id="bestTimesCard">
+      <h3>⏰ أفضل الأوقات — الأسرع إتماماً = الأقل ازدحاماً</h3>
+
+      <!-- recommendation banner -->
+      <div class="rec-banner" id="recBanner"></div>
+
+      <!-- warning banner -->
+      <div class="warn-banner" id="warnBanner"></div>
+
+      <!-- hour ranking strip -->
+      <div style="margin-bottom:12px;">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">ترتيب الساعات من الأسرع للأبطأ إتماماً — متوسط كل المناطق (دقيقة):</div>
+        <div class="hour-ranking" id="hourRanking"></div>
+      </div>
+
+      <!-- per-area cards -->
+      <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">أسرع وأبطأ وقت إتمام لكل منطقة:</div>
+      <div class="best-times-grid" id="bestTimesGrid"></div>
+    </div>
+
+    <!-- DATA TABLE -->
+    <div class="card">
+      <h3>📋 جدول البيانات التفصيلي</h3>
+      <div class="filter-bar">
+        <label>من:</label>
+        <input type="time" id="tStart" value="00:00">
+        <label>إلى:</label>
+        <input type="time" id="tEnd" value="23:59">
+        <button class="btn" style="padding:7px 18px;margin-top:0;" onclick="applyFilter()">تصفية</button>
+        <button class="btn secondary" style="padding:7px 18px;margin-top:0;" onclick="resetFilter()">إعادة تعيين</button>
+        <span id="rowCount" style="color:var(--muted);font-size:13px;margin-right:auto;"></span>
+      </div>
+      <div class="tbl-scroll">
+        <table class="data-tbl">
+          <thead>
+            <tr>
+              <th>الوقت</th>
+              <th>مسعى أرضي</th>
+              <th>مسعى أول</th>
+              <th>مسعى ثاني</th>
+              <th>سطح المطاف</th>
+              <th>صحن المطاف</th>
+              <th>مطاف أرضي</th>
+              <th>مطاف أول</th>
+            </tr>
+          </thead>
+          <tbody id="tblBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /dash -->
+</div><!-- /main -->
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────
+const AREAS = [
+  { key: 'masa_gnd',   label: 'مسعى أرضي',  color: '#38bdf8' },
+  { key: 'masa_1st',   label: 'مسعى أول',   color: '#818cf8' },
+  { key: 'masa_2nd',   label: 'مسعى ثاني',  color: '#34d399' },
+  { key: 'tawaf_roof', label: 'سطح المطاف', color: '#fb923c' },
+  { key: 'tawaf_crt',  label: 'صحن المطاف', color: '#f472b6' },
+  { key: 'tawaf_gnd',  label: 'مطاف أرضي',  color: '#a78bfa' },
+  { key: 'tawaf_1st',  label: 'مطاف أول',   color: '#fbbf24' },
+];
+
+let allData = [];
+let charts = {};
+let visibleAreas = new Set(AREAS.map(a => a.key));
+
+// ─── HELPERS ──────────────────────────────────────────────
+function parseRange(v) {
+  if (!v) return null;
+  v = v.replace(/"/g, '').trim();
+  if (v === '' || v.includes('غير متاح') || v.startsWith('rgba') || v.startsWith('rgb')) return null;
+  const m = v.match(/(\d+)\s*[-–]\s*(\d+)/);
+  return m ? (parseInt(m[1]) + parseInt(m[2])) / 2 : null;
+}
+
+function parseStatus(v) {
+  if (!v) return 'gray';
+  v = v.replace(/"/g, '');
+  if (v.includes('أخضر')) return 'green';
+  if (v.includes('أحمر')) return 'red';
+  return 'gray';
+}
+
+// minutes thresholds: lower = faster = less crowded
+function heatColor(val) {
+  if (val === null) return 'rgba(30,41,59,0.6)';
+  if (val <= 32)  return 'rgba(29,78,216,0.85)';   // ~30 دق — ممتاز
+  if (val <= 42)  return 'rgba(74,222,128,0.85)';   // ~40 دق — جيد
+  if (val <= 55)  return 'rgba(251,191,36,0.85)';   // ~50 دق — متوسط
+  if (val <= 72)  return 'rgba(248,113,113,0.85)';  // ~70 دق — مزدحم
+  return 'rgba(220,38,38,0.95)';                    // 80+ دق — شديد الازدحام
+}
+
+// ─── CSV PARSER ───────────────────────────────────────────
+function parseCSV(text) {
+  // strip BOM
+  text = text.replace(/^\uFEFF/, '');
+  const lines = text.trim().split(/\r?\n/);
+  const rows = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // split respecting quoted fields
+    const cols = [];
+    let cur = '', inQ = false;
+    for (const ch of line) {
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { cols.push(cur); cur = ''; }
+      else cur += ch;
+    }
+    cols.push(cur);
+    if (cols.length < 15) continue;
+
+    const timeStr = cols[3].replace(/"/g, '').trim();
+    const date = new Date(timeStr);
+    if (isNaN(date)) continue;
+
+    rows.push({
+      time:      date,
+      timeStr:   date.toTimeString().slice(0, 5),
+      hour:      date.getHours(),
+      // numeric crowd
+      masa_gnd:   parseRange(cols[0]),
+      masa_1st:   parseRange(cols[1]),
+      masa_2nd:   parseRange(cols[2]),
+      tawaf_roof: parseRange(cols[11]),
+      tawaf_crt:  parseRange(cols[12]),
+      tawaf_gnd:  parseRange(cols[13]),
+      tawaf_1st:  parseRange(cols[14]),
+      // status colors
+      s_masa_gnd:   parseStatus(cols[4]),
+      s_masa_1st:   parseStatus(cols[5]),
+      s_masa_2nd:   parseStatus(cols[6]),
+      s_tawaf_roof: parseStatus(cols[7]),
+      s_tawaf_crt:  parseStatus(cols[8]),
+      s_tawaf_gnd:  parseStatus(cols[9]),
+      s_tawaf_1st:  parseStatus(cols[10]),
+    });
+  }
+  return rows.sort((a, b) => a.time - b.time);
+}
+
+// ─── RENDER ALL ───────────────────────────────────────────
+function renderAll(data) {
+  allData = data;
+  document.getElementById('dash').classList.remove('hidden');
+  document.getElementById('dropZone').classList.add('hidden');
+
+  if (data.length) {
+    const d = data[0].time;
+    const fmt = d.toLocaleDateString('ar-SA', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    document.getElementById('hdrSub').textContent = `${fmt} — ${data.length} قراءة`;
+  }
+
+  renderStats(data);
+  buildToggles(data);
+  renderLine(data);
+  renderBar(data);
+  renderPie(data);
+  renderHeatmap(data);
+  renderUmrahPlanner(data);
+  renderBestTimes(data);
+  renderTable(data);
+}
+
+// ─── STATS ────────────────────────────────────────────────
+function avg(data, key) {
+  const v = data.map(r => r[key]).filter(v => v !== null);
+  return v.length ? v.reduce((a, b) => a + b, 0) / v.length : 0;
+}
+
+function renderStats(data) {
+  const avgs = AREAS.map(a => avg(data, a.key));
+  const maxIdx = avgs.indexOf(Math.max(...avgs));
+  const minIdx = avgs.indexOf(Math.min(...avgs.filter(v => v > 0)));
+
+  let peakVal = 0, peakLabel = '', peakTime = '';
+  AREAS.forEach(a => {
+    data.forEach(r => {
+      if (r[a.key] !== null && r[a.key] > peakVal) {
+        peakVal = r[a.key]; peakLabel = a.label; peakTime = r.timeStr;
+      }
+    });
+  });
+
+  // % of time masa_2nd is green
+  const grn2 = data.filter(r => r.s_masa_2nd === 'green').length;
+  const grn2pct = Math.round(grn2 / data.length * 100);
+
+  // أقل وقت عمرة كاملة
+  let minUmrah = Infinity, minUmrahTime = '';
+  data.forEach(r => {
+    const t = [r.tawaf_roof, r.tawaf_crt, r.tawaf_gnd, r.tawaf_1st].filter(v => v !== null);
+    const s = [r.masa_gnd, r.masa_1st, r.masa_2nd].filter(v => v !== null);
+    if (t.length && s.length) {
+      const total = Math.min(...t) + Math.min(...s);
+      if (total < minUmrah) { minUmrah = total; minUmrahTime = r.timeStr; }
+    }
+  });
+
+  const CARDS = [
+    { lbl: 'إجمالي القراءات',              val: data.length,                   hint: 'كل ~5 دقائق', color: '#38bdf8' },
+    { lbl: '🕋 أقل وقت عمرة كاملة',       val: minUmrah + ' دق',              hint: `طواف + سعي — عند ${minUmrahTime}`, color: '#4ade80' },
+    { lbl: 'أطول وقت إتمام مسجّل',         val: peakVal + ' دق',               hint: `${peakLabel} — ${peakTime}`, color: '#f87171' },
+    { lbl: 'الأكثر ازدحاماً (أبطأ)',       val: AREAS[maxIdx].label,           hint: `متوسط ${Math.round(avgs[maxIdx])} دقيقة`, color: '#fb923c' },
+    { lbl: 'الأقل ازدحاماً (أسرع)',        val: AREAS[minIdx].label,           hint: `متوسط ${Math.round(avgs[minIdx])} دقيقة`, color: '#34d399' },
+    { lbl: 'سطح المطاف (غير متاح)',        val: data.filter(r => r.tawaf_roof === null).length, hint: 'قراءة محجوب', color: '#94a3b8' },
+  ];
+
+  document.getElementById('statsGrid').innerHTML = CARDS.map(c => `
+    <div class="stat-card" style="--accent-bar:${c.color}">
+      <div class="lbl">${c.lbl}</div>
+      <div class="val" style="color:${c.color}">${c.val}</div>
+      <div class="hint">${c.hint}</div>
+    </div>`).join('');
+}
+
+// ─── TOGGLES ──────────────────────────────────────────────
+function buildToggles(data) {
+  const wrap = document.getElementById('areaToggles');
+  wrap.innerHTML = '';
+  AREAS.forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = 'toggle-btn' + (visibleAreas.has(a.key) ? ' active' : '');
+    btn.textContent = a.label;
+    btn.style.color = a.color;
+    if (visibleAreas.has(a.key)) btn.style.background = a.color;
+    btn.onclick = () => {
+      visibleAreas.has(a.key) ? visibleAreas.delete(a.key) : visibleAreas.add(a.key);
+      buildToggles(data);
+      renderLine(data);
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+// ─── LINE CHART ───────────────────────────────────────────
+function renderLine(data) {
+  const labels = data.map(r => r.timeStr);
+  const datasets = AREAS.filter(a => visibleAreas.has(a.key)).map(a => ({
+    label: a.label,
+    data: data.map(r => r[a.key]),
+    borderColor: a.color,
+    backgroundColor: a.color + '18',
+    tension: 0.35,
+    fill: false,
+    spanGaps: true,
+    pointRadius: 0,
+    borderWidth: 2,
+  }));
+
+  const ctx = document.getElementById('lineChart');
+  if (charts.line) charts.line.destroy();
+  charts.line = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: '#94a3b8', font: { size: 11 } } },
+        tooltip: {
+          callbacks: {
+            title: items => `الوقت: ${items[0].label}`,
+            label: c => `${c.dataset.label}: ${c.raw !== null ? c.raw + ' دقيقة' : 'غير متاح'}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#64748b', maxRotation: 45, maxTicksLimit: 24 },
+          grid: { color: '#1e293b' }
+        },
+        y: {
+          min: 0, max: 130,
+          ticks: { color: '#64748b', callback: v => v + ' دق' },
+          grid: { color: '#1e293b' },
+          title: { display: true, text: 'وقت الإتمام (دقيقة)', color: '#64748b', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+// ─── BAR CHART ────────────────────────────────────────────
+function renderBar(data) {
+  const avgs = AREAS.map(a => {
+    const v = data.map(r => r[a.key]).filter(x => x !== null);
+    return v.length ? Math.round(v.reduce((s, x) => s + x, 0) / v.length) : 0;
+  });
+
+  const ctx = document.getElementById('barChart');
+  if (charts.bar) charts.bar.destroy();
+  charts.bar = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: AREAS.map(a => a.label),
+      datasets: [{
+        label: 'متوسط وقت الإتمام (دقيقة)',
+        data: avgs,
+        backgroundColor: AREAS.map(a => a.color + 'bb'),
+        borderColor: AREAS.map(a => a.color),
+        borderWidth: 1,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => c.raw + ' دقيقة' } }
+      },
+      scales: {
+        x: { ticks: { color: '#64748b' }, grid: { display: false } },
+        y: {
+          min: 0, max: 130,
+          ticks: { color: '#64748b', callback: v => v + ' دق' },
+          grid: { color: '#1e293b' },
+          title: { display: true, text: 'وقت الإتمام (دقيقة)', color: '#64748b', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+// ─── PIE CHART ────────────────────────────────────────────
+function renderPie(data) {
+  const sKeys = ['s_masa_gnd','s_masa_1st','s_masa_2nd','s_tawaf_roof','s_tawaf_crt','s_tawaf_gnd','s_tawaf_1st'];
+  let green = 0, red = 0, gray = 0;
+  data.forEach(r => sKeys.forEach(k => {
+    if (r[k] === 'green') green++;
+    else if (r[k] === 'red') red++;
+    else gray++;
+  }));
+
+  const ctx = document.getElementById('pieChart');
+  if (charts.pie) charts.pie.destroy();
+  charts.pie = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['أخضر — هادئ', 'أحمر — مزدحم', 'رمادي — غير متاح'],
+      datasets: [{
+        data: [green, red, gray],
+        backgroundColor: ['#4ade8055', '#f8717155', '#47556955'],
+        borderColor: ['#4ade80', '#f87171', '#475569'],
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#94a3b8', font: { size: 12 } }, position: 'bottom' },
+        tooltip: {
+          callbacks: {
+            label: c => {
+              const tot = c.dataset.data.reduce((a, b) => a + b, 0);
+              return `${c.label}: ${c.raw.toLocaleString()} (${Math.round(c.raw / tot * 100)}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// ─── HEATMAP ──────────────────────────────────────────────
+function renderHeatmap(data) {
+  const hours = [...new Set(data.map(r => r.hour))].sort((a, b) => a - b);
+  const byHour = {};
+  hours.forEach(h => byHour[h] = data.filter(r => r.hour === h));
+
+  let html = '<table class="hm-table"><thead><tr><th style="text-align:right;direction:rtl;padding-left:10px;">المنطقة</th>';
+  hours.forEach(h => html += `<th>${String(h).padStart(2,'0')}:00</th>`);
+  html += '</tr></thead><tbody>';
+
+  AREAS.forEach(area => {
+    html += `<tr><td class="hm-area">${area.label}</td>`;
+    hours.forEach(h => {
+      const vals = byHour[h].map(r => r[area.key]).filter(v => v !== null);
+      const avg = vals.length ? Math.round(vals.reduce((s, v) => s + v, 0) / vals.length) : null;
+      const bg = heatColor(avg);
+      html += `<td class="hm-cell"><div class="hm-box" style="background:${bg}" title="${area.label} — ${avg !== null ? avg + ' دقيقة' : 'غير متاح'}">${avg !== null ? avg + 'د' : '—'}</div></td>`;
+    });
+    html += '</tr>';
+  });
+
+  html += '</tbody></table>';
+  document.getElementById('heatmapWrap').innerHTML = html;
+}
+
+// ─── UMRAH PLANNER ────────────────────────────────────────
+
+// السعي: كل أدوار المسعى
+const SAI_KEYS = [
+  { key: 'masa_gnd', label: 'مسعى الأرضي' },
+  { key: 'masa_1st', label: 'مسعى الأول'  },
+  { key: 'masa_2nd', label: 'مسعى الثاني' },
+];
+
+// السيناريوهات: كل سيناريو يحدد أي أدوار الطواف المتاحة
+const SCENARIOS = [
+  {
+    id: 'auto',
+    label: '🏆 أفضل دور تلقائياً',
+    desc: 'يختار أسرع دور للمطاف + أسرع دور للمسعى في كل وقت',
+    tawafKeys: [
+      { key: 'tawaf_roof', label: 'سطح المطاف'  },
+      { key: 'tawaf_crt',  label: 'صحن المطاف'  },
+      { key: 'tawaf_gnd',  label: 'مطاف الأرضي' },
+      { key: 'tawaf_1st',  label: 'مطاف الأول'  },
+    ],
+  },
+  {
+    id: 'sahn',
+    label: '🕌 صحن المطاف دائماً',
+    desc: 'الطواف في الصحن (مستوى الكعبة) — السيناريو الأشيع',
+    tawafKeys: [{ key: 'tawaf_crt', label: 'صحن المطاف' }],
+  },
+  {
+    id: 'roof',
+    label: '🌙 سطح المطاف دائماً',
+    desc: 'الطواف في السطح — عندما يكون متاحاً',
+    tawafKeys: [{ key: 'tawaf_roof', label: 'سطح المطاف' }],
+  },
+  {
+    id: 'gnd',
+    label: '🏛️ مطاف الأرضي دائماً',
+    desc: 'الطواف في الدور الأرضي داخل المبنى',
+    tawafKeys: [{ key: 'tawaf_gnd', label: 'مطاف الأرضي' }],
+  },
+  {
+    id: 'first',
+    label: '📶 مطاف الأول دائماً',
+    desc: 'الطواف في الدور الأول',
+    tawafKeys: [{ key: 'tawaf_1st', label: 'مطاف الأول' }],
+  },
+];
+
+let activeScenario = 'sahn'; // default: صحن المطاف
+let _plannerData   = null;
+
+function bestOption(row, options) {
+  let best = null, bestLabel = '';
+  options.forEach(o => {
+    if (row[o.key] !== null && (best === null || row[o.key] < best)) {
+      best = row[o.key]; bestLabel = o.label;
+    }
+  });
+  return { val: best, label: bestLabel };
+}
+
+function bestSai(row) {
+  return bestOption(row, SAI_KEYS);
+}
+
+function calcHourlyForScenario(data, scenario) {
+  const hours = [...new Set(data.map(r => r.hour))].sort((a, b) => a - b);
+  return hours.map(h => {
+    const rows = data.filter(r => r.hour === h);
+    const totals = rows.map(r => {
+      const t = bestOption(r, scenario.tawafKeys);
+      const s = bestSai(r);
+      if (t.val === null || s.val === null) return null;
+      return { total: t.val + s.val, tawafVal: t.val, tawafLabel: t.label, saiVal: s.val, saiLabel: s.label };
+    }).filter(x => x !== null);
+
+    if (!totals.length) return null;
+    const avgTotal = totals.reduce((a, b) => a + b.total, 0) / totals.length;
+    const avgTawaf = totals.reduce((a, b) => a + b.tawafVal, 0) / totals.length;
+    const avgSai   = totals.reduce((a, b) => a + b.saiVal,   0) / totals.length;
+
+    // most frequent label
+    const tFreq = {}, sFreq = {};
+    totals.forEach(x => {
+      tFreq[x.tawafLabel] = (tFreq[x.tawafLabel]||0)+1;
+      sFreq[x.saiLabel]   = (sFreq[x.saiLabel]  ||0)+1;
+    });
+    const topTawaf = Object.entries(tFreq).sort((a,b)=>b[1]-a[1])[0][0];
+    const topSai   = Object.entries(sFreq).sort((a,b)=>b[1]-a[1])[0][0];
+
+    return { hour: h, total: avgTotal, tawaf: avgTawaf, sai: avgSai, tawafLabel: topTawaf, saiLabel: topSai };
+  }).filter(x => x !== null);
+}
+
+function renderUmrahPlanner(data) {
+  _plannerData = data;
+
+  // ── scenario tabs ──
+  const tabsEl = document.getElementById('scenarioTabs');
+  tabsEl.innerHTML = SCENARIOS.map(sc => `
+    <button class="sc-tab ${sc.id === activeScenario ? 'active' : ''}"
+            onclick="switchScenario('${sc.id}')">${sc.label}</button>
+  `).join('');
+
+  // ── scenario comparison (best hour for each) ──
+  const compareEl = document.getElementById('scCompare');
+  compareEl.innerHTML = SCENARIOS.map(sc => {
+    const hourly = calcHourlyForScenario(data, sc).sort((a,b) => a.total - b.total);
+    if (!hourly.length) return `<div class="sc-compare-card"><div class="sc-name">${sc.label}</div><div class="sc-total" style="color:var(--muted)">—</div><div class="sc-sub">لا بيانات</div></div>`;
+    const best = hourly[0];
+    const totalColor = best.total <= 90 ? '#4ade80' : best.total <= 115 ? '#fbbf24' : '#f87171';
+    return `
+      <div class="sc-compare-card ${sc.id === activeScenario ? 'active-sc' : ''}" onclick="switchScenario('${sc.id}')" style="cursor:pointer;">
+        <div class="sc-name">${sc.label}</div>
+        <div class="sc-total" style="color:${totalColor}">${Math.round(best.total)} دق</div>
+        <div class="sc-sub">أفضل: ${String(best.hour).padStart(2,'0')}:00</div>
+        <div class="sc-sub">🕌${Math.round(best.tawaf)}د + 🚶${Math.round(best.sai)}د</div>
+      </div>`;
+  }).join('');
+
+  drawScenario(data, activeScenario);
+}
+
+function switchScenario(id) {
+  activeScenario = id;
+  if (_plannerData) renderUmrahPlanner(_plannerData);
+}
+
+function drawScenario(data, scenarioId) {
+  const sc = SCENARIOS.find(s => s.id === scenarioId);
+  const hourly = calcHourlyForScenario(data, sc);
+  if (!hourly.length) return;
+
+  hourly.sort((a,b) => a.total - b.total);
+  const best  = hourly[0];
+  const worst = hourly[hourly.length - 1];
+  hourly.sort((a,b) => a.hour - b.hour);
+
+  document.getElementById('flowDesc').textContent = sc.desc;
+
+  // ── flow card ──
+  const flowEl = document.getElementById('umrahFlow');
+  flowEl.innerHTML = `
+    <div class="umrah-step">
+      <div class="step-num">الخطوة 1</div>
+      <div class="step-title">🕌 الطواف</div>
+      <div class="step-best">${sc.tawafKeys.length > 1 ? 'أفضل دور: ' : 'الدور: '}${best.tawafLabel}</div>
+      <div class="step-time" style="color:#fb923c">${Math.round(best.tawaf)} دق</div>
+      <div class="step-hint">عند الساعة ${String(best.hour).padStart(2,'0')}:00</div>
+    </div>
+    <div class="umrah-arrow">←</div>
+    <div class="umrah-step">
+      <div class="step-num">الخطوة 2</div>
+      <div class="step-title">🚶 السعي</div>
+      <div class="step-best">أفضل دور: ${best.saiLabel}</div>
+      <div class="step-time" style="color:#818cf8">${Math.round(best.sai)} دق</div>
+      <div class="step-hint">عند الساعة ${String(best.hour).padStart(2,'0')}:00</div>
+    </div>
+    <div class="umrah-arrow">=</div>
+    <div class="umrah-total">
+      <div class="tot-lbl">أقل وقت لإتمام عمرة كاملة</div>
+      <div class="tot-val">${Math.round(best.total)}</div>
+      <div class="tot-unit">دقيقة 🏆</div>
+      <div style="font-size:11px;color:#4ade80;margin-top:6px;">عند الساعة ${String(best.hour).padStart(2,'0')}:00</div>
+      <div style="font-size:11px;color:#f87171;margin-top:2px;">أسوأ: ${String(worst.hour).padStart(2,'0')}:00 — ${Math.round(worst.total)} دق</div>
+    </div>`;
+
+  // ── per-hour grid ──
+  document.getElementById('hourGridLabel').textContent =
+    `وقت العمرة الكاملة لكل ساعة — ${sc.label}:`;
+
+  const minTotal = Math.min(...hourly.map(h => h.total));
+  const maxTotal = Math.max(...hourly.map(h => h.total));
+
+  document.getElementById('umrahHourGrid').innerHTML = hourly.map(h => {
+    const isBest  = Math.round(h.total) === Math.round(minTotal);
+    const isWorst = Math.round(h.total) === Math.round(maxTotal);
+    const cls = isBest ? 'umrah-hour-card best-hour' : isWorst ? 'umrah-hour-card worst-hour' : 'umrah-hour-card';
+    const icon = isBest ? '🥇' : isWorst ? '🔴' : '';
+    const totalColor = h.total <= 90 ? '#4ade80' : h.total <= 115 ? '#fbbf24' : '#f87171';
+    return `
+      <div class="${cls}">
+        <div class="uhc-time">${icon} ${String(h.hour).padStart(2,'0')}:00</div>
+        <div class="uhc-total" style="color:${totalColor}">${Math.round(h.total)} دق</div>
+        <div class="uhc-detail">
+          🕌 ${h.tawafLabel}: ${Math.round(h.tawaf)} د<br>
+          🚶 ${h.saiLabel}: ${Math.round(h.sai)} د
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ─── BEST TIMES ───────────────────────────────────────────
+function renderBestTimes(data) {
+  const hours = [...new Set(data.map(r => r.hour))].sort((a, b) => a - b);
+
+  // ── combined avg per hour (all areas) ──
+  const hourAvgs = hours.map(h => {
+    const rows = data.filter(r => r.hour === h);
+    let sum = 0, cnt = 0;
+    AREAS.forEach(a => {
+      rows.forEach(r => { if (r[a.key] !== null) { sum += r[a.key]; cnt++; } });
+    });
+    return { hour: h, avg: cnt ? sum / cnt : null };
+  }).filter(h => h.avg !== null).sort((a, b) => a.avg - b.avg);
+
+  // ── hour ranking strip ──
+  const rankWrap = document.getElementById('hourRanking');
+  const medals = ['🥇', '🥈', '🥉'];
+  rankWrap.innerHTML = hourAvgs.map((h, i) => {
+    const bg = i < 3  ? 'border-color:#4ade80;background:#0d2318;'
+             : i >= hourAvgs.length - 3 ? 'border-color:#f87171;background:#2d0d0d;'
+             : '';
+    const rankLabel = i < 3 ? medals[i] : i >= hourAvgs.length - 3 ? '🔴' : '';
+    return `
+      <div class="hour-pill" style="${bg}">
+        <span class="hr-rank">${rankLabel || '#' + (i + 1)}</span>
+        <span class="hr-label">${String(h.hour).padStart(2,'0')}:00</span>
+        <span class="hr-val">${Math.round(h.avg)} د</span>
+      </div>`;
+  }).join('');
+
+  // ── per-area best/worst ──
+  const areaIcons = { masa_gnd:'🚶', masa_1st:'🚶', masa_2nd:'🚶', tawaf_roof:'🕌', tawaf_crt:'🕌', tawaf_gnd:'🕌', tawaf_1st:'🕌' };
+  const grid = document.getElementById('bestTimesGrid');
+  grid.innerHTML = AREAS.map(a => {
+    const hourData = hours.map(h => {
+      const rows = data.filter(r => r.hour === h && r[a.key] !== null);
+      const v = rows.map(r => r[a.key]);
+      const avg = v.length ? v.reduce((s,x) => s+x,0)/v.length : null;
+      return { hour: h, avg };
+    }).filter(h => h.avg !== null).sort((a, b) => a.avg - b.avg);
+
+    if (!hourData.length) return '';
+
+    const best  = hourData[0];
+    const worst = hourData[hourData.length - 1];
+
+    // find contiguous best window (hours within 5% of best)
+    const threshold = best.avg * 1.08;
+    const goodHours = hourData.filter(h => h.avg <= threshold).map(h => h.hour).sort((a,b)=>a-b);
+    const winStart = goodHours[0];
+    const winEnd   = goodHours[goodHours.length - 1];
+
+    return `
+      <div class="bt-area-card" style="border-right: 3px solid ${a.color}30;">
+        <div class="area-name" style="color:${a.color}">${areaIcons[a.key]} ${a.label}</div>
+        <div class="best-window">${String(winStart).padStart(2,'0')}:00 – ${String(winEnd).padStart(2,'0')}:59</div>
+        <div class="best-val">أسرع وقت إتمام: <strong style="color:#4ade80">${Math.round(best.avg)} دقيقة</strong> عند الساعة ${String(best.hour).padStart(2,'0')}:00</div>
+        <div class="worst-window">⚠️ أبطأ وقت: ${String(worst.hour).padStart(2,'0')}:00 — ${Math.round(worst.avg)} دقيقة</div>
+      </div>`;
+  }).join('');
+
+  // ── recommendation banner ──
+  const bestHour  = hourAvgs[0];
+  const best3     = hourAvgs.slice(0, 3).map(h => String(h.hour).padStart(2,'0') + ':00').join('، ');
+  const worstHour = hourAvgs[hourAvgs.length - 1];
+  document.getElementById('recBanner').innerHTML = `
+    <div class="rec-icon">✅</div>
+    <div>
+      <h4>أفضل الأوقات للزيارة</h4>
+      <ul>
+        <li>أسرع وقت إتمام في اليوم: ساعة <strong style="color:#4ade80">${String(bestHour.hour).padStart(2,'0')}:00</strong> — متوسط ${Math.round(bestHour.avg)} دقيقة فقط لإتمام الشعيرة</li>
+        <li>أفضل 3 ساعات (أقل ازدحاماً): <strong style="color:#4ade80">${best3}</strong></li>
+        <li>المسعى الثاني دائماً الأسرع (25–35 دق) — يُنصح باستخدامه في أي وقت بدلاً من الأرضي أو الأول</li>
+        <li>المطاف الأرضي والأول: أسرع ما يكون بين منتصف الليل والساعة 2 صباحاً (50–60 دقيقة)</li>
+      </ul>
+    </div>`;
+
+  // ── warning banner ──
+  document.getElementById('warnBanner').innerHTML = `
+    <div class="warn-icon">⚠️</div>
+    <span>تجنب الساعة <strong>${String(worstHour.hour).padStart(2,'0')}:00</strong> — أعلى ازدحام في اليوم، متوسط وقت الإتمام ${Math.round(worstHour.avg)} دقيقة عبر كل المناطق</span>`;
+}
+
+// ─── DATA TABLE ───────────────────────────────────────────
+function badge(val, status) {
+  if (val === null) return '<span class="badge b-gray">غ.م</span>';
+  const cls = status === 'green' ? 'b-grn' : status === 'red' ? 'b-red' : 'b-gray';
+  return `<span class="badge ${cls}">${val} دق</span>`;
+}
+
+function renderTable(data, filtered = null) {
+  const rows = filtered || data;
+  document.getElementById('rowCount').textContent = `${rows.length} صف`;
+  document.getElementById('tblBody').innerHTML = rows.map(r => `
+    <tr>
+      <td style="font-family:monospace;color:var(--muted)">${r.timeStr}</td>
+      <td>${badge(r.masa_gnd,   r.s_masa_gnd)}</td>
+      <td>${badge(r.masa_1st,   r.s_masa_1st)}</td>
+      <td>${badge(r.masa_2nd,   r.s_masa_2nd)}</td>
+      <td>${badge(r.tawaf_roof, r.s_tawaf_roof)}</td>
+      <td>${badge(r.tawaf_crt,  r.s_tawaf_crt)}</td>
+      <td>${badge(r.tawaf_gnd,  r.s_tawaf_gnd)}</td>
+      <td>${badge(r.tawaf_1st,  r.s_tawaf_1st)}</td>
+    </tr>`).join('');
+}
+
+function applyFilter() {
+  const s = document.getElementById('tStart').value;
+  const e = document.getElementById('tEnd').value;
+  renderTable(allData, allData.filter(r => r.timeStr >= s && r.timeStr <= e));
+}
+
+function resetFilter() {
+  document.getElementById('tStart').value = '00:00';
+  document.getElementById('tEnd').value   = '23:59';
+  renderTable(allData);
+}
+
+// ─── AUTO LOAD CSV ────────────────────────────────────────
+const CSV_FILE = 'haram_data_2026-02-26.csv';
+
+fetch(CSV_FILE)
+  .then(r => {
+    if (!r.ok) throw new Error(`HTTP ${r.status} — تعذّر تحميل ${CSV_FILE}`);
+    return r.text();
+  })
+  .then(text => {
+    renderAll(parseCSV(text));
+  })
+  .catch(err => {
+    document.getElementById('loadMsg').style.display = 'none';
+    const el = document.getElementById('loadErr');
+    el.style.display = 'block';
+    el.textContent = 'خطأ: ' + err.message + ' — تأكد أن الملف موجود في نفس المجلد';
+    document.getElementById('hdrSub').textContent = 'فشل تحميل البيانات';
+  });
+</script>
+
+</body>
+</html>
