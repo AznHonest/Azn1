@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>W**** - استبيان أساسيات البيت</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --white: #FFFFFF;
+            --off-white: #F7F7F5;
+            --light-gray: #EFEFED;
+            --mid-gray: #C8C8C4;
+            --dark-gray: #6B6B67;
+            --near-black: #1A1A18;
+            --black: #0D0D0B;
+            --accent: #2D2D2B;
+            --border: #E2E2DE;
+            --text-primary: #1A1A18;
+            --text-secondary: #6B6B67;
+            --text-muted: #A0A09C;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--off-white);
+            min-height: 100vh;
+            direction: rtl;
+            overflow-x: hidden;
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── HEADER ── */
+        .header {
+            background: var(--black);
+            padding: 0 40px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo-wordmark {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+        }
+
+        .header-label {
+            font-size: 0.72rem;
+            font-weight: 400;
+            color: #888;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        /* ── PROGRESS ── */
+        .progress-bar-outer {
+            height: 2px;
+            background: var(--border);
+            width: 100%;
+            position: sticky;
+            top: 64px;
+            z-index: 199;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--near-black);
+            transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .progress-meta {
+            background: var(--white);
+            padding: 12px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 66px;
+            z-index: 198;
+        }
+
+        .progress-label {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .progress-count {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            color: var(--text-secondary);
+            font-family: 'Courier Prime', monospace;
+        }
+
+        /* ── CONTAINER ── */
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 24px 100px;
+        }
+
+        /* ── QUESTION CARD ── */
+        .question-card {
+            display: none;
+            animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .question-card.active {
+            display: block;
+        }
+
+        .question-card.exit {
+            animation: fadeDown 0.3s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        /* ── INTRO BLOCK ── */
+        .intro-block {
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .intro-tag {
+            display: inline-block;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            margin-bottom: 24px;
+        }
+
+        .intro-block p {
+            font-size: 1.0rem;
+            line-height: 1.85;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+
+        .intro-block p:last-child { margin-bottom: 0; }
+
+        .intro-block strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .highlight-pill {
+            display: inline-block;
+            background: var(--near-black);
+            color: var(--white);
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 6px 14px;
+            margin-top: 8px;
+        }
+
+        /* ── QUESTION NUMBER ── */
+        .question-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .q-number {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .q-divider {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── QUESTION TEXT ── */
+        .question-text {
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.45;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .question-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        /* ── OPTIONS ── */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-top: 32px;
+        }
+
+        .options-grid.two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+        }
+
+        .option-btn {
+            background: var(--white);
+            border: none;
+            padding: 20px 24px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.0rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+            text-align: right;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-btn:hover {
+            background: var(--off-white);
+        }
+
+        .option-btn.selected {
+            background: var(--near-black);
+            color: var(--white);
+        }
+
+        /* ── CHECKBOXES ── */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-top: 32px;
+        }
+
+        .checkbox-item {
+            background: var(--white);
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .checkbox-item:hover {
+            background: var(--off-white);
+        }
+
+        .checkbox-item.selected {
+            background: var(--near-black);
+            color: var(--white);
+        }
+
+        .checkbox-box {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid var(--mid-gray);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            background: transparent;
+        }
+
+        .checkbox-item.selected .checkbox-box {
+            border-color: #fff;
+            background: transparent;
+        }
+
+        .checkbox-item.selected .checkbox-box::after {
+            content: '✕';
+            color: var(--white);
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+
+        /* ── TEXT INPUT ── */
+        .text-input {
+            width: 100%;
+            padding: 18px 20px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.0rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            transition: border-color 0.15s ease;
+            border-radius: 0;
+            -webkit-appearance: none;
+        }
+
+        .text-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--near-black);
+            background: var(--white);
+        }
+
+        .inputs-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-top: 32px;
+        }
+
+        /* ── PRODUCTS GRID ── */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-top: 32px;
+        }
+
+        .product-item {
+            background: var(--white);
+            padding: 22px 16px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .product-item:hover {
+            background: var(--off-white);
+        }
+
+        .product-item.selected {
+            background: var(--near-black);
+            color: var(--white);
+        }
+
+        .product-emoji {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* ── BRANDS CONTAINER ── */
+        #brands-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 32px;
+            border: 1px solid var(--border);
+            background: var(--border);
+        }
+
+        #brands-container > div {
+            background: var(--white);
+        }
+
+        #brands-container label {
+            display: block;
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-family: 'Courier Prime', monospace;
+            padding: 14px 20px 0;
+        }
+
+        #brands-container .text-input {
+            border: none;
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px 14px;
+        }
+
+        #brands-container .text-input:focus {
+            border-bottom-color: var(--near-black);
+        }
+
+        /* ── NAV BUTTONS ── */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+
+        .nav-btn {
+            padding: 16px 36px;
+            border: none;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            letter-spacing: 0.04em;
+            border-radius: 0;
+        }
+
+        .nav-btn.prev {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .nav-btn.prev:hover:not(:disabled) {
+            border-color: var(--near-black);
+            color: var(--near-black);
+        }
+
+        .nav-btn.next {
+            background: var(--near-black);
+            color: var(--white);
+            flex: 1;
+            max-width: 280px;
+        }
+
+        .nav-btn.next:hover:not(:disabled) {
+            opacity: 0.85;
+        }
+
+        .nav-btn.submit {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ── LOADING ── */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 100px 40px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .loading-line {
+            display: inline-block;
+            width: 48px;
+            height: 2px;
+            background: var(--near-black);
+            margin-bottom: 32px;
+            animation: loadingPulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes loadingPulse {
+            0%, 100% { transform: scaleX(1); opacity: 1; }
+            50% { transform: scaleX(2.5); opacity: 0.4; }
+        }
+
+        .loading p {
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-family: 'Courier Prime', monospace;
+        }
+
+        /* ── RESULTS ── */
+        .results-page {
+            display: none;
+            padding: 60px 0;
+        }
+
+        .results-page.active {
+            display: block;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .result-header-block {
+            background: var(--black);
+            padding: 60px 40px;
+            margin-bottom: 1px;
+            text-align: center;
+        }
+
+        .result-tag {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            color: #888;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 24px;
+        }
+
+        .result-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .result-desc {
+            font-size: 1.0rem;
+            line-height: 1.85;
+            color: #AAAAAA;
+            max-width: 520px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        .result-reward-block {
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .reward-eyebrow {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .reward-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .reward-desc {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .header { padding: 0 20px; }
+            .progress-meta { padding: 10px 20px; }
+            .container { padding: 40px 16px 80px; }
+            .nav-buttons { padding: 0 16px 40px; }
+            .question-text { font-size: 1.35rem; }
+            .options-grid.two-col,
+            .checkbox-grid,
+            .products-grid { grid-template-columns: 1fr; }
+            .nav-buttons { flex-direction: column-reverse; gap: 8px; }
+            .nav-btn { width: 100%; max-width: 100%; justify-content: center; text-align: center; }
+            .intro-block { padding: 24px; }
+            .result-header-block { padding: 40px 24px; }
+            .result-reward-block { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo-wordmark">W****</div>
+        <div class="header-label">استبيان ما قبل الإطلاق</div>
+    </header>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar-outer">
+        <div class="progress-fill" id="progress-fill" style="width: 6.25%"></div>
+    </div>
+    <div class="progress-meta">
+        <span class="progress-label">مسار الاستبيان</span>
+        <span class="progress-count" id="progress-text">01 / 16</span>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+
+        <!-- Q1 -->
+        <div class="question-card active" data-question="1">
+            <div class="intro-block">
+                <span class="intro-tag">سري — بيني وبينك</span>
+                <p>قرب قرب، أقولك لا يسمعنا أحد...</p>
+                <p>بعض المناديل والصوابين صارت أسعارها كأنها غوايش ذهب 😁<br>
+                والأغرب؟ إن الجودة بعد مو دايم تفتح النفس.</p>
+                <p>عشان كذا قاعدين نجهز <strong>براند سعودي جديد</strong> خفيف، جريء، ومحترم — يقدّم الأساسيات <strong>بجودة تفرق فعلًا وأسعار مناسبة.</strong></p>
+                <p>والاسم؟ بنخليه مفاجأة حالياً: <strong>W****</strong><br>وبلهجتنا يعني شيء <strong>جميل ومرتب</strong> 😁</p>
+                <span class="highlight-pill">أول ١٠٠٠ مشارك يحصلون صندوق ابتكارات W**** الغامض قبل الجميع</span>
+            </div>
+
+            <div class="question-meta">
+                <span class="q-number">سؤال — ٠١</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">خلنا ندخل في الزبدة 😁</h3>
+            <div class="inputs-stack">
+                <input type="text" class="text-input" id="firstName" placeholder="الاسم وش ينادوك اللي تحبهم به">
+                <input type="tel" class="text-input" id="phone" placeholder="رقم الجوال لو حاب توصلك أخبار الإطلاق (اختياري)">
+            </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question-card" data-question="2">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ٠٢</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text" id="age-question-text">في أي مرحلة أنت؟</h3>
+            <div class="options-grid two-col">
+                <button class="option-btn" data-value="15-25">١٥ – ٢٥ سنة</button>
+                <button class="option-btn" data-value="25-34">٢٥ – ٣٤ سنة</button>
+                <button class="option-btn" data-value="35-44">٣٥ – ٤٤ سنة</button>
+                <button class="option-btn" data-value="45-54">٤٥ – ٥٤ سنة</button>
+                <button class="option-btn" data-value="55+">٥٥+ سنة</button>
+                <button class="option-btn" data-value="prefer-not">أفضل عدم الإجابة</button>
+            </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question-card" data-question="3">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ٠٣</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">كم عدد أفراد أسرتك في المنزل؟</h3>
+            <div class="options-grid two-col">
+                <button class="option-btn" data-value="1-2">١ – ٢ أفراد</button>
+                <button class="option-btn" data-value="3-4">٣ – ٤ أفراد</button>
+                <button class="option-btn" data-value="5-6">٥ – ٦ أفراد</button>
+                <button class="option-btn" data-value="7+">٧+ أفراد</button>
+            </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question-card" data-question="4">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ٠٤</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">من أي مدينة؟</h3>
+            <div class="inputs-stack" style="margin-top: 32px;">
+                <input type="text" class="text-input" id="city" placeholder="اكتب اسم مدينتك...">
+            </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question-card" data-question="5">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ٠٥</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">في البيت... من غالبًا يمسك قرار الشراء؟</h3>
+            <p class="question-subtitle">تقدر تختار أكثر من خيار</p>
+            <div class="checkbox-grid">
+                <div class="checkbox-item" data-value="mother"><div class="checkbox-box"></div><span>الأم</span></div>
+                <div class="checkbox-item" data-value="father"><div class="checkbox-box"></div><span>الأب</span></div>
+                <div class="checkbox-item" data-value="consultation"><div class="checkbox-box"></div><span>تشاور عائلي</span></div>
+                <div class="checkbox-item" data-value="daughter"><div class="checkbox-box"></div><span>البنت الكبيرة</span></div>
+                <div class="checkbox-item" data-value="son"><div class="checkbox-box"></div><span>الولد الكبير</span></div>
+                <div class="checkbox-item" data-value="maid"><div class="checkbox-box"></div><span>العاملة المنزلية</span></div>
+            </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question-card" data-question="6">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ٠٦</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">من وين تتسوّقون عادةً؟</h3>
+            <p class="question-subtitle">تقدر تختار أكثر من خيار</p>
+            <div class="checkbox-grid">
+                <div class="checkbox-item" data-value="online"><div class="checkbox-box"></div><span>متاجر إلكترونية</span></div>
+                <div class="checkbox-item" data-value="hypermarket"><div class="checkbox-box"></div><span>هايبر / سوبر ماركت</span></div>
+                <div class="checkbox-item" data-value="grocery"><div class="checkbox-box"></div><span>تموينات الحي</span></div>
+                <div class="checkbox-item" data-value="delivery"><div class="checkbox-box"></div><span>تطبيقات توصيل</span></div>
+                <div class="checkbox-item" data-value="cleaning"><div class="checkbox-box"></div><span>محلات منظفات</span></div>
+                <div class="checkbox-item" data-value="wholesale"><div class="checkbox-box"></div><span>شراء بالجملة</span></div>
+            </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="question-card" data-question="7">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ٠٧</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">كيف تفضل تشتري أساسيات البيت؟</h3>
+            <div class="options-grid">
+                <button class="option-btn" data-value="monthly">تسوق شهري دوري</button>
+                <button class="option-btn" data-value="weekly">تسوق أسبوعي</button>
+                <button class="option-btn" data-value="when-needed">عند الحاجة فقط</button>
+                <button class="option-btn" data-value="auto-order">طلب تلقائي / دوري</button>
+            </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question-card" data-question="8">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ٠٨</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">إذا جيت تختار منتج... وش سلوكك الغالب؟</h3>
+            <div class="options-grid">
+                <button class="option-btn" data-value="brand">آخذ الماركة المعتادة بدون مقارنة</button>
+                <button class="option-btn" data-value="compare">أقارن بين الماركات قبل أقرر</button>
+                <button class="option-btn" data-value="offer">أمشي مع العرض الأفضل</button>
+                <button class="option-btn" data-value="new">أحب أجرب الجديد</button>
+            </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="question-card" data-question="9">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ٠٩</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">وش أهم شيء يفرق معك وقت اختيار العلامة؟</h3>
+            <p class="question-subtitle">تقدر تختار أكثر من خيار</p>
+            <div class="checkbox-grid">
+                <div class="checkbox-item" data-value="quality"><div class="checkbox-box"></div><span>الجودة والفعالية</span></div>
+                <div class="checkbox-item" data-value="price"><div class="checkbox-box"></div><span>السعر المناسب</span></div>
+                <div class="checkbox-item" data-value="safety"><div class="checkbox-box"></div><span>الأمان والمكونات</span></div>
+                <div class="checkbox-item" data-value="scent"><div class="checkbox-box"></div><span>الرائحة والانتعاش</span></div>
+                <div class="checkbox-item" data-value="availability"><div class="checkbox-box"></div><span>التوفر الدائم</span></div>
+                <div class="checkbox-item" data-value="size-value"><div class="checkbox-box"></div><span>حجم العبوة مقابل السعر</span></div>
+                <div class="checkbox-item" data-value="habit"><div class="checkbox-box"></div><span>التعود على العلامة</span></div>
+                <div class="checkbox-item" data-value="recommendation"><div class="checkbox-box"></div><span>توصية من شخص أثق فيه</span></div>
+            </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="question-card" data-question="10">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ١٠</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">إذا ما لقيت الماركة المعتادة، غالبًا وش تسوي؟</h3>
+            <div class="options-grid">
+                <button class="option-btn" data-value="search">أدورها في متجر ثاني</button>
+                <button class="option-btn" data-value="alternative">آخذ أقرب بديل</button>
+                <button class="option-btn" data-value="cheapest">آخذ الأرخص الموجود</button>
+                <button class="option-btn" data-value="postpone">أأجل الشراء</button>
+            </div>
+        </div>
+
+        <!-- Q11 -->
+        <div class="question-card" data-question="11">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ١١</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">في المنظفات والصوابين... وش تفضل أكثر؟</h3>
+            <div class="options-grid two-col">
+                <button class="option-btn" data-value="large">عبوات كبيرة واقتصادية</button>
+                <button class="option-btn" data-value="small">عبوات صغيرة وسهلة الاستخدام</button>
+            </div>
+        </div>
+
+        <!-- Q12 -->
+        <div class="question-card" data-question="12">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ١٢</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">قد إيش أنت مستعد تجرب ماركة جديدة؟</h3>
+            <div class="options-grid">
+                <button class="option-btn" data-value="very">مستعد جدًا</button>
+                <button class="option-btn" data-value="somewhat">مستعد إلى حد ما</button>
+                <button class="option-btn" data-value="neutral">متردد</button>
+                <button class="option-btn" data-value="not">غير مستعد</button>
+            </div>
+        </div>
+
+        <!-- Q13 -->
+        <div class="question-card" data-question="13">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ١٣</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">وش أكثر شيء يخليك تغيّر الماركة اللي متعود عليها؟</h3>
+            <div class="options-grid">
+                <button class="option-btn" data-value="price">فرق سعر واضح</button>
+                <button class="option-btn" data-value="quality">جودة أعلى بوضوح</button>
+                <button class="option-btn" data-value="safety">مكونات أكثر أمانًا</button>
+                <button class="option-btn" data-value="package">عبوة أوفر وأكثر عملية</button>
+                <button class="option-btn" data-value="recommendation">توصية من شخص أثق فيه</button>
+            </div>
+        </div>
+
+        <!-- Q14 -->
+        <div class="question-card" data-question="14">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ١٤</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">قد إيش العروض والتخفيضات تأثر على قرارك؟</h3>
+            <div class="options-grid">
+                <button class="option-btn" data-value="high">تأثر جدًا</button>
+                <button class="option-btn" data-value="medium">تأثر أحيانًا</button>
+                <button class="option-btn" data-value="low">تأثيرها محدود</button>
+                <button class="option-btn" data-value="none">غالبًا ما تفرق معي</button>
+            </div>
+        </div>
+
+        <!-- Q15 -->
+        <div class="question-card" data-question="15">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ١٥</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">وش الأشياء اللي غالبًا موجودة عندكم في البيت؟</h3>
+            <p class="question-subtitle">تقدر تختار أكثر من خيار</p>
+            <div class="products-grid">
+                <div class="product-item" data-value="tissues"><span class="product-emoji">📄</span><span>مناديل</span></div>
+                <div class="product-item" data-value="kitchen-towels"><span class="product-emoji">🧻</span><span>مناديل مطبخ</span></div>
+                <div class="product-item" data-value="hand-soap"><span class="product-emoji">🧴</span><span>صابون يدين</span></div>
+                <div class="product-item" data-value="dish-soap"><span class="product-emoji">🍽️</span><span>صابون صحون</span></div>
+                <div class="product-item" data-value="shampoo"><span class="product-emoji">🫧</span><span>شامبو</span></div>
+                <div class="product-item" data-value="laundry-soap"><span class="product-emoji">👕</span><span>منظف ملابس</span></div>
+                <div class="product-item" data-value="fabric-softener"><span class="product-emoji">🌸</span><span>منعم ملابس</span></div>
+                <div class="product-item" data-value="disinfectants"><span class="product-emoji">🦠</span><span>معقمات</span></div>
+                <div class="product-item" data-value="floor-cleaner"><span class="product-emoji">🧹</span><span>منظف أرضيات</span></div>
+                <div class="product-item" data-value="wet-wipes"><span class="product-emoji">🧽</span><span>مناديل مبللة</span></div>
+                <div class="product-item" data-value="trash-bags"><span class="product-emoji">🗑️</span><span>أكياس نفايات</span></div>
+                <div class="product-item" data-value="stain-remover"><span class="product-emoji">🎯</span><span>مزيل بقع</span></div>
+            </div>
+        </div>
+
+        <!-- Q16 -->
+        <div class="question-card" data-question="16">
+            <div class="question-meta">
+                <span class="q-number">سؤال — ١٦</span>
+                <div class="q-divider"></div>
+            </div>
+            <h3 class="question-text">وش الماركات اللي تحبها في هذي الأشياء؟</h3>
+            <p class="question-subtitle">اختياري — اكتب الماركة لكل عنصر اخترته</p>
+            <div id="brands-container"></div>
+        </div>
+
+        <!-- LOADING -->
+        <div class="loading" id="loading">
+            <div class="loading-line"></div>
+            <p>جاري معالجة إجاباتك</p>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="results-page" id="results">
+            <div class="result-header-block">
+                <span class="result-tag">W**** — شكرًا لمشاركتك</span>
+                <h2 class="result-title">وصلت إجاباتك</h2>
+                <p class="result-desc">ساعدتنا نفهم بشكل أوضح كيف يختار البيت السعودي أساسياته اليومية. رأيك يفرق معنا فعلًا من البداية.</p>
+            </div>
+            <div class="result-reward-block">
+                <span class="reward-eyebrow">Early Access</span>
+                <h3 class="reward-title">أنت من أوائل الناس اللي شاركونا</h3>
+                <p class="reward-desc">إذا تركت رقمك، ممكن نرجع لك أول ما نكون جاهزين للإطلاق، ونشاركك الأخبار والعروض الأولى قبل الإعلان الكامل عن W****.</p>
+            </div>
+        </div>
+
+    </div><!-- /container -->
+
+    <!-- NAV BUTTONS -->
+    <div class="nav-buttons" id="nav-buttons">
+        <button class="nav-btn prev" id="prevBtn" type="button">→ عودة</button>
+        <button class="nav-btn next" id="nextBtn" type="button">استمرار ←</button>
+    </div>
+
+    <script>
+        const totalQuestions = 16;
+        let currentQuestion = 1;
+
+        const answers = {
+            firstName: '', phone: '', city: '', age: '',
+            familySize: '', decisionMakers: [], shoppingPlaces: [],
+            shoppingStyle: '', buyingBehavior: '', brandFactors: [],
+            unavailableBrandReaction: '', packagePreference: '',
+            opennessToNew: '', switchReason: '', offersImpact: '',
+            regularProducts: [], brands: {}
+        };
+
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+        const navButtons = document.getElementById('nav-buttons');
+        const brandsContainer = document.getElementById('brands-container');
+
+        const productLabels = {
+            tissues: 'المناديل', 'kitchen-towels': 'مناديل المطبخ',
+            'hand-soap': 'صابون اليدين', 'dish-soap': 'صابون الصحون',
+            shampoo: 'الشامبو', 'laundry-soap': 'منظف الملابس',
+            'fabric-softener': 'منعم الملابس', disinfectants: 'المعقمات',
+            'floor-cleaner': 'منظف الأرضيات', 'wet-wipes': 'المناديل المبللة',
+            'trash-bags': 'أكياس النفايات', 'stain-remover': 'مزيل البقع'
+        };
+
+        function padNum(n) {
+            return n < 10 ? '0' + n : '' + n;
+        }
+
+        function showQuestion(index) {
+            document.querySelectorAll('.question-card').forEach(c => c.classList.remove('active'));
+            const active = document.querySelector(`.question-card[data-question="${index}"]`);
+            if (active) active.classList.add('active');
+
+            const pct = (index / totalQuestions) * 100;
+            progressFill.style.width = `${pct}%`;
+            progressText.textContent = `${padNum(index)} / ${padNum(totalQuestions)}`;
+
+            prevBtn.disabled = index === 1;
+            const isLast = index === totalQuestions;
+            nextBtn.textContent = isLast ? 'إرسال الاستبيان ←' : 'استمرار ←';
+            nextBtn.classList.toggle('submit', isLast);
+
+            if (isLast) renderBrandInputs();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderBrandInputs() {
+            const selected = answers.regularProducts;
+            brandsContainer.innerHTML = '';
+
+            if (!selected.length) {
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = `
+                    <label>ملاحظات عامة</label>
+                    <input type="text" class="text-input" id="generalBrandNote" placeholder="إذا حبيت، اكتب أي ماركات تفضلها بشكل عام...">
+                `;
+                brandsContainer.appendChild(wrapper);
+                document.getElementById('generalBrandNote')?.addEventListener('input', e => { answers.brands.general = e.target.value; });
+                return;
+            }
+
+            selected.forEach(key => {
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = `
+                    <label>${productLabels[key]}</label>
+                    <input type="text" class="text-input" data-brand-key="${key}" placeholder="اكتب الماركة المفضلة...">
+                `;
+                brandsContainer.appendChild(wrapper);
+            });
+
+            brandsContainer.querySelectorAll('input[data-brand-key]').forEach(input => {
+                input.addEventListener('input', e => {
+                    answers.brands[e.target.dataset.brandKey] = e.target.value;
+                });
+            });
+        }
+
+        function collectCurrentQuestionData() {
+            answers.firstName = document.getElementById('firstName')?.value.trim() || answers.firstName;
+            answers.phone = document.getElementById('phone')?.value.trim() || answers.phone;
+            answers.city = document.getElementById('city')?.value.trim() || answers.city;
+            updateDynamicText();
+        }
+
+        function updateDynamicText() {
+            const el = document.getElementById('age-question-text');
+            if (!el) return;
+            const name = document.getElementById('firstName')?.value.trim() || answers.firstName || '';
+            el.textContent = name ? `طيب يا ${name}... في أي مرحلة أنت؟` : 'في أي مرحلة أنت؟';
+        }
+
+        function nextQuestion() {
+            collectCurrentQuestionData();
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                updateDynamicText();
+                showQuestion(currentQuestion);
+            } else {
+                submitSurvey();
+            }
+        }
+
+        function prevQuestion() {
+            collectCurrentQuestionData();
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function submitSurvey() {
+            collectCurrentQuestionData();
+            document.querySelectorAll('.question-card').forEach(c => c.classList.remove('active'));
+            navButtons.style.display = 'none';
+            loading.classList.add('active');
+            setTimeout(() => {
+                loading.classList.remove('active');
+                results.classList.add('active');
+                console.log('Survey answers:', answers);
+            }, 1200);
+        }
+
+        prevBtn.addEventListener('click', prevQuestion);
+        nextBtn.addEventListener('click', nextQuestion);
+
+        document.querySelectorAll('.question-card').forEach(card => {
+            const q = Number(card.dataset.question);
+
+            card.querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.parentElement.querySelectorAll('.option-btn').forEach(s => s.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    const v = btn.dataset.value;
+                    if (q === 2) answers.age = v;
+                    if (q === 3) answers.familySize = v;
+                    if (q === 7) answers.shoppingStyle = v;
+                    if (q === 8) answers.buyingBehavior = v;
+                    if (q === 10) answers.unavailableBrandReaction = v;
+                    if (q === 11) answers.packagePreference = v;
+                    if (q === 12) answers.opennessToNew = v;
+                    if (q === 13) answers.switchReason = v;
+                    if (q === 14) answers.offersImpact = v;
+                });
+            });
+
+            card.querySelectorAll('.checkbox-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.toggle('selected');
+                    const v = item.dataset.value;
+                    let arr = [];
+                    if (q === 5) arr = answers.decisionMakers;
+                    if (q === 6) arr = answers.shoppingPlaces;
+                    if (q === 9) arr = answers.brandFactors;
+                    if (arr.includes(v)) arr.splice(arr.indexOf(v), 1);
+                    else arr.push(v);
+                });
+            });
+
+            card.querySelectorAll('.product-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.toggle('selected');
+                    const v = item.dataset.value;
+                    const arr = answers.regularProducts;
+                    if (arr.includes(v)) { arr.splice(arr.indexOf(v), 1); delete answers.brands[v]; }
+                    else arr.push(v);
+                });
+            });
+        });
+
+        showQuestion(currentQuestion);
+    </script>
+</body>
+</html>
