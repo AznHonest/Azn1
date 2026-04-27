@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>بطائق المراجعة المركزة - اختبار المحاماة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f0f2f5 0%, #e6e9f0 100%);
+            font-family: 'Cairo', 'Segoe UI', 'Tahoma', system-ui, -apple-system, sans-serif;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        /* الحاوية الرئيسية للبطاقات */
+        .cards-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 2rem;
+            justify-items: center;
+            align-items: start;
+        }
+
+        /* تنسيق البطاقة (Flip Card) */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            max-width: 400px;
+            height: 380px;
+            perspective: 1500px;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            border-radius: 32px;
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* الوجه الأمامي والخلفي */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 32px;
+            padding: 1.6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        /* الوجه الأمامي (عنوان البطاقة) */
+        .card-front {
+            background: linear-gradient(135deg, #1e2b3c, #0f1a24);
+            color: white;
+            border: 1px solid rgba(255,255,240,0.15);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .card-front h2 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            letter-spacing: -0.5px;
+            line-height: 1.3;
+        }
+
+        .card-front .tag {
+            background: rgba(255,215,120,0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #ffdf8c;
+            margin-top: 0.5rem;
+        }
+
+        .card-front .flip-icon {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            background: rgba(255,255,255,0.1);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+        }
+
+        /* الوجه الخلفي (المحتوى المفصل) */
+        .card-back {
+            background: #fffef7;
+            background-image: radial-gradient(circle at 10% 20%, rgba(245, 240, 220, 0.4) 2%, transparent 2.5%);
+            background-size: 20px 20px;
+            transform: rotateY(180deg);
+            border: 1px solid #e9e0c7;
+            justify-content: flex-start;
+            overflow-y: auto;
+            text-align: right;
+            color: #1f2a3a;
+            font-weight: 500;
+        }
+
+        .card-back h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-right: 6px solid #c29b3b;
+            padding-right: 12px;
+            margin-bottom: 1rem;
+            color: #1e2b3c;
+            width: 100%;
+        }
+
+        .card-back .content {
+            width: 100%;
+            font-size: 0.98rem;
+            line-height: 1.55;
+            color: #2c3e44;
+        }
+
+        .card-back .content p {
+            margin-bottom: 0.8rem;
+        }
+
+        .card-back .content strong, .card-back .content b {
+            color: #a5772a;
+            font-weight: 700;
+        }
+
+        .card-back .divider {
+            height: 2px;
+            background: linear-gradient(90deg, #e0cfaa, transparent);
+            width: 100%;
+            margin: 0.8rem 0;
+        }
+
+        .card-back ul, .card-back .grid-list {
+            text-align: right;
+            padding-right: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .card-back li {
+            margin: 0.5rem 0;
+        }
+
+        /* عنوان رئيسي في الأعلى */
+        .exam-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .exam-header h1 {
+            font-size: 2.2rem;
+            color: #1f2a3e;
+            background: rgba(255,255,245,0.7);
+            backdrop-filter: blur(4px);
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            border-radius: 60px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            font-weight: 800;
+        }
+
+        .exam-header p {
+            margin-top: 0.8rem;
+            color: #2c4b3e;
+            font-weight: 600;
+        }
+
+        /* تذييل */
+        .footer-note {
+            text-align: center;
+            margin-top: 3rem;
+            color: #4a5b6e;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem;
+            }
+            .flip-card {
+                height: 420px;
+            }
+            .card-front h2 {
+                font-size: 1.5rem;
+            }
+            .card-back {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="exam-header">
+    <h1>⚖️ بطائق المراجعة المركزة</h1>
+    <p>✧ القتل العمد، شبه العمد، الخطأ | الركن المادي | أنواع الجرائم | العقوبات | الجريمة المستحيلة | الشروع | الخطأ | أنواع القصد ✧</p>
+</div>
+
+<div class="cards-grid" id="cardsContainer"></div>
+<div class="footer-note">
+    🔄 اضغط على أي بطاقة لقلبها وعرض التفاصيل — مراجعة سريعة قبل الاختبار 🔄
+</div>
+
+<script>
+    // بيانات البطاقات بناءً على المختصر المطلوب بالضبط
+    const flashcards = [
+        { // 1
+            title: "القتل العمد",
+            backContent: `
+                <h3>📌 القتل العمد</h3>
+                <div class="content">
+                    <p><strong>التعريف:</strong> أن <strong>يقصد الجاني الفعل المحرم (مثل الضرب أو الطعن) ويقصد النتيجة (الموت)</strong> مع العلم والإرادة.</p>
+                    <div class="divider"></div>
+                    <p><strong>العقوبة الأصلية:</strong> القصاص.</p>
+                    <p><strong>مثال:</strong> يطلق النار على شخص بهدف إزهاق روحه فيموت.</p>
+                    <p><strong>في الفقه:</strong> إرادة الجاني تتجه إلى الفعل والنتيجة معاً.</p>
+                </div>
+            `
+        },
+        { // 2
+            title: "القتل شبه العمد",
+            backContent: `
+                <h3>⚖️ القتل شبه العمد</h3>
+                <div class="content">
+                    <p><strong>التعريف:</strong> <strong>يقصد الجاني الفعل (الاعتداء) لكنه لا يريد النتيجة (الموت)</strong>. يُسمى في الأنظمة الوضعية "الضرب المفضي للموت".</p>
+                    <div class="divider"></div>
+                    <p><strong>العقوبة:</strong> الدية (عقوبة بديلة).</p>
+                    <p><strong>مثال:</strong> يضرب شخصاً بعصا خفيفة بقصد التأديب أو الإيذاء البسيط، ولكن يؤدي ذلك إلى وفاته.</p>
+                    <p><strong>الحكم:</strong> مزيج بين العمد والخطأ.</p>
+                </div>
+            `
+        },
+        { // 3
+            title: "القتل الخطأ",
+            backContent: `
+                <h3>⚠️ القتل الخطأ</h3>
+                <div class="content">
+                    <p><strong>التعريف:</strong> <strong>يتخلف فيه القصد الجرمي</strong>، حيث يحدث الموت نتيجة <strong>إخلال الجاني بواجب الحيطة والحذر</strong>.</p>
+                    <div class="divider"></div>
+                    <p><strong>عناصر الخطأ:</strong></p>
+                    <ul>
+                        <li><strong>الإخلال بواجب الحيطة والحذر</strong> (مخالفة الأنظمة أو الإهمال).</li>
+                        <li><strong>العلاقة الذهنية:</strong> عدم توقع النتيجة أو توقعها مع الاعتقاد الخطأ بالقدرة على تجنبها.</li>
+                    </ul>
+                    <p><strong>العقوبة:</strong> الدية.</p>
+                    <p><strong>مثال:</strong> يرمي صيداً فيصيب إنساناً، أو ينقلب نائماً على طفل صغير.</p>
+                </div>
+            `
+        },
+        { // 4
+            title: "الركن المادي للجريمة",
+            backContent: `
+                <h3>🧱 الركن المادي</h3>
+                <div class="content">
+                    <p>هو الجانب المادي الملموس للجريمة، ويتكون من <strong>ثلاثة عناصر أساسية</strong>:</p>
+                    <ol style="margin-top: 8px;">
+                        <li><strong>السلوك الإجرامي</strong> (نشاط إيجابي كالقتل، أو نشاط سلبي كالامتناع عن إنقاذ).</li>
+                        <li><strong>النتيجة الجرمية</strong> (الأثر الضار: الموت، الجرح، الضرر).</li>
+                        <li><strong>العلاقة السببية</strong>: الربط بين السلوك والنتيجة؛ إذا انقطعت تنتفي المسؤولية.</li>
+                    </ol>
+                    <div class="divider"></div>
+                    <p>مثال انقطاع السببية: شخص أطلق عياراً خفيفاً وآخر ذبح المجني عليه، فيسأل الثاني فقط عن الوفاة.</p>
+                </div>
+            `
+        },
+        { // 5
+            title: "أنواع الجرائم (نتيجة / استمرار)",
+            backContent: `
+                <h3>📂 تصنيف الجرائم</h3>
+                <div class="content">
+                    <p><strong>حسب النتيجة:</strong></p>
+                    <ul>
+                        <li><strong>جرائم مادية:</strong> تشترط نتيجة مادية ضارة (مثل القتل، السرقة).</li>
+                        <li><strong>جرائم شكلية (سلوك):</strong> تكتمل بمجرد السلوك (حمل سلاح دون ترخيص).</li>
+                    </ul>
+                    <p><strong>حسب الاستمرار:</strong></p>
+                    <ul>
+                        <li><strong>وقتية (آنية):</strong> تنتهي فوراً (القتل).</li>
+                        <li><strong>مستمرة:</strong> تتجدد أركانها فترة من الزمن (حمل سلاح ناري).</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 6
+            title: "العقوبات الأصلية والبديلة والتبعية",
+            backContent: `
+                <h3>⚡ العقوبات</h3>
+                <div class="content">
+                    <p><strong>العقوبات الأصلية:</strong> مقررة أصلاً للجريمة (القصاص، قطع اليد، الجلد).</p>
+                    <p><strong>العقوبات البديلة:</strong> تحل محل الأصلية لعذر شرعي مثل الدية بدلاً من القصاص إذا عفا ولي الدم.</p>
+                    <p><strong>العقوبات التبعية:</strong> تلحق الجاني بقوة النظام دون حاجة للنص عليها في الحكم، مثل حرمان القاتل من الميراث.</p>
+                    <div class="divider"></div>
+                    <p>مثال بديل: القصاص ← الدية. مثال تبعي: الإيداع في المصحة للمدمن بشرط العالج.</p>
+                </div>
+            `
+        },
+        { // 7
+            title: "الجريمة المستحيلة",
+            backContent: `
+                <h3>❌ الجريمة المستحيلة</h3>
+                <div class="content">
+                    <p><strong>تعريفها:</strong> محاولة ارتكاب جريمة يستحيل تحقيق نتيجتها.</p>
+                    <p><strong>أسبابها:</strong></p>
+                    <ul>
+                        <li><strong>انعدام محل الجريمة:</strong> يطلق النار على شخص ميت أصلاً بقصد قتله.</li>
+                        <li><strong>عدم صلاحية الوسيلة:</strong> يستعمل سلاحاً فارغاً أو مادة غير سامة بقصد التسميم.</li>
+                    </ul>
+                    <p><strong>الفرق بينها وبين الشروع:</strong> في الشروع النتيجة ممكنة لكن تخلفت لظروف خارجية، أما المستحيلة فمحال تحقيقها.</p>
+                </div>
+            `
+        },
+        { // 8
+            title: "الشروع في الجريمة (تعريفه وأركانه)",
+            backContent: `
+                <h3>🔪 الشروع</h3>
+                <div class="content">
+                    <p><strong>تعريفه:</strong> البدء في تنفيذ الجريمة لكنها لا تتمم ولا تتحقق النتيجة لأسباب خارجة عن إرادة الجاني.</p>
+                    <p><strong>أركانه الثلاثة:</strong></p>
+                    <ol>
+                        <li><strong>البدء في التنفيذ:</strong> الانتقال من التحضير إلى الفعل التنفيذي (دخول الحوز للسرقة).</li>
+                        <li><strong>قصد إتمام الجريمة:</strong> اتجاه النية لإكمال الجريمة.</li>
+                        <li><strong>خيبة الأثر:</strong> توقف الجريمة أو عدم تحقق النتيجة بسبب خارج إرادته (كالشرطة، هروب الضحية).</li>
+                    </ol>
+                </div>
+            `
+        },
+        { // 9
+            title: "الخطأ (عناصره)",
+            backContent: `
+                <h3>⚠️ عناصر الخطأ</h3>
+                <div class="content">
+                    <p><strong>الخطأ هو الجريمة غير العمدية، ويتكون من:</strong></p>
+                    <p>1️⃣ <strong>الإخلال بواجب الحيطة والحذر:</strong> مخالفة الأنظمة أو الإهمال غير المبرر.</p>
+                    <p>2️⃣ <strong>العلاقة الذهنية والنفسية:</strong> عدم توقع النتيجة مع إمكانية توقعها، أو توقعها مع الاعتقاد الخاطئ بالقدرة على تجنبها.</p>
+                    <div class="divider"></div>
+                    <p><strong>مقارنة مع العمد:</strong> في العمد: يعلم الفعل والنتيجة ويريدهما. في الخطأ: لا يريد النتيجة وقد لا يعلم الفعل.</p>
+                </div>
+            `
+        },
+        { // 10
+            title: "القصد المباشر و القصد الاحتمالي",
+            backContent: `
+                <h3>🎯 القصد المباشر والاحتمالي</h3>
+                <div class="content">
+                    <p><strong>القصد المباشر:</strong> إرادة تتجه إلى نتيجة حتمية محددة، متيقن بحدوثها. (مثال: يطلق النار لقتل شخص فيموت).</p>
+                    <p><strong>القصد الاحتمالي:</strong> يتوقع النتيجة كأثر ممكن ويقبل بحدوثها، يجازف رغم توقع الضرر. (مثال: يضع قنبلة في طريق خصمه فتسبقها سيارة أخرى وتنفجر).</p>
+                    <div class="divider"></div>
+                    <p>الاحتمالي يُسأل عن النتيجة التي قبل حدوثها ولو لم تكن هدفه المباشر.</p>
+                </div>
+            `
+        },
+        { // 11
+            title: "القصد البسيط والقصد المبيت (سبق الإصرار)",
+            backContent: `
+                <h3>⏳ القصد البسيط ضد المبيت</h3>
+                <div class="content">
+                    <p><strong>القصد البسيط:</strong> إرادة فورية وليدة اللحظة، تنشأ وتُنفّذ مباشرة دون تخطيط مسبق (مثل مشاجرة تحدث في الحال).</p>
+                    <p><strong>القصد المبيت (سبق الإصرار):</strong> تخطيط مسبق وتفكير هادئ فترة من الزمن قبل التنفيذ، واختيار الزمان والمكان المناسبين.</p>
+                    <div class="divider"></div>
+                    <p>الفقه الإسلامي لا يفرق بينهما في عقوبة القتل العمد (كلاهما قصاص)، لكنهما يختلفان في درجة الخطورة والوصف.</p>
+                </div>
+            `
+        },
+        { // 12 (إضافي: الركن المعنوي + ملخص القصد وأنواع القتل)
+            title: "ملخص القصد + المقارنة السريعة",
+            backContent: `
+                <h3>📋 الخلاصة النهائية</h3>
+                <div class="content">
+                    <p><strong>القتل العمد:</strong> يقصد الفعل والنتيجة → قصاص.</p>
+                    <p><strong>شبه العمد:</strong> يقصد الفعل ولا يقصد النتيجة → دية.</p>
+                    <p><strong>الخطأ:</strong> لا يقصد الفعل ولا النتيجة مع إخلال بالحيطة → دية.</p>
+                    <div class="divider"></div>
+                    <p><strong>القصد البسيط:</strong> لحظي فوري. <strong>المبيت:</strong> مخطّط وهادئ.</p>
+                    <p><strong>المباشر:</strong> نتيجة حتمية. <strong>الاحتمالي:</strong> يقبل النتيجة المحتملة.</p>
+                    <p>✓ تذكر: الجريمة المستحيلة ← محال. الشروع ← ممكن لكن ظروف خارجية حالت دون النتيجة.</p>
+                </div>
+            `
+        }
+    ];
+
+    // بناء البطاقات وإضافتها للـ DOM
+    const container = document.getElementById('cardsContainer');
+
+    flashcards.forEach((card, index) => {
+        const flipCard = document.createElement('div');
+        flipCard.className = 'flip-card';
+        flipCard.setAttribute('data-id', index);
+        
+        const inner = document.createElement('div');
+        inner.className = 'flip-card-inner';
+        
+        // الوجه الأمامي
+        const front = document.createElement('div');
+        front.className = 'card-front';
+        front.innerHTML = `
+            <h2>${card.title}</h2>
+            <div class="tag">⚡ اضغط للاطلاع</div>
+            <div class="flip-icon">🔄 اضغط لقلب البطاقة</div>
+        `;
+        
+        // الوجه الخلفي
+        const back = document.createElement('div');
+        back.className = 'card-back';
+        back.innerHTML = card.backContent;
+        
+        inner.appendChild(front);
+        inner.appendChild(back);
+        flipCard.appendChild(inner);
+        
+        // حدث قلب البطاقة عند الضغط
+        flipCard.addEventListener('click', function(e) {
+            this.classList.toggle('flipped');
+        });
+        
+        container.appendChild(flipCard);
+    });
+</script>
+</body>
+</html>
