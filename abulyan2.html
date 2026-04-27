@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="مذاكرة جنائي">
+<meta name="theme-color" content="#134e4a">
+<meta name="format-detection" content="telephone=no">
+<title>دليل المذاكرة - الجنائي العام</title>
+<style>
+:root {
+  color-scheme: light;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+  --safe-left: env(safe-area-inset-left);
+  --safe-right: env(safe-area-inset-right);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Arabic', 'SF Pro Display', 'Segoe UI', Tahoma, sans-serif;
+  background: #fafbfc;
+  color: #1a1a1a;
+  line-height: 1.95;
+  font-size: 17px;
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: contain;
+}
+
+body {
+  padding-top: var(--safe-top);
+  padding-bottom: calc(var(--safe-bottom) + 80px);
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 12px;
+}
+
+/* Selectable text in important areas */
+p, h1, h2, h3, h4, h5, li, td, th, .def-box, .example-box, .quiz-a {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+header {
+  background: linear-gradient(135deg, #134e4a 0%, #0f766e 100%);
+  color: #fff;
+  padding: 22px 16px;
+  border-radius: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 14px rgba(15, 118, 110, 0.25);
+  text-align: center;
+}
+header h1 {
+  margin: 0 0 6px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+header p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+
+.intro {
+  background: #fff;
+  border: 1px solid #e3e8ef;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+  -webkit-backdrop-filter: blur(10px);
+}
+.intro h2 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  color: #0f766e;
+}
+
+.section-nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 14px;
+  border: 1px solid #e3e8ef;
+  position: -webkit-sticky;
+  position: sticky;
+  top: var(--safe-top);
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+.nav-btn {
+  background: #f0fdfa;
+  color: #134e4a;
+  border: 1px solid #99f6e4;
+  padding: 9px 14px;
+  border-radius: 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  flex: 0 1 auto;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+.nav-btn:active {
+  background: #134e4a;
+  color: #fff;
+  transform: scale(0.95);
+}
+
+section {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e3e8ef;
+  padding: 18px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  scroll-margin-top: 80px;
+}
+
+section h2 {
+  color: #134e4a;
+  font-size: 1.25rem;
+  margin: 0 0 4px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #5eead4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+section h2 .num {
+  background: linear-gradient(135deg, #134e4a, #0f766e);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.section-subtitle {
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin: 4px 0 14px;
+}
+
+h3 {
+  color: #134e4a;
+  font-size: 1.1rem;
+  margin: 20px 0 8px;
+  padding-right: 12px;
+  border-right: 4px solid #14b8a6;
+  font-weight: 700;
+}
+
+h4 {
+  color: #0f766e;
+  font-size: 1rem;
+  margin: 14px 0 6px;
+  font-weight: 700;
+}
+
+p {
+  margin: 8px 0;
+  font-size: 0.97rem;
+}
+
+.def-box {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 14px 16px 14px 16px;
+  margin: 14px 0;
+  position: relative;
+  margin-top: 22px;
+}
+.def-box::before {
+  content: "📖 التعريف";
+  position: absolute;
+  top: -12px;
+  right: 14px;
+  background: #f59e0b;
+  color: #fff;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+.def-box p {
+  margin: 6px 0 0;
+  font-size: 0.97rem;
+  line-height: 1.85;
+}
+
+.key-point {
+  background: #f0fdfa;
+  border-right: 4px solid #14b8a6;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin: 10px 0;
+  font-size: 0.94rem;
+}
+.key-point::before {
+  content: "💡 نقطة مهمة: ";
+  font-weight: 700;
+  color: #0f766e;
+}
+
+.example-box {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 12px;
+  padding: 14px;
+  margin: 12px 0;
+  position: relative;
+  margin-top: 22px;
+}
+.example-box::before {
+  content: "🎯 مثال تطبيقي";
+  position: absolute;
+  top: -12px;
+  right: 14px;
+  background: #16a34a;
+  color: #fff;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+.example-box p {
+  margin: 6px 0 0;
+  font-size: 0.94rem;
+}
+
+.warn-box {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 12px;
+  padding: 14px;
+  margin: 12px 0;
+  position: relative;
+  margin-top: 22px;
+}
+.warn-box::before {
+  content: "⚠️ تنبيه";
+  position: absolute;
+  top: -12px;
+  right: 14px;
+  background: #dc2626;
+  color: #fff;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+.warn-box p {
+  margin: 6px 0 0;
+  font-size: 0.94rem;
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+.compare-card {
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid #d1ddec;
+}
+.compare-card h5 {
+  margin: 0 0 8px;
+  font-size: 1.02rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+}
+.compare-card.blue { background: #eff6ff; border-color: #93c5fd; }
+.compare-card.blue h5 { color: #1e40af; }
+.compare-card.amber { background: #fffbeb; border-color: #fcd34d; }
+.compare-card.amber h5 { color: #b45309; }
+.compare-card.green { background: #f0fdf4; border-color: #86efac; }
+.compare-card.green h5 { color: #15803d; }
+.compare-card.purple { background: #faf5ff; border-color: #d8b4fe; }
+.compare-card.purple h5 { color: #6b21a8; }
+
+.compare-card p {
+  font-size: 0.92rem;
+  margin: 5px 0;
+}
+.compare-card .label {
+  font-weight: 700;
+  font-size: 0.84rem;
+  color: inherit;
+}
+
+.mind-map {
+  background: #fafbfc;
+  border: 1px dashed #94a3b8;
+  border-radius: 12px;
+  padding: 14px;
+  margin: 16px 0;
+  text-align: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.mind-map svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.tree {
+  margin: 14px 0;
+  padding: 14px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+.tree-node {
+  background: #134e4a;
+  color: #fff;
+  padding: 9px 16px;
+  border-radius: 22px;
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.92rem;
+  margin: 4px;
+}
+.tree-children {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+.tree-child {
+  background: #14b8a6;
+  color: #fff;
+  padding: 7px 13px;
+  border-radius: 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.numbered-list {
+  counter-reset: item;
+  list-style: none;
+  padding: 0;
+  margin: 14px 0;
+}
+.numbered-list li {
+  counter-increment: item;
+  padding: 14px 56px 14px 14px;
+  margin: 8px 0;
+  background: #f8fafc;
+  border-radius: 12px;
+  border-right: 4px solid #14b8a6;
+  position: relative;
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+.numbered-list li::before {
+  content: counter(item);
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  background: #134e4a;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.numbered-list li strong {
+  color: #0f766e;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 0.88rem;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+th {
+  background: #134e4a;
+  color: #fff;
+  padding: 12px 8px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 0.87rem;
+}
+td {
+  padding: 11px 8px;
+  border-bottom: 1px solid #e3e8ef;
+  vertical-align: top;
+  line-height: 1.65;
+}
+tr:nth-child(even) td {
+  background: #f8fafc;
+}
+tr:last-child td {
+  border-bottom: none;
+}
+
+.summary-box {
+  background: linear-gradient(135deg, #134e4a 0%, #0f766e 100%);
+  color: #fff;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin: 18px 0;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2);
+}
+.summary-box h4 {
+  color: #5eead4;
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+.summary-box ul {
+  padding-right: 20px;
+  margin: 0;
+}
+.summary-box li {
+  margin: 6px 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+.summary-box li strong {
+  color: #fbbf24;
+}
+
+.quiz {
+  background: #fef3c7;
+  border: 2px solid #fbbf24;
+  border-radius: 14px;
+  padding: 14px;
+  margin: 18px 0 0;
+}
+.quiz-title {
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+.quiz-q {
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 8px 0;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+.quiz-q:active {
+  transform: scale(0.99);
+}
+.quiz-q-text {
+  font-weight: 600;
+  font-size: 0.93rem;
+  color: #1a1a1a;
+  line-height: 1.7;
+}
+.quiz-a {
+  display: none;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #ecfdf5;
+  border-right: 3px solid #16a34a;
+  border-radius: 8px;
+  font-size: 0.91rem;
+  color: #1a1a1a;
+  line-height: 1.8;
+}
+.quiz-q.show .quiz-a {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.quiz-toggle {
+  font-size: 0.78rem;
+  color: #92400e;
+  margin-right: 6px;
+  font-weight: 500;
+}
+
+ul.points {
+  padding-right: 24px;
+  margin: 8px 0;
+}
+ul.points li {
+  margin: 7px 0;
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.fab {
+  position: fixed;
+  bottom: calc(var(--safe-bottom) + 16px);
+  left: calc(var(--safe-left) + 16px);
+  background: linear-gradient(135deg, #134e4a, #0f766e);
+  color: #fff;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 52px;
+  text-decoration: none;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 16px rgba(15, 118, 110, 0.4);
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  z-index: 100;
+  transition: transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fab:active {
+  transform: scale(0.92);
+}
+
+footer {
+  text-align: center;
+  padding: 22px 12px;
+  color: #6b7280;
+  font-size: 0.88rem;
+}
+
+@media (min-width: 600px) {
+  .compare-grid { grid-template-columns: 1fr 1fr; }
+  .container { max-width: 760px; }
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Keep light mode for consistency */
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>📚 دليل المذاكرة المتعمّق</h1>
+  <p>النظام الجنائي السعودي · القسم العام</p>
+</header>
+
+<div class="intro">
+  <h2>كيف تستخدم هذا الدليل؟</h2>
+  <p>هذا الدليل مُصمَّم للمذاكرة العميقة، يقدّم لك لكل موضوع: التعريف، الشرح المفصّل، الأمثلة التطبيقية، المقارنات، والاختبار الذاتي. اقرأ كل قسم بهدوء، تأمّل الأمثلة، ثم اختبر نفسك في نهاية كل قسم.</p>
+</div>
+
+<nav class="section-nav">
+  <a href="#s1" class="nav-btn">١. القتل</a>
+  <a href="#s2" class="nav-btn">٢. الركن المادي</a>
+  <a href="#s3" class="nav-btn">٣. أنواع الجرائم</a>
+  <a href="#s4" class="nav-btn">٤. العقوبات</a>
+  <a href="#s5" class="nav-btn">٥. المستحيلة</a>
+  <a href="#s6" class="nav-btn">٦. الشروع</a>
+  <a href="#s7" class="nav-btn">٧. الخطأ</a>
+  <a href="#s8" class="nav-btn">٨. القصد</a>
+</nav>
+
+<section id="s1">
+  <h2><span class="num">١</span> القتل: العمد، شبه العمد، الخطأ</h2>
+  <p class="section-subtitle">كل ما يخص الجرائم الواقعة على النفس وتقسيماتها</p>
+
+  <div class="key-point">القتل عند الفقهاء يقسّم على ثلاثة أنواع رئيسية تختلف عن بعضها في القصد والعقوبة. التمييز بين هذه الأنواع جوهري لتطبيق العقوبة الصحيحة.</div>
+
+  <div class="tree">
+    <div style="text-align:center;">
+      <div class="tree-node">القتل</div>
+      <div class="tree-children" style="margin-top: 12px;">
+        <div class="tree-child">القتل العمد</div>
+        <div class="tree-child">القتل شبه العمد</div>
+        <div class="tree-child">القتل الخطأ</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>أ) القتل العمد</h3>
+  <div class="def-box">
+    <p>هو أن يقصد الجاني <strong>الفعل والنتيجة معاً</strong>. أي يكون الجاني عالماً بأنه يطلق النار على إنسان حي، ويريد في الوقت نفسه إزهاق روحه.</p>
+  </div>
+
+  <p><strong>أركانه الجوهرية:</strong></p>
+  <ul class="points">
+    <li><strong>قصد الفعل:</strong> توجيه إرادة الجاني إلى الفعل (إطلاق النار، الطعن).</li>
+    <li><strong>قصد النتيجة:</strong> إرادة إزهاق الروح أو القتل.</li>
+    <li><strong>العلم:</strong> أن يكون عالماً بأن من أمامه إنسان حي.</li>
+  </ul>
+
+  <p><strong>العقوبة:</strong></p>
+  <ul class="points">
+    <li>العقوبة الأصلية: <strong>القصاص</strong>.</li>
+    <li>العقوبة البديلة: <strong>الدية</strong> إذا عفا أولياء الدم أو تعذّر تطبيق القصاص لسبب شرعي.</li>
+  </ul>
+
+  <div class="example-box">
+    <p>زيد يحمل غضباً قديماً تجاه عمرو، فيشتري سلاحاً ويتربّص له ثم يطلق عليه النار قاصداً قتله، فيموت عمرو. هذا قتل عمد مع سبق إصرار وترصّد، عقوبته القصاص.</p>
+  </div>
+
+  <h3>ب) القتل شبه العمد</h3>
+  <div class="def-box">
+    <p>أن يقصد الجاني <strong>الفعل دون النتيجة</strong>، فلا يُسأل عن قتل عمد لانتفاء قصد إزهاق الروح، ولا عن قتل خطأ لتوافر النية في الفعل ذاته.</p>
+  </div>
+
+  <h4>اختلاف الفقهاء فيه</h4>
+  <div class="compare-grid">
+    <div class="compare-card blue">
+      <h5>🟦 من قال به</h5>
+      <p><strong>الأئمة الثلاثة:</strong> أبو حنيفة، الشافعي، أحمد بن حنبل.</p>
+      <p>حجتهم أن قصد الجاني تأديباً لا قتلاً ينفي عنه العمد، ووجود القصد للفعل ينفي عنه الخطأ.</p>
+    </div>
+    <div class="compare-card amber">
+      <h5>🟧 من لم يقل به</h5>
+      <p><strong>الإمام مالك.</strong></p>
+      <p>يرى أن القتل إما عمد وإما خطأ، ولا واسطة بينهما. ما اعتُبر شبه عمد عنده يُلحق بالعمد.</p>
+    </div>
+  </div>
+
+  <p><strong>المسمى في القانون الوضعي:</strong> «الضرب المُفضي إلى الموت» أو «الإيذاء المُفضي إلى الموت».</p>
+
+  <p><strong>العقوبة:</strong> <strong>الدية المُغلَّظة</strong> (لا قصاص فيه).</p>
+
+  <div class="example-box">
+    <p>أب يضرب ابنه بعصا قاصداً تأديبه، فيصاب الولد إصابة بليغة ويموت. الأب قصد الفعل (الضرب) لكن لم يقصد النتيجة (الموت)، فيكون قتلاً شبه عمد.</p>
+  </div>
+
+  <h3>ج) القتل الخطأ</h3>
+  <div class="def-box">
+    <p>ما <strong>لا يقصد فيه الجاني الفعل ولا الجريمة</strong>، وتقع الجريمة نتيجة الإهمال أو قلة الاحتياط أو الغفلة.</p>
+  </div>
+
+  <h4>صور وقوع القتل الخطأ</h4>
+  <ol class="numbered-list">
+    <li><strong>الخطأ في الفعل ذاته:</strong> كمن رمى حجراً لتهيئة الأرض فأصاب شخصاً، أو كمن رمى رصاصة فأخطأت هدفها وأصابت شخصاً آخر.</li>
+    <li><strong>الخطأ في الظن أو الاعتقاد:</strong> كمن رمى ما ظنه حيواناً فإذا هو إنسان، أو كمن أطلق النار في الصيد فأصاب شخصاً يختبئ.</li>
+  </ol>
+
+  <p><strong>العقوبة:</strong> <strong>الدية = مئة من الإبل</strong> (لقول النبي ﷺ في تحديد دية الخطأ).</p>
+
+  <div class="example-box">
+    <p>سائق يقود سيارته بسرعة في حي سكني فيدهس طفلاً يعبر الشارع ويموت. السائق لم يقصد قتل الطفل (لا فعلاً ولا نتيجة)، لكن إهماله أدى إلى الموت. هذا قتل خطأ، عقوبته الدية.</p>
+  </div>
+
+  <h3>📊 جدول مقارن شامل</h3>
+  <table>
+    <thead>
+      <tr><th>الجانب</th><th>عمد</th><th>شبه عمد</th><th>خطأ</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>قصد الفعل</td><td>✓</td><td>✓</td><td>✗</td></tr>
+      <tr><td>قصد النتيجة</td><td>✓</td><td>✗</td><td>✗</td></tr>
+      <tr><td>العقوبة الأصلية</td><td>القصاص</td><td>الدية المغلظة</td><td>الدية (١٠٠ إبل)</td></tr>
+      <tr><td>الكفّارة</td><td>لا</td><td>تجب</td><td>تجب</td></tr>
+    </tbody>
+  </table>
+
+  <div class="summary-box">
+    <h4>🎯 خلاصة قسم القتل</h4>
+    <ul>
+      <li><strong>العمد:</strong> قصد الفعل + قصد النتيجة → القصاص.</li>
+      <li><strong>شبه العمد:</strong> قصد الفعل دون النتيجة → الدية المغلظة (لا يقول به مالك).</li>
+      <li><strong>الخطأ:</strong> لا قصد للفعل ولا للنتيجة → الدية (مئة من الإبل).</li>
+    </ul>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">📝 اختبر فهمك</div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س١: شخص قاد سيارته مسرعاً، فحدث له حادث وتوفي شخص. ما نوع القتل؟ ولماذا؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a"><strong>قتل خطأ.</strong> لأن السائق لم يقصد القتل ولا الفعل المؤذي، وإنما وقع الموت نتيجة إهماله وقلة احترازه. عقوبته الدية.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٢: ضرب رجل صديقه بقبضة يده فمات. هل هو قتل عمد أم شبه عمد؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a"><strong>قتل شبه عمد</strong> عند الجمهور (أبو حنيفة، الشافعي، أحمد). لأنه قصد الفعل (الضرب) ولم يقصد النتيجة (القتل). عقوبته الدية المغلظة. أما عند الإمام مالك فلا فرق، يُلحق بالعمد.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٣: ما الفرق الجوهري بين القتل شبه العمد والقتل الخطأ؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a"><strong>الفرق في قصد الفعل:</strong> في شبه العمد يقصد الجاني الفعل (الضرب) لكنه لا يقصد النتيجة (الموت). أما في الخطأ، فلا يقصد الجاني الفعل أصلاً ولا الجريمة، وإنما تحدث نتيجة الإهمال. لذلك دية شبه العمد أغلظ من دية الخطأ.</div>
+    </div>
+  </div>
+</section>
+
+<section id="s2">
+  <h2><span class="num">٢</span> الركن المادي للجريمة</h2>
+  <p class="section-subtitle">السلوك، النتيجة، والعلاقة السببية</p>
+
+  <div class="def-box">
+    <p>الركن المادي هو <strong>النشاط الذي يأتيه الجاني قاصداً الجريمة</strong> التي يبتغيها في العالم الخارجي. يتمثّل في السلوك المُجرَّم، وما ينتج عنه من نتيجة في العالم الخارجي.</p>
+  </div>
+
+  <div class="key-point">كل جريمة لا بد أن تتحقق في العالم الخارجي بصورة مادية ملموسة، فالمجرّد التفكير لا يُعاقب عليه. الركن المادي هو الذي يحوّل الجريمة من فكرة إلى واقع.</div>
+
+  <h3>عناصر الركن المادي الثلاثة</h3>
+
+  <div class="mind-map">
+    <svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#134e4a"/>
+          <stop offset="100%" stop-color="#0f766e"/>
+        </linearGradient>
+      </defs>
+      <rect x="220" y="20" width="160" height="50" rx="25" fill="url(#grad1)"/>
+      <text x="300" y="50" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Tahoma">الركن المادي</text>
+
+      <line x1="300" y1="70" x2="120" y2="140" stroke="#14b8a6" stroke-width="2"/>
+      <line x1="300" y1="70" x2="300" y2="140" stroke="#14b8a6" stroke-width="2"/>
+      <line x1="300" y1="70" x2="480" y2="140" stroke="#14b8a6" stroke-width="2"/>
+
+      <rect x="40" y="140" width="160" height="50" rx="10" fill="#14b8a6"/>
+      <text x="120" y="170" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Tahoma">السلوك</text>
+
+      <rect x="220" y="140" width="160" height="50" rx="10" fill="#14b8a6"/>
+      <text x="300" y="170" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Tahoma">النتيجة</text>
+
+      <rect x="400" y="140" width="160" height="50" rx="10" fill="#14b8a6"/>
+      <text x="480" y="170" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Tahoma">العلاقة السببية</text>
+
+      <text x="120" y="220" text-anchor="middle" fill="#475569" font-size="11" font-family="Tahoma">إيجابي / سلبي</text>
+      <text x="300" y="220" text-anchor="middle" fill="#475569" font-size="11" font-family="Tahoma">مادية / قانونية</text>
+      <text x="480" y="220" text-anchor="middle" fill="#475569" font-size="11" font-family="Tahoma">رابطة الفعل بالنتيجة</text>
+    </svg>
+  </div>
+
+  <h4>العنصر الأول: السلوك (الفعل)</h4>
+  <p>هو النشاط الذي يأتيه الجاني، ويتخذ صورتين:</p>
+
+  <div class="compare-grid">
+    <div class="compare-card blue">
+      <h5>🟦 السلوك الإيجابي</h5>
+      <p>الحركة التي يقوم بها الجاني (إتيان ما هو منهي عنه).</p>
+      <p class="label">أمثلة:</p>
+      <p>إطلاق النار، الطعن، السرقة، التزوير.</p>
+    </div>
+    <div class="compare-card amber">
+      <h5>🟧 السلوك السلبي (الامتناع)</h5>
+      <p>الامتناع عن القيام بعمل واجب.</p>
+      <p class="label">أمثلة:</p>
+      <p>امتناع الأم عن إرضاع طفلها، امتناع الشاهد عن الإدلاء بشهادته.</p>
+    </div>
+  </div>
+
+  <h4>عناصر السلوك السلبي (الامتناع)</h4>
+  <ol class="numbered-list">
+    <li><strong>الامتناع عن القيام بعمل:</strong> أن يكف عن القيام بعمل كان من الواجب أن يقوم به.</li>
+    <li><strong>وجود الواجب:</strong> أن يكون هناك واجب يفرضه الشرع أو القانون على الشخص الممتنع.</li>
+    <li><strong>الامتناع الإرادي:</strong> أن يكون الامتناع عن وعي وإرادة (لو كان مكرهاً أو عاجزاً، لا مسؤولية عليه).</li>
+  </ol>
+
+  <h4>العنصر الثاني: النتيجة</h4>
+  <div class="def-box">
+    <p>الأثر الذي يترتّب على النشاط الإجرامي. وقد تكون <strong>حقيقة مادية</strong> ملموسة (كالموت في القتل)، أو <strong>حقيقة قانونية</strong> لا تظهر بأثر مادي (كالاعتداء على حق محمي قانوناً).</p>
+  </div>
+
+  <div class="key-point">بعض الجرائم لا تشترط نتيجة محسوسة - يكفي وقوع السلوك المُجرّم لقيامها (مثل جرائم الخطر، أو الجرائم الشكلية).</div>
+
+  <h4>العنصر الثالث: العلاقة السببية</h4>
+  <div class="def-box">
+    <p>الرابطة بين السلوك والنتيجة. لا يُسأل الجاني عن النتيجة إلا إذا كانت <strong>ثمرة مباشرة لفعله</strong>. إذا انعدمت أو انقطعت هذه الرابطة، لم يُسأل عن النتيجة.</p>
+  </div>
+
+  <h4>حالات تعدّد الأفعال في العلاقة السببية</h4>
+  <table>
+    <thead>
+      <tr><th>الحالة</th><th>الحكم</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>تغلّب المباشرة على السبب</strong></td><td>يُعاقب المباشر بالقصاص ويُعزَّر المتسبب.</td></tr>
+      <tr><td><strong>تغلّب السبب على المباشرة</strong></td><td>يُعاقب المتسبب بالعقوبة الأصلية ويُعفى المباشر.</td></tr>
+      <tr><td><strong>تعادل المباشرة والسبب</strong></td><td>يُعاقبان معاً (في حالة الإكراه: يُعاقب المُكرِه ويُعفى المُكرَه أحياناً).</td></tr>
+    </tbody>
+  </table>
+
+  <h3>مراحل الجريمة الثلاث</h3>
+  <table>
+    <thead>
+      <tr><th>المرحلة</th><th>الوصف</th><th>الحكم</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>التفكير</strong></td><td>نشاط ذهني داخل عقل الفاعل</td><td>لا عقاب</td></tr>
+      <tr><td><strong>التحضير</strong></td><td>تجهيز أدوات الجريمة (شراء سلاح، مراقبة الضحية)</td><td>لا عقاب كأصل</td></tr>
+      <tr><td><strong>التنفيذ</strong></td><td>البدء الفعلي في تحقيق الركن المادي</td><td>هنا يبدأ العقاب</td></tr>
+    </tbody>
+  </table>
+
+  <div class="example-box">
+    <p>لو فكّر شخص في قتل آخر (تفكير)، ثم اشترى سلاحاً (تحضير)، فلا يُعاقب. لكن إذا توجّه إلى مكان الضحية وصوّب السلاح ووضع إصبعه على الزناد (تنفيذ)، يبدأ هنا الركن المادي والمسؤولية الجنائية حتى لو فشل في القتل (شروع).</p>
+  </div>
+
+  <div class="summary-box">
+    <h4>🎯 خلاصة الركن المادي</h4>
+    <ul>
+      <li><strong>الركن المادي = السلوك + النتيجة + العلاقة السببية.</strong></li>
+      <li>السلوك إما إيجابي (فعل) أو سلبي (امتناع).</li>
+      <li>النتيجة قد تكون مادية أو قانونية.</li>
+      <li>الجريمة تمر بثلاث مراحل، يُعاقب فقط في مرحلة التنفيذ.</li>
+    </ul>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">📝 اختبر فهمك</div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س١: عدّد عناصر الركن المادي الثلاثة. <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a">١) السلوك (الفعل) · ٢) النتيجة · ٣) العلاقة السببية بين السلوك والنتيجة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٢: ممرضة تركت مريضاً عن قصد دون إعطائه دواءه فمات. هل هذا سلوك إيجابي أم سلبي؟ ولماذا؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a"><strong>سلوك سلبي (امتناع).</strong> لأنها امتنعت عن أداء واجب مفروض عليها (إعطاء الدواء)، وكان امتناعها إرادياً، فتوافرت العناصر الثلاثة للسلوك السلبي.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٣: لماذا لا يُعاقب على مرحلة التحضير عادةً؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a">لأنها أعمال مادية محسوسة لكنها لا تدل بذاتها على إعلام بحكم الشرع أو النظام، فالشخص قد يشتري سلاحاً للصيد لا للقتل. الركن المادي للجريمة لا يكتمل إلا بالبدء في التنفيذ.</div>
+    </div>
+  </div>
+</section>
+
+<section id="s3">
+  <h2><span class="num">٣</span> أنواع الجرائم</h2>
+  <p class="section-subtitle">التصنيف بحسب القصد الجرمي</p>
+
+  <div class="key-point">يصنّف الفقه الجرائم حسب القصد الجرمي للجاني، وهذا التصنيف يحدد العقوبة وقابلية الجريمة للشروع.</div>
+
+  <div class="tree">
+    <div style="text-align:center;">
+      <div class="tree-node">الجرائم بحسب القصد</div>
+      <div class="tree-children" style="margin-top: 12px;">
+        <div class="tree-child">مقصودة (عمدية)</div>
+        <div class="tree-child">شبه عمد</div>
+        <div class="tree-child">غير مقصودة (خطأ)</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>١) الجرائم المقصودة (العمدية)</h3>
+  <div class="def-box">
+    <p>تتوافر فيها <strong>عناصر القصد الجرمي وقت ارتكابها</strong>، أي تقوم بين الجاني وفعله علاقة ذهنية ونفسية تتكوّن من عنصرين:</p>
+  </div>
+
+  <ol class="numbered-list">
+    <li><strong>العلم:</strong> علم الجاني بأركان الجريمة وشروطها.</li>
+    <li><strong>الإرادة:</strong> اتجاه إرادته إلى ارتكاب الجريمة وفق هذه الأركان.</li>
+  </ol>
+
+  <div class="example-box">
+    <p>زيد يطلق النار على عمرو وهو يعلم أنه إنسان حي ويريد قتله. هنا توافر العلم (يعلم أنه يقتل إنساناً) والإرادة (أراد القتل).</p>
+  </div>
+
+  <h3>٢) جرائم القتل شبه العمد</h3>
+  <p>اقتصار على جرائم القتل خاصة. قال به أبو حنيفة والشافعي وأحمد دون مالك.</p>
+
+  <h3>٣) الجرائم غير المقصودة (الخطأ)</h3>
+  <div class="def-box">
+    <p>الجرائم التي <strong>يتخلف فيها القصد الجرمي</strong> لدى الجاني عند وقوعها. وهي نوعان.</p>
+  </div>
+
+  <div class="compare-grid">
+    <div class="compare-card blue">
+      <h5>🟦 النوع الأول</h5>
+      <p>يقصد الجاني الفعل المباشر، لكنه لا يقصد الجريمة فيرتكب خطأ ينشأ منها الجريمة.</p>
+      <p class="label">صور وقوعه:</p>
+      <p>• الخطأ بالفعل ذاته<br>• الخطأ في الظن أو الاعتقاد</p>
+    </div>
+    <div class="compare-card amber">
+      <h5>🟧 النوع الثاني</h5>
+      <p>لا يقصد الفعل ولا الجريمة، وتقع نتيجة الإهمال أو قلة الحيطة والحذر.</p>
+      <p class="label">مثال:</p>
+      <p>سائق متحدث في الهاتف يصدم ماراً.</p>
+    </div>
+  </div>
+
+  <h3>أهمية تصنيف الجرائم</h3>
+  <ol class="numbered-list">
+    <li><strong>تشديد العقوبة في الجرائم المقصودة:</strong> العقوبة في الجرائم المقصودة أشد منها في غير المقصودة.</li>
+    <li><strong>قَصْر القصاص على المقصودة:</strong> لا يكون القصاص إلا مقصوداً، أي لا يقع إلا إذا توافر القصد الجرمي.</li>
+    <li><strong>عدم تصور الشروع في الخطأ:</strong> لا يُتصور الشروع في الجرائم الخطأ لأن الشروع يحتاج إلى قصد.</li>
+  </ol>
+
+  <div class="summary-box">
+    <h4>🎯 خلاصة تصنيف الجرائم</h4>
+    <ul>
+      <li>تنقسم الجرائم بحسب القصد إلى: <strong>عمدية، شبه عمد، خطأ</strong>.</li>
+      <li>العمدية تتطلب <strong>العلم + الإرادة</strong>.</li>
+      <li>الشروع <strong>لا يُتصور</strong> في الجرائم غير المقصودة.</li>
+    </ul>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">📝 اختبر فهمك</div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س١: ما عنصرا القصد الجرمي في الجريمة العمدية؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a"><strong>العلم</strong> بأركان الجريمة وشروطها، و<strong>الإرادة</strong> لارتكابها وفق هذه الأركان.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٢: لماذا لا يُتصور الشروع في الجرائم غير المقصودة؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a">لأن الشروع يقتضي وجود قصد جرمي للبدء في تنفيذ الجريمة، والجرائم غير المقصودة (الخطأ) تفتقد إلى هذا القصد بطبيعتها، فلا يمكن الشروع فيها.</div>
+    </div>
+  </div>
+</section>
+
+<section id="s4">
+  <h2><span class="num">٤</span> العقوبات: الأصلية، البديلة، التبعية، التكميلية</h2>
+  <p class="section-subtitle">تقسيم العقوبات بحسب الرابطة بينها</p>
+
+  <div class="key-point">العقوبات تنقسم بمعايير متعددة. الأهم في الاختبار: تقسيمها بحسب الرابطة بينها.</div>
+
+  <h3>١) العقوبات الأصلية</h3>
+  <div class="def-box">
+    <p>هي العقوبات <strong>الموضوعة أصلاً للجريمة</strong>. يجب على القاضي الحكم بها قبل أي عقوبة أخرى، وإلا لا يُنفّذ بحق المحكوم عليه.</p>
+  </div>
+
+  <p><strong>أمثلة:</strong></p>
+  <ul class="points">
+    <li>القصاص: للقتل العمد.</li>
+    <li>الرجم: للزاني المُحصَن.</li>
+    <li>القطع: للسارق وقاطع الطريق.</li>
+    <li>الجلد: لشارب الخمر، الزاني غير المحصَن، القاذف.</li>
+  </ul>
+
+  <h3>٢) العقوبات البديلة</h3>
+  <div class="def-box">
+    <p>هي العقوبات التي <strong>تحلّ محل العقوبات الأصلية</strong> في حال تعذّر تنفيذها لسبب شرعي.</p>
+  </div>
+
+  <div class="example-box">
+    <p>الدية كحلٍّ بديل إذا عُفي عن القصاص في الجنايات العمدية، سواء كانت واقعة على النفس أو ما دون النفس.</p>
+  </div>
+
+  <h3>٣) العقوبات التبعية</h3>
+  <div class="def-box">
+    <p>هي العقوبات التي <strong>تتبع العقوبة الأصلية بحكم النص</strong> دون حاجة للنطق بها مع الأصلية في الحكم.</p>
+  </div>
+
+  <div class="key-point">الميزة الرئيسية للعقوبة التبعية: تلحق الأصلية تلقائياً بمجرد النطق بها، دون الحاجة لإصدار حكم منفصل.</div>
+
+  <h3>٤) العقوبات التكميلية</h3>
+  <div class="def-box">
+    <p>هي عقوبات ثانوية <strong>تكمّل العقوبة الأصلية</strong>، يحكم بها القاضي عندما يجد موجباً لذلك.</p>
+  </div>
+
+  <div class="warn-box">
+    <p><strong>الفرق الجوهري بين التبعية والتكميلية (نقطة كثيراً ما تأتي في الاختبارات):</strong></p>
+    <p>• <strong>التبعية:</strong> لا تحتاج إلى نطق القاضي بها (تتبع الأصلية تلقائياً بحكم النص).<br>• <strong>التكميلية:</strong> يجب على القاضي النطق بها صراحة في حكمه.</p>
+  </div>
+
+  <h3>📊 جدول مقارن للأنواع الأربعة</h3>
+  <table>
+    <thead>
+      <tr><th>النوع</th><th>متى تُطبَّق؟</th><th>هل تحتاج نطقاً؟</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>الأصلية</td><td>دائماً، ابتداءً</td><td>نعم</td></tr>
+      <tr><td>البديلة</td><td>عند تعذّر الأصلية</td><td>نعم</td></tr>
+      <tr><td>التبعية</td><td>تلقائياً مع الأصلية</td><td><strong>لا</strong></td></tr>
+      <tr><td>التكميلية</td><td>إذا رأى القاضي موجباً</td><td>نعم</td></tr>
+    </tbody>
+  </table>
+
+  <h3>تقسيمات أخرى للعقوبات</h3>
+
+  <h4>أ) تقسيم بحسب موضوعها</h4>
+  <table>
+    <thead>
+      <tr><th>النوع</th><th>المحل</th><th>أمثلة</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>بدنية</td><td>تنال جسم الإنسان</td><td>القتل، القطع، الجلد</td></tr>
+      <tr><td>ماسّة بالحرية</td><td>تحرم من الحرية</td><td>السجن، النفي</td></tr>
+      <tr><td>نفسية</td><td>تصيب المعنويات</td><td>التوبيخ، التشهير</td></tr>
+      <tr><td>مالية</td><td>تصيب مال الجاني</td><td>الدية، الغرامة</td></tr>
+    </tbody>
+  </table>
+
+  <h4>ب) تقسيم بحسب ورود النص</h4>
+  <ul class="points">
+    <li><strong>عقوبات محدّدة بجنسها ومقدارها:</strong> الحدود والقصاص والديات (٨٠ جلدة في القذف، ١٠٠ من الإبل في القتل الخطأ).</li>
+    <li><strong>عقوبات غير مقدّرة:</strong> العقوبات التعزيرية، يقدّرها القاضي.</li>
+  </ul>
+
+  <div class="summary-box">
+    <h4>🎯 خلاصة العقوبات</h4>
+    <ul>
+      <li><strong>الأصلية:</strong> الموضوعة أصلاً للجريمة.</li>
+      <li><strong>البديلة:</strong> تحلّ محل الأصلية عند التعذّر.</li>
+      <li><strong>التبعية:</strong> تتبع الأصلية تلقائياً <strong>دون نطق</strong>.</li>
+      <li><strong>التكميلية:</strong> ثانوية، <strong>يجب النطق</strong> بها.</li>
+    </ul>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">📝 اختبر فهمك</div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س١: ما الفرق بين العقوبة التبعية والتكميلية؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a"><strong>التبعية</strong> تتبع العقوبة الأصلية بحكم النص دون أن يحتاج القاضي إلى النطق بها. أما <strong>التكميلية</strong> فيجب على القاضي النطق بها صراحةً في حكمه.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٢: متى تُطبَّق العقوبة البديلة؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a">تُطبَّق <strong>عند تعذّر تطبيق العقوبة الأصلية لسبب شرعي</strong>. مثل: الدية تطبق بدلاً عن القصاص إذا عفا أولياء الدم.</div>
+    </div>
+  </div>
+</section>
+
+<section id="s5">
+  <h2><span class="num">٥</span> الجريمة المستحيلة</h2>
+  <p class="section-subtitle">محاولة جريمة يستحيل تحقيقها</p>
+
+  <div class="def-box">
+    <p>الجريمة المستحيلة هي <strong>محاولة لارتكاب جريمة يستحيل تحقيق نتيجتها الجرمية</strong>.</p>
+  </div>
+
+  <h3>سببا الاستحالة</h3>
+  <div class="compare-grid">
+    <div class="compare-card blue">
+      <h5>🟦 ١) لانعدام محل الجريمة</h5>
+      <p>المحل الذي وُجِّه إليه الفعل غير صالح أصلاً لأن تقع عليه الجريمة.</p>
+      <p class="label">مثال:</p>
+      <p>إطلاق النار على إنسان ميت أصلاً.</p>
+    </div>
+    <div class="compare-card amber">
+      <h5>🟧 ٢) لعدم صلاحية الوسيلة</h5>
+      <p>الوسيلة المستخدمة غير قادرة على تحقيق النتيجة.</p>
+      <p class="label">مثال:</p>
+      <p>إطلاق النار من بندقية فارغة، أو وضع مادة غير سامة على ظنّ أنها سم.</p>
+    </div>
+  </div>
+
+  <h3>صور الاستحالة</h3>
+
+  <h4>أ) الاستحالة النسبية والاستحالة المطلقة</h4>
+  <div class="compare-grid">
+    <div class="compare-card green">
+      <h5>🟩 الاستحالة النسبية</h5>
+      <p>الوسيلة <strong>صالحة</strong> لتحقيق النتيجة، لكن هناك <strong>مانع عرضي</strong>.</p>
+      <p class="label">مثال:</p>
+      <p>إطلاق النار على شخص ينتقل في اللحظة نفسها.</p>
+    </div>
+    <div class="compare-card purple">
+      <h5>🟪 الاستحالة المطلقة</h5>
+      <p>الوسيلة <strong>غير صالحة أصلاً</strong>، أو محل الجريمة <strong>منعدم</strong>.</p>
+      <p class="label">مثال:</p>
+      <p>إطلاق نار من بندقية فارغة، أو على ميت.</p>
+    </div>
+  </div>
+
+  <h4>ب) الاستحالة المادية والاستحالة القانونية</h4>
+  <div class="compare-grid">
+    <div class="compare-card green">
+      <h5>🟩 الاستحالة المادية</h5>
+      <p>يبدأ الجاني بتنفيذ جريمته ولكن لسبب مادي لا تتحقق النتيجة. مثال: محاولة السرقة من جيب فارغ.</p>
+    </div>
+    <div class="compare-card purple">
+      <h5>🟪 الاستحالة القانونية</h5>
+      <p>تفقد الجريمة كنهها القانوني، كمن يأخذ ماله المرهون معتقداً أنه مملوك للغير.</p>
+    </div>
+  </div>
+
+  <h3>المذاهب الفقهية في الجريمة المستحيلة</h3>
+  <div class="compare-grid">
+    <div class="compare-card blue">
+      <h5>🟦 المذهب الشخصي</h5>
+      <p>يُعاقَب الجاني <strong>لتوافر القصد الجرمي والشروع</strong>. يركّز على شخصية الجاني واتجاه نيته.</p>
+    </div>
+    <div class="compare-card amber">
+      <h5>🟧 المذهب المادي</h5>
+      <p><strong>لا عقاب</strong> لأن النتيجة مستحيلة، فلا توجد جريمة. يركّز على النتيجة المادية.</p>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h4>🎯 خلاصة الجريمة المستحيلة</h4>
+    <ul>
+      <li>محاولة جريمة يستحيل تحقيقها لأحد سببين: <strong>انعدام المحل</strong> أو <strong>عدم صلاحية الوسيلة</strong>.</li>
+      <li>صورها: <strong>نسبية / مطلقة</strong>، و<strong>مادية / قانونية</strong>.</li>
+      <li>المذهب الشخصي يُعاقب، والمذهب المادي لا يُعاقب.</li>
+    </ul>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">📝 اختبر فهمك</div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س١: شخص أطلق النار من بندقية فارغة. ما نوع الاستحالة؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a">استحالة <strong>مطلقة</strong> من حيث <strong>الوسيلة</strong>. لأن البندقية الفارغة غير صالحة أصلاً لتحقيق النتيجة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٢: شخص أطلق النار فأخطأ هدفه لأن الضحية تحرّك. ما نوع الاستحالة؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a">استحالة <strong>نسبية</strong>. لأن الوسيلة صالحة لكن منع عارض حال دون التحقق.</div>
+    </div>
+  </div>
+</section>
+
+<section id="s6">
+  <h2><span class="num">٦</span> الشروع في الجريمة</h2>
+  <p class="section-subtitle">تعريفه، أركانه، أنواعه</p>
+
+  <div class="def-box">
+    <p>الشروع هو <strong>البدء في تنفيذ فعل بقصد ارتكاب جناية أو جنحة</strong>، إذا أوقف أو خاب أثره لأسباب لا دخل لإرادة الفاعل فيها.</p>
+  </div>
+
+  <div class="key-point">الشروع وسط بين النية المجرّدة (لا يُعاقب عليها) والجريمة التامة (يُعاقب عليها كاملة). يُعاقب على الشروع بعقوبة مخفّفة.</div>
+
+  <h3>أركان الشروع الثلاثة</h3>
+
+  <div class="mind-map">
+    <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+      <rect x="220" y="20" width="160" height="50" rx="25" fill="#134e4a"/>
+      <text x="300" y="50" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Tahoma">أركان الشروع</text>
+
+      <line x1="300" y1="70" x2="120" y2="140" stroke="#14b8a6" stroke-width="2"/>
+      <line x1="300" y1="70" x2="300" y2="140" stroke="#14b8a6" stroke-width="2"/>
+      <line x1="300" y1="70" x2="480" y2="140" stroke="#14b8a6" stroke-width="2"/>
+
+      <rect x="20" y="140" width="200" height="60" rx="10" fill="#0d9488"/>
+      <text x="120" y="165" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Tahoma">١. البدء في</text>
+      <text x="120" y="185" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Tahoma">تنفيذ الجريمة</text>
+
+      <rect x="200" y="140" width="200" height="60" rx="10" fill="#0d9488"/>
+      <text x="300" y="165" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Tahoma">٢. قصد</text>
+      <text x="300" y="185" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Tahoma">إتمام الجريمة</text>
+
+      <rect x="380" y="140" width="200" height="60" rx="10" fill="#0d9488"/>
+      <text x="480" y="160" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Tahoma">٣. خيبة الأثر</text>
+      <text x="480" y="180" text-anchor="middle" fill="white" font-size="11" font-family="Tahoma">لأسباب خارج إرادته</text>
+    </svg>
+  </div>
+
+  <h4>الركن الأول: البدء في تنفيذ الجريمة</h4>
+  <p>هو إقدام الجاني على مباشرة الجريمة بإتيان فعل أو أكثر من الأفعال التي تدخل في الركن المادي. هي ما تنقل الجاني من <strong>مرحلة التحضير</strong> إلى <strong>مرحلة التنفيذ</strong>.</p>
+
+  <h4>الركن الثاني: قصد إتمام الجريمة</h4>
+  <p>كي يُسأل الجاني عن شروع لا بد أن يتوافر لديه <strong>القصد الجرمي</strong>، أي تكون نيته منصرفة إلى إتمام الجريمة، لا إلى مجرد التهديد بها.</p>
+
+  <h4>الركن الثالث: خيبة أثر الفعل لأسباب خارجة عن إرادة الجاني</h4>
+  <p>الجاني بدأ بتنفيذ الركن المادي ولم يتمكن من تحقيق النتيجة، إما لأنه لم يتم الأفعال (الشروع الناقص)، أو لأن النتيجة تخلّفت رغم إتمامه لكامل الأفعال (شروع تام).</p>
+
+  <h3>أنواع الشروع</h3>
+  <div class="compare-grid">
+    <div class="compare-card blue">
+      <h5>🟦 الشروع الناقص (الموقوف)</h5>
+      <p><strong>لم يتمكن الجاني من إتمام الأفعال التنفيذية</strong> للركن المادي لسبب خارج عن إرادته.</p>
+      <p class="label">مثال:</p>
+      <p>ضبط السارق وهو يفتح الباب قبل دخوله.</p>
+    </div>
+    <div class="compare-card amber">
+      <h5>🟧 الشروع التام (الخائب)</h5>
+      <p><strong>أتمّ الجاني جميع الأعمال التنفيذية</strong> لكن النتيجة لم تتحقق لأسباب خارجة عن إرادته.</p>
+      <p class="label">مثال:</p>
+      <p>أطلق النار وأخطأ هدفه.</p>
+    </div>
+  </div>
+
+  <h3>العدول الاختياري</h3>
+  <div class="def-box">
+    <p>العدول الاختياري هو <strong>تراجع الجاني طوعاً</strong> عن إتمام الجريمة قبل الانتهاء من تنفيذها.</p>
+  </div>
+
+  <p><strong>شرطان للإعفاء من المسؤولية:</strong></p>
+  <ol class="numbered-list">
+    <li><strong>أن يكون عدوله اختيارياً:</strong> صادراً عن إرادة حرة، دون ضغط خارجي أو خوف من الضبط.</li>
+    <li><strong>أن يحصل العدول قبل مباشرة أي فعل يرمي إلى تحقيق النتيجة:</strong> أن يحصل العدول مبكّراً.</li>
+  </ol>
+
+  <div class="example-box">
+    <p><strong>عدول مُعفي:</strong> سارق دخل بيتاً ثم تراجع طوعاً قبل أن يأخذ شيئاً.<br><strong>عدول لا يُعفي:</strong> سارق دخل بيتاً ثم هرب لأنه سمع صوت شرطة.</p>
+  </div>
+
+  <div class="warn-box">
+    <p><strong>تنبيه:</strong> لا يُتصور الشروع في الجرائم غير المقصودة (الخطأ)، لأن الشروع يحتاج إلى قصد جرمي.</p>
+  </div>
+
+  <div class="summary-box">
+    <h4>🎯 خلاصة الشروع</h4>
+    <ul>
+      <li>الشروع: البدء في تنفيذ جريمة لم تكتمل لأسباب خارج إرادة الجاني.</li>
+      <li>أركانه ٣: <strong>البدء + قصد الإتمام + خيبة الأثر</strong>.</li>
+      <li>أنواعه: <strong>ناقص</strong> و<strong>تام</strong>.</li>
+      <li>العدول الاختياري <strong>يُعفي</strong> بشرطين.</li>
+    </ul>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">📝 اختبر فهمك</div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س١: عدّد أركان الشروع الثلاثة. <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a">١) <strong>البدء في تنفيذ الجريمة</strong> · ٢) <strong>قصد إتمام الجريمة</strong> · ٣) <strong>خيبة أثر الفعل لأسباب خارجة عن إرادة الجاني</strong>.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٢: ما الفرق بين الشروع الناقص والشروع التام؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a"><strong>الناقص:</strong> لم يستطع إتمام الأفعال التنفيذية (ضبط السارق وهو يفتح الباب).<br><strong>التام:</strong> أتمّ الأفعال لكن النتيجة لم تتحقق (أطلق النار وأخطأ).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٣: لص يحطم زجاج سيارة فيراه أحد المارة فيهرب. هل يُعفى؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a"><strong>لا يُعفى</strong>، لأن عدوله ليس اختيارياً، بل بسبب خوف الضبط. يُعاقب على شروع ناقص.</div>
+    </div>
+  </div>
+</section>
+
+<section id="s7">
+  <h2><span class="num">٧</span> الخطأ: عناصره وصوره</h2>
+  <p class="section-subtitle">صورة من صور الركن المعنوي</p>
+
+  <div class="def-box">
+    <p>الخطأ حالة يكون فيها الجاني <strong>عالماً بالفعل لكن إرادته لم تتجه إلى النتيجة</strong>، أو لا يكون عالماً بالفعل أصلاً، ومع ذلك كان من واجبه توقّع النتيجة واتخاذ الاحتياطات.</p>
+  </div>
+
+  <h3>الفرق الجوهري بين الخطأ والقصد</h3>
+  <table>
+    <thead>
+      <tr><th>الجانب</th><th>القصد</th><th>الخطأ</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>العلم بالفعل</td><td>عالم</td><td>عالم أو غير عالم</td></tr>
+      <tr><td>إرادة الفعل</td><td>متوافرة</td><td>متوافرة أو غير متوافرة</td></tr>
+      <tr><td>إرادة النتيجة</td><td><strong>متوافرة</strong></td><td><strong>غير متوافرة</strong></td></tr>
+      <tr><td>المسؤولية</td><td>عن قصد</td><td>عن إهمال</td></tr>
+    </tbody>
+  </table>
+
+  <h3>عناصر الخطأ (٢ عنصران أساسيان)</h3>
+
+  <h4>العنصر الأول: الإخلال بواجب الحيطة والحذر</h4>
+  <div class="def-box">
+    <p>الحيطة والحذر <strong>واجب عام</strong> يجب على كل إنسان مراعاته. فمن يستعمل سيارته يجب أن يكون حذراً، ومن يحفر بئراً يجب أن يحوطها.</p>
+  </div>
+
+  <p>هذا الواجب مفروض بقدر مهنة الشخص وحاله. الطبيب يلزمه من الحذر أكثر من غيره، وقائد السيارة أكثر من قائد الدراجة.</p>
+
+  <h4>العنصر الثاني: العلاقة الذهنية والنفسية بين الفاعل والنتيجة</h4>
+  <div class="def-box">
+    <p>الفاعل <strong>كان بإمكانه توقّع النتيجة</strong> لو أنه أخذ بالحيطة الواجبة، لكن إرادته لم تتجه إليها.</p>
+  </div>
+
+  <div class="key-point">العنصر الذهني والنفسي يميّز الإهمال الجنائي عن الحادث القهري. لو لم يكن بالإمكان توقّع النتيجة، لا مسؤولية على الجاني.</div>
+
+  <h3>صور الخطأ العامة (٤ صور)</h3>
+
+  <div class="compare-grid">
+    <div class="compare-card blue">
+      <h5>🟦 ١) الإهمال</h5>
+      <p>الموقف السلبي الذي يخالف فيه الجاني واجبه في الحيطة والحذر.</p>
+      <p class="label">مثال:</p>
+      <p>طبيب نسي أداة جراحية في بطن المريض.</p>
+    </div>
+    <div class="compare-card amber">
+      <h5>🟧 ٢) قلة الاحتراز</h5>
+      <p>قلة التبصّر وعدم استشراف النتائج.</p>
+      <p class="label">مثال:</p>
+      <p>سائق يقود بسرعة في حي سكني.</p>
+    </div>
+    <div class="compare-card green">
+      <h5>🟩 ٣) الرعونة</h5>
+      <p>سوء التدبر أو نقص الحذق أو المهارة.</p>
+      <p class="label">مثال:</p>
+      <p>طبيب غير مختص يجري عملية معقدة.</p>
+    </div>
+    <div class="compare-card purple">
+      <h5>🟪 ٤) مخالفة الأوامر والأنظمة</h5>
+      <p>الأوامر التي تصدرها السلطات المختصة.</p>
+      <p class="label">مثال:</p>
+      <p>تجاوز الإشارة الحمراء فيقع حادث.</p>
+    </div>
+  </div>
+
+  <h3>أنواع الخطأ في الفقه الإسلامي</h3>
+  <div class="compare-grid">
+    <div class="compare-card blue">
+      <h5>🟦 الخطأ المتولّد</h5>
+      <p>ينتج عن فعل مباشر للجاني أو فعل أتاه معتقداً إباحته فأدى للجريمة.</p>
+    </div>
+    <div class="compare-card amber">
+      <h5>🟧 الخطأ غير المتولّد</h5>
+      <p>يحدث دون فعل أتاه الجاني أصلاً (كأن ينقلب نائماً على رضيع فيقتله).</p>
+    </div>
+  </div>
+
+  <h3>الخطأ في الشخص والغلط في الشخصية</h3>
+  <div class="compare-grid">
+    <div class="compare-card green">
+      <h5>🟩 الخطأ في الشخص</h5>
+      <p>يقصد الجاني <strong>قتل شخص معين فيصيب غيره</strong>. خطأ في الفعل.</p>
+    </div>
+    <div class="compare-card purple">
+      <h5>🟪 الغلط في الشخصية</h5>
+      <p>يقصد الجاني <strong>قتل شخص يظنه زيداً فإذا هو عمرو</strong>. خطأ في الظن.</p>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h4>🎯 خلاصة الخطأ</h4>
+    <ul>
+      <li>عناصره ٢: <strong>الإخلال بواجب الحيطة + العلاقة الذهنية والنفسية</strong>.</li>
+      <li>صوره ٤: <strong>الإهمال، قلة الاحتراز، الرعونة، مخالفة الأنظمة</strong>.</li>
+      <li>أنواع الفقه: متولّد / غير متولّد.</li>
+    </ul>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">📝 اختبر فهمك</div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س١: عدّد عناصر الخطأ. <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a">١) <strong>الإخلال بواجب الحيطة والحذر</strong>.<br>٢) <strong>العلاقة الذهنية والنفسية بين الفاعل والنتيجة</strong>.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٢: ما صور الخطأ العامة الأربع؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a">١) <strong>الإهمال</strong> · ٢) <strong>قلة الاحتراز</strong> · ٣) <strong>الرعونة</strong> · ٤) <strong>مخالفة الأوامر والأنظمة</strong>.</div>
+    </div>
+  </div>
+</section>
+
+<section id="s8">
+  <h2><span class="num">٨</span> القصد الجرمي وأنواعه</h2>
+  <p class="section-subtitle">المباشر، الاحتمالي، البسيط، المبيَّت</p>
+
+  <div class="def-box">
+    <p>القصد الجرمي (العمد) هو <strong>تعمّد إتيان الفعل المحرَّم أو ترك الواجب</strong>، أو اتجاه نية الفاعل إلى الفعل أو تركه مع العلم بأنه محرّم.</p>
+  </div>
+
+  <h3>عنصرا القصد الجرمي</h3>
+
+  <div class="mind-map">
+    <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+      <rect x="220" y="20" width="160" height="50" rx="25" fill="#134e4a"/>
+      <text x="300" y="50" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Tahoma">القصد الجرمي</text>
+
+      <line x1="300" y1="70" x2="180" y2="130" stroke="#14b8a6" stroke-width="2"/>
+      <line x1="300" y1="70" x2="420" y2="130" stroke="#14b8a6" stroke-width="2"/>
+
+      <rect x="100" y="130" width="160" height="50" rx="10" fill="#14b8a6"/>
+      <text x="180" y="160" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Tahoma">١. العلم</text>
+
+      <rect x="340" y="130" width="160" height="50" rx="10" fill="#14b8a6"/>
+      <text x="420" y="160" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Tahoma">٢. الإرادة</text>
+    </svg>
+  </div>
+
+  <ol class="numbered-list">
+    <li><strong>العلم:</strong> الوعي بطبيعة الفعل، طبيعة النتيجة، والظروف التي تدخل في تكوين الجريمة.</li>
+    <li><strong>الإرادة:</strong> اتجاه نية الجاني إلى الفعل وإلى النتيجة الجرمية (إرادة الفعل + إرادة النتيجة).</li>
+  </ol>
+
+  <h3>تقسيمات القصد الجرمي</h3>
+
+  <h4>أ) القصد المباشر والقصد الاحتمالي</h4>
+  <div class="compare-grid">
+    <div class="compare-card blue">
+      <h5>🟦 القصد المباشر</h5>
+      <p>اتجاه نية الجاني إلى <strong>إحداث نتيجة معينة بذاتها</strong>. يريدها مباشرة كأثر حتمي لفعله.</p>
+      <p class="label">مثال:</p>
+      <p>زيد أطلق النار على عمرو قاصداً قتله.</p>
+    </div>
+    <div class="compare-card amber">
+      <h5>🟧 القصد الاحتمالي (غير المباشر)</h5>
+      <p><strong>توقّع الفاعل احتمال نتائج أخرى</strong> لم تكن في نيته الأصلية، ومضى جازفاً بها.</p>
+      <p class="label">مثال:</p>
+      <p>وضع متفجرات في طريق مركبة لقتل شخص، فيقتل معه ركاب آخرون توقع موتهم.</p>
+    </div>
+  </div>
+
+  <h4>ب) القصد المحدّد والقصد غير المحدّد</h4>
+  <div class="compare-grid">
+    <div class="compare-card green">
+      <h5>🟩 القصد المحدّد</h5>
+      <p>قصد ارتكاب فعل معين على محل بذاته ومحدد المقدار.</p>
+      <p class="label">مثال:</p>
+      <p>أطلق النار على فلان (شخص محدد).</p>
+    </div>
+    <div class="compare-card purple">
+      <h5>🟪 القصد غير المحدّد</h5>
+      <p>فعل غير محدد مقدار نتيجته.</p>
+      <p class="label">مثال:</p>
+      <p>ألقى قنبلة وسط جمع دون تحديد ضحايا.</p>
+    </div>
+  </div>
+
+  <h4>ج) القصد البسيط والقصد المبيَّت</h4>
+  <div class="compare-grid">
+    <div class="compare-card blue">
+      <h5>🟦 القصد البسيط</h5>
+      <p>النية الجرمية المتكونة من العلم والإرادة، <strong>ينشأ أثناء المباشرة</strong> دون تخطيط مسبق. حالة انفعال وثورة عاطفية.</p>
+      <p class="label">مثال:</p>
+      <p>ثائر غاضب يضرب خصمه فيقتله في الحال.</p>
+    </div>
+    <div class="compare-card amber">
+      <h5>🟧 القصد المبيَّت (العمد)</h5>
+      <p>القصد المُروَّى فيه، يتكون في حالة <strong>استقرار نفسي وهدوء بال</strong>. <strong>تدبير وتفكير مسبق</strong>.</p>
+      <p class="label">مثال:</p>
+      <p>يخطّط للقتل ويحدّد له زماناً ومكاناً، ثم يترصّد ضحيته.</p>
+    </div>
+  </div>
+
+  <h4>د) القصد العام والقصد الخاص</h4>
+  <div class="compare-grid">
+    <div class="compare-card green">
+      <h5>🟩 القصد العام</h5>
+      <p>المتكون من <strong>العلم والإرادة</strong>، يكفي وحده في الجرائم العادية.</p>
+    </div>
+    <div class="compare-card purple">
+      <h5>🟪 القصد الخاص</h5>
+      <p>يتطلّب <strong>قصداً إضافياً أو غاية معينة</strong>.</p>
+      <p class="label">مثال:</p>
+      <p>قصد إزهاق الروح في القتل العمد.</p>
+    </div>
+  </div>
+
+  <h3>إثبات القصد الجرمي</h3>
+  <p>يُثبَت <strong>بالقرائن</strong>، فهو حالة نفسية باطنة لا تُكشف إلا بمظاهرها الخارجية:</p>
+  <ul class="points">
+    <li>الباعث (الدافع)</li>
+    <li>الأداة المستعملة</li>
+    <li>طبيعة الفعل</li>
+    <li>الظروف المحيطة بالجريمة</li>
+    <li>علاقة الجاني بالمجني عليه</li>
+  </ul>
+
+  <h3>القصد والباعث (الدافع)</h3>
+  <table>
+    <thead>
+      <tr><th></th><th>القصد</th><th>الباعث</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>الطبيعة</td><td>ركن أساسي</td><td>محرك نفسي</td></tr>
+      <tr><td>الأثر على الجريمة</td><td>وجوده شرط</td><td>لا أثر له</td></tr>
+      <tr><td>الأثر على العقوبة</td><td>محدد للعقوبة</td><td>قد يُؤخذ في الاعتبار</td></tr>
+    </tbody>
+  </table>
+
+  <div class="key-point">الباعث (الدافع) <strong>لا أثر له على قيام الجريمة ولا على العقوبة كأصل عام</strong>. لكن قد يُلطّف العقوبة في بعض الحالات (تعزيراً).</div>
+
+  <div class="summary-box">
+    <h4>🎯 خلاصة القصد</h4>
+    <ul>
+      <li>عنصراه: <strong>العلم + الإرادة</strong>.</li>
+      <li>المباشر: نية مباشرة. الاحتمالي: قبول نتائج محتملة.</li>
+      <li>البسيط: ينشأ <strong>أثناء</strong> المباشرة. المبيَّت: ينشأ <strong>قبل</strong> المباشرة.</li>
+      <li>المحدد: محل وضحية معينة. غير المحدد: ضحايا غير محددين.</li>
+      <li>القصد ≠ الباعث.</li>
+    </ul>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">📝 اختبر فهمك</div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س١: ما الفرق بين القصد البسيط والقصد المبيَّت؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a"><strong>البسيط:</strong> ينشأ <strong>أثناء</strong> المباشرة في حالة انفعال (ثائر يضرب خصمه فيقتله).<br><strong>المبيَّت:</strong> ينشأ <strong>قبل</strong> المباشرة في حالة هدوء، مع سبق إصرار وترصّد.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٢: شخص وضع متفجرات في سيارة عدوه، فمات معه صديقه أيضاً. ما نوع القصد بحقّ كل منهما؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a">بحق <strong>العدو: قصد مباشر</strong>.<br>بحق <strong>الصديق: قصد احتمالي</strong> (الجاني توقّع موته ومضى جازفاً).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-text">س٣: ما الفرق بين القصد والباعث؟ <span class="quiz-toggle">(اضغط للإجابة)</span></div>
+      <div class="quiz-a"><strong>القصد:</strong> ركن أساسي في الجريمة.<br><strong>الباعث:</strong> محرّك نفسي للجريمة.<br><strong>الباعث لا أثر له على قيام الجريمة</strong>، لكن قد يُؤخذ في تقدير العقوبة.</div>
+    </div>
+  </div>
+</section>
+
+<div class="summary-box" style="text-align: center;">
+  <h4 style="color: #fbbf24;">🎯 الخريطة الذهنية الكاملة للمادة</h4>
+  <p style="font-size: 0.9rem; line-height: 2;">
+  <strong>القتل:</strong> عمد (قصاص) · شبه عمد (دية مغلظة) · خطأ (دية ١٠٠ إبل)<br>
+  <strong>الركن المادي:</strong> سلوك + نتيجة + علاقة سببية<br>
+  <strong>أنواع الجرائم:</strong> مقصودة / شبه عمد / غير مقصودة<br>
+  <strong>العقوبات:</strong> أصلية / بديلة / تبعية (بدون نطق) / تكميلية (بنطق)<br>
+  <strong>المستحيلة:</strong> انعدام محل أو عدم صلاحية وسيلة<br>
+  <strong>الشروع:</strong> بدء + قصد إتمام + خيبة أثر<br>
+  <strong>الخطأ:</strong> إخلال بالحيطة + علاقة ذهنية<br>
+  <strong>القصد:</strong> علم + إرادة (مباشر/احتمالي · بسيط/مبيَّت)
+  </p>
+</div>
+
+<footer>
+  بالتوفيق في مذاكرتك واختبارك ⚖️📚<br>
+</footer>
+
+</div>
+
+<a href="#" class="fab" aria-label="عودة للأعلى">↑</a>
+
+<script>
+document.querySelectorAll('.quiz-q').forEach(q => {
+  q.addEventListener('click', () => q.classList.toggle('show'));
+});
+
+document.querySelectorAll('.nav-btn, .fab').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      const target = href === '#' ? document.body : document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
