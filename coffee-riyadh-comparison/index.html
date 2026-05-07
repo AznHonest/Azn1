@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>مقارنة قهاوي الرياض 2024 / 2026</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <div>
+            <h1>قهاوي الرياض</h1>
+            <p>مقارنة 2024 و2026</p>
+          </div>
+        </div>
+
+        <nav class="tabs" aria-label="أقسام المقارنة">
+          <button class="tab active" data-tab="overview">الملخص</button>
+          <button class="tab" data-tab="new">جديد 2026</button>
+          <button class="tab" data-tab="deleted">لم يظهر في 2026</button>
+          <button class="tab" data-tab="changed">تغيّر</button>
+          <button class="tab" data-tab="stable">مستمر</button>
+        </nav>
+
+        <div class="source-note">
+          <strong>مصدر البيانات</strong>
+          <span id="sourceMeta">جار التحميل...</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <section id="overviewView" class="view active">
+          <div class="page-title">
+            <div>
+              <p class="eyebrow">لوحة مقارنة</p>
+              <h2>ما الذي تغير في مشهد القهوة بالرياض؟</h2>
+            </div>
+            <button id="exportSummary" class="ghost-button">تصدير الملخص</button>
+          </div>
+
+          <div id="metricGrid" class="metric-grid"></div>
+
+          <div class="two-column">
+            <section class="panel map-panel">
+              <div class="panel-title">
+                <h3>خريطة التغيرات</h3>
+                <span>نقاط فعلية من إحداثيات Google</span>
+              </div>
+              <div class="map-toolbar">
+                <button class="map-filter active" data-map-status="all">الكل</button>
+                <button class="map-filter" data-map-status="new">الجديد</button>
+                <button class="map-filter" data-map-status="deleted">المحذوف</button>
+                <button class="map-filter" data-map-status="changed">المتغير</button>
+              </div>
+              <div class="map-toolbar map-mode-toolbar" aria-label="طريقة عرض الخريطة">
+                <button class="map-mode active" data-map-mode="regions">مناطق</button>
+                <button class="map-mode" data-map-mode="districts">أحياء</button>
+                <button class="map-mode" data-map-mode="points">نقاط</button>
+              </div>
+              <div id="mapStats" class="map-stats"></div>
+              <div id="miniMap" class="mini-map" aria-label="خريطة نقاط تقريبية"></div>
+              <div class="legend">
+                <span><i class="dot new"></i> جديد</span>
+                <span><i class="dot deleted"></i> لم يظهر</span>
+                <span><i class="dot changed"></i> تغيّر</span>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-title">
+                <h3>ملاحظات مهمة</h3>
+                <span>الأشياء التي تستحق الانتباه</span>
+              </div>
+              <div id="insightList" class="insight-list"></div>
+            </section>
+          </div>
+
+          <div class="grid-panels">
+            <section class="panel">
+              <div class="panel-title">
+                <h3>أكثر الأحياء إضافة</h3>
+                <span>حسب سجلات 2026 الجديدة</span>
+              </div>
+              <div id="newDistrictsChart" class="bar-list"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-title">
+                <h3>أكثر التصنيفات ظهوراً في 2026</h3>
+                <span>كل ملف 2026</span>
+              </div>
+              <div id="typesChart" class="bar-list"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-title">
+                <h3>أكثر الحقول تغيراً</h3>
+                <span>من ملف CHANGES</span>
+              </div>
+              <div id="changesChart" class="bar-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="tableView" class="view">
+          <div class="page-title compact">
+            <div>
+              <p id="tableEyebrow" class="eyebrow">تصفح</p>
+              <h2 id="tableTitle">العناصر</h2>
+            </div>
+            <div class="result-count" id="resultCount"></div>
+          </div>
+
+          <div class="filters">
+            <label class="search-box">
+              <span>بحث</span>
+              <input id="searchInput" type="search" placeholder="اسم، حي، تصنيف، عنوان..." />
+            </label>
+            <label>
+              <span>التصنيف</span>
+              <select id="typeFilter"></select>
+            </label>
+            <label>
+              <span>الحي</span>
+              <select id="districtFilter"></select>
+            </label>
+            <label>
+              <span>الترتيب</span>
+              <select id="sortSelect">
+                <option value="reviews">الأكثر مراجعات</option>
+                <option value="rate">الأعلى تقييماً</option>
+                <option value="name">الاسم</option>
+                <option value="photos">الأكثر صوراً</option>
+                <option value="changes">الأكثر تغيّراً</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="tableWrap" class="table-wrap"></div>
+          <div class="pagination">
+            <button id="prevPage" class="ghost-button">السابق</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage" class="ghost-button">التالي</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="detailDialog" class="detail-dialog">
+      <button class="dialog-close" id="dialogClose" aria-label="إغلاق">×</button>
+      <div id="detailBody"></div>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
