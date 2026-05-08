@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>داشبورد القهاوي المصنفة في الرياض</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-51BHDKHK15"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-51BHDKHK15');
+    </script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand">
+          <span></span>
+          <div>
+            <h1>قهاوي الرياض</h1>
+            <p>نسخة التصنيف المنظف</p>
+          </div>
+        </div>
+        <nav>
+          <button class="nav active" data-tab="overview">الملخص</button>
+          <button class="nav" data-tab="map">الخريطة</button>
+          <button class="nav" data-tab="old">كل 2024</button>
+          <button class="nav" data-tab="current">كل 2026</button>
+          <button class="nav" data-tab="new">جديد 2026</button>
+          <button class="nav" data-tab="deleted">لم يظهر في 2026</button>
+          <button class="nav" data-tab="changed">التغييرات</button>
+          <button class="nav" data-tab="stable">المستمر</button>
+        </nav>
+        <div class="note" id="sourceNote">جار تحميل البيانات...</div>
+      </aside>
+
+      <main>
+        <section id="overview" class="view active">
+          <div class="title-row">
+            <div>
+              <p class="eyebrow">مقارنة مصنفة</p>
+              <h2>من 2024 إلى 2026 بعد تنظيف وتصنيف النشاطات</h2>
+            </div>
+          </div>
+          <div id="metrics" class="metrics"></div>
+          <div id="insights" class="insight-grid"></div>
+          <div class="analysis-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <h3>ملخص النمو</h3>
+                <span>أقوى التصنيفات حركة</span>
+              </div>
+              <div id="growthSummary" class="summary-list"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-head">
+                <h3>حصة السوق في 2026</h3>
+                <span>حسب التصنيف الداخلي</span>
+              </div>
+              <div id="shareDonut" class="share-panel"></div>
+            </section>
+          </div>
+          <div class="panel wide">
+            <div class="panel-head">
+              <h3>المقارنة حسب التصنيف الداخلي</h3>
+              <span>قهوة، محمصة، بيكري، شاهي، حلا...</span>
+            </div>
+            <div id="categoryComparison" class="category-grid"></div>
+          </div>
+          <div class="panel wide">
+            <div class="panel-head">
+              <h3>تحليل الأداء حسب التصنيف</h3>
+              <span>نمو، إضافة، حذف، وحصة من إجمالي 2026</span>
+            </div>
+            <div id="categoryAnalysis" class="analysis-table-wrap"></div>
+          </div>
+          <div class="panel wide">
+            <div class="panel-head">
+              <h3>إحصاء الأحياء بين 2024 و2026</h3>
+              <span>مستخرج من عمود الحي والعناوين</span>
+            </div>
+            <div id="districtAnalysis" class="analysis-table-wrap"></div>
+          </div>
+          <div class="dashboard-grid">
+            <section class="panel">
+              <div class="panel-head"><h3>تصنيفات 2026</h3><span>internal_category</span></div>
+              <div id="cat2026" class="bars"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-head"><h3>الأحياء الأعلى في 2026</h3><span>حسب الملف المنظف</span></div>
+              <div id="districts2026" class="bars"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-head"><h3>أكثر الأسماء تكراراً</h3><span>براندات/فروع</span></div>
+              <div id="brands2026" class="bars"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-head"><h3>قواعد التصنيف</h3><span>matched_rule</span></div>
+              <div id="rules2026" class="bars"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="mapView" class="view">
+          <div class="title-row compact">
+            <div>
+              <p class="eyebrow">توزيع مكاني</p>
+              <h2>خريطة تحليلية لنقاط الرياض</h2>
+            </div>
+          </div>
+          <div class="map-controls">
+            <label><span>الملف</span><select id="mapDataset">
+              <option value="old">كل 2024</option>
+              <option value="current">كل 2026</option>
+              <option value="new">جديد 2026</option>
+              <option value="deleted">لم يظهر في 2026</option>
+              <option value="stable">المستمر</option>
+            </select></label>
+            <label><span>التصنيف</span><select id="mapCategory"></select></label>
+            <label><span>طريقة العرض</span><select id="mapMode">
+              <option value="clusters">تجمعات</option>
+              <option value="points">نقاط</option>
+            </select></label>
+          </div>
+          <div class="panel map-panel">
+            <div id="mapCanvas" class="map-canvas"></div>
+            <div id="mapLegend" class="map-legend"></div>
+          </div>
+        </section>
+
+        <section id="tableView" class="view">
+          <div class="title-row compact">
+            <div>
+              <p id="tableEyebrow" class="eyebrow"></p>
+              <h2 id="tableTitle"></h2>
+            </div>
+            <strong id="resultCount"></strong>
+          </div>
+          <div class="filters">
+            <label><span>بحث</span><input id="searchInput" type="search" placeholder="اسم، تصنيف، حي، نوع..." /></label>
+            <label><span>التصنيف</span><select id="categoryFilter"></select></label>
+            <label><span>Google Type</span><select id="typeFilter"></select></label>
+            <label><span>الترتيب</span><select id="sortSelect">
+              <option value="reviews">الأكثر مراجعات</option>
+              <option value="name">الاسم</option>
+              <option value="category">التصنيف</option>
+              <option value="photos">الأكثر صوراً</option>
+            </select></label>
+          </div>
+          <div id="tableWrap" class="table-wrap"></div>
+          <div class="pagination">
+            <button id="prevPage">السابق</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage">التالي</button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <dialog id="details">
+      <button id="closeDialog" class="close">×</button>
+      <div id="detailsBody"></div>
+    </dialog>
+    <script src="./app.js"></script>
+  </body>
+</html>
