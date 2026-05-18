@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>بطائق المراجعة - قانون الشركات السعودي والحوكمة</title>
+    <noscript>
+        <style>
+            .noscript-warning {
+                background: #fee;
+                color: #c33;
+                padding: 1rem;
+                margin: 1rem;
+                border-radius: 8px;
+                text-align: center;
+                font-family: sans-serif;
+            }
+        </style>
+    </noscript>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f0f2f5 0%, #e6e9f0 100%);
+            font-family: 'Cairo', 'Segoe UI', 'Tahoma', system-ui, -apple-system, sans-serif;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        .cards-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 2rem;
+            justify-items: center;
+            align-items: start;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            max-width: 400px;
+            height: 420px;
+            perspective: 1500px;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            -webkit-transition: -webkit-transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            border-radius: 32px;
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 32px;
+            padding: 1.6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #1e2b3c, #0f1a24);
+            color: white;
+            border: 1px solid rgba(255,255,240,0.15);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .card-front h2 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            letter-spacing: -0.5px;
+            line-height: 1.3;
+        }
+
+        .card-front .tag {
+            background: rgba(255,215,120,0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #ffdf8c;
+            margin-top: 0.5rem;
+        }
+
+        .card-front .flip-icon {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            background: rgba(255,255,255,0.1);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+        }
+
+        .card-front .page-num {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            padding: 0.25rem 0.7rem;
+            border-radius: 50px;
+            color: #ffdf8c;
+        }
+
+        .card-back {
+            background: #fffef7;
+            background-image: radial-gradient(circle at 10% 20%, rgba(245, 240, 220, 0.4) 2%, transparent 2.5%);
+            background-size: 20px 20px;
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+            border: 1px solid #e9e0c7;
+            justify-content: flex-start;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            text-align: right;
+            color: #1f2a3a;
+            font-weight: 500;
+        }
+
+        .card-back h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-right: 6px solid #c29b3b;
+            padding-right: 12px;
+            margin-bottom: 1rem;
+            color: #1e2b3c;
+            width: 100%;
+        }
+
+        .card-back .content {
+            width: 100%;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #2c3e44;
+        }
+
+        .card-back .content p {
+            margin-bottom: 0.7rem;
+        }
+
+        .card-back .content strong, .card-back .content b {
+            color: #a5772a;
+            font-weight: 700;
+        }
+
+        .card-back .divider {
+            height: 2px;
+            background: linear-gradient(90deg, #e0cfaa, transparent);
+            width: 100%;
+            margin: 0.7rem 0;
+        }
+
+        .card-back ul, .card-back ol {
+            text-align: right;
+            padding-right: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .card-back li {
+            margin: 0.4rem 0;
+        }
+
+        .exam-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .exam-header h1 {
+            font-size: 2.2rem;
+            color: #1f2a3e;
+            background: rgba(255,255,245,0.7);
+            backdrop-filter: blur(4px);
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            border-radius: 60px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            font-weight: 800;
+        }
+
+        .exam-header p {
+            margin-top: 0.8rem;
+            color: #2c4b3e;
+            font-weight: 600;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 3rem;
+            color: #4a5b6e;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem;
+            }
+            .flip-card {
+                height: 480px;
+            }
+            .card-front h2 {
+                font-size: 1.4rem;
+            }
+            .card-back {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="exam-header">
+    <h1>⚖️ بطائق المراجعة - قانون الشركات السعودي والحوكمة</h1>
+    <p>✧ تعريف الشركة | عقد التأسيس | الأركان | تقديم الحصص | اقتسام الأرباح والخسائر | أنواع الشركات | الحوكمة ومبادئها | الجزاءات | بطاقات تكميلية + مقارنات + مصطلحات مفتاحية ✧</p>
+</div>
+
+<div class="cards-grid" id="cardsContainer">
+    <noscript>
+        <div class="noscript-warning">
+            ⚠️ تعذّر تشغيل JavaScript<br>
+            افتح الملف من متصفح Safari أو Chrome مباشرة
+        </div>
+    </noscript>
+</div>
+<div class="footer-note">
+    🔄 اضغط على أي بطاقة لقلبها وعرض التفاصيل — مراجعة سريعة قبل الاختبار 🔄
+</div>
+
+<script>
+    const flashcards = [
+        { // 1 - ص 42
+            page: "ص 42",
+            title: "تعريف الشركة وفقاً لقانون 1443هـ/2022م",
+            backContent: `
+                <h3>📜 تعريف الشركة</h3>
+                <div class="content">
+                    <p><strong>التعريف:</strong> الشركة هي <strong>كيان قانوني</strong> يؤسس وفقاً لأحكام النظام بناءً على <strong>عقد تأسيس أو نظام أساس</strong> يلتزم بمقتضاه شخصان أو أكثر بأن يساهم كل منهم في مشروع يستهدف الربح بتقديم <strong>حصة من مال أو عمل</strong>.</p>
+                    <div class="divider"></div>
+                    <p><strong>الهدف:</strong> اقتسام ما ينشأ عن المشروع من <strong>ربح أو خسارة</strong>.</p>
+                    <p><strong>استثناء:</strong> يجوز أن تؤسس الشركة بالإرادة المنفردة لشخص واحد (<strong>شركة الشخص الواحد</strong>).</p>
+                    <p>يجوز كذلك تأسيس <strong>شركات غير ربحية</strong> وفقاً للقانون.</p>
+                </div>
+            `
+        },
+        { // 2 - ص 42
+            page: "ص 42",
+            title: "الأركان العامة لعقد الشركة",
+            backContent: `
+                <h3>🏛️ الأركان العامة</h3>
+                <div class="content">
+                    <p>عقد الشركة شأنه شأن أي عقد آخر، لا ينعقد إلا إذا توافرت له <strong>أربعة أركان عامة</strong>:</p>
+                    <ol>
+                        <li><strong>الرضا</strong></li>
+                        <li><strong>الأهلية</strong></li>
+                        <li><strong>المحل</strong></li>
+                        <li><strong>السبب</strong></li>
+                    </ol>
+                    <div class="divider"></div>
+                    <p><strong>الأركان الموضوعية الخاصة:</strong></p>
+                    <ul>
+                        <li>تعدد الشركاء</li>
+                        <li>تقديم الحصص</li>
+                        <li>اقتسام الأرباح والخسائر</li>
+                        <li>نية المشاركة (أضافه الفقه)</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 3 - ص 42
+            page: "ص 42",
+            title: "الركن الأول: تعدد الشركاء",
+            backContent: `
+                <h3>👥 تعدد الشركاء</h3>
+                <div class="content">
+                    <p>القاعدة العامة: يجب أن تتكون الشركة من <strong>شريكين أو أكثر</strong>.</p>
+                    <div class="divider"></div>
+                    <p><strong>استثناء شركة المساهمة:</strong> يجب ألا يقل عدد الشركاء فيها عن <strong>خمسة</strong>.</p>
+                    <p><strong>الشركة ذات المسؤولية المحدودة:</strong> لا يجوز أن يزيد عدد الشركاء فيها على <strong>خمسين شريكاً</strong>.</p>
+                    <div class="divider"></div>
+                    <p>قد تتألف الشركة بين:</p>
+                    <ul>
+                        <li>شخصين طبيعيين أو أكثر</li>
+                        <li>شخصين معنويين أو أكثر</li>
+                        <li>أشخاص طبيعيين ومعنويين</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 4 - ص 43
+            page: "ص 43",
+            title: "الركن الثاني: تقديم الحصص (أنواعها)",
+            backContent: `
+                <h3>💰 أنواع الحصص</h3>
+                <div class="content">
+                    <p>لا يشترط تساوي قيمة الحصص، لكن يجب تقديرها عند التأسيس. <strong>ثلاثة أنواع:</strong></p>
+                    <div class="divider"></div>
+                    <p><strong>1️⃣ الحصة النقدية:</strong> مبلغ من النقود يلتزم الشريك بتقديمه. <strong>الأكثر شيوعاً</strong>، تدفع مرة واحدة أو على دفعات.</p>
+                    <p><strong>2️⃣ الحصة العينية:</strong> أموال غير نقدية، مادية (عقارات، أسهم، بضائع) أو معنوية (محل تجاري، علامة، اسم تجاري، براءة اختراع).</p>
+                    <p><strong>3️⃣ الحصة بالعمل:</strong> أن يسخّر الشريك خبرته أو جهده. يشترط أن يكون <strong>عملاً فنياً جدياً</strong> (كمهندس، صيدلي، كيميائي).</p>
+                    <p>⚠️ <strong>لا يجوز</strong> أن تكون الحصة مجرد سمعة أو نفوذ.</p>
+                </div>
+            `
+        },
+        { // 5 - ص 44
+            page: "ص 44",
+            title: "الركن الثالث: اقتسام الأرباح والخسائر",
+            backContent: `
+                <h3>📊 اقتسام الأرباح والخسائر</h3>
+                <div class="content">
+                    <p><strong>الأرباح:</strong> الكسب النقدي أو العيني الذي يضاف إلى ذمة الشركاء نتيجة نشاط الشركة.</p>
+                    <p><strong>شروط الربح الحقيقي:</strong></p>
+                    <ol>
+                        <li>ألا تستقطع الأرباح من رأس المال</li>
+                        <li>ألا يتم توزيع الأرباح إلا بعد جبر الخسائر</li>
+                        <li>ألا يؤدي توزيع الأرباح إلى إفلاس الشركة</li>
+                    </ol>
+                    <div class="divider"></div>
+                    <p><strong>الخسائر:</strong> الانخفاض في قيمة موجودات الشركة. يجب أن يتحملها جميع الشركاء.</p>
+                    <p>⚠️ <strong>لا يجوز</strong> الاتفاق على إعفاء شريك من الخسارة.</p>
+                </div>
+            `
+        },
+        { // 6 - ص 44
+            page: "ص 44",
+            title: "شرط الأسد ونية المشاركة",
+            backContent: `
+                <h3>🦁 شرط الأسد + نية المشاركة</h3>
+                <div class="content">
+                    <p><strong>شرط الأسد:</strong> الشروط التي تؤدي إلى <strong>حرمان الشريك من الربح أو تحصينه ضد الخسارة</strong>.</p>
+                    <p>التسمية: قياساً على خرافة الأسد الذي اشترك مع صحبة في الصيد ثم استأثر بالغنيمة.</p>
+                    <p><strong>حكمه:</strong> يقتضى نظام الشركات <strong>بطلان هذا النوع</strong> من الشروط، لأنها تتنافى مع اشتراك الشركاء في الأرباح والخسائر.</p>
+                    <div class="divider"></div>
+                    <p><strong>الركن الرابع - نية المشاركة:</strong> أضافها الفقه والقضاء. هي <strong>الرغبة المتوافرة لدى الشركاء للتعاون فيما بينهم وتحمل المخاطر المشتركة</strong> لتحقيق غرض الشركة.</p>
+                </div>
+            `
+        },
+        { // 7 - ص 45
+            page: "ص 45",
+            title: "الركن العام الأول: الرضا",
+            backContent: `
+                <h3>✍️ الرضا</h3>
+                <div class="content">
+                    <p>يشترط لانعقاد الشركة <strong>رضا الشركاء بها</strong>. يجب أن يمتد الرضا ليشمل كل بنود العقد:</p>
+                    <ul>
+                        <li>عنوان الشركة</li>
+                        <li>مقدار رأس المال</li>
+                        <li>مقدار حصة كل شريك</li>
+                        <li>بداية ونهاية السنة المالية</li>
+                        <li>أسماء الشركاء</li>
+                        <li>غرض الشركة</li>
+                        <li>كيفية إدارتها ومدتها</li>
+                        <li>الشكل القانوني</li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p>⚠️ تكون الشركة <strong>باطلة</strong> إذا انعدم الرضا سواء بالنسبة لجميع الشركاء أو أحدهم.</p>
+                </div>
+            `
+        },
+        { // 8 - ص 45
+            page: "ص 45",
+            title: "الركن العام الثاني: الأهلية",
+            backContent: `
+                <h3>🧑‍⚖️ الأهلية</h3>
+                <div class="content">
+                    <p>الدخول في الشركة <strong>تصرف قانوني</strong> يجب أن تتوافر لأطرافه الأهلية اللازمة لإبرام عقد الشركة.</p>
+                    <div class="divider"></div>
+                    <p><strong>المبدأ العام:</strong> يمكن لأي شخص بلغ <strong>ثمانية عشر عاماً هجرياً</strong> ولم يصبه عارض من عوارض الأهلية (كالجنون والعته) أو ما ينقصها (السفه والغفلة) أن يكون شريكاً.</p>
+                    <p><strong>إذا لم يبلغ الـ 18 + مصاب بعارض:</strong> الشركة <strong>قابلة للإبطال لمصلحته</strong> حسب الأحوال.</p>
+                </div>
+            `
+        },
+        { // 9 - ص 45
+            page: "ص 45",
+            title: "الركن العام الثالث: المحل",
+            backContent: `
+                <h3>🎯 المحل</h3>
+                <div class="content">
+                    <p><strong>المحل:</strong> هو الغرض (النشاط) الذي يسعى الشركاء إلى تحقيقه.</p>
+                    <p><strong>شروط المحل:</strong></p>
+                    <ul>
+                        <li><strong>محدد</strong></li>
+                        <li><strong>ممكن</strong></li>
+                        <li><strong>مشروع</strong></li>
+                        <li><strong>غير مخالف للنظام العام أو الآداب</strong></li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p>⚠️ <strong>الشركة باطلة</strong> إذا كان غرضها محرماً مثل:</p>
+                    <ul>
+                        <li>الاتجار بالخمور والمخدرات والرقيق</li>
+                        <li>بيع لحوم الخنزير</li>
+                        <li>الاتجار بالأعضاء البشرية</li>
+                        <li>إدارة القمار</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 10 - ص 46
+            page: "ص 46",
+            title: "الركن العام الرابع: السبب",
+            backContent: `
+                <h3>🎯 السبب</h3>
+                <div class="content">
+                    <p>اختلف شراح القانون حول المقصود بالسبب:</p>
+                    <div class="divider"></div>
+                    <p><strong>الرأي الأول:</strong> السبب هو <strong>رغبة الشركاء في تحقيق الغرض</strong> الذي أنشئت من أجله الشركة. (السبب يختلط بالمحل ويكون محلها وسببها غير مشروعين معاً).</p>
+                    <p><strong>الرأي الراجح:</strong> السبب <strong>لا يختلط بالمحل</strong>، وأن السبب في عقد الشركة هو <strong>رغبة كل شريك في الحصول على الربح</strong>، وأن السبب يكون لذلك مشروعاً في كل الصور.</p>
+                </div>
+            `
+        },
+        { // 11 - ص 46
+            page: "ص 46",
+            title: "أنواع الشركات في القانون السعودي 1443هـ",
+            backContent: `
+                <h3>📋 أنواع الشركات الستة</h3>
+                <div class="content">
+                    <p>وفقاً لقانون الشركات الجديد الصادر في <strong>1443هـ / 2022م</strong>، تتخذ الشركات الأشكال الآتية:</p>
+                    <ol>
+                        <li><strong>شركة التضامن</strong></li>
+                        <li><strong>شركة التوصية البسيطة</strong></li>
+                        <li><strong>شركة المساهمة</strong></li>
+                        <li><strong>شركة المساهمة المبسطة</strong></li>
+                        <li><strong>الشركة ذات المسؤولية المحدودة</strong></li>
+                        <li><strong>الشركات غير الربحية</strong></li>
+                    </ol>
+                    <div class="divider"></div>
+                    <p>👈 جاء بأحكام ومفاهيم جديدة بالإضافة لحزمة تعديلات على الأحكام الحالية بما يتفق مع أفضل التجارب والممارسات.</p>
+                </div>
+            `
+        },
+        { // 12 - ص 46/47
+            page: "ص 46-47",
+            title: "1️⃣ شركة التضامن (تعريف وعقد)",
+            backContent: `
+                <h3>🤝 شركة التضامن</h3>
+                <div class="content">
+                    <p><strong>التعريف:</strong> شركة يؤسسها شخصان أو أكثر من ذوي الصفة الطبيعية أو الاعتبارية، يكونون فيها <strong>مسؤولين شخصياً وبالتضامن</strong> في جميع أموالهم عن ديون الشركة والتزاماتها.</p>
+                    <p>يكتسب الشريك فيها <strong>صفة التاجر</strong>.</p>
+                    <div class="divider"></div>
+                    <p><strong>بيانات عقد التأسيس:</strong> أسماء الشركاء، اسم الشركة، المركز الرئيس، الغرض، رأس المال، توزيعه، الحصص، مدة الشركة، الإدارة، القرارات، توزيع الأرباح والخسائر، السنة المالية، انقضاء الشركة.</p>
+                </div>
+            `
+        },
+        { // 13 - ص 47
+            page: "ص 47",
+            title: "2️⃣ شركة التوصية البسيطة",
+            backContent: `
+                <h3>🤝 شركة التوصية البسيطة</h3>
+                <div class="content">
+                    <p><strong>التعريف:</strong> شركة تتكون من <strong>فريقين من الشركاء</strong>:</p>
+                    <div class="divider"></div>
+                    <p><strong>الفريق الأول (متضامن):</strong> يضم على الأقل شريكاً من ذوي الصفة الطبيعية أو الاعتبارية، <strong>مسؤول شخصياً وبالتضامن</strong> في جميع أمواله عن ديون الشركة.</p>
+                    <p><strong>الفريق الثاني (موصي):</strong> يضم على الأقل شريكاً <strong>لا يكون مسؤولاً عن ديون الشركة إلا في حدود حصته</strong> في رأس المال.</p>
+                    <p>⚠️ <strong>الشريك الموصي لا يكتسب صفة التاجر</strong>.</p>
+                </div>
+            `
+        },
+        { // 14 - ص 48
+            page: "ص 48",
+            title: "3️⃣ شركة المساهمة (تعريف)",
+            backContent: `
+                <h3>📈 شركة المساهمة</h3>
+                <div class="content">
+                    <p><strong>التعريف:</strong> شركة يؤسسها شخص واحد أو أكثر من ذوي الصفة الطبيعية أو الاعتبارية.</p>
+                    <p>رأس مالها <strong>مقسم إلى أسهم قابلة للتداول</strong>.</p>
+                    <p>الشركة وحدها مسؤولة عن الديون والالتزامات الناشئة عن نشاطها.</p>
+                    <p>تقتصر مسؤولية المساهم على أداء قيمة الأسهم التي اكتتب فيها.</p>
+                    <div class="divider"></div>
+                    <p><strong>الحد الأدنى لرأس المال المصدر:</strong> <strong>500,000 ريال (خمسمائة ألف)</strong>.</p>
+                    <p><strong>الحد الأدنى المدفوع عند التأسيس:</strong> <strong>الربع (¼)</strong>.</p>
+                </div>
+            `
+        },
+        { // 15 - ص 49
+            page: "ص 49",
+            title: "4️⃣ شركة المساهمة المبسطة",
+            backContent: `
+                <h3>🚀 شركة المساهمة المبسطة</h3>
+                <div class="content">
+                    <p><strong>التعريف:</strong> شركة يتم تأسيسها من <strong>شخص واحد أو أكثر</strong>.</p>
+                    <div class="divider"></div>
+                    <p><strong>مميزاتها:</strong></p>
+                    <ul>
+                        <li>⚡ <strong>لا يشترط حد أدنى لرأس المال</strong></li>
+                        <li>إمكانية إصدار <strong>أنواع وفئات متعددة</strong> من الأسهم بحقوق والتزامات وقيود متفاوتة</li>
+                        <li>الإدارة من قبل <strong>مدير أو أكثر، أو مجلس إدارة، أو غير ذلك</strong></li>
+                        <li><strong>لا يشترط بها جمعيات عامة</strong>؛ بل يتولى المساهمون ممارسة الاختصاصات</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 16 - ص 52
+            page: "ص 52",
+            title: "5️⃣ الشركة ذات المسؤولية المحدودة + الشركات غير الربحية",
+            backContent: `
+                <h3>🏢 ذات المسؤولية المحدودة + غير الربحية</h3>
+                <div class="content">
+                    <p><strong>الشركات غير الربحية - نوعان:</strong></p>
+                    <p><strong>1️⃣ شركة غير ربحية عامة:</strong> تتخذ شكل المساهمة، تنفق أرباحها في المصارف غير الربحية العامة التي تهدف <strong>حصراً إلى خدمة المجتمع بعمومه</strong>.</p>
+                    <p><strong>2️⃣ شركة غير ربحية خاصة:</strong> تتخذ شكل ذات المسؤولية المحدودة أو المساهمة أو المساهمة المبسطة.</p>
+                    <div class="divider"></div>
+                    <p>للشركة غير الربحية أن تحصل على عوائد نقدية أو عينية مقابل أعمالها، وأن تمارس أي نشاط مشروع يمكنها من تحقيق أرباح <strong>تنفقها في المصارف غير الربحية</strong>.</p>
+                </div>
+            `
+        },
+        { // 17 - ص 52/53
+            page: "ص 52-53",
+            title: "6️⃣ الشركة القابضة والتابعة",
+            backContent: `
+                <h3>🏛️ القابضة والتابعة</h3>
+                <div class="content">
+                    <p><strong>تعريف الشركة القابضة:</strong> شركة مساهمة أو ذات مسؤولية محدودة تهدف إلى <strong>السيطرة على شركات أخرى</strong> (تُدعى الشركات التابعة)، وذلك بامتلاك <strong>أكثر من نصف رأس مالها</strong> أو بالسيطرة على تشكيل مجلس إدارتها.</p>
+                    <p>⚠️ يجب أن يقترن اسم الشركة بكلمة <strong>"قابضة"</strong>.</p>
+                    <div class="divider"></div>
+                    <p><strong>خطوات التأسيس:</strong></p>
+                    <ol>
+                        <li>تبدأ في صورة شركة مساهمة أو ذات مسؤولية محدودة</li>
+                        <li>إنشاء شركة مساهمة أو ذات مسؤولية محدودة منفردة أو بمجموعة</li>
+                        <li>شراء/بيع أسهم شركة المساهمة بأكثر من 50% من رأس مالها</li>
+                    </ol>
+                </div>
+            `
+        },
+        { // 18 - ص 53
+            page: "ص 53",
+            title: "شروط إنشاء الشركة القابضة",
+            backContent: `
+                <h3>📋 شروط القابضة + الشخص الواحد</h3>
+                <div class="content">
+                    <p><strong>شروط الشركة القابضة:</strong></p>
+                    <ol>
+                        <li>أن تكون <strong>شركة تجارية</strong> ذات شخصية معنوية تتمتع بحق التملك</li>
+                        <li>وجود عدد من الشركات التابعة (تملكها لعدد من أسهم الشركات التابعة)</li>
+                        <li><strong>السيطرة الإدارية</strong> على جميع الشركات التابعة والتحكم بسياساتها المالية والإدارية</li>
+                        <li><strong>انفصال الشركات التابعة</strong> عن الشركة الخاصة والاستقلال التام لكل شركة</li>
+                    </ol>
+                    <div class="divider"></div>
+                    <p><strong>شركة الشخص الواحد:</strong> تسمح لأي مستثمر أو شخص بتأسيس شركة بمفرده. <strong>الذمة المالية لمالك الشركة منفصلة تماماً عن الشركة</strong>.</p>
+                </div>
+            `
+        },
+        { // 19 - ص 54
+            page: "ص 54",
+            title: "مميزات شركة الشخص الواحد",
+            backContent: `
+                <h3>⭐ مميزات شركة الشخص الواحد</h3>
+                <div class="content">
+                    <p>من <strong>أهم أنواع الشركات</strong> التي يعتمد عليها النظام الاقتصادي:</p>
+                    <div class="divider"></div>
+                    <p><strong>1️⃣ صالحة لأصحاب المشاريع الناشئة:</strong> يلجأ لها رواد الأعمال، خاصة في المشاريع المتوسطة والصغيرة، مما يزيد فرص الاستثمار.</p>
+                    <p><strong>2️⃣ سهولة الإدارة:</strong> وجود جميع الصلاحيات والسلطات في يد مالك الشركة → <strong>استقلالية في الإدارة والرقابة وإصدار القرارات</strong>.</p>
+                    <p><strong>3️⃣ محدودية الخسائر:</strong> إذا تعرضت الشركة للإفلاس، لا يعني إفلاس مالكها (الذمة المالية منفصلة).</p>
+                </div>
+            `
+        },
+        { // 20 - ص 54
+            page: "ص 54",
+            title: "حوكمة الشركات (تعريف وأهمية)",
+            backContent: `
+                <h3>🏛️ مفهوم الحوكمة</h3>
+                <div class="content">
+                    <p><strong>التعريف:</strong> تُعد حوكمة الشركات من الموضوعات المهمة لجميع الشركات المحلية والعالمية.</p>
+                    <p>وضعت الأزمات المالية مفهوم حوكمة الشركات <strong>ضمن الأولويات</strong>.</p>
+                    <div class="divider"></div>
+                    <p><strong>أهداف الحوكمة:</strong></p>
+                    <ul>
+                        <li>الحد من استخدام السلطة الإدارية في غير مصالح المساهمين</li>
+                        <li>تفعيل أداء مجالس الإدارة</li>
+                        <li>تعزيز الرقابة الداخلية</li>
+                        <li>متابعة تنفيذ الاستراتيجيات</li>
+                        <li>تحديد الأدوار والصلاحيات</li>
+                        <li>تأكيد أهمية <strong>الشفافية والإفصاح</strong></li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 21 - ص 55
+            page: "ص 55",
+            title: "تعريف حوكمة الشركات",
+            backContent: `
+                <h3>📖 ماهي الحوكمة</h3>
+                <div class="content">
+                    <p><strong>التعريف:</strong> القواعد التي يتم من خلالها <strong>قيادة الشركة وتوجيهها</strong>.</p>
+                    <div class="divider"></div>
+                    <p><strong>تشمل الحوكمة على آليات لتنظيم العلاقات المختلفة بين:</strong></p>
+                    <ul>
+                        <li>مجلس الإدارة</li>
+                        <li>المديرين التنفيذيين</li>
+                        <li>المساهمين</li>
+                        <li>أصحاب المصالح</li>
+                    </ul>
+                    <p><strong>الهدف:</strong> وضع إجراءات لتسهيل اتخاذ القرارات وإضفاء طابع <strong>الشفافية والمصداقية</strong>، بغرض حماية حقوق المساهمين، وتحقيق العدالة والتنافسية في السوق.</p>
+                </div>
+            `
+        },
+        { // 22 - ص 55
+            page: "ص 55",
+            title: "مبادئ الحوكمة الستة (1-3)",
+            backContent: `
+                <h3>📌 المبادئ الستة - الجزء الأول</h3>
+                <div class="content">
+                    <p>توجد <strong>ستة مبادئ للحوكمة</strong> متفق عليها:</p>
+                    <div class="divider"></div>
+                    <p><strong>المبدأ 1️⃣: ضمان وجود أساس لإطار فعال لحوكمة الشركات</strong> — توافر القوانين واللوائح بضبط الأداء الإداري، وضوح السلطات والمسؤوليات، فعالية التقارير، الشفافية، تعدد الجهات الرقابية.</p>
+                    <p><strong>المبدأ 2️⃣: حماية المساهمين وتسهيل ممارسة حقوقهم</strong> — تأمين التسجيل والنقل، حضور الجمعية العامة، التصويت، انتخاب أعضاء المجلس، الرقابة، الحصول على المعلومات والأرباح.</p>
+                    <p><strong>المبدأ 3️⃣: المعاملة المتساوية للمساهمين</strong> — المساواة بين الفئات المتكافئة، الدفاع عن حقوقهم، الإفصاح عن المصالح الخاصة، التعويض عن التعدي.</p>
+                </div>
+            `
+        },
+        { // 23 - ص 56
+            page: "ص 56",
+            title: "مبادئ الحوكمة الستة (4-6)",
+            backContent: `
+                <h3>📌 المبادئ الستة - الجزء الثاني</h3>
+                <div class="content">
+                    <p><strong>المبدأ 4️⃣: دور أصحاب المصالح في الحوكمة</strong> — رعاية حقوق أصحاب المصالح (الموردين، العملاء، العمال، الدائنين، البنوك)، وتشجيع التعاون النشط بينهم وبين الشركات.</p>
+                    <div class="divider"></div>
+                    <p><strong>المبدأ 5️⃣: مبدأ الإفصاح والشفافية</strong> — الإفصاح عن المعلومات المتعلقة بالشركة بما في ذلك المركز المالي، الأداء، حقوق الملكية في الوقت المناسب بشمولية ودقة.</p>
+                    <div class="divider"></div>
+                    <p><strong>المبدأ 6️⃣: مسؤوليات مجلس الإدارة</strong> — ضمان التوجيه والإرشاد الاستراتيجي للشركة، ومحاسبة المجلس عن أعماله ومهامه أمام الشركة والمساهمين.</p>
+                </div>
+            `
+        },
+        { // 24 - ص 56
+            page: "ص 56",
+            title: "أهمية الحوكمة",
+            backContent: `
+                <h3>💎 أهمية الحوكمة</h3>
+                <div class="content">
+                    <p>الحوكمة <strong>صمام الأمان</strong> للشركات الصغرى والكبرى:</p>
+                    <ul>
+                        <li>تساعد على <strong>استمرارية الشركات وتطورها</strong></li>
+                        <li>استقطاب رؤوس الأموال</li>
+                        <li>تجنب <strong>الفشل المالي والإداري</strong></li>
+                        <li>منع تفضيل مصالح مجلس الإدارة على المساهمين</li>
+                        <li>تفعيل مبدأ <strong>الثواب والعقاب</strong></li>
+                        <li>منع <strong>التجار الداخليين (Insider Trading)</strong></li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p><strong>للحوكمة دور في:</strong></p>
+                    <ul>
+                        <li>جلب الاستثمار الأجنبي وخلق بيئة استثمارية مستقرة</li>
+                        <li>تعميق سوق المال (تتفق مع رؤية المملكة 2030)</li>
+                        <li>تقدير مخاطر الائتمان للدائنين</li>
+                        <li>الحد من الفساد</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 25 - ص 57
+            page: "ص 57",
+            title: "الإطار القانوني للحوكمة في نظام الشركات الجديد",
+            backContent: `
+                <h3>⚖️ الإطار القانوني</h3>
+                <div class="content">
+                    <p><strong>المرجعية:</strong> المرسوم الملكي رقم <strong>م/132</strong> بتاريخ <strong>1/12/1443هـ</strong>، المنشور في 23/12/1443هـ.</p>
+                    <div class="divider"></div>
+                    <p>اشتمل النظام على قواعد الحوكمة <strong>من مرحلة التأسيس → ممارسة الأعمال → التحول والاندماج → التصفية</strong>.</p>
+                    <p><strong>ثلاثة مطالب رئيسية:</strong></p>
+                    <ol>
+                        <li>قواعد الحوكمة في مرحلة التأسيس وشركات الأشخاص</li>
+                        <li>قواعد الحوكمة في شركات الأموال والمختلطة</li>
+                        <li>الجزاءات المترتبة على عدم تفعيل الحوكمة</li>
+                    </ol>
+                </div>
+            `
+        },
+        { // 26 - ص 57
+            page: "ص 57",
+            title: "قواعد الحوكمة في مرحلة التأسيس",
+            backContent: `
+                <h3>🏗️ مرحلة التأسيس</h3>
+                <div class="content">
+                    <p>راعى قانون الشركات الحوكمة في مرحلة التأسيس لـ <strong>حماية المجتمع من الشركات الوهمية</strong>:</p>
+                    <div class="divider"></div>
+                    <ul>
+                        <li>نص على <strong>كتابة وتوثيق</strong> عقود الشركات وكل تعديل يطرأ عليها</li>
+                        <li>إلا كانت <strong>باطلة</strong></li>
+                        <li>تقرير <strong>المسؤولية التضامنية</strong> لكل من الشركاء والمديرين وأعضاء مجالس الإدارة</li>
+                        <li>تعويض الأضرار الناتجة عن عدم القيام بالتوثيق</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 27 - ص 58
+            page: "ص 58",
+            title: "متطلبات شركة المساهمة عند التأسيس",
+            backContent: `
+                <h3>📄 متطلبات المساهمة</h3>
+                <div class="content">
+                    <p><strong>أوجب القانون لشركة المساهمة:</strong></p>
+                    <ul>
+                        <li><strong>شهر العقد</strong> في موقع الوزارة الإلكتروني</li>
+                        <li>تزويد الوزارة بنسخة من عقد التأسيس ونظام الشركة الأساس بعد التصديق</li>
+                        <li>إعطاء مستخرج من شهر تأسيس الشركة <strong>حجة في مواجهة الغير</strong></li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p><strong>على جميع الوثائق التي تصدرها الشركة:</strong> اسم الشركة، نوعها، مركزها الرئيس، رقم قيدها في السجل التجاري.</p>
+                    <p>⚠️ <strong>باستثناء شركتي التضامن والتوصية البسيطة:</strong> يجب بيان رأس المال والمدفوع.</p>
+                    <p>📌 أثناء التصفية: تضاف عبارة <strong>"تحت التصفية"</strong> إلى اسم الشركة.</p>
+                </div>
+            `
+        },
+        { // 28 - ص 58
+            page: "ص 58",
+            title: "قواعد الحوكمة في شركات الأشخاص (التضامن والتوصية)",
+            backContent: `
+                <h3>🤝 الحوكمة في شركات الأشخاص</h3>
+                <div class="content">
+                    <p><strong>أولاً: شركة التضامن</strong></p>
+                    <ul>
+                        <li><strong>الإفصاح عن نوع الشركة</strong> في عنوانها وبيان أنها شركة تضامن</li>
+                        <li><strong>حظر</strong> الشريك من الحصول على منافع لحسابه دون موافقة الشركاء</li>
+                        <li>حق بقية الشركاء في المطالبة القضائية عن الأعمال التي قام بها لحسابه</li>
+                        <li><strong>لا يجوز للشريك الانسحاب</strong> من الشركة إلا في وقت ملائم</li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p><strong>ثانياً: شركة التوصية البسيطة</strong></p>
+                    <ul>
+                        <li>عنوان الشركة منبئ عن أنها توصية بسيطة</li>
+                        <li>اعتبار <strong>الشريك الموصي المذكور اسمه في العنوان</strong> + الشريك المتدخل في الإدارة مسؤولين تضامنياً</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 29 - ص 60
+            page: "ص 60",
+            title: "الحوكمة في الشركة ذات المسؤولية المحدودة",
+            backContent: `
+                <h3>🏢 الحوكمة في ذات المسؤولية</h3>
+                <div class="content">
+                    <p>حرص القانون على تفعيل مبادئ الحوكمة:</p>
+                    <ul>
+                        <li><strong>نشر عقد التأسيس</strong> على موقع الوزارة والقيد في السجل التجاري خلال <strong>30 يوماً</strong></li>
+                        <li>تسجيل بلوغ الخسائر نصف رأس المال</li>
+                        <li><strong>حظر تملك أكثر من شركة شخص واحد</strong></li>
+                        <li>أحقية الشركاء في الرقابة (الاطلاع على الدفاتر والأعمال)</li>
+                        <li>قرارات الجمعية لا تصح إلا بموافقة شركاء يمثلون <strong>نصف رأس المال</strong></li>
+                        <li>إعداد القوائم المالية خلال <strong>ثلاثة أشهر</strong> من نهاية السنة المالية</li>
+                        <li>إذا بلغت الخسائر نصف رأس المال → دعوة الشركاء خلال <strong>90 يوماً</strong></li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 30 - ص 60
+            page: "ص 60",
+            title: "الحوكمة في الشركة القابضة",
+            backContent: `
+                <h3>🏛️ الحوكمة في القابضة</h3>
+                <div class="content">
+                    <p><strong>أوجب القانون على الشركة القابضة:</strong></p>
+                    <ul>
+                        <li><strong>إعداد قوائم مالية</strong> في نهاية كل سنة تشملها وتشمل الشركات التابعة</li>
+                        <li>يؤدي إلى انتهاج الشركة الأم استراتيجيات <strong>أكثر حوكمة</strong> لإدارة الشركات التابعة</li>
+                        <li>تبسيط أنشطتها</li>
+                        <li><strong>تقليل الانتهاكات</strong> التي ترتكبها الإدارة</li>
+                        <li>بما يؤدي إلى <strong>التنمية</strong></li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 31 - ص 61
+            page: "ص 61",
+            title: "الحوكمة في الشركات الأجنبية",
+            backContent: `
+                <h3>🌍 الشركات الأجنبية</h3>
+                <div class="content">
+                    <p>ضمن نصوص قواعد الحوكمة، نص القانون على:</p>
+                    <ul>
+                        <li><strong>يسري عليها قانون الشركات</strong> ما لم تكن توجد اتفاقات دولية</li>
+                        <li><strong>لا يجوز لها ممارسة النشاط</strong> إلا بعد قيدها في السجل التجاري</li>
+                        <li>يتوجب عليها إعداد القوائم المالية</li>
+                        <li>إيداعها في وزارة التجارة <strong>خلال 6 أشهر</strong> من انقضاء السنة المالية</li>
+                        <li>إذا تجاوزت الأعمال المرخص لها → يُسأل القائمون عليها <strong>بالتضامن</strong></li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p>✨ يؤدي إلى تحسين التنافسية والنفاذ إلى الأسواق الإقليمية والعالمية (من أهداف <strong>رؤية 2030</strong>).</p>
+                </div>
+            `
+        },
+        { // 32 - ص 61
+            page: "ص 61",
+            title: "الجزاءات الجنائية على عدم تفعيل الحوكمة",
+            backContent: `
+                <h3>⚖️ الجزاءات الجنائية</h3>
+                <div class="content">
+                    <p>نص قانون الشركات السعودي الجديد على <strong>معاقبة</strong>:</p>
+                    <ul>
+                        <li>كل <strong>مراجع حسابات</strong> لم يبلغ عن المخالفات الجنائية</li>
+                        <li>كل <strong>موظف أفشى أسرار الشركة</strong> بحكم وظيفته</li>
+                        <li>كل شخص معين للتفتيش <strong>بث وقائع كاذبة</strong> أو إغفال ذكر وقائع جوهرية</li>
+                        <li>أي إخلال بواجب أو امتناع عن القيام بعمل (من التأسيس → الإدارة → الموظفين)</li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p>✅ لتحقيق العدالة: أجاز القانون <strong>التظلم من العقوبة</strong> أمام الجهات القضائية المختصة.</p>
+                    <p>✅ <strong>أحقية أي شخص في الرجوع</strong> على من تسبب له بضرر نتيجة ارتكاب الجرائم.</p>
+                </div>
+            `
+        },
+        { // 33 - ص 61 + النهاية
+            page: "ص 61 - نهاية",
+            title: "الرقابة على الشركات المدرجة في البورصة",
+            backContent: `
+                <h3>📊 الرقابة على المدرجة</h3>
+                <div class="content">
+                    <p><strong>نص القانون على أحقية الجهات المختصة في الرقابة على الشركات</strong>، خاصة المدرجة في البورصة:</p>
+                    <ul>
+                        <li><strong>التفتيش على دفاترها</strong> وفحص حساباتها</li>
+                        <li>طلب البيانات من مجلس الإدارة ومديري الشركة</li>
+                        <li>تزويد <strong>ممثلي هيئة سوق المال</strong> بالدفاتر والسجلات والوثائق</li>
+                        <li>تقديم كل المعلومات والإيضاحات المتعلقة</li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p>✨ أعطى النظام <strong>صفة الضبط القضائي</strong> للموظفين المنوط بهم القيام بالتفتيش، ولهم التحفظ على ما يرونه متعلق بالجريمة من وثائق وسجلات.</p>
+                    <p style="text-align:center; margin-top:1rem; color:#a5772a;">✦ تم بحمد الله ✦</p>
+                </div>
+            `
+        },
+        { // 34 - تكميلية ص 42
+            page: "ص 42 - تكميلية",
+            title: "🔄 الفرق بين الشركة كياناً وعقد الشركة",
+            backContent: `
+                <h3>⚖️ مقارنة جوهرية</h3>
+                <div class="content">
+                    <p><strong>الشركة (كيان قانوني):</strong></p>
+                    <ul>
+                        <li>كيان قانوني يؤسس وفقاً لأحكام النظام</li>
+                        <li>له <strong>شخصية اعتبارية مستقلة</strong></li>
+                        <li>ذمة مالية منفصلة عن الشركاء</li>
+                        <li>يمارس النشاط ويملك الحقوق ويتحمل الالتزامات</li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p><strong>عقد الشركة:</strong></p>
+                    <ul>
+                        <li>اتفاق بين شخصين أو أكثر</li>
+                        <li>كل منهم يلتزم بتقديم <strong>حصة من مال أو عمل</strong></li>
+                        <li>لاقتسام ما ينشأ من <strong>ربح أو خسارة</strong></li>
+                        <li>يجب أن تتوافر له <strong>الأركان العامة + الخاصة</strong></li>
+                    </ul>
+                    <p>📌 <strong>الخلاصة:</strong> العقد سبب وجود الشركة، والشركة نتيجة العقد.</p>
+                </div>
+            `
+        },
+        { // 35 - تكميلية ص 48-49
+            page: "ص 48-49 - تكميلية",
+            title: "📋 بيانات النظام الأساس لشركة المساهمة",
+            backContent: `
+                <h3>📜 النظام الأساس للمساهمة</h3>
+                <div class="content">
+                    <p>يجب أن يشتمل النظام الأساس على البيانات الآتية:</p>
+                    <ul>
+                        <li><strong>أ</strong> - اسم الشركة</li>
+                        <li><strong>ب</strong> - المركز الرئيس للشركة</li>
+                        <li><strong>ج</strong> - غرض الشركة</li>
+                        <li><strong>د</strong> - رأس مال الشركة المصرح به (إن وجد)، المصدر والمدفوع منه</li>
+                        <li><strong>هـ</strong> - عدد الأسهم، أنواعها، فئاتها، القيمة الاسمية، الحقوق المتصلة</li>
+                        <li><strong>و</strong> - مدة الشركة (إن وجدت)</li>
+                        <li><strong>ز</strong> - إدارة الشركة، تحديد عدد أعضاء مجلس الإدارة</li>
+                        <li><strong>ح</strong> - تاريخ بدء السنة المالية وانتهائها</li>
+                        <li><strong>ط</strong> - أي أحكام أو شروط أخرى لا تتعارض مع النظام</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 36 - تكميلية ص 49
+            page: "ص 49 - تكميلية",
+            title: "📎 مرفقات طلب تأسيس شركة المساهمة",
+            backContent: `
+                <h3>📂 المرفقات الإلزامية</h3>
+                <div class="content">
+                    <p>يجب أن يرفق بالنظام الأساس عند تقديم طلب التأسيس:</p>
+                    <ul>
+                        <li><strong>أ</strong> - أسماء المؤسسين، عناوينهم، جنسياتهم</li>
+                        <li><strong>ب</strong> - بيان عن الأعمال والنفقات المتوقعة للتأسيس</li>
+                        <li><strong>ج</strong> - <strong>إقرار المؤسسين بالاكتتاب</strong> بكل أسهم الشركة المصدرة وقيمة المدفوع</li>
+                        <li><strong>د</strong> - <strong>شهادة إيداع</strong> القدر المدفوع من رأس المال لدى أحد البنوك المرخص لها</li>
+                        <li><strong>هـ</strong> - قرار من المؤسسين بتعيين أول أعضاء مجلس إدارة + تواريخ ميلادهم + تعيين أول مراجع حسابات</li>
+                        <li><strong>و</strong> - إقرار المؤسسين بالالتزام بجميع متطلبات النظام</li>
+                        <li><strong>ز</strong> - <strong>تقرير مُعد من مقيّم معتمد</strong> أو أكثر يبين القيمة العادلة للحصص العينية، وإقرار من باقي المؤسسين بالموافقة على المقابل</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 37 - تكميلية ص 52
+            page: "ص 52 - تكميلية",
+            title: "📎 مرفقات الشركة ذات المسؤولية المحدودة",
+            backContent: `
+                <h3>📂 مرفقات تأسيس ذ.م.م</h3>
+                <div class="content">
+                    <p>يجب أن يرفق بعقد التأسيس عند تقديم طلب تأسيس الشركة:</p>
+                    <ul>
+                        <li><strong>أ</strong> - إقرار المؤسسين بالالتزام بجميع متطلبات النظام ذات الصلة بتأسيس الشركة</li>
+                        <li><strong>ب</strong> - بيان أو تقرير مُعد من <strong>مقيم معتمد</strong> أو أكثر يُبيّن فيه <strong>القيمة العادلة للحصص العينية</strong> إن وجدت، وإقرار من باقي المؤسسين بالموافقة على المقابل المحدد لها</li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p>📌 <strong>الفرق عن المساهمة:</strong> ذ.م.م متطلباتها <strong>أبسط</strong> وأقل تعقيداً، مما يجعلها مناسبة للمشاريع الصغيرة والمتوسطة.</p>
+                </div>
+            `
+        },
+        { // 38 - تكميلية ص 47
+            page: "ص 47 - تكميلية",
+            title: "📋 بيانات عقد تأسيس شركة التضامن",
+            backContent: `
+                <h3>📜 عقد التضامن - كل البيانات</h3>
+                <div class="content">
+                    <p>يجب أن يشتمل عقد تأسيس شركة التضامن على البيانات الآتية:</p>
+                    <ul>
+                        <li><strong>أ</strong> - أسماء الشركاء وبياناتهم</li>
+                        <li><strong>ب</strong> - اسم الشركة</li>
+                        <li><strong>ج</strong> - المركز الرئيس للشركة</li>
+                        <li><strong>د</strong> - غرض الشركة</li>
+                        <li><strong>هـ</strong> - رأس مال الشركة وتوزيعه، الحصة التي تعهد كل شريك بتقديمها وموعد استحقاقها</li>
+                        <li><strong>و</strong> - مدة الشركة (إن وجدت)</li>
+                        <li><strong>ز</strong> - إدارة الشركة</li>
+                        <li><strong>ح</strong> - قرارات الشركاء والنصاب اللازم لصدورها</li>
+                        <li><strong>ط</strong> - كيفية توزيع الأرباح والخسائر بين الشركاء</li>
+                        <li><strong>ي</strong> - تاريخ بدء السنة المالية وانتهائها</li>
+                        <li><strong>ك</strong> - <strong>انقضاء الشركة</strong></li>
+                        <li><strong>ل</strong> - أي أحكام أخرى لا تتعارض مع أحكام النظام</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 39 - مقارنة شاملة
+            page: "تكميلية - مقارنة",
+            title: "📊 جدول مقارن بين أنواع الشركات",
+            backContent: `
+                <h3>⚖️ مقارنة جامعة</h3>
+                <div class="content">
+                    <p><strong>📌 من حيث رأس المال:</strong></p>
+                    <ul>
+                        <li>المساهمة: <strong>500,000 ريال</strong> (الربع مدفوع)</li>
+                        <li>المساهمة المبسطة: <strong>لا حد أدنى</strong></li>
+                        <li>ذ.م.م: لا حد أدنى محدد</li>
+                        <li>التضامن/التوصية: حسب الاتفاق</li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p><strong>📌 من حيث عدد الشركاء:</strong></p>
+                    <ul>
+                        <li>المساهمة: <strong>5 فأكثر</strong> (أو شخص واحد)</li>
+                        <li>ذ.م.م: <strong>حد أقصى 50</strong> شريكاً</li>
+                        <li>التضامن: شخصان فأكثر</li>
+                        <li>التوصية: متضامن + موصي</li>
+                    </ul>
+                    <div class="divider"></div>
+                    <p><strong>📌 من حيث المسؤولية:</strong></p>
+                    <ul>
+                        <li>المساهمة/ذ.م.م/الشخص الواحد: <strong>محدودة بحدود الحصة</strong></li>
+                        <li>التضامن: <strong>غير محدودة بالتضامن</strong></li>
+                        <li>التوصية: المتضامن غير محدودة، الموصي محدودة</li>
+                    </ul>
+                </div>
+            `
+        },
+        { // 40 - مفاهيم مفتاحية
+            page: "تكميلية - مفاهيم",
+            title: "🔑 مصطلحات مفتاحية في القانون",
+            backContent: `
+                <h3>📖 مفاهيم لا تنسى</h3>
+                <div class="content">
+                    <p><strong>🔸 الشخصية الاعتبارية:</strong> صفة قانونية تجعل الشركة شخصاً مستقلاً عن الشركاء، له ذمة وحقوق والتزامات.</p>
+                    <p><strong>🔸 الذمة المالية المستقلة:</strong> أصول وخصوم الشركة منفصلة عن أصول وخصوم الشركاء.</p>
+                    <div class="divider"></div>
+                    <p><strong>🔸 رأس المال المصرح به:</strong> الحد الأقصى الذي يمكن للشركة إصداره من الأسهم.</p>
+                    <p><strong>🔸 رأس المال المصدر:</strong> ما تم إصداره فعلاً من الأسهم.</p>
+                    <p><strong>🔸 رأس المال المدفوع:</strong> ما دفعه المساهمون فعلاً.</p>
+                    <div class="divider"></div>
+                    <p><strong>🔸 الاكتتاب:</strong> التزام بشراء أسهم الشركة.</p>
+                    <p><strong>🔸 التداول:</strong> بيع وشراء الأسهم.</p>
+                    <p><strong>🔸 Insider Trading:</strong> استغلال كبار الموظفين للمعلومات الداخلية لتحقيق أرباح لأنفسهم على حساب المساهمين.</p>
+                    <p><strong>🔸 الضبط القضائي:</strong> صفة تمنح لموظفين معينين تخولهم سلطات التحقيق والتحفظ.</p>
+                </div>
+            `
+        }
+    ];
+
+    const container = document.getElementById('cardsContainer');
+
+    function renderCards() {
+        // Clear noscript content
+        container.innerHTML = '';
+        
+        flashcards.forEach((card, index) => {
+            const flipCard = document.createElement('div');
+            flipCard.className = 'flip-card';
+            flipCard.setAttribute('data-id', index);
+            
+            const inner = document.createElement('div');
+            inner.className = 'flip-card-inner';
+            
+            const front = document.createElement('div');
+            front.className = 'card-front';
+            front.innerHTML = `
+                <div class="page-num">${card.page}</div>
+                <h2>${card.title}</h2>
+                <div class="tag">⚡ اضغط للاطلاع</div>
+                <div class="flip-icon">🔄 اضغط لقلب البطاقة</div>
+            `;
+            
+            const back = document.createElement('div');
+            back.className = 'card-back';
+            back.innerHTML = card.backContent;
+            
+            inner.appendChild(front);
+            inner.appendChild(back);
+            flipCard.appendChild(inner);
+            
+            // Support both click and touch for iOS
+            const flipHandler = function(e) {
+                e.preventDefault();
+                this.classList.toggle('flipped');
+            };
+            
+            flipCard.addEventListener('click', flipHandler);
+            flipCard.addEventListener('touchend', flipHandler);
+            
+            container.appendChild(flipCard);
+        });
+    }
+
+    // Run on DOM ready (handles iOS Safari quirks)
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', renderCards);
+    } else {
+        renderCards();
+    }
+</script>
+</body>
+</html>
