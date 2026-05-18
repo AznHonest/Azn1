@@ -7,6 +7,85 @@
     <meta name="format-detection" content="telephone=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>بطائق المراجعة - قانون الشركات السعودي والحوكمة</title>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- 📊 Google Analytics 4 - Tracking                -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7N33SQJSDV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-7N33SQJSDV', {
+            'page_title': 'Abulyan Companies Flashcards',
+            'send_page_view': true
+        });
+
+        // 📈 تتبع وقت المذاكرة (Time on page)
+        let studyStartTime = Date.now();
+        let totalCardsFlipped = 0;
+        let uniqueCardsFlipped = new Set();
+        let sessionData = {
+            startTime: studyStartTime,
+            device: /iPhone|iPad|iPod/.test(navigator.userAgent) ? 'iOS' : 
+                    /Android/.test(navigator.userAgent) ? 'Android' : 'Desktop',
+            screenSize: window.innerWidth + 'x' + window.innerHeight,
+            language: navigator.language
+        };
+
+        // إرسال معلومات الجلسة عند البداية
+        gtag('event', 'session_start_detailed', {
+            'device_type': sessionData.device,
+            'screen_size': sessionData.screenSize,
+            'language': sessionData.language
+        });
+
+        // 📤 إرسال وقت المذاكرة عند الخروج
+        function sendStudyTime() {
+            const studyDurationSeconds = Math.round((Date.now() - studyStartTime) / 1000);
+            const studyMinutes = Math.round(studyDurationSeconds / 60);
+            
+            gtag('event', 'study_session_end', {
+                'duration_seconds': studyDurationSeconds,
+                'duration_minutes': studyMinutes,
+                'total_flips': totalCardsFlipped,
+                'unique_cards_studied': uniqueCardsFlipped.size,
+                'device_type': sessionData.device
+            });
+        }
+
+        window.addEventListener('beforeunload', sendStudyTime);
+        window.addEventListener('pagehide', sendStudyTime);
+
+        // 🔍 دالة عامة لتتبع البطاقات (سنستدعيها عند الفليب)
+        window.trackCardFlip = function(cardIndex, cardTitle, cardPage) {
+            totalCardsFlipped++;
+            uniqueCardsFlipped.add(cardIndex);
+            
+            gtag('event', 'card_flipped', {
+                'card_index': cardIndex,
+                'card_title': cardTitle,
+                'card_page': cardPage,
+                'total_flips_in_session': totalCardsFlipped,
+                'unique_cards_in_session': uniqueCardsFlipped.size
+            });
+        };
+
+        // ⏱️ تتبع كل 30 ثانية (للمذاكرة الطويلة)
+        setInterval(function() {
+            const minutesActive = Math.round((Date.now() - studyStartTime) / 60000);
+            if (minutesActive > 0 && minutesActive % 1 === 0) {
+                gtag('event', 'study_milestone', {
+                    'minutes_active': minutesActive,
+                    'cards_flipped': totalCardsFlipped
+                });
+            }
+        }, 30000);
+    </script>
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- نهاية كود التتبع                                 -->
+    <!-- ═══════════════════════════════════════════════ -->
+
     <noscript>
         <style>
             .noscript-warning {
@@ -1048,6 +1127,15 @@
             const flipHandler = function(e) {
                 e.preventDefault();
                 this.classList.toggle('flipped');
+                
+                // 📊 إرسال للـ GA4
+                if (typeof window.trackCardFlip === 'function') {
+                    try {
+                        window.trackCardFlip(index, card.title, card.page);
+                    } catch(err) {
+                        // فشل التتبع ما يمنع عمل البطاقة
+                    }
+                }
             };
             
             flipCard.addEventListener('click', flipHandler);
