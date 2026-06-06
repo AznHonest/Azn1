@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة مشروع أرض الأمير سلطان — Colliers Base + Sensitivity</title>
+<style>
+:root{
+  --ink:#0f1117;--ink2:#3a3d4a;--ink3:#777b88;--paper:#f5f3ee;--surface:#fff;--border:#e2ddd6;
+  --accent:#1a4a3c;--gold:#c8a96e;--blue:#1a3a5c;--green:#1a6b47;--red:#c0392b;--amber:#c47d1a;
+  --r:8px;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--font:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.45}
+header{background:var(--ink);color:#fff;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header h1{font-size:17px;font-weight:650}.meta{font:11px var(--mono);opacity:.58;text-align:left}.logo{font:11px var(--mono);letter-spacing:.12em;opacity:.5}
+.source{background:var(--accent);color:#fff;padding:9px 28px;display:flex;gap:20px;flex-wrap:wrap;font:11px var(--mono)}.source b{color:var(--gold)}
+.page{max-width:1380px;margin:auto;padding:22px 18px}.grid{display:grid;grid-template-columns:360px 1fr;gap:18px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.head{background:var(--ink);color:#fff;padding:10px 14px;font-size:12px;font-weight:650;display:flex;justify-content:space-between;align-items:center}
+.head.blue{background:var(--blue)}.head.green{background:var(--green)}.head.gold{background:#594316}.head.amber{background:#6b4a1a}
+.tag{background:var(--gold);color:var(--ink);border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700}
+.body{padding:14px}.field{margin-bottom:11px}.field label{display:block;color:var(--ink3);font-size:11px;margin-bottom:4px;font-weight:600}
+input,select{width:100%;padding:8px 9px;border:1px solid var(--border);border-radius:6px;background:var(--paper);text-align:center;font-family:var(--font);font-size:13px}
+input:focus,select:focus{outline:0;border-color:var(--accent);background:#fff}.hint{font:10px var(--mono);color:var(--green);margin-top:3px}.hint:before{content:"✓ "}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.four{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;align-items:center}.tab{border:1px solid var(--border);background:#fff;border-radius:8px;padding:8px 13px;cursor:pointer;text-align:center;color:var(--ink3);font-size:12px}
+.tab small{display:block;font-size:9px;opacity:.75}.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}.tab.best{border-color:var(--gold);color:var(--accent);font-weight:700}
+.btn{width:100%;border:0;background:var(--accent);color:#fff;border-radius:8px;padding:12px;font-weight:750;cursor:pointer;margin-top:5px}.btn:hover{background:#0f2e24}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-bottom:14px}.kpi{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;border-right:4px solid var(--border)}
+.kpi.accent{background:var(--accent);border-color:var(--accent)}.kpi.accent .lbl{color:rgba(255,255,255,.65)}.kpi.accent .val{color:#fff}
+.kpi.green{border-right-color:var(--green)}.kpi.blue{border-right-color:var(--blue)}.kpi.amber{border-right-color:var(--amber)}.kpi.red{border-right-color:var(--red)}.kpi.gold{border-right-color:var(--gold)}
+.lbl{font:10px var(--mono);color:var(--ink3);margin-bottom:5px}.val{font-size:21px;font-weight:800;line-height:1}.sub{font-size:10px;color:var(--ink3);margin-top:5px}
+.val.green{color:var(--green)}.val.red{color:var(--red)}.val.amber{color:var(--amber)}.val.blue{color:var(--blue)}
+table{width:100%;border-collapse:collapse}.tbl th{background:var(--ink);color:#fff;font-size:11px;text-align:right;padding:9px}.tbl td{padding:8px 9px;border-bottom:1px solid var(--border);font:11px var(--mono);text-align:right}.tbl tr:hover td{background:var(--paper)}
+.winner td,.winner{background:#e8f5ee!important;font-weight:700}
+.note{background:#fff8ee;border:1px solid #e8c87a;border-radius:8px;padding:10px 12px;color:var(--ink2);font-size:12px;margin-bottom:14px}.note b{color:var(--amber)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.card{background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden}.card h3{color:#fff;font-size:12px;padding:9px 12px;background:var(--blue)}.card h3.r{background:var(--green)}.card h3.h{background:#6b4010}.card h3.g{background:#2c3e50}.card .inside{padding:11px}.row{display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding:4px 0;font-size:12px}.row:last-child{border:0}.row span:first-child{color:var(--ink3)}.row span:last-child{font-family:var(--mono);font-size:11px;font-weight:650}
+.barbox{background:#f0eee9;border-radius:12px;height:10px;overflow:hidden}.bar{height:10px;border-radius:12px;background:var(--accent);width:0%}
+.status{padding:10px 12px;border-radius:8px;font-weight:750;margin-bottom:12px}.status.good{background:#e8f5ee;color:var(--green);border:1px solid #b8dec8}.status.watch{background:#fff2d9;color:#9b5f11;border:1px solid #e6c382}.status.bad{background:#fde8e6;color:var(--red);border:1px solid #e8a09a}
+.warn{background:#fde8e6;border:1px solid #e8a09a;color:var(--red);border-radius:8px;padding:8px 10px;font-size:12px;display:none;margin-bottom:10px}
+.small{font-size:10px;color:var(--ink3);font-family:var(--mono)}.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tool{padding:8px 12px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:12px}.tool:hover{background:var(--ink);color:#fff}
+@media(max-width:950px){.grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.four{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){header{display:block;text-align:center}.meta{text-align:center;margin-top:6px}.cards,.three,.four{grid-template-columns:1fr}.source{padding:9px 14px}}
+@media print{.grid>div:first-child,.tabs,.tools,.source,header{display:none}.grid{grid-template-columns:1fr}.page{padding:0}.panel{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">SEDCO / COLLIERS</div>
+  <h1>حاسبة مشروع أرض الأمير سلطان الشمالية — Base Case + مخاطر</h1>
+  <div class="meta">Highest & Best Use | Colliers v1.0 | Feb 2026</div>
+</header>
+<div class="source">
+  <span>الموقع: <b>المحمدية، جدة</b></span>
+  <span>مساحة الأرض: <b>18,720 م²</b></span>
+  <span>سعر الأرض الأساسي: <b>10,403 ر.س/م²</b></span>
+  <span>الهدف: <b>هل المشروع مجدي وواقعي؟</b></span>
+</div>
+
+<div class="page">
+  <div class="tabs">
+    <span class="small">اختر سيناريو Colliers:</span>
+    <button class="tab active" onclick="loadOption(1,this)">Option 1<small>سكني + شقق فندقية</small></button>
+    <button class="tab best" onclick="loadOption(2,this)">Option 2 🏆<small>سكني + مكاتب + فندق</small></button>
+    <button class="tab" onclick="loadOption(3,this)">Option 3<small>سكني + فندق مزدوج</small></button>
+    <button class="tab" onclick="loadOption(4,this)">Option 4<small>Client Scenario</small></button>
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="panel">
+        <div class="head">مدخلات الحساسية <span class="tag">تعدلها</span></div>
+        <div class="body">
+          <div class="two">
+            <div class="field"><label>سعر بيع السكن ر.س/م²</label><input id="salePrice" type="number" value="10550" step="100"><div class="hint">Colliers: 10,550 غالبًا، Option 4: 10,350</div></div>
+            <div class="field"><label>سعر الأرض ر.س/م²</label><input id="landPrice" type="number" value="10403" step="100"><div class="hint">Base: 10,403</div></div>
+          </div>
+          <div class="two">
+            <div class="field"><label>تغير تكلفة البناء %</label><input id="buildDelta" type="number" value="0" step="1"><div class="hint">مثال: 10 يعني زيادة 10%</div></div>
+            <div class="field"><label>تغير سعر البيع %</label><input id="saleDelta" type="number" value="0" step="1"><div class="hint">يفضل استخدامه لاختبار المخاطر</div></div>
+          </div>
+          <div class="two">
+            <div class="field"><label>إيجار المكاتب ر.س/م²/سنة</label><input id="officeRent" type="number" value="1250" step="50"><div class="hint">Base: 1,250</div></div>
+            <div class="field"><label>إيجار التجزئة ر.س/م²/سنة</label><input id="retailRent" type="number" value="1650" step="50"><div class="hint">Base: 1,650</div></div>
+          </div>
+          <div class="two">
+            <div class="field"><label>ADR الفندق / الشقق</label><input id="hotelAdr" type="number" value="600" step="25"><div class="hint">حسب نوع الخيار</div></div>
+            <div class="field"><label>إشغال الفندق / الشقق %</label><input id="hotelOcc" type="number" value="67" step="1"><div class="hint">اختبر 60% أو أقل</div></div>
+          </div>
+          <div class="two">
+            <div class="field"><label>Cap Rate للتخارج %</label><input id="capRate" type="number" value="9" step=".25"><div class="hint">9% = مكرر 11.1x</div></div>
+            <div class="field"><label>أفق الاستثمار سنة</label><input id="horizon" type="number" value="13" step="1"><div class="hint">Base 13 سنة</div></div>
+          </div>
+          <div class="warn" id="warnBox"></div>
+          <button class="btn" onclick="calculate()">احسب المخاطر ▶</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="head amber">اختبارات جاهزة</div>
+        <div class="body">
+          <div class="two">
+            <button class="tool" onclick="stress('base')">Base</button>
+            <button class="tool" onclick="stress('down5')">بيع -5%</button>
+            <button class="tool" onclick="stress('down10')">بيع -10%</button>
+            <button class="tool" onclick="stress('cost10')">تكلفة +10%</button>
+            <button class="tool" onclick="stress('bad')">سيناريو سيئ</button>
+            <button class="tool" onclick="stress('good')">سيناريو متفائل</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="head green">ماذا تعني النتيجة؟</div>
+        <div class="body small" style="line-height:1.8">
+          <b>Base Colliers</b>: أرقام التقرير الأصلية ولا تتغير.<br>
+          <b>Adjusted</b>: تقدير مبسط بعد تعديل المدخلات، وليس بديلًا عن نموذج Colliers المالي الكامل.<br>
+          <b>أهم اختبار</b>: سعر بيع السكن. لو نزل 10% وبقي العائد مقبول، المشروع أقوى.
+        </div>
+      </div>
+    </div>
+
+    <div id="results"></div>
+  </div>
+</div>
+
+<script>
+const OPTIONS = {
+  1:{
+    name:'Option 1 — Residential Heavy + Serviced Apartments',
+    short:'سكني ثقيل + شقق فندقية',
+    projectIRR:9.9,equityIRR:12.2,colliersProfit:454,
+    note:'هوية واضحة وسهل تسويق السكن، لكن الاعتماد على السكن عالي.',
+    salePrice:10550, hotelAdr:782, hotelOcc:70,
+    program:{
+      residential:{gfa:51912,gla:42568,eff:82,units:335,build:3500, type:'Residential'},
+      retail:{gfa:3529,gla:3000,eff:85,build:3000,rent:1650},
+      office:{gfa:0,gla:0,build:3200,rent:1250},
+      serviced:{gfa:12146,gla:7918,eff:65,keys:127,build:6400,adr:782,occ:70},
+      hotel:{gfa:0,gla:0,keys:0,build:7000,adr:0,occ:0}
+    }
+  },
+  2:{
+    name:'Option 2 — Balanced Mix',
+    short:'سكني + مكاتب + فندق',
+    projectIRR:10.6,equityIRR:15.7,colliersProfit:347,
+    note:'أعلى Equity IRR في Colliers، لكنه أعقد تشغيلًا بسبب المكاتب والفندق.',
+    salePrice:10550, hotelAdr:600, hotelOcc:67,
+    program:{
+      residential:{gfa:39691,gla:32546,eff:82,units:256,build:3500,type:'Residential'},
+      retail:{gfa:3529,gla:3000,eff:85,build:3000,rent:1650},
+      office:{gfa:24695,gla:19756,eff:80,build:3200,rent:1250},
+      serviced:{gfa:0,gla:0,keys:0,build:6400,adr:0,occ:0},
+      hotel:{gfa:10709,gla:6735,keys:180,build:7000,adr:600,occ:67}
+    }
+  },
+  3:{
+    name:'Option 3 — Residential + Dual Branded Hospitality',
+    short:'سكني + فندق 3 نجوم + شقق',
+    projectIRR:10.3,equityIRR:15.0,colliersProfit:null,
+    note:'ينوع الضيافة، لكنه يعتمد على تشغيل فندقي أكبر من Option 1.',
+    salePrice:10550, hotelAdr:450, hotelOcc:76,
+    program:{
+      residential:{gfa:51884,gla:42545,eff:82,units:335,build:3500,type:'Residential'},
+      retail:{gfa:3529,gla:3000,eff:85,build:3000,rent:1650},
+      office:{gfa:0,gla:0,build:3200,rent:1250},
+      serviced:{gfa:9930,gla:6473,eff:65,keys:185,build:6400,adr:600,occ:67},
+      hotel:{gfa:9232,gla:6018,keys:300,build:6400,adr:450,occ:76}
+    }
+  },
+  4:{
+    name:'Option 4 — Client Scenario',
+    short:'سكني كبير + ريتيل أكبر',
+    projectIRR:10.4,equityIRR:13.4,colliersProfit:null,
+    note:'هوية تطوير أوضح، ريتيل أكبر، وأقل تعقيدًا من المكاتب والفندق.',
+    salePrice:10350, hotelAdr:0, hotelOcc:0,
+    program:{
+      residential:{gfa:68328,gla:51137,eff:75,units:339,build:3500,type:'Residential'},
+      retail:{gfa:10296,gla:9314,eff:90,build:3000,rent:1650},
+      office:{gfa:0,gla:0,build:3200,rent:1250},
+      serviced:{gfa:0,gla:0,keys:0,build:6400,adr:0,occ:0},
+      hotel:{gfa:0,gla:0,keys:0,build:7000,adr:0,occ:0}
+    }
+  }
+};
+let current=1;
+const landArea=18720, baseLand=10403;
+function fmt(n){return Math.round(n).toLocaleString('en-US')}
+function m(n){return (n/1e6).toFixed(1)+' م'}
+function pct(n){return (Math.round(n*10)/10).toFixed(1)+'%'}
+function loadOption(id,btn){
+  current=id;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  const o=OPTIONS[id];
+  document.getElementById('salePrice').value=o.salePrice;
+  document.getElementById('saleDelta').value=0;
+  document.getElementById('buildDelta').value=0;
+  document.getElementById('landPrice').value=baseLand;
+  document.getElementById('hotelAdr').value=o.hotelAdr||600;
+  document.getElementById('hotelOcc').value=o.hotelOcc||67;
+  document.getElementById('officeRent').value=1250;
+  document.getElementById('retailRent').value=1650;
+  document.getElementById('capRate').value=9;
+  calculate();
+}
+function stress(s){
+  if(s==='base'){document.getElementById('saleDelta').value=0;document.getElementById('buildDelta').value=0;document.getElementById('landPrice').value=baseLand}
+  if(s==='down5'){document.getElementById('saleDelta').value=-5;document.getElementById('buildDelta').value=0}
+  if(s==='down10'){document.getElementById('saleDelta').value=-10;document.getElementById('buildDelta').value=0}
+  if(s==='cost10'){document.getElementById('saleDelta').value=0;document.getElementById('buildDelta').value=10}
+  if(s==='bad'){document.getElementById('saleDelta').value=-10;document.getElementById('buildDelta').value=10;document.getElementById('hotelOcc').value=60;document.getElementById('capRate').value=10}
+  if(s==='good'){document.getElementById('saleDelta').value=5;document.getElementById('buildDelta').value=-5;document.getElementById('hotelOcc').value=72;document.getElementById('capRate').value=8.5}
+  calculate();
+}
+function calculate(){
+  const o=OPTIONS[current], p=o.program;
+  const salePrice=+document.getElementById('salePrice').value*(1+(+document.getElementById('saleDelta').value/100));
+  const landPrice=+document.getElementById('landPrice').value;
+  const buildMul=1+(+document.getElementById('buildDelta').value/100);
+  const officeRent=+document.getElementById('officeRent').value;
+  const retailRent=+document.getElementById('retailRent').value;
+  const hotelAdr=+document.getElementById('hotelAdr').value;
+  const hotelOcc=+document.getElementById('hotelOcc').value/100;
+  const capRate=(+document.getElementById('capRate').value)/100;
+  const horizon=+document.getElementById('horizon').value;
+  const landCost=landArea*landPrice;
+  const baseLandCost=landArea*baseLand;
+
+  const totalGFA = Object.values(p).reduce((s,x)=>s+(x.gfa||0),0);
+  const totalGLA = Object.values(p).reduce((s,x)=>s+(x.gla||0),0);
+  const landAlloc = comp => landCost*((p[comp].gfa||0)/totalGFA);
+  const buildCost = comp => (p[comp].gfa||0)*(p[comp].build||0)*buildMul;
+  const soft = comp => buildCost(comp)*0.175;
+  const compCost = comp => landAlloc(comp)+buildCost(comp)+soft(comp);
+
+  const resCost=compCost('residential');
+  const resRev=(p.residential.gla||0)*salePrice*0.965;
+  const resProfit=resRev-resCost;
+
+  const retailCost=compCost('retail');
+  const retailNOI=(p.retail.gla||0)*retailRent*0.83;
+  const retailExit=capRate>0?retailNOI/capRate:0;
+
+  const officeCost=compCost('office');
+  const officeNOI=(p.office.gla||0)*officeRent*0.72;
+  const officeExit=capRate>0?officeNOI/capRate:0;
+
+  const servCost=compCost('serviced');
+  const servKeys=(p.serviced.keys||Math.floor((p.serviced.gla||0)/62));
+  const servNOI=servKeys*(p.serviced.adr||hotelAdr)*365*((p.serviced.occ||hotelOcc*100)/100)*0.65;
+  const servExit=capRate>0?servNOI/capRate:0;
+
+  const hotelCost=compCost('hotel');
+  const hotelKeys=p.hotel.keys||0;
+  const hotelNOI=hotelKeys*hotelAdr*365*hotelOcc*0.65;
+  const hotelExit=capRate>0?hotelNOI/capRate:0;
+
+  const totalCost=resCost+retailCost+officeCost+servCost+hotelCost;
+  const annualNOI=retailNOI+officeNOI+servNOI+hotelNOI;
+  const exitValue=retailExit+officeExit+servExit+hotelExit;
+  const adjustedProfit=resProfit+(annualNOI*Math.max(horizon-3,0))+exitValue-(retailCost+officeCost+servCost+hotelCost);
+  const baseEquity=o.equityIRR;
+  // Conservative indicative sensitivity, calibrated around Colliers base IRR.
+  // This is NOT a full FCFE model; it shows stress direction and approximate severity.
+  const baseRetailNOI=(p.retail.gla||0)*(p.retail.rent||1650)*0.83;
+  const baseOfficeNOI=(p.office.gla||0)*(p.office.rent||1250)*0.72;
+  const baseServNOI=(p.serviced.keys||0)*(p.serviced.adr||o.hotelAdr||0)*365*((p.serviced.occ||o.hotelOcc||0)/100)*0.65;
+  const baseHotelNOI=(p.hotel.keys||0)*(o.hotelAdr||0)*365*((o.hotelOcc||0)/100)*0.65;
+  const baseNOI=baseRetailNOI+baseOfficeNOI+baseServNOI+baseHotelNOI;
+  const saleImpact=(salePrice-o.salePrice)/o.salePrice*16;
+  const costImpact=(buildMul-1)*-25;
+  const landImpact=(landPrice-baseLand)/baseLand*-22;
+  const incomeImpact=baseNOI>0 ? ((annualNOI-baseNOI)/baseNOI)*6 : 0;
+  let adjIRR=baseEquity+saleImpact+costImpact+landImpact+incomeImpact;
+  if(!isFinite(adjIRR)) adjIRR=baseEquity+saleImpact+costImpact+landImpact;
+  const margin = totalCost>0 ? adjustedProfit/totalCost*100 : 0;
+  const resBreakEven = (resCost/(0.965*(p.residential.gla||1)));
+  const minPrice12 = o.salePrice*(1+(12-o.equityIRR)/9);
+  const minPrice15 = o.salePrice*(1+(15-o.equityIRR)/9);
+  let cls='good', text='مقبول / جيد';
+  if(adjIRR<12){cls='bad';text='خطر — يحتاج إعادة تسعير أو تخفيض تكلفة'}
+  else if(adjIRR<15){cls='watch';text='مقبول بحذر — الحساسية عالية'}
+  const warn=document.getElementById('warnBox');
+  warn.style.display='none';
+  if(+document.getElementById('saleDelta').value<=-10 || +document.getElementById('buildDelta').value>=10){
+    warn.style.display='block';
+    warn.textContent='تنبيه: هذا اختبار ضغط. إذا بقي العائد جيدًا هنا، المشروع أقوى. إذا انهار، لا تعتمد Base Case وحده.';
+  }
+  render({o,p,totalGFA,totalGLA,landCost,totalCost,resRev,resCost,resProfit,annualNOI,exitValue,adjustedProfit,adjIRR,margin,resBreakEven,minPrice12,minPrice15,salePrice,retailNOI,officeNOI,servNOI,hotelNOI,retailCost,officeCost,servCost,hotelCost,cls,text});
+}
+function render(d){
+  const res=document.getElementById('results');
+  const comps=[
+    ['السكني',d.p.residential.gfa,d.p.residential.gla,d.resCost,d.resRev,d.resProfit],
+    ['التجزئة',d.p.retail.gfa,d.p.retail.gla,d.retailCost,d.retailNOI,0],
+    ['المكاتب',d.p.office.gfa,d.p.office.gla,d.officeCost,d.officeNOI,0],
+    ['الشقق الفندقية',d.p.serviced.gfa,d.p.serviced.gla,d.servCost,d.servNOI,0],
+    ['الفندق',d.p.hotel.gfa,d.p.hotel.gla,d.hotelCost,d.hotelNOI,0]
+  ].filter(x=>x[1]>0||x[2]>0);
+  const optionsTable=Object.entries(OPTIONS).map(([id,x])=>`<tr class="${+id===current?'winner':''}">
+    <td>Option ${id}</td><td>${x.short}</td><td>${pct(x.projectIRR)}</td><td>${pct(x.equityIRR)}</td><td>${x.colliersProfit?x.colliersProfit+' م':'—'}</td>
+  </tr>`).join('');
+  res.innerHTML=`
+    <div class="tools">
+      <button class="tool" onclick="window.print()">🖨 طباعة / PDF</button>
+      <button class="tool" onclick="copySummary()">📋 نسخ الخلاصة</button>
+    </div>
+    <div class="status ${d.cls}">الحكم بعد التعديل: ${d.text} — Adjusted IRR تقديري ${pct(d.adjIRR)}</div>
+    <div class="note"><b>مهم:</b> أرقام Colliers الأساسية ثابتة كما في التقرير. أما Adjusted IRR هنا فهو تقديري للحساسية، وليس نموذج تمويل Colliers الكامل.</div>
+
+    <div class="kpis">
+      <div class="kpi accent"><div class="lbl">Colliers Equity IRR</div><div class="val">${pct(d.o.equityIRR)}</div><div class="sub">Base Case من التقرير</div></div>
+      <div class="kpi gold"><div class="lbl">Adjusted IRR تقديري</div><div class="val ${d.adjIRR>=15?'green':d.adjIRR>=12?'amber':'red'}">${pct(d.adjIRR)}</div><div class="sub">بعد تعديل المدخلات</div></div>
+      <div class="kpi green"><div class="lbl">Project IRR</div><div class="val green">${pct(d.o.projectIRR)}</div><div class="sub">Colliers consolidated</div></div>
+      <div class="kpi blue"><div class="lbl">إجمالي تكلفة التطوير</div><div class="val blue">${m(d.totalCost)}</div><div class="sub">تقديري شامل أرض + بناء + soft</div></div>
+      <div class="kpi green"><div class="lbl">ربح السكني</div><div class="val ${d.resProfit>=0?'green':'red'}">${m(d.resProfit)}</div><div class="sub">حسب سعر البيع المعدل</div></div>
+      <div class="kpi amber"><div class="lbl">NOI سنوي</div><div class="val amber">${m(d.annualNOI)}</div><div class="sub">تجزئة + مكاتب + ضيافة</div></div>
+      <div class="kpi blue"><div class="lbl">قيمة التخارج</div><div class="val blue">${m(d.exitValue)}</div><div class="sub">NOI ÷ Cap Rate</div></div>
+      <div class="kpi green"><div class="lbl">هامش الربح على التكلفة</div><div class="val ${d.margin>=20?'green':d.margin>=10?'amber':'red'}">${pct(d.margin)}</div><div class="sub">Profit ÷ TDC تقديري</div></div>
+      <div class="kpi"><div class="lbl">سعر التعادل السكني</div><div class="val">${fmt(d.resBreakEven)}</div><div class="sub">ريال/م² صافي بيع</div></div>
+      <div class="kpi"><div class="lbl">سعر بيع مدخل</div><div class="val">${fmt(d.salePrice)}</div><div class="sub">بعد نسبة التغير</div></div>
+    </div>
+
+    <div class="cards">
+      <div class="card"><h3>السكني</h3><div class="inside">
+        <div class="row"><span>GFA</span><span>${fmt(d.p.residential.gfa)} م²</span></div>
+        <div class="row"><span>NSA/GLA</span><span>${fmt(d.p.residential.gla)} م²</span></div>
+        <div class="row"><span>الوحدات</span><span>${d.p.residential.units}</span></div>
+        <div class="row"><span>ربح</span><span>${m(d.resProfit)}</span></div>
+      </div></div>
+      <div class="card"><h3 class="r">الأصول المدرة</h3><div class="inside">
+        <div class="row"><span>NOI تجزئة</span><span>${m(d.retailNOI)}</span></div>
+        <div class="row"><span>NOI مكاتب</span><span>${m(d.officeNOI)}</span></div>
+        <div class="row"><span>NOI ضيافة</span><span>${m(d.servNOI+d.hotelNOI)}</span></div>
+        <div class="row"><span>قيمة التخارج</span><span>${m(d.exitValue)}</span></div>
+      </div></div>
+      <div class="card"><h3 class="h">نقطة الخطر</h3><div class="inside">
+        <div class="row"><span>سعر يحافظ على 12%</span><span>${fmt(d.minPrice12)} ر.س/م²</span></div>
+        <div class="row"><span>سعر يحافظ على 15%</span><span>${fmt(d.minPrice15)} ر.س/م²</span></div>
+        <div class="row"><span>الهامش على التكلفة</span><span>${pct(d.margin)}</span></div>
+      </div></div>
+      <div class="card"><h3 class="g">مقارنة Colliers</h3><div class="inside">
+        <div class="row"><span>الخيار</span><span>${d.o.short}</span></div>
+        <div class="row"><span>Profit Reported</span><span>${d.o.colliersProfit?d.o.colliersProfit+' م':'—'}</span></div>
+        <div class="row"><span>إجمالي GFA</span><span>${fmt(d.totalGFA)} م²</span></div>
+        <div class="row"><span>إجمالي GLA/NSA</span><span>${fmt(d.totalGLA)} م²</span></div>
+      </div></div>
+    </div>
+
+    <div class="panel">
+      <div class="head">برنامج المساحات والتكلفة حسب المكون</div>
+      <div class="body" style="padding:0;overflow:auto">
+        <table class="tbl">
+          <thead><tr><th>المكون</th><th>GFA</th><th>GLA/NSA</th><th>التكلفة</th><th>إيراد/دخل</th><th>ربح بيع</th></tr></thead>
+          <tbody>${comps.map(x=>`<tr><td>${x[0]}</td><td>${fmt(x[1])}</td><td>${fmt(x[2])}</td><td>${m(x[3])}</td><td>${m(x[4])}</td><td>${x[5]?m(x[5]):'—'}</td></tr>`).join('')}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="head green">مقارنة خيارات Colliers الأصلية</div>
+      <div class="body" style="padding:0;overflow:auto">
+        <table class="tbl">
+          <thead><tr><th>الخيار</th><th>الفكرة</th><th>Project IRR</th><th>Equity IRR</th><th>Profit</th></tr></thead>
+          <tbody>${optionsTable}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="head amber">تفسير سريع</div>
+      <div class="body">
+        <p style="font-size:13px;color:var(--ink2);line-height:1.8">${d.o.note}</p>
+        <div style="margin-top:10px">
+          <div class="small">قوة العائد بعد التعديل</div>
+          <div class="barbox"><div class="bar" style="width:${Math.max(0,Math.min(100,(d.adjIRR/20)*100))}%"></div></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+function copySummary(){
+  const o=OPTIONS[current];
+  const txt=`${o.name}\nColliers Project IRR: ${o.projectIRR}%\nColliers Equity IRR: ${o.equityIRR}%\nسعر بيع السكن: ${document.getElementById('salePrice').value}\nتغير البيع: ${document.getElementById('saleDelta').value}%\nتغير التكلفة: ${document.getElementById('buildDelta').value}%`;
+  navigator.clipboard && navigator.clipboard.writeText(txt);
+  alert('تم نسخ الخلاصة');
+}
+window.onload=()=>calculate();
+</script>
+</body>
+</html>
