@@ -96,6 +96,12 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
 .cf-table tr:hover td { background:var(--paper); }
 .cf-scroll { max-height:340px; overflow-y:auto; border:1px solid var(--border); border-radius:var(--r); }
 ::-webkit-scrollbar { width:6px; height:6px; } ::-webkit-scrollbar-track { background:var(--paper); } ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+/* Tooltips */
+.tip { position:relative; cursor:help; border-bottom:1px dotted currentColor; }
+.tip::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 8px); right:50%; transform:translateX(50%); background:var(--ink); color:#fff; font-family:var(--font); font-size:11px; font-weight:400; line-height:1.5; padding:7px 11px; border-radius:var(--r); white-space:normal; width:max-content; max-width:240px; text-align:right; z-index:100; opacity:0; pointer-events:none; transition:opacity .15s; box-shadow:0 4px 12px rgba(0,0,0,0.18); }
+.tip::before { content:''; position:absolute; bottom:calc(100% + 2px); right:50%; transform:translateX(50%); border:6px solid transparent; border-top-color:var(--ink); z-index:100; opacity:0; pointer-events:none; transition:opacity .15s; }
+.tip:hover::after, .tip:hover::before { opacity:1; }
+@media print { .tip::after, .tip::before { display:none; } }
 @media (max-width:900px) { .two-col { grid-template-columns:1fr; } .tower-cards { grid-template-columns:1fr 1fr; } .chart-grid { grid-template-columns:1fr; } }
 @media (max-width:600px) { header { flex-direction:column; text-align:center; } .tower-cards { grid-template-columns:1fr; } }
 @media print { header, .source-bar, .scenario-bar, .two-col>div:first-child, .calc-btn, .export-bar { display:none !important; } .two-col { grid-template-columns:1fr; } body { background:#fff; } }
@@ -138,7 +144,7 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
           <div class="field"><label>إجمالي مساحة الأرض (م²)</label><input type="number" id="totalLandArea" value="18720" min="0" step="100"><div class="fs">18,720 م²</div></div>
           <div class="field"><label>سعر متر الأرض (ريال)</label><input type="number" id="landCostPerMeter" value="10403" min="0" step="100"><div class="fs">10,403 ر.س/م²</div></div>
           <div class="two-field">
-            <div class="field"><label>Coverage (%)</label><input type="number" id="coverageRatio" value="60" min="0" max="100"><div class="fs">60%</div></div>
+            <div class="field"><label><span class="tip" data-tip="نسبة البصمة — نسبة مساحة الأرض المغطاة بالبناء">Coverage</span> (%)</label><input type="number" id="coverageRatio" value="60" min="0" max="100"><div class="fs">60%</div></div>
             <div class="field"><label>عدد الطوابق</label><input type="number" id="floors" value="7" min="1" max="20"><div class="fs">6-8</div></div>
           </div>
           <div class="sec-label">هيكل الشراكة</div>
@@ -147,7 +153,7 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
             <div class="field"><label>حصة سيدكو من الأرباح (%)</label><input type="number" id="sedcoShare" value="50" min="0" max="100"></div>
             <div class="field"><label>حصة الملاك (%)</label><input type="number" id="ownerShare" value="50" min="0" max="100" readonly style="background:#eee"></div>
           </div>
-          <div class="field"><label>Soft cost + رسوم المطور (%)</label><input type="number" id="softPct" value="17.5" min="0" max="40" step="0.5"><div class="fs">10% soft + 7.5% dev fee</div></div>
+          <div class="field"><label><span class="tip" data-tip="التكاليف الناعمة (تصميم وإشراف) + رسوم إدارة المطور">Soft cost</span> + رسوم المطور (%)</label><input type="number" id="softPct" value="17.5" min="0" max="40" step="0.5"><div class="fs">10% soft + 7.5% dev fee</div></div>
           <div class="field"><label>طريقة تقسيم الأرباح</label><select id="splitMethod">
             <option value="waterfall">Waterfall — استرداد رأس المال أولاً ثم 50/50 على الربح (واقعي)</option>
             <option value="gross">إجمالي — 50/50 على كل الإيرادات</option>
@@ -174,8 +180,8 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
         <div class="panel-head blue">برج سكني للبيع — أ <span class="tag" style="background:#a0b8d0;color:#0a1e30">FREEHOLD</span></div>
         <div class="panel-body">
           <div class="two-field">
-            <div class="field"><label>نسبة GFA (%)</label><input type="number" id="s1_gfa_pct" value="40" oninput="checkGfa()"></div>
-            <div class="field"><label>كفاءة NSA (%)</label><input type="number" id="s1_eff" value="82"><div class="fs">82%</div></div>
+            <div class="field"><label>نسبة <span class="tip" data-tip="إجمالي مساحة البناء — مجموع مساحات كل الطوابق فوق الأرض">GFA</span> (%)</label><input type="number" id="s1_gfa_pct" value="40" oninput="checkGfa()"></div>
+            <div class="field"><label>كفاءة <span class="tip" data-tip="المساحة الصافية القابلة للبيع — بعد خصم الجدران والمشترك">NSA</span> (%)</label><input type="number" id="s1_eff" value="82"><div class="fs">82%</div></div>
           </div>
           <div class="field"><label>متوسط مساحة الشقة (م²)</label><input type="number" id="s1_unitSize" value="127" step="5"><div class="fs">127 م²</div></div>
           <div class="two-field">
@@ -189,8 +195,8 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
         <div class="panel-head" style="background:#1a4560;">برج سكني للبيع — ب <span class="tag" style="background:#a0b8d0;color:#0a1e30">FREEHOLD</span></div>
         <div class="panel-body">
           <div class="two-field">
-            <div class="field"><label>نسبة GFA (%)</label><input type="number" id="s2_gfa_pct" value="40" oninput="checkGfa()"></div>
-            <div class="field"><label>كفاءة NSA (%)</label><input type="number" id="s2_eff" value="82"></div>
+            <div class="field"><label>نسبة <span class="tip" data-tip="إجمالي مساحة البناء — مجموع مساحات كل الطوابق فوق الأرض">GFA</span> (%)</label><input type="number" id="s2_gfa_pct" value="40" oninput="checkGfa()"></div>
+            <div class="field"><label>كفاءة <span class="tip" data-tip="المساحة الصافية القابلة للبيع — بعد خصم الجدران والمشترك">NSA</span> (%)</label><input type="number" id="s2_eff" value="82"></div>
           </div>
           <div class="field"><label>متوسط مساحة الشقة (م²)</label><input type="number" id="s2_unitSize" value="127" step="5"></div>
           <div class="two-field">
@@ -204,16 +210,16 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
         <div class="panel-head green">برج مكاتب / شقق فندقية <span class="tag" style="background:#a0d0b8;color:#0a2e1e">LEASEHOLD</span></div>
         <div class="panel-body">
           <div class="two-field">
-            <div class="field"><label>نسبة GFA (%)</label><input type="number" id="of_gfa_pct" value="8" oninput="checkGfa()"></div>
+            <div class="field"><label>نسبة <span class="tip" data-tip="إجمالي مساحة البناء — مجموع مساحات كل الطوابق فوق الأرض">GFA</span> (%)</label><input type="number" id="of_gfa_pct" value="8" oninput="checkGfa()"></div>
             <div class="field"><label>النوع</label><select id="of_type"><option value="office">مكاتب Grade A</option><option value="serviced">شقق فندقية</option></select></div>
           </div>
           <div class="two-field">
-            <div class="field"><label>كفاءة GLA (%)</label><input type="number" id="of_eff" value="80"><div class="fs">80% مكاتب</div></div>
+            <div class="field"><label>كفاءة <span class="tip" data-tip="المساحة الصافية القابلة للتأجير — للمكاتب والتجزئة">GLA</span> (%)</label><input type="number" id="of_eff" value="80"><div class="fs">80% مكاتب</div></div>
             <div class="field"><label>تكلفة بناء م² (ريال)</label><input type="number" id="of_buildCost" value="3200" step="50"><div class="fs">3,200/6,400</div></div>
           </div>
           <div class="two-field">
             <div class="field"><label>إيجار م²/سنة مكاتب (ريال)</label><input type="number" id="of_rentPerMeter" value="1250" step="50"><div class="fs">1,250</div></div>
-            <div class="field"><label>ADR شقق فندقية (ريال)</label><input type="number" id="of_adr" value="782" step="10"><div class="fs">782-848</div></div>
+            <div class="field"><label><span class="tip" data-tip="متوسط سعر الغرفة في الليلة الواحدة (للفندق)">ADR</span> شقق فندقية (ريال)</label><input type="number" id="of_adr" value="782" step="10"><div class="fs">782-848</div></div>
           </div>
           <div class="two-field">
             <div class="field"><label>الإشغال (%)</label><input type="number" id="of_occ" value="72"><div class="fs">55-90/67-73</div></div>
@@ -226,7 +232,7 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
         <div class="panel-head gold">برج فندق (3/4 نجوم) <span class="tag" style="background:#d4a870;color:#3a1a00">HOTEL</span></div>
         <div class="panel-body">
           <div class="two-field">
-            <div class="field"><label>نسبة GFA (%)</label><input type="number" id="ht_gfa_pct" value="12" oninput="checkGfa()"></div>
+            <div class="field"><label>نسبة <span class="tip" data-tip="إجمالي مساحة البناء — مجموع مساحات كل الطوابق فوق الأرض">GFA</span> (%)</label><input type="number" id="ht_gfa_pct" value="12" oninput="checkGfa()"></div>
             <div class="field"><label>النوع</label><select id="ht_type"><option value="4star">4 نجوم</option><option value="3star">3 نجوم</option><option value="serviced">شقق فندقية</option></select></div>
           </div>
           <div class="two-field">
@@ -235,7 +241,7 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
           </div>
           <div class="two-field">
             <div class="field"><label>مساحة الغرفة م²</label><input type="number" id="ht_roomSize" value="31" step="2"><div class="fs">31</div></div>
-            <div class="field"><label>ADR ريال/ليلة</label><input type="number" id="ht_adr" value="600" step="10"><div class="fs">574-623</div></div>
+            <div class="field"><label><span class="tip" data-tip="متوسط سعر الغرفة في الليلة الواحدة (للفندق)">ADR</span> ريال/ليلة</label><input type="number" id="ht_adr" value="600" step="10"><div class="fs">574-623</div></div>
           </div>
           <div class="two-field">
             <div class="field"><label>الإشغال (%)</label><input type="number" id="ht_occ" value="67"><div class="fs">64-70</div></div>
@@ -293,6 +299,32 @@ const SCENARIOS = {
 let LAST = null;       // last computed result (for export)
 let CHARTS = {};       // chart instances
 
+// ════════ TOOLTIP GLOSSARY ════════
+const TIPS = {
+  'GFA':'إجمالي مساحة البناء — مجموع مساحات كل الطوابق فوق الأرض',
+  'NSA':'المساحة الصافية القابلة للبيع — المساحة الفعلية للوحدات بعد خصم الجدران والمشترك',
+  'GLA':'المساحة الصافية القابلة للتأجير — للمكاتب والتجزئة',
+  'NOI':'صافي الدخل التشغيلي السنوي = الإيراد − المصاريف التشغيلية',
+  'ADR':'متوسط سعر الغرفة في الليلة الواحدة (للفندق)',
+  'ROI':'العائد على الاستثمار — نسبة الربح أو الدخل إلى التكلفة',
+  'IRR':'معدل العائد الداخلي — يحسب العائد مع الأخذ بقيمة الوقت للنقود عبر سنوات المشروع',
+  'TDC':'إجمالي تكلفة التطوير = الأرض + البناء + التكاليف الناعمة',
+  'FAR':'معامل البناء = إجمالي GFA ÷ مساحة الأرض (هنا 4.2)',
+  'Soft':'التكاليف الناعمة (تصميم وإشراف هندسي) + رسوم إدارة المطور',
+  'soft':'التكاليف الناعمة (تصميم وإشراف هندسي) + رسوم إدارة المطور',
+  'Coverage':'نسبة البصمة — نسبة مساحة الأرض المغطاة بالبناء في الدور الأرضي',
+  'Project IRR':'معدل العائد الداخلي على مستوى المشروع ككل (بغض النظر عن من يموّل)',
+  'SEDCO Equity IRR':'معدل العائد الداخلي على رأس مال سيدكو (التي تدفع كاش اوت + البناء)',
+  'Waterfall':'آلية توزيع: كل شريك يسترد رأس ماله أولاً، ثم يُقسّم صافي الربح',
+  'استرداد':'فترة الاسترداد — عدد السنوات لاسترجاع رأس المال من الدخل السنوي',
+  'TDC)':'إجمالي تكلفة التطوير = الأرض + البناء + التكاليف الناعمة'
+};
+// wrap a label string: if it contains a known term, add a .tip span
+function tip(term, label){
+  const t = TIPS[term];
+  if(!t) return label||term;
+  return `<span class="tip" data-tip="${t}">${label||term}</span>`;
+}
 function V(id){ return parseFloat(document.getElementById(id).value)||0; }
 function VS(id){ return document.getElementById(id).value; }
 function fmt(n){ return Math.round(n).toLocaleString('en-US'); }
@@ -522,12 +554,12 @@ function render(noteOverride){
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi accent"><div class="k-lbl">إجمالي الاستثمار (TDC)</div><div class="k-val">${fmtM(d.totalCost)}</div><div class="k-sub">أرض كاملة + بناء + soft</div></div>
-      <div class="kpi gold"><div class="k-lbl">Project IRR (${d.horizon} سنة)</div><div class="k-val">${irrTxt(d.projIRR)}</div><div class="k-sub">على مستوى المشروع كاش</div></div>
-      <div class="kpi accent"><div class="k-lbl">SEDCO Equity IRR</div><div class="k-val">${irrTxt(d.sedcoIRR)}</div><div class="k-sub">دافعة الكاش (97م + بناء)</div></div>
-      <div class="kpi gold"><div class="k-lbl">عائد ملاك الأرض IRR</div><div class="k-val">${irrTxt(d.ownerIRR)}</div><div class="k-sub">مساهمون بـ 50% أرض</div></div>
+      <div class="kpi accent"><div class="k-lbl">إجمالي الاستثمار (${tip('TDC')})</div><div class="k-val">${fmtM(d.totalCost)}</div><div class="k-sub">أرض كاملة + بناء + soft</div></div>
+      <div class="kpi gold"><div class="k-lbl">${tip('Project IRR','Project IRR')} (${d.horizon} سنة)</div><div class="k-val">${irrTxt(d.projIRR)}</div><div class="k-sub">على مستوى المشروع كاش</div></div>
+      <div class="kpi accent"><div class="k-lbl">${tip('SEDCO Equity IRR','SEDCO Equity IRR')}</div><div class="k-val">${irrTxt(d.sedcoIRR)}</div><div class="k-sub">دافعة الكاش (97م + بناء)</div></div>
+      <div class="kpi gold"><div class="k-lbl">عائد ملاك الأرض ${tip('IRR')}</div><div class="k-val">${irrTxt(d.ownerIRR)}</div><div class="k-sub">مساهمون بـ 50% أرض</div></div>
       <div class="kpi green"><div class="k-lbl">أرباح البيع الفوري (سكني)</div><div class="k-val">${fmtM(d.resSaleProfit)}</div><div class="k-sub">${t.s1.units+t.s2.units} وحدة</div></div>
-      <div class="kpi blue"><div class="k-lbl">الدخل السنوي NOI</div><div class="k-val">${fmtM(d.annualNOI)}</div><div class="k-sub">عائد ${d.incomeROI.toFixed(1)}%/سنة</div></div>
+      <div class="kpi blue"><div class="k-lbl">الدخل السنوي ${tip('NOI')}</div><div class="k-val">${fmtM(d.annualNOI)}</div><div class="k-sub">عائد ${d.incomeROI.toFixed(1)}%/سنة</div></div>
       <div class="kpi green"><div class="k-lbl">حصة سيدكو من الأرباح (${(d.sedcoShare*100).toFixed(0)}%)</div><div class="k-val">${fmtM(d.sedcoProfit)}</div><div class="k-sub">رأس مالها ${fmtM(d.sedcoEquity)}</div></div>
       <div class="kpi amber"><div class="k-lbl">حصة الملاك من الأرباح (${(d.ownerShare*100).toFixed(0)}%)</div><div class="k-val">${fmtM(d.ownerProfit)}</div><div class="k-sub">مساهمة ${fmtM(d.ownerEquity)} أرض</div></div>
     </div>
@@ -536,34 +568,34 @@ function render(noteOverride){
 
     <div class="tower-cards">
       <div class="tower-card"><div class="tc-head s1">سكني أ — بيع</div><div class="tc-body">
-        <div class="row"><span class="lbl">GFA</span><span class="val">${fmt(t.s1.gfa)} م²</span></div>
-        <div class="row"><span class="lbl">NSA</span><span class="val">${fmt(t.s1.nsa)} م²</span></div>
+        <div class="row"><span class="lbl">${tip('GFA')}</span><span class="val">${fmt(t.s1.gfa)} م²</span></div>
+        <div class="row"><span class="lbl">${tip('NSA')}</span><span class="val">${fmt(t.s1.nsa)} م²</span></div>
         <div class="row"><span class="lbl">وحدات</span><span class="val">${t.s1.units}</span></div>
         <div class="row"><span class="lbl">تكلفة</span><span class="val">${fmtM(t.s1.cost)}</span></div>
         <div class="row"><span class="lbl">ربح</span><span class="val ${t.s1.profit>0?'pos':'neg'}">${fmtM(t.s1.profit)}</span></div>
         <div class="roi-badge ${roiCls(t.s1.roi)}">ROI ${t.s1.roi.toFixed(1)}%</div></div></div>
       <div class="tower-card"><div class="tc-head s2">سكني ب — بيع</div><div class="tc-body">
-        <div class="row"><span class="lbl">GFA</span><span class="val">${fmt(t.s2.gfa)} م²</span></div>
-        <div class="row"><span class="lbl">NSA</span><span class="val">${fmt(t.s2.nsa)} م²</span></div>
+        <div class="row"><span class="lbl">${tip('GFA')}</span><span class="val">${fmt(t.s2.gfa)} م²</span></div>
+        <div class="row"><span class="lbl">${tip('NSA')}</span><span class="val">${fmt(t.s2.nsa)} م²</span></div>
         <div class="row"><span class="lbl">وحدات</span><span class="val">${t.s2.units}</span></div>
         <div class="row"><span class="lbl">تكلفة</span><span class="val">${fmtM(t.s2.cost)}</span></div>
         <div class="row"><span class="lbl">ربح</span><span class="val ${t.s2.profit>0?'pos':'neg'}">${fmtM(t.s2.profit)}</span></div>
         <div class="roi-badge ${roiCls(t.s2.roi)}">ROI ${t.s2.roi.toFixed(1)}%</div></div></div>
       <div class="tower-card"><div class="tc-head of">${t.of.type==='office'?'مكاتب A':'شقق فندقية'}</div><div class="tc-body">
-        <div class="row"><span class="lbl">GFA</span><span class="val">${fmt(t.of.gfa)} م²</span></div>
-        <div class="row"><span class="lbl">GLA</span><span class="val">${fmt(t.of.gla)} م²</span></div>
+        <div class="row"><span class="lbl">${tip('GFA')}</span><span class="val">${fmt(t.of.gfa)} م²</span></div>
+        <div class="row"><span class="lbl">${tip('GLA')}</span><span class="val">${fmt(t.of.gla)} م²</span></div>
         <div class="row"><span class="lbl">وحدات</span><span class="val">${t.of.units}</span></div>
         <div class="row"><span class="lbl">تكلفة</span><span class="val">${fmtM(t.of.cost)}</span></div>
         <div class="row"><span class="lbl">دخل/سنة</span><span class="val pos">${fmtM(t.of.income)}</span></div>
-        <div class="row"><span class="lbl">استرداد</span><span class="val">${t.of.pb===Infinity?'∞':t.of.pb.toFixed(1)}س</span></div>
+        <div class="row"><span class="lbl">${tip('استرداد')}</span><span class="val">${t.of.pb===Infinity?'∞':t.of.pb.toFixed(1)}س</span></div>
         <div class="roi-badge ${roiCls(t.of.roi)}">ROI ${t.of.roi.toFixed(1)}%/س</div></div></div>
       <div class="tower-card"><div class="tc-head ht">${t.ht.type==='4star'?'فندق 4★':t.ht.type==='3star'?'فندق 3★':'شقق فندقية'}</div><div class="tc-body">
-        <div class="row"><span class="lbl">GFA</span><span class="val">${fmt(t.ht.gfa)} م²</span></div>
+        <div class="row"><span class="lbl">${tip('GFA')}</span><span class="val">${fmt(t.ht.gfa)} م²</span></div>
         <div class="row"><span class="lbl">غرف</span><span class="val">${t.ht.rooms}</span></div>
         <div class="row"><span class="lbl">تكلفة</span><span class="val">${fmtM(t.ht.cost)}</span></div>
         <div class="row"><span class="lbl">إيراد</span><span class="val pos">${fmtM(t.ht.gross)}</span></div>
         <div class="row"><span class="lbl">صافي</span><span class="val pos">${fmtM(t.ht.net)}</span></div>
-        <div class="row"><span class="lbl">استرداد</span><span class="val">${t.ht.pb===Infinity?'∞':t.ht.pb.toFixed(1)}س</span></div>
+        <div class="row"><span class="lbl">${tip('استرداد')}</span><span class="val">${t.ht.pb===Infinity?'∞':t.ht.pb.toFixed(1)}س</span></div>
         <div class="roi-badge ${roiCls(t.ht.roi)}">ROI ${t.ht.roi.toFixed(1)}%/س</div></div></div>
     </div>
 
