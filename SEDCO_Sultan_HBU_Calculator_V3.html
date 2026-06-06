@@ -186,6 +186,27 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
       </div>
 
       <div class="panel" style="margin-top:14px;">
+        <div class="panel-head red2">تحليل الحساسية (نسبة الخطأ)</div>
+        <div class="panel-body">
+          <div class="field">
+            <label>تعديل التكلفة: <span id="costAdjLbl" style="color:var(--red);font-weight:600;">0%</span></label>
+            <input type="range" id="costAdj" value="0" min="-25" max="25" step="1" style="width:100%;accent-color:var(--red);" oninput="document.getElementById('costAdjLbl').textContent=(this.value>0?'+':'')+this.value+'%'; if(LAST) runCalc();">
+            <div class="fs" style="color:var(--ink3)">+ تجاوز في التكلفة / − توفير</div>
+          </div>
+          <div class="field">
+            <label>تعديل سعر البيع: <span id="sellAdjLbl" style="color:var(--green);font-weight:600;">0%</span></label>
+            <input type="range" id="sellAdj" value="0" min="-25" max="25" step="1" style="width:100%;accent-color:var(--green);" oninput="document.getElementById('sellAdjLbl').textContent=(this.value>0?'+':'')+this.value+'%'; if(LAST) runCalc();">
+            <div class="fs" style="color:var(--ink3)">+ بيع أعلى من المتوقع / − أقل</div>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:6px;">
+            <button class="export-btn" style="flex:1;padding:6px;" onclick="setSens(0,0)">إعادة ضبط</button>
+            <button class="export-btn" style="flex:1;padding:6px;" onclick="setSens(15,-15)">أسوأ حالة</button>
+            <button class="export-btn" style="flex:1;padding:6px;" onclick="setSens(-15,15)">أفضل حالة</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
         <div class="panel-head blue">برج سكني للبيع — أ <span class="tag" style="background:#a0b8d0;color:#0a1e30">FREEHOLD</span></div>
         <div class="panel-body">
           <div class="two-field">
@@ -340,6 +361,13 @@ function fmt(n){ return Math.round(n).toLocaleString('en-US'); }
 function fmtM(n){ return (n/1e6).toFixed(1)+' م ر.س'; }
 function roiCls(r){ return r>=20?'good':r>=10?'fair':'poor'; }
 
+function setSens(cost, sell){
+  document.getElementById('costAdj').value=cost;
+  document.getElementById('sellAdj').value=sell;
+  document.getElementById('costAdjLbl').textContent=(cost>0?'+':'')+cost+'%';
+  document.getElementById('sellAdjLbl').textContent=(sell>0?'+':'')+sell+'%';
+  if(LAST) runCalc();
+}
 function checkGfa(){
   const s=V('s1_gfa_pct')+V('s2_gfa_pct')+V('of_gfa_pct')+V('ht_gfa_pct');
   document.getElementById('warnGfa').style.display = s>102?'block':'none';
@@ -387,6 +415,9 @@ function runCalc(noteOverride){
   const footprint=landArea*coverage, totalGFA=footprint*floors,
         landCostTotal=landArea*landPrice;
   const landTreatment=VS('landTreatment');
+  // sensitivity adjustments
+  const costAdj = 1 + (V('costAdj')/100);   // scales build + soft
+  const sellAdj = 1 + (V('sellAdj')/100);   // scales residential sale price & lease/ADR income
   // effective land cost counted in TDC & project cash flows
   const landBasis = landTreatment==='none' ? 0 : (landTreatment==='cash' ? landBuyout : landCostTotal);
   const landFactor = landCostTotal>0 ? landBasis/landCostTotal : 0; // scales per-tower land share
@@ -397,19 +428,19 @@ function runCalc(noteOverride){
 
   // ── Residential A ──
   const s1NSA=gfa.s1*V('s1_eff')/100, s1Units=Math.floor(s1NSA/Math.max(V('s1_unitSize'),1));
-  const s1Build=gfa.s1*V('s1_buildCost'), s1Land=landCostTotal*(V('s1_gfa_pct')/100)*landFactor;
+  const s1Build=gfa.s1*V('s1_buildCost')*costAdj, s1Land=landCostTotal*(V('s1_gfa_pct')/100)*landFactor;
   const s1Soft=s1Build*softPct, s1Cost=s1Build+s1Land+s1Soft;
-  const s1Rev=s1NSA*V('s1_sellPrice')*0.965, s1Profit=s1Rev-s1Cost, s1ROI=s1Cost>0?s1Profit/s1Cost*100:0;
+  const s1Rev=s1NSA*V('s1_sellPrice')*0.965*sellAdj, s1Profit=s1Rev-s1Cost, s1ROI=s1Cost>0?s1Profit/s1Cost*100:0;
 
   // ── Residential B ──
   const s2NSA=gfa.s2*V('s2_eff')/100, s2Units=Math.floor(s2NSA/Math.max(V('s2_unitSize'),1));
-  const s2Build=gfa.s2*V('s2_buildCost'), s2Land=landCostTotal*(V('s2_gfa_pct')/100)*landFactor;
+  const s2Build=gfa.s2*V('s2_buildCost')*costAdj, s2Land=landCostTotal*(V('s2_gfa_pct')/100)*landFactor;
   const s2Soft=s2Build*softPct, s2Cost=s2Build+s2Land+s2Soft;
-  const s2Rev=s2NSA*V('s2_sellPrice')*0.965, s2Profit=s2Rev-s2Cost, s2ROI=s2Cost>0?s2Profit/s2Cost*100:0;
+  const s2Rev=s2NSA*V('s2_sellPrice')*0.965*sellAdj, s2Profit=s2Rev-s2Cost, s2ROI=s2Cost>0?s2Profit/s2Cost*100:0;
 
   // ── Office / Serviced ──
   const ofType=VS('of_type'), ofGLA=gfa.of*V('of_eff')/100,
-        ofBuild=gfa.of*V('of_buildCost'), ofLand=landCostTotal*(V('of_gfa_pct')/100)*landFactor,
+        ofBuild=gfa.of*V('of_buildCost')*costAdj, ofLand=landCostTotal*(V('of_gfa_pct')/100)*landFactor,
         ofSoft=ofBuild*softPct, ofCost=ofBuild+ofLand+ofSoft;
   let ofIncome=0, ofUnits=0;
   if(ofType==='office'){ ofIncome=ofGLA*V('of_rentPerMeter')*(V('of_occ')/100); ofUnits=Math.floor(ofGLA/Math.max(V('of_unitSize'),1)); }
@@ -420,7 +451,7 @@ function runCalc(noteOverride){
   // ── Hotel ──
   const htType=VS('ht_type'), htOpArea=gfa.ht*V('ht_opArea')/100, htRoomArea=gfa.ht-htOpArea,
         htRooms=Math.floor(htRoomArea/Math.max(V('ht_roomSize'),1)),
-        htBuild=gfa.ht*V('ht_buildCost'), htLand=landCostTotal*(V('ht_gfa_pct')/100)*landFactor,
+        htBuild=gfa.ht*V('ht_buildCost')*costAdj, htLand=landCostTotal*(V('ht_gfa_pct')/100)*landFactor,
         htSoft=htBuild*softPct, htCost=htBuild+htLand+htSoft,
         htGross=htRooms*V('ht_adr')*365*(V('ht_occ')/100),
         htOp=htGross*V('ht_opCost')/100, htNet=htGross-htOp,
@@ -428,7 +459,7 @@ function runCalc(noteOverride){
   const htExitVal=htNet*hotelMult;
 
   // ── Retail ──
-  const rtBuild=retailGFA*V('retail_buildCost'), rtSoft=rtBuild*softPct,
+  const rtBuild=retailGFA*V('retail_buildCost')*costAdj, rtSoft=rtBuild*softPct,
         rtCost=rtBuild+rtSoft, rtIncome=retailGFA*V('retail_rent')*0.83,
         rtROI=rtCost>0?rtIncome/rtCost*100:0, rtExitVal=rtIncome*rentalMult;
 
@@ -524,7 +555,7 @@ function runCalc(noteOverride){
 
   LAST={ scenario:document.querySelector('.sc-tab.active')?.textContent||'', totalCost, resSaleProfit,
     annualNOI, incomeROI, exitValue, projIRR, sedcoIRR, ownerIRR, totalProfit, sedcoProfit, ownerProfit,
-    sedcoEquity, ownerEquity, totalGFA, landArea, horizon, cYears, considerExit, sedcoShare, ownerShare, landTreatment, landBasis,
+    sedcoEquity, ownerEquity, totalGFA, landArea, horizon, cYears, considerExit, sedcoShare, ownerShare, landTreatment, landBasis, costAdj, sellAdj,
     towers:{ s1:{gfa:gfa.s1,nsa:s1NSA,units:s1Units,cost:s1Cost,rev:s1Rev,profit:s1Profit,roi:s1ROI,land:s1Land,build:s1Build},
              s2:{gfa:gfa.s2,nsa:s2NSA,units:s2Units,cost:s2Cost,rev:s2Rev,profit:s2Profit,roi:s2ROI,land:s2Land,build:s2Build},
              of:{gfa:gfa.of,gla:ofGLA,units:ofUnits,cost:ofCost,income:ofIncome,roi:ofROI,pb:ofPB,exit:ofExitVal,type:ofType,land:ofLand,build:ofBuild},
@@ -561,6 +592,7 @@ function render(noteOverride){
         <div><b>استرداد</b> — عدد السنوات لاسترجاع رأس المال</div>
       </div>
     </div>
+    ${(d.costAdj!==1||d.sellAdj!==1)?`<div style="background:#fde8e6;border:1px solid #e8a09a;border-radius:var(--r);padding:8px 14px;margin-bottom:14px;font-size:12px;color:var(--red);font-weight:600;">⚠️ تحليل حساسية مُفعّل: التكلفة ${d.costAdj>1?'+':''}${((d.costAdj-1)*100).toFixed(0)}% | البيع ${d.sellAdj>1?'+':''}${((d.sellAdj-1)*100).toFixed(0)}% — الأرقام أدناه معدّلة</div>`:''}
     <div class="export-bar">
       <button class="export-btn" onclick="exportCSV()">⬇ تصدير CSV</button>
       <button class="export-btn" onclick="window.print()">🖨 طباعة / PDF</button>
@@ -712,7 +744,7 @@ function drawCharts(){
 // compute the 3 scenarios silently for comparison table
 function computeScenarioComparison(){
   const snapshot={};
-  ['totalLandArea','landCostPerMeter','coverageRatio','floors','softPct','landBuyout','sedcoShare','horizon','constructionYears','considerExit','rentalMultiplier','hotelMultiplier','retail_area','retail_rent','retail_buildCost','splitMethod','landTreatment'].forEach(id=>snapshot[id]=document.getElementById(id).value);
+  ['totalLandArea','landCostPerMeter','coverageRatio','floors','softPct','landBuyout','sedcoShare','horizon','constructionYears','considerExit','rentalMultiplier','hotelMultiplier','retail_area','retail_rent','retail_buildCost','splitMethod','landTreatment','costAdj','sellAdj'].forEach(id=>snapshot[id]=document.getElementById(id).value);
   const rows=[];
   for(let n=1;n<=3;n++){
     const s=SCENARIOS[n];
@@ -746,15 +778,16 @@ function quietCalc(){
   const landTreatment=VS('landTreatment');
   const landBasis = landTreatment==='none' ? 0 : (landTreatment==='cash' ? landBuyout : landCostTotal);
   const landFactor = landCostTotal>0 ? landBasis/landCostTotal : 0;
+  const costAdj=1+(V('costAdj')/100), sellAdj=1+(V('sellAdj')/100);
   const g={s1:totalGFA*V('s1_gfa_pct')/100,s2:totalGFA*V('s2_gfa_pct')/100,of:totalGFA*V('of_gfa_pct')/100,ht:totalGFA*V('ht_gfa_pct')/100};
   const rGFA=V('retail_area');
-  const s1N=g.s1*V('s1_eff')/100,s1B=g.s1*V('s1_buildCost'),s1L=landCostTotal*(V('s1_gfa_pct')/100)*landFactor,s1C=s1B+s1L+s1B*softPct,s1R=s1N*V('s1_sellPrice')*0.965,s1P=s1R-s1C;
-  const s2N=g.s2*V('s2_eff')/100,s2B=g.s2*V('s2_buildCost'),s2L=landCostTotal*(V('s2_gfa_pct')/100)*landFactor,s2C=s2B+s2L+s2B*softPct,s2R=s2N*V('s2_sellPrice')*0.965,s2P=s2R-s2C;
-  const ofType=VS('of_type'),ofGLA=g.of*V('of_eff')/100,ofB=g.of*V('of_buildCost'),ofL=landCostTotal*(V('of_gfa_pct')/100)*landFactor,ofC=ofB+ofL+ofB*softPct;
+  const s1N=g.s1*V('s1_eff')/100,s1B=g.s1*V('s1_buildCost')*costAdj,s1L=landCostTotal*(V('s1_gfa_pct')/100)*landFactor,s1C=s1B+s1L+s1B*softPct,s1R=s1N*V('s1_sellPrice')*0.965*sellAdj,s1P=s1R-s1C;
+  const s2N=g.s2*V('s2_eff')/100,s2B=g.s2*V('s2_buildCost')*costAdj,s2L=landCostTotal*(V('s2_gfa_pct')/100)*landFactor,s2C=s2B+s2L+s2B*softPct,s2R=s2N*V('s2_sellPrice')*0.965*sellAdj,s2P=s2R-s2C;
+  const ofType=VS('of_type'),ofGLA=g.of*V('of_eff')/100,ofB=g.of*V('of_buildCost')*costAdj,ofL=landCostTotal*(V('of_gfa_pct')/100)*landFactor,ofC=ofB+ofL+ofB*softPct;
   let ofI=0; if(ofType==='office')ofI=ofGLA*V('of_rentPerMeter')*(V('of_occ')/100); else ofI=Math.floor(ofGLA/Math.max(V('of_unitSize'),1))*V('of_adr')*365*(V('of_occ')/100)*0.65;
-  const htOpA=g.ht*V('ht_opArea')/100,htRooms=Math.floor((g.ht-htOpA)/Math.max(V('ht_roomSize'),1)),htB=g.ht*V('ht_buildCost'),htL=landCostTotal*(V('ht_gfa_pct')/100)*landFactor,htC=htB+htL+htB*softPct;
+  const htOpA=g.ht*V('ht_opArea')/100,htRooms=Math.floor((g.ht-htOpA)/Math.max(V('ht_roomSize'),1)),htB=g.ht*V('ht_buildCost')*costAdj,htL=landCostTotal*(V('ht_gfa_pct')/100)*landFactor,htC=htB+htL+htB*softPct;
   const htG=htRooms*V('ht_adr')*365*(V('ht_occ')/100),htNet=htG-htG*V('ht_opCost')/100;
-  const rtB=rGFA*V('retail_buildCost'),rtC=rtB+rtB*softPct,rtI=rGFA*V('retail_rent')*0.83;
+  const rtB=rGFA*V('retail_buildCost')*costAdj,rtC=rtB+rtB*softPct,rtI=rGFA*V('retail_rent')*0.83;
   const totalCost=s1C+s2C+ofC+htC+rtC,resSaleProfit=s1P+s2P,resRevenue=s1R+s2R,annualNOI=ofI+htNet+rtI;
   const exitValue=considerExit?(ofI*rentalMult+htNet*hotelMult+rtI*rentalMult):0;
   const N=horizon+1,projCF=new Array(N).fill(0),sedcoCF=new Array(N).fill(0);
