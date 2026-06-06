@@ -102,12 +102,39 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
 .tip::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 9px); right:50%; transform:translateX(50%); background:var(--ink); color:#fff; font-family:var(--font); font-size:11px; font-weight:400; line-height:1.55; padding:8px 12px; border-radius:var(--r); white-space:normal; width:max-content; max-width:min(220px, 70vw); text-align:right; z-index:9999; opacity:0; visibility:hidden; pointer-events:none; transition:opacity .15s; box-shadow:0 6px 16px rgba(0,0,0,0.22); }
 .tip::before { content:''; position:absolute; bottom:calc(100% + 3px); right:50%; transform:translateX(50%); border:6px solid transparent; border-top-color:var(--ink); z-index:9999; opacity:0; visibility:hidden; pointer-events:none; transition:opacity .15s; }
 .tip:hover::after, .tip:hover::before { opacity:1; visibility:visible; }
+.tip.tip-show::after, .tip.tip-show::before { opacity:1; visibility:visible; }
 /* edge-aware variants to avoid clipping on side cards */
 .tip.tip-r::after { right:0; transform:none; } .tip.tip-r::before { right:14px; transform:none; }
 .tip.tip-l::after { right:auto; left:0; transform:none; } .tip.tip-l::before { right:auto; left:14px; transform:none; }
 @media print { .tip::after, .tip::before { display:none; } }
 @media (max-width:900px) { .two-col { grid-template-columns:1fr; } .tower-cards { grid-template-columns:1fr 1fr; } .chart-grid { grid-template-columns:1fr; } }
-@media (max-width:600px) { header { flex-direction:column; text-align:center; } .tower-cards { grid-template-columns:1fr; } }
+@media (max-width:600px) {
+  body { font-size:13px; }
+  header { flex-direction:column; text-align:center; padding:14px 16px; gap:4px; }
+  header h1 { font-size:14px; line-height:1.4; }
+  header .meta { text-align:center; }
+  .source-bar { padding:8px 14px; gap:8px 14px; font-size:10px; justify-content:center; }
+  .page { padding:14px 10px; }
+  .scenario-bar > span { width:100%; margin-bottom:2px; }
+  .sc-tab { flex:1 1 calc(50% - 4px); font-size:11px; padding:8px 6px; }
+  .kpi-grid { grid-template-columns:1fr 1fr; gap:8px; }
+  .kpi { padding:10px 12px; }
+  .kpi .k-val { font-size:16px; }
+  .kpi.accent .k-val, .kpi.gold .k-val { font-size:17px; }
+  .tower-cards { grid-template-columns:1fr 1fr; gap:8px; }
+  .chart-box { height:240px; }
+  .chart-wrap { padding:12px; }
+  .export-bar { flex-wrap:wrap; }
+  .export-btn { flex:1 1 auto; text-align:center; }
+  .panel-body { padding:12px; }
+  .cf-table th, .cf-table td { padding:6px; font-size:9px; }
+  .comp-table th, .comp-table td { padding:7px 8px; font-size:10px; }
+}
+@media (max-width:400px) {
+  .kpi-grid { grid-template-columns:1fr; }
+  .tower-cards { grid-template-columns:1fr; }
+  .sc-tab { flex:1 1 100%; }
+}
 @media print { header, .source-bar, .scenario-bar, .two-col>div:first-child, .calc-btn, .export-bar { display:none !important; } .two-col { grid-template-columns:1fr; } body { background:#fff; } }
 </style>
 </head>
@@ -653,7 +680,7 @@ function render(noteOverride){
     <div class="panel" style="margin-bottom:16px;">
       <div class="panel-head dark2">جدول التدفقات النقدية السنوية (مليون ر.س)</div>
       <div class="panel-body" style="padding:0;">
-        <div class="cf-scroll"><table class="cf-table"><thead><tr>
+        <div class="cf-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table class="cf-table" style="min-width:520px;"><thead><tr>
           <th>السنة</th><th>المشروع</th><th>تراكمي مشروع</th><th>سيدكو</th><th>تراكمي سيدكو</th><th>الملاك</th></tr></thead>
           <tbody>${cfRows()}</tbody></table></div>
       </div>
@@ -675,18 +702,18 @@ function render(noteOverride){
 
     <div class="panel" style="margin-bottom:16px;">
       <div class="panel-head">توزيع التكاليف التفصيلي</div>
-      <div class="panel-body"><table class="comp-table"><thead><tr><th>المكوّن</th><th>أرض</th><th>بناء</th><th>الإجمالي</th><th>%</th></tr></thead><tbody>
+      <div class="panel-body" style="padding:0;"><div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table class="comp-table" style="min-width:480px;"><thead><tr><th>المكوّن</th><th>أرض</th><th>بناء</th><th>الإجمالي</th><th>%</th></tr></thead><tbody>
         ${[['سكني أ',t.s1.land,t.s1.build,t.s1.cost],['سكني ب',t.s2.land,t.s2.build,t.s2.cost],
            [t.of.type==='office'?'مكاتب':'شقق فندقية',t.of.land,t.of.build,t.of.cost],
            ['فندق',t.ht.land,t.ht.build,t.ht.cost],['تجزئة',0,t.rt.build,t.rt.cost]].map(([n,l,b,tc])=>`
           <tr><td>${n}</td><td>${fmtM(l)}</td><td>${fmtM(b)}</td><td>${fmtM(tc)}</td><td>${(tc/d.totalCost*100).toFixed(0)}%</td></tr>`).join('')}
         <tr class="winner"><td>الإجمالي</td><td>${fmtM(d.landCostTotal)}</td><td>${fmtM(d.constructionTotal)}</td><td>${fmtM(d.totalCost)}</td><td>100%</td></tr>
-      </tbody></table></div>
+      </tbody></table></div></div>
     </div>
 
     <div class="panel" style="margin-bottom:16px;">
       <div class="panel-head green">مقارنة السيناريوهات الثلاثة من Colliers</div>
-      <div class="panel-body" style="padding:0;"><div style="overflow-x:auto"><table class="comp-table" id="scComp"><thead><tr>
+      <div class="panel-body" style="padding:0;"><div style="overflow-x:auto"><table class="comp-table" id="scComp" style="min-width:520px;"><thead><tr>
         <th>السيناريو</th><th>الاستثمار</th><th>أرباح البيع</th><th>NOI سنوي</th><th>Project IRR</th><th>SEDCO IRR</th></tr></thead>
         <tbody id="scCompBody"><tr><td colspan="6" style="text-align:center;color:var(--ink3)">جاري حساب المقارنة...</td></tr></tbody>
       </table></div></div>
@@ -874,14 +901,29 @@ document.addEventListener('mouseover', function(e){
   const el = e.target.closest('.tip');
   if(!el) return;
   el.classList.remove('tip-r','tip-l');
-  // measure after layout
   requestAnimationFrame(()=>{
     const r = el.getBoundingClientRect();
     const vw = window.innerWidth;
     const half = Math.min(220, vw*0.7)/2 + 16;
-    if(r.left + r.width/2 - half < 8) el.classList.add('tip-l');        // too close to left edge
-    else if(r.left + r.width/2 + half > vw - 8) el.classList.add('tip-r'); // too close to right edge
+    if(r.left + r.width/2 - half < 8) el.classList.add('tip-l');
+    else if(r.left + r.width/2 + half > vw - 8) el.classList.add('tip-r');
   });
+}, true);
+
+// Touch/tap support for tooltips (mobile has no hover)
+document.addEventListener('click', function(e){
+  const el = e.target.closest('.tip');
+  // hide any currently shown tooltip
+  document.querySelectorAll('.tip.tip-show').forEach(t=>{ if(t!==el) t.classList.remove('tip-show'); });
+  if(!el) return;
+  e.stopPropagation();
+  el.classList.remove('tip-r','tip-l');
+  const r = el.getBoundingClientRect();
+  const vw = window.innerWidth;
+  const half = Math.min(220, vw*0.7)/2 + 16;
+  if(r.left + r.width/2 - half < 8) el.classList.add('tip-l');
+  else if(r.left + r.width/2 + half > vw - 8) el.classList.add('tip-r');
+  el.classList.toggle('tip-show');
 }, true);
 </script>
 </body>
