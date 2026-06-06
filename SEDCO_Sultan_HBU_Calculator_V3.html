@@ -16,13 +16,15 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family: var(--font); background: var(--paper); color: var(--ink); direction: rtl; min-height: 100vh; font-size: 14px; }
-header { background: var(--ink); color:#fff; padding: 18px 32px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+header { background: var(--ink); color:#fff; }
+.header-inner { max-width:1340px; margin:0 auto; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 header .logo { font-size:11px; letter-spacing:0.12em; opacity:0.5; text-transform:uppercase; font-family:var(--mono); }
 header h1 { font-size:16px; font-weight:500; }
 header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align:left; }
-.source-bar { background:var(--accent); color:#fff; padding:8px 32px; font-size:11px; font-family:var(--mono); display:flex; gap:20px; flex-wrap:wrap; }
+.source-bar { background:var(--accent); color:#fff; }
+.source-inner { max-width:1340px; margin:0 auto; padding:8px 24px; font-size:11px; font-family:var(--mono); display:flex; gap:20px; flex-wrap:wrap; }
 .source-bar span { opacity:0.75; } .source-bar b { color:var(--accent2); font-weight:600; }
-.page { max-width:1340px; margin:0 auto; padding:24px 20px; }
+.page { max-width:1340px; margin:0 auto; padding:24px; }
 .two-col { display:grid; grid-template-columns: 350px 1fr; gap:20px; align-items:start; }
 .panel { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
 .panel-head { background:var(--ink); color:#fff; padding:10px 16px; font-size:12px; font-weight:500; letter-spacing:0.03em; display:flex; justify-content:space-between; align-items:center; }
@@ -110,11 +112,11 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
 @media (max-width:900px) { .two-col { grid-template-columns:1fr; } .tower-cards { grid-template-columns:1fr 1fr; } .chart-grid { grid-template-columns:1fr; } }
 @media (max-width:600px) {
   body { font-size:13px; }
-  header { flex-direction:column; text-align:center; padding:14px 16px; gap:4px; }
+  .header-inner { flex-direction:column; text-align:center; padding:14px 16px; gap:4px; }
   header h1 { font-size:14px; line-height:1.4; }
   header .meta { text-align:center; }
-  .source-bar { padding:8px 14px; gap:8px 14px; font-size:10px; justify-content:center; }
-  .page { padding:14px 10px; }
+  .source-inner { padding:8px 16px; gap:8px 14px; font-size:10px; justify-content:center; }
+  .page { padding:16px; }
   .scenario-bar > span { width:100%; margin-bottom:2px; }
   .sc-tab { flex:1 1 calc(50% - 4px); font-size:11px; padding:8px 6px; }
   .kpi-grid { grid-template-columns:1fr 1fr; gap:8px; }
@@ -141,18 +143,22 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
 <body>
 
 <header>
-  <div class="logo">SEDCO Capital</div>
-  <h1>حاسبة أرض الأمير سلطان الشمالية — Mixed-Use + IRR</h1>
-  <div class="meta">Colliers HBU Report v1.0 / Feb 2026<br>Al Mohammadiyah, Jeddah</div>
+  <div class="header-inner">
+    <div class="logo">SEDCO Capital</div>
+    <h1>حاسبة أرض الأمير سلطان الشمالية — Mixed-Use + IRR</h1>
+    <div class="meta">Colliers HBU Report v1.0 / Feb 2026<br>Al Mohammadiyah, Jeddah</div>
+  </div>
 </header>
 
 <div class="source-bar">
-  <span>المساحة: <b>18,720 م²</b></span>
-  <span>الأرض: <b>10,403 ر.س/م²</b></span>
-  <span>FAR: <b>4.2</b></span>
-  <span>كاش اوت للشركاء: <b>97 م. ر.س (50%)</b></span>
-  <span>التمويل: <b>كاش (بدون بنك)</b></span>
-  <span>تقسيم الأرباح: <b>50/50</b></span>
+  <div class="source-inner">
+    <span>المساحة: <b>18,720 م²</b></span>
+    <span>الأرض: <b>10,403 ر.س/م²</b></span>
+    <span>FAR: <b>4.2</b></span>
+    <span>كاش اوت للشركاء: <b>97 م. ر.س (50%)</b></span>
+    <span>التمويل: <b>كاش (بدون بنك)</b></span>
+    <span>تقسيم الأرباح: <b>50/50</b></span>
+  </div>
 </div>
 
 <div class="page">
