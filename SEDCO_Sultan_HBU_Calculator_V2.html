@@ -148,6 +148,10 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
             <div class="field"><label>حصة الملاك (%)</label><input type="number" id="ownerShare" value="50" min="0" max="100" readonly style="background:#eee"></div>
           </div>
           <div class="field"><label>Soft cost + رسوم المطور (%)</label><input type="number" id="softPct" value="17.5" min="0" max="40" step="0.5"><div class="fs">10% soft + 7.5% dev fee</div></div>
+          <div class="field"><label>طريقة تقسيم الأرباح</label><select id="splitMethod">
+            <option value="waterfall">Waterfall — استرداد رأس المال أولاً ثم 50/50 على الربح (واقعي)</option>
+            <option value="gross">إجمالي — 50/50 على كل الإيرادات</option>
+          </select><div class="fs" id="splitNote">كل طرف يسترد رأس ماله، ثم صافي الربح يُقسّم</div></div>
         </div>
       </div>
 
@@ -337,6 +341,7 @@ function runCalc(noteOverride){
         horizon=Math.round(V('horizon')), cYears=Math.round(V('constructionYears')),
         considerExit=VS('considerExit')==='true',
         rentalMult=V('rentalMultiplier'), hotelMult=V('hotelMultiplier');
+  const splitMethod=VS('splitMethod');
 
   const footprint=landArea*coverage, totalGFA=footprint*floors,
         landCostTotal=landArea*landPrice;
@@ -410,26 +415,46 @@ function runCalc(noteOverride){
   // Construction capex (SEDCO funds 100%) spread years 0..cYears-1
   for(let y=0;y<cYears;y++){ projCF[y]-=capexAnnual; sedcoCF[y]-=capexAnnual; }
 
-  // Off-plan residential sales: realized over construction years (even). Project gets full; split to partners.
+  // Inflow timeline (project level, full)
   const saleInflowAnnual=resRevenue/cYears;
-  for(let y=0;y<cYears;y++){
-    projCF[y]+=saleInflowAnnual;
-    sedcoCF[y]+=saleInflowAnnual*sedcoShare;
-    ownerCF[y]+=saleInflowAnnual*ownerShare;
-  }
+  const projIn=new Array(N).fill(0);
+  for(let y=0;y<cYears;y++) projIn[y]+=saleInflowAnnual;
+  for(let y=cYears;y<=horizon;y++) projIn[y]+=annualNOI;
+  if(considerExit) projIn[horizon]+=exitValue;
 
-  // NOI from income assets: years cYears..horizon (operating)
-  for(let y=cYears;y<=horizon;y++){
-    projCF[y]+=annualNOI;
-    sedcoCF[y]+=annualNOI*sedcoShare;
-    ownerCF[y]+=annualNOI*ownerShare;
-  }
+  // Project CF gets full inflows
+  for(let y=0;y<N;y++) projCF[y]+=projIn[y];
 
-  // Exit at horizon
-  if(considerExit){
-    projCF[horizon]+=exitValue;
-    sedcoCF[horizon]+=exitValue*sedcoShare;
-    ownerCF[horizon]+=exitValue*ownerShare;
+  // ── Distribute inflows to partners ──
+  const sedcoCapital=landBuyout+constructionTotal+softTotal;
+  const ownerCapital=ownerLandInKind;
+  const totalCapital=sedcoCapital+ownerCapital;
+
+  if(splitMethod==='gross'){
+    // 50/50 on every inflow
+    for(let y=0;y<N;y++){
+      sedcoCF[y]+=projIn[y]*sedcoShare;
+      ownerCF[y]+=projIn[y]*ownerShare;
+    }
+  } else {
+    // WATERFALL: return capital first (pro-rata by capital), then split residual profit 50/50
+    let sedcoRecovered=0, ownerRecovered=0;
+    for(let y=0;y<N;y++){
+      let avail=projIn[y];
+      // 1) return capital pro-rata until each fully recovered
+      const sedcoNeed=Math.max(sedcoCapital-sedcoRecovered,0);
+      const ownerNeed=Math.max(ownerCapital-ownerRecovered,0);
+      const totalNeed=sedcoNeed+ownerNeed;
+      if(totalNeed>0 && avail>0){
+        const ret=Math.min(avail,totalNeed);
+        const sedcoRet=ret*(sedcoNeed/totalNeed), ownerRet=ret*(ownerNeed/totalNeed);
+        sedcoCF[y]+=sedcoRet; ownerCF[y]+=ownerRet;
+        sedcoRecovered+=sedcoRet; ownerRecovered+=ownerRet;
+        avail-=ret;
+      }
+      // 2) residual is profit → split by share
+      if(avail>0){ sedcoCF[y]+=avail*sedcoShare; ownerCF[y]+=avail*ownerShare; }
+    }
   }
 
   const projIRR=irrPct(projCF), sedcoIRR=irrPct(sedcoCF), ownerIRR=irrPct(ownerCF);
@@ -437,10 +462,17 @@ function runCalc(noteOverride){
   // Total distributable profit over horizon
   const totalInflows=resRevenue + annualNOI*(horizon-cYears+1) + exitValue;
   const totalProfit=totalInflows-totalCost;
-  const sedcoProfit=totalProfit*sedcoShare;  // simplified profit split
-  const ownerProfit=totalProfit*ownerShare;
   const sedcoEquity=landBuyout+constructionTotal+softTotal;
   const ownerEquity=ownerLandInKind;
+  let sedcoProfit, ownerProfit;
+  if(splitMethod==='gross'){
+    sedcoProfit=totalProfit*sedcoShare; ownerProfit=totalProfit*ownerShare;
+  } else {
+    // waterfall: each recovers capital, profit (after both capitals) split 50/50
+    const profitAfterCapital=totalInflows-(sedcoEquity+ownerEquity);
+    sedcoProfit=Math.max(profitAfterCapital,0)*sedcoShare;
+    ownerProfit=Math.max(profitAfterCapital,0)*ownerShare;
+  }
 
   const overallPB=annualNOI>0?incomeAssetsCost/annualNOI:Infinity;
 
@@ -612,7 +644,7 @@ function drawCharts(){
 // compute the 3 scenarios silently for comparison table
 function computeScenarioComparison(){
   const snapshot={};
-  ['totalLandArea','landCostPerMeter','coverageRatio','floors','softPct','landBuyout','sedcoShare','horizon','constructionYears','considerExit','rentalMultiplier','hotelMultiplier','retail_area','retail_rent','retail_buildCost'].forEach(id=>snapshot[id]=document.getElementById(id).value);
+  ['totalLandArea','landCostPerMeter','coverageRatio','floors','softPct','landBuyout','sedcoShare','horizon','constructionYears','considerExit','rentalMultiplier','hotelMultiplier','retail_area','retail_rent','retail_buildCost','splitMethod'].forEach(id=>snapshot[id]=document.getElementById(id).value);
   const rows=[];
   for(let n=1;n<=3;n++){
     const s=SCENARIOS[n];
@@ -656,12 +688,26 @@ function quietCalc(){
   const exitValue=considerExit?(ofI*rentalMult+htNet*hotelMult+rtI*rentalMult):0;
   const N=horizon+1,projCF=new Array(N).fill(0),sedcoCF=new Array(N).fill(0);
   const constructionTotal=s1B+s2B+ofB+htB+rtB,softTotal=(s1B+s2B+ofB+htB+rtB)*softPct,capexA=(constructionTotal+softTotal)/cYears;
+  const splitMethod=VS('splitMethod');
+  const sedcoCapital=landBuyout+constructionTotal+softTotal, ownerLandInKind=Math.max(landCostTotal-landBuyout,0), ownerCapital=ownerLandInKind;
   projCF[0]-=landCostTotal; sedcoCF[0]-=landBuyout;
   for(let y=0;y<cYears;y++){projCF[y]-=capexA; sedcoCF[y]-=capexA;}
-  const saleA=resRevenue/cYears;
-  for(let y=0;y<cYears;y++){projCF[y]+=saleA; sedcoCF[y]+=saleA*sedcoShare;}
-  for(let y=cYears;y<=horizon;y++){projCF[y]+=annualNOI; sedcoCF[y]+=annualNOI*sedcoShare;}
-  if(considerExit){projCF[horizon]+=exitValue; sedcoCF[horizon]+=exitValue*sedcoShare;}
+  const saleA=resRevenue/cYears, projIn=new Array(N).fill(0);
+  for(let y=0;y<cYears;y++) projIn[y]+=saleA;
+  for(let y=cYears;y<=horizon;y++) projIn[y]+=annualNOI;
+  if(considerExit) projIn[horizon]+=exitValue;
+  for(let y=0;y<N;y++) projCF[y]+=projIn[y];
+  if(splitMethod==='gross'){
+    for(let y=0;y<N;y++) sedcoCF[y]+=projIn[y]*sedcoShare;
+  } else {
+    let sR=0,oR=0;
+    for(let y=0;y<N;y++){
+      let av=projIn[y];
+      const sN=Math.max(sedcoCapital-sR,0),oN=Math.max(ownerCapital-oR,0),tN=sN+oN;
+      if(tN>0&&av>0){ const ret=Math.min(av,tN); const sr=ret*(sN/tN); sedcoCF[y]+=sr; sR+=sr; oR+=ret*(oN/tN); av-=ret; }
+      if(av>0) sedcoCF[y]+=av*sedcoShare;
+    }
+  }
   return { totalCost, resSaleProfit, annualNOI, projIRR:irrPct(projCF), sedcoIRR:irrPct(sedcoCF) };
 }
 
@@ -705,6 +751,12 @@ SEDCO IRR: ${d.sedcoIRR?d.sedcoIRR.toFixed(1)+'%':'—'}
 }
 
 window.addEventListener('load',()=>{ loadScenario(1, document.querySelector('.sc-tab.active')); });
+document.getElementById('splitMethod').addEventListener('change',function(){
+  document.getElementById('splitNote').textContent = this.value==='waterfall'
+    ? 'كل طرف يسترد رأس ماله، ثم صافي الربح يُقسّم'
+    : '50/50 على كل إيراد — يفيد الملاك أكثر';
+  if(LAST) runCalc();
+});
 </script>
 </body>
 </html>
