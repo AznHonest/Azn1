@@ -162,6 +162,11 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
             <option value="waterfall">Waterfall — استرداد رأس المال أولاً ثم 50/50 على الربح (واقعي)</option>
             <option value="gross">إجمالي — 50/50 على كل الإيرادات</option>
           </select><div class="fs" id="splitNote">كل طرف يسترد رأس ماله، ثم صافي الربح يُقسّم</div></div>
+          <div class="field"><label>احتساب الأرض في التكلفة (يؤثر على العائد)</label><select id="landTreatment">
+            <option value="full">قيمة الأرض الكاملة (195م) — العائد الكامل للمشروع</option>
+            <option value="cash">كاش سيدكو فقط (97م) — العائد الفعلي على المدفوع</option>
+            <option value="none">بدون أرض — عائد كفاءة التطوير (البناء فقط)</option>
+          </select><div class="fs" id="landNote">الأرض الكاملة: الأصح محاسبياً لقياس ربحية الأصل</div></div>
         </div>
       </div>
 
@@ -381,6 +386,10 @@ function runCalc(noteOverride){
 
   const footprint=landArea*coverage, totalGFA=footprint*floors,
         landCostTotal=landArea*landPrice;
+  const landTreatment=VS('landTreatment');
+  // effective land cost counted in TDC & project cash flows
+  const landBasis = landTreatment==='none' ? 0 : (landTreatment==='cash' ? landBuyout : landCostTotal);
+  const landFactor = landCostTotal>0 ? landBasis/landCostTotal : 0; // scales per-tower land share
 
   const gfa={ s1:totalGFA*V('s1_gfa_pct')/100, s2:totalGFA*V('s2_gfa_pct')/100,
               of:totalGFA*V('of_gfa_pct')/100, ht:totalGFA*V('ht_gfa_pct')/100 };
@@ -388,19 +397,19 @@ function runCalc(noteOverride){
 
   // ── Residential A ──
   const s1NSA=gfa.s1*V('s1_eff')/100, s1Units=Math.floor(s1NSA/Math.max(V('s1_unitSize'),1));
-  const s1Build=gfa.s1*V('s1_buildCost'), s1Land=landCostTotal*(V('s1_gfa_pct')/100);
+  const s1Build=gfa.s1*V('s1_buildCost'), s1Land=landCostTotal*(V('s1_gfa_pct')/100)*landFactor;
   const s1Soft=s1Build*softPct, s1Cost=s1Build+s1Land+s1Soft;
   const s1Rev=s1NSA*V('s1_sellPrice')*0.965, s1Profit=s1Rev-s1Cost, s1ROI=s1Cost>0?s1Profit/s1Cost*100:0;
 
   // ── Residential B ──
   const s2NSA=gfa.s2*V('s2_eff')/100, s2Units=Math.floor(s2NSA/Math.max(V('s2_unitSize'),1));
-  const s2Build=gfa.s2*V('s2_buildCost'), s2Land=landCostTotal*(V('s2_gfa_pct')/100);
+  const s2Build=gfa.s2*V('s2_buildCost'), s2Land=landCostTotal*(V('s2_gfa_pct')/100)*landFactor;
   const s2Soft=s2Build*softPct, s2Cost=s2Build+s2Land+s2Soft;
   const s2Rev=s2NSA*V('s2_sellPrice')*0.965, s2Profit=s2Rev-s2Cost, s2ROI=s2Cost>0?s2Profit/s2Cost*100:0;
 
   // ── Office / Serviced ──
   const ofType=VS('of_type'), ofGLA=gfa.of*V('of_eff')/100,
-        ofBuild=gfa.of*V('of_buildCost'), ofLand=landCostTotal*(V('of_gfa_pct')/100),
+        ofBuild=gfa.of*V('of_buildCost'), ofLand=landCostTotal*(V('of_gfa_pct')/100)*landFactor,
         ofSoft=ofBuild*softPct, ofCost=ofBuild+ofLand+ofSoft;
   let ofIncome=0, ofUnits=0;
   if(ofType==='office'){ ofIncome=ofGLA*V('of_rentPerMeter')*(V('of_occ')/100); ofUnits=Math.floor(ofGLA/Math.max(V('of_unitSize'),1)); }
@@ -411,7 +420,7 @@ function runCalc(noteOverride){
   // ── Hotel ──
   const htType=VS('ht_type'), htOpArea=gfa.ht*V('ht_opArea')/100, htRoomArea=gfa.ht-htOpArea,
         htRooms=Math.floor(htRoomArea/Math.max(V('ht_roomSize'),1)),
-        htBuild=gfa.ht*V('ht_buildCost'), htLand=landCostTotal*(V('ht_gfa_pct')/100),
+        htBuild=gfa.ht*V('ht_buildCost'), htLand=landCostTotal*(V('ht_gfa_pct')/100)*landFactor,
         htSoft=htBuild*softPct, htCost=htBuild+htLand+htSoft,
         htGross=htRooms*V('ht_adr')*365*(V('ht_occ')/100),
         htOp=htGross*V('ht_opCost')/100, htNet=htGross-htOp,
@@ -442,9 +451,10 @@ function runCalc(noteOverride){
   const softTotal=s1Soft+s2Soft+ofSoft+htSoft+rtSoft;
   const capexAnnual=(constructionTotal+softTotal)/cYears;
 
-  // Year 0: land paid (project: full land; SEDCO: buyout cash; owner: in-kind retained land)
-  const ownerLandInKind=Math.max(landCostTotal-landBuyout,0);
-  projCF[0]-=landCostTotal;
+  // Year 0: land paid. Project counts landBasis (per treatment); SEDCO always pays its cash buyout;
+  // owner's in-kind contribution only counts when land is included in basis.
+  const ownerLandInKind = landTreatment==='none' ? 0 : Math.max(landCostTotal-landBuyout,0)*(landTreatment==='cash'?0:1);
+  projCF[0]-=landBasis;
   sedcoCF[0]-=landBuyout;
   ownerCF[0]-=ownerLandInKind;
 
@@ -514,7 +524,7 @@ function runCalc(noteOverride){
 
   LAST={ scenario:document.querySelector('.sc-tab.active')?.textContent||'', totalCost, resSaleProfit,
     annualNOI, incomeROI, exitValue, projIRR, sedcoIRR, ownerIRR, totalProfit, sedcoProfit, ownerProfit,
-    sedcoEquity, ownerEquity, totalGFA, landArea, horizon, cYears, considerExit, sedcoShare, ownerShare,
+    sedcoEquity, ownerEquity, totalGFA, landArea, horizon, cYears, considerExit, sedcoShare, ownerShare, landTreatment, landBasis,
     towers:{ s1:{gfa:gfa.s1,nsa:s1NSA,units:s1Units,cost:s1Cost,rev:s1Rev,profit:s1Profit,roi:s1ROI,land:s1Land,build:s1Build},
              s2:{gfa:gfa.s2,nsa:s2NSA,units:s2Units,cost:s2Cost,rev:s2Rev,profit:s2Profit,roi:s2ROI,land:s2Land,build:s2Build},
              of:{gfa:gfa.of,gla:ofGLA,units:ofUnits,cost:ofCost,income:ofIncome,roi:ofROI,pb:ofPB,exit:ofExitVal,type:ofType,land:ofLand,build:ofBuild},
@@ -558,7 +568,7 @@ function render(noteOverride){
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi accent"><div class="k-lbl">إجمالي الاستثمار (${tip('TDC')})</div><div class="k-val">${fmtM(d.totalCost)}</div><div class="k-sub">أرض كاملة + بناء + soft</div></div>
+      <div class="kpi accent"><div class="k-lbl">إجمالي الاستثمار (${tip('TDC')})</div><div class="k-val">${fmtM(d.totalCost)}</div><div class="k-sub">${d.landTreatment==='full'?'أرض كاملة + بناء + soft':d.landTreatment==='cash'?'كاش الأرض 97م + بناء':'بناء فقط (بدون أرض)'}</div></div>
       <div class="kpi gold"><div class="k-lbl">${tip('Project IRR','Project IRR')} (${d.horizon} سنة)</div><div class="k-val">${irrTxt(d.projIRR)}</div><div class="k-sub">على مستوى المشروع كاش</div></div>
       <div class="kpi accent"><div class="k-lbl">${tip('SEDCO Equity IRR','SEDCO Equity IRR')}</div><div class="k-val">${irrTxt(d.sedcoIRR)}</div><div class="k-sub">دافعة الكاش (97م + بناء)</div></div>
       <div class="kpi gold"><div class="k-lbl">عائد ملاك الأرض ${tip('IRR')}</div><div class="k-val">${irrTxt(d.ownerIRR)}</div><div class="k-sub">مساهمون بـ 50% أرض</div></div>
@@ -702,7 +712,7 @@ function drawCharts(){
 // compute the 3 scenarios silently for comparison table
 function computeScenarioComparison(){
   const snapshot={};
-  ['totalLandArea','landCostPerMeter','coverageRatio','floors','softPct','landBuyout','sedcoShare','horizon','constructionYears','considerExit','rentalMultiplier','hotelMultiplier','retail_area','retail_rent','retail_buildCost','splitMethod'].forEach(id=>snapshot[id]=document.getElementById(id).value);
+  ['totalLandArea','landCostPerMeter','coverageRatio','floors','softPct','landBuyout','sedcoShare','horizon','constructionYears','considerExit','rentalMultiplier','hotelMultiplier','retail_area','retail_rent','retail_buildCost','splitMethod','landTreatment'].forEach(id=>snapshot[id]=document.getElementById(id).value);
   const rows=[];
   for(let n=1;n<=3;n++){
     const s=SCENARIOS[n];
@@ -733,13 +743,16 @@ function quietCalc(){
     horizon=Math.round(V('horizon')),cYears=Math.round(V('constructionYears')),considerExit=VS('considerExit')==='true',
     rentalMult=V('rentalMultiplier'),hotelMult=V('hotelMultiplier');
   const footprint=landArea*coverage,totalGFA=footprint*floors,landCostTotal=landArea*landPrice;
+  const landTreatment=VS('landTreatment');
+  const landBasis = landTreatment==='none' ? 0 : (landTreatment==='cash' ? landBuyout : landCostTotal);
+  const landFactor = landCostTotal>0 ? landBasis/landCostTotal : 0;
   const g={s1:totalGFA*V('s1_gfa_pct')/100,s2:totalGFA*V('s2_gfa_pct')/100,of:totalGFA*V('of_gfa_pct')/100,ht:totalGFA*V('ht_gfa_pct')/100};
   const rGFA=V('retail_area');
-  const s1N=g.s1*V('s1_eff')/100,s1B=g.s1*V('s1_buildCost'),s1L=landCostTotal*(V('s1_gfa_pct')/100),s1C=s1B+s1L+s1B*softPct,s1R=s1N*V('s1_sellPrice')*0.965,s1P=s1R-s1C;
-  const s2N=g.s2*V('s2_eff')/100,s2B=g.s2*V('s2_buildCost'),s2L=landCostTotal*(V('s2_gfa_pct')/100),s2C=s2B+s2L+s2B*softPct,s2R=s2N*V('s2_sellPrice')*0.965,s2P=s2R-s2C;
-  const ofType=VS('of_type'),ofGLA=g.of*V('of_eff')/100,ofB=g.of*V('of_buildCost'),ofL=landCostTotal*(V('of_gfa_pct')/100),ofC=ofB+ofL+ofB*softPct;
+  const s1N=g.s1*V('s1_eff')/100,s1B=g.s1*V('s1_buildCost'),s1L=landCostTotal*(V('s1_gfa_pct')/100)*landFactor,s1C=s1B+s1L+s1B*softPct,s1R=s1N*V('s1_sellPrice')*0.965,s1P=s1R-s1C;
+  const s2N=g.s2*V('s2_eff')/100,s2B=g.s2*V('s2_buildCost'),s2L=landCostTotal*(V('s2_gfa_pct')/100)*landFactor,s2C=s2B+s2L+s2B*softPct,s2R=s2N*V('s2_sellPrice')*0.965,s2P=s2R-s2C;
+  const ofType=VS('of_type'),ofGLA=g.of*V('of_eff')/100,ofB=g.of*V('of_buildCost'),ofL=landCostTotal*(V('of_gfa_pct')/100)*landFactor,ofC=ofB+ofL+ofB*softPct;
   let ofI=0; if(ofType==='office')ofI=ofGLA*V('of_rentPerMeter')*(V('of_occ')/100); else ofI=Math.floor(ofGLA/Math.max(V('of_unitSize'),1))*V('of_adr')*365*(V('of_occ')/100)*0.65;
-  const htOpA=g.ht*V('ht_opArea')/100,htRooms=Math.floor((g.ht-htOpA)/Math.max(V('ht_roomSize'),1)),htB=g.ht*V('ht_buildCost'),htL=landCostTotal*(V('ht_gfa_pct')/100),htC=htB+htL+htB*softPct;
+  const htOpA=g.ht*V('ht_opArea')/100,htRooms=Math.floor((g.ht-htOpA)/Math.max(V('ht_roomSize'),1)),htB=g.ht*V('ht_buildCost'),htL=landCostTotal*(V('ht_gfa_pct')/100)*landFactor,htC=htB+htL+htB*softPct;
   const htG=htRooms*V('ht_adr')*365*(V('ht_occ')/100),htNet=htG-htG*V('ht_opCost')/100;
   const rtB=rGFA*V('retail_buildCost'),rtC=rtB+rtB*softPct,rtI=rGFA*V('retail_rent')*0.83;
   const totalCost=s1C+s2C+ofC+htC+rtC,resSaleProfit=s1P+s2P,resRevenue=s1R+s2R,annualNOI=ofI+htNet+rtI;
@@ -747,8 +760,8 @@ function quietCalc(){
   const N=horizon+1,projCF=new Array(N).fill(0),sedcoCF=new Array(N).fill(0);
   const constructionTotal=s1B+s2B+ofB+htB+rtB,softTotal=(s1B+s2B+ofB+htB+rtB)*softPct,capexA=(constructionTotal+softTotal)/cYears;
   const splitMethod=VS('splitMethod');
-  const sedcoCapital=landBuyout+constructionTotal+softTotal, ownerLandInKind=Math.max(landCostTotal-landBuyout,0), ownerCapital=ownerLandInKind;
-  projCF[0]-=landCostTotal; sedcoCF[0]-=landBuyout;
+  const sedcoCapital=landBuyout+constructionTotal+softTotal, ownerLandInKind=(landTreatment==='none'?0:Math.max(landCostTotal-landBuyout,0)*(landTreatment==='cash'?0:1)), ownerCapital=ownerLandInKind;
+  projCF[0]-=landBasis; sedcoCF[0]-=landBuyout;
   for(let y=0;y<cYears;y++){projCF[y]-=capexA; sedcoCF[y]-=capexA;}
   const saleA=resRevenue/cYears, projIn=new Array(N).fill(0);
   for(let y=0;y<cYears;y++) projIn[y]+=saleA;
@@ -813,6 +826,13 @@ document.getElementById('splitMethod').addEventListener('change',function(){
   document.getElementById('splitNote').textContent = this.value==='waterfall'
     ? 'كل طرف يسترد رأس ماله، ثم صافي الربح يُقسّم'
     : '50/50 على كل إيراد — يفيد الملاك أكثر';
+  if(LAST) runCalc();
+});
+document.getElementById('landTreatment').addEventListener('change',function(){
+  const notes={ full:'الأرض الكاملة: الأصح محاسبياً لقياس ربحية الأصل',
+    cash:'كاش سيدكو فقط (97م): العائد الفعلي على المبلغ المدفوع',
+    none:'بدون أرض: يقيس كفاءة التطوير/البناء فقط (عائد مرتفع)' };
+  document.getElementById('landNote').textContent = notes[this.value];
   if(LAST) runCalc();
 });
 
