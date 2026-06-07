@@ -8,31 +8,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root {
-  --ink: #0f1117; --ink2: #3a3d4a; --ink3: #757a8a;
-  --paper: #f5f3ee; --surface: #ffffff; --border: #e2ddd6;
-  --accent: #1a4a3c; --accent2: #c8a96e;
-  --red: #c0392b; --green: #1a6b47; --blue: #1a3a5c; --amber: #c47d1a;
-  --r: 6px; --font: 'IBM Plex Sans Arabic', sans-serif; --mono: 'IBM Plex Mono', monospace;
+  --ink:#0f1117; --ink2:#3a3d4a; --ink3:#757a8a;
+  --paper:#f5f3ee; --surface:#ffffff; --border:#e2ddd6;
+  --accent:#1a4a3c; --accent2:#c8a96e;
+  --red:#c0392b; --green:#1a6b47; --blue:#1a3a5c; --amber:#c47d1a;
+  --r:6px; --font:'IBM Plex Sans Arabic',sans-serif; --mono:'IBM Plex Mono',monospace;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: var(--font); background: var(--paper); color: var(--ink); direction: rtl; min-height: 100vh; font-size: 14px; overflow-x: hidden; max-width: 100%; }
-header { background: var(--ink); color:#fff; }
+body { font-family:var(--font); background:var(--paper); color:var(--ink); direction:rtl; min-height:100vh; font-size:14px; overflow-x:hidden; max-width:100%; }
+header { background:var(--ink); color:#fff; }
 .header-inner { max-width:1340px; margin:0 auto; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
-header .logo { font-size:11px; letter-spacing:0.12em; opacity:0.5; text-transform:uppercase; font-family:var(--mono); }
-header h1 { font-size:16px; font-weight:500; }
-header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align:left; }
+.header-inner .logo { font-size:11px; letter-spacing:0.12em; opacity:0.5; text-transform:uppercase; font-family:var(--mono); }
+.header-inner h1 { font-size:16px; font-weight:500; }
+.header-inner .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align:left; }
 .source-bar { background:var(--accent); color:#fff; }
 .source-inner { max-width:1340px; margin:0 auto; padding:8px 24px; font-size:11px; font-family:var(--mono); display:flex; gap:20px; flex-wrap:wrap; }
-.source-bar span { opacity:0.75; } .source-bar b { color:var(--accent2); font-weight:600; }
+.source-inner span { opacity:0.75; } .source-inner b { color:var(--accent2); font-weight:600; }
 .page { max-width:1340px; margin:0 auto; padding:24px; }
-.two-col { display:grid; grid-template-columns: 350px 1fr; gap:20px; align-items:start; }
+.two-col { display:grid; grid-template-columns:350px 1fr; gap:20px; align-items:start; }
 .two-col > div { min-width:0; }
-.panel { min-width:0; }
-.panel { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.panel { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; min-width:0; }
 .panel-head { background:var(--ink); color:#fff; padding:10px 16px; font-size:12px; font-weight:500; letter-spacing:0.03em; display:flex; justify-content:space-between; align-items:center; }
 .panel-head .tag { background:var(--accent2); color:var(--ink); font-size:10px; padding:2px 7px; border-radius:3px; font-weight:600; }
-.panel-head.blue { background:var(--blue); } .panel-head.green { background:var(--green); } .panel-head.amber { background:#6b4a1a; }
-.panel-head.gold { background:#5a4416; } .panel-head.dark2 { background:#2c3e50; }
+.panel-head.blue { background:var(--blue); } .panel-head.green { background:var(--green); } .panel-head.amber { background:#6b4a1a; } .panel-head.gold { background:#5a4416; } .panel-head.dark2 { background:#2c3e50; } .panel-head.red2 { background:#4a1a1a; }
 .panel-body { padding:14px 16px; }
 .field { margin-bottom:11px; }
 .field label { display:block; font-size:11px; color:var(--ink3); margin-bottom:4px; font-weight:500; }
@@ -43,13 +41,18 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
 .sec-label { font-size:10px; font-weight:600; color:var(--ink3); letter-spacing:0.08em; text-transform:uppercase; margin:14px 0 8px; font-family:var(--mono); border-bottom:1px solid var(--border); padding-bottom:5px; }
 .calc-btn { width:100%; padding:12px; background:var(--accent); color:#fff; border:none; border-radius:var(--r); font-size:14px; font-weight:600; cursor:pointer; font-family:var(--font); margin-top:8px; letter-spacing:0.03em; transition:background .15s; }
 .calc-btn:hover { background:#0f2e24; }
-.scenario-bar { display:flex; gap:6px; margin-bottom:18px; flex-wrap:wrap; align-items:center; }
-.sc-tab { padding:7px 13px; border:1px solid var(--border); border-radius:var(--r); background:var(--surface); font-size:12px; cursor:pointer; color:var(--ink3); font-family:var(--font); transition:all .15s; text-align:center; line-height:1.4; }
+.scenario-bar { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; align-items:center; }
+.sc-tab { padding:7px 12px; border:1px solid var(--border); border-radius:var(--r); background:var(--surface); font-size:12px; cursor:pointer; color:var(--ink3); font-family:var(--font); transition:all .15s; text-align:center; line-height:1.4; }
 .sc-tab small { font-size:9px; opacity:0.8; }
 .sc-tab.active { background:var(--ink); color:#fff; border-color:var(--ink); }
 .sc-tab.colliers { border-color:var(--accent2); color:var(--accent); }
 .sc-tab.colliers.active { background:var(--accent); border-color:var(--accent); color:#fff; }
-.kpi-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(135px,1fr)); gap:10px; margin-bottom:18px; }
+/* View tabs */
+.view-bar { display:flex; gap:0; margin-bottom:18px; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.view-tab { flex:1; padding:10px 8px; background:var(--surface); font-size:12px; cursor:pointer; color:var(--ink3); font-family:var(--font); font-weight:500; text-align:center; border:none; border-left:1px solid var(--border); transition:all .15s; }
+.view-tab:last-child { border-left:none; }
+.view-tab.active { background:var(--accent); color:#fff; }
+.kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:18px; }
 .kpi { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:12px 14px; }
 .kpi .k-lbl { font-size:10px; color:var(--ink3); margin-bottom:5px; font-family:var(--mono); line-height:1.3; }
 .kpi .k-val { font-size:19px; font-weight:600; color:var(--ink); line-height:1; }
@@ -60,879 +63,689 @@ header .meta { font-size:11px; opacity:0.45; font-family:var(--mono); text-align
 .kpi.red { border-right:3px solid var(--red); } .kpi.red .k-val { color:var(--red); }
 .kpi.accent { background:var(--accent); border-color:var(--accent); } .kpi.accent .k-lbl { color:rgba(255,255,255,0.6); } .kpi.accent .k-val { color:#fff; font-size:21px; } .kpi.accent .k-sub { color:rgba(255,255,255,0.5); }
 .kpi.gold { background:#5a4416; border-color:#5a4416; } .kpi.gold .k-lbl { color:rgba(255,255,255,0.6); } .kpi.gold .k-val { color:var(--accent2); font-size:21px; } .kpi.gold .k-sub { color:rgba(255,255,255,0.5); }
-.tower-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:18px; }
-.tower-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:visible; }
-.tower-card .tc-head { border-radius:var(--r) var(--r) 0 0; }
-.tower-card .tc-head { padding:9px 12px; font-size:11px; font-weight:600; color:#fff; }
-.tower-card .tc-head.s1 { background:var(--blue); } .tower-card .tc-head.s2 { background:#1a4560; }
-.tower-card .tc-head.of { background:var(--accent); } .tower-card .tc-head.ht { background:#6b4010; }
-.tower-card .tc-body { padding:12px; }
-.tower-card .row { display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border); font-size:12px; }
-.tower-card .row:last-child { border-bottom:none; }
-.tower-card .row .lbl { color:var(--ink3); } .tower-card .row .val { font-weight:500; color:var(--ink); font-family:var(--mono); font-size:11px; }
-.tower-card .row .val.pos { color:var(--green); } .tower-card .row .val.neg { color:var(--red); }
-.tower-card .roi-badge { margin-top:10px; text-align:center; padding:6px; border-radius:4px; font-size:13px; font-weight:600; font-family:var(--mono); }
+.comp-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:18px; }
+.comp-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:visible; }
+.comp-card .cc-head { padding:9px 12px; font-size:11px; font-weight:600; color:#fff; border-radius:var(--r) var(--r) 0 0; }
+.comp-card .cc-body { padding:12px; }
+.comp-card .row { display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border); font-size:12px; }
+.comp-card .row:last-child { border-bottom:none; }
+.comp-card .row .lbl { color:var(--ink3); } .comp-card .row .val { font-weight:500; color:var(--ink); font-family:var(--mono); font-size:11px; }
+.comp-card .row .val.pos { color:var(--green); } .comp-card .row .val.neg { color:var(--red); }
+.comp-card .roi-badge { margin-top:10px; text-align:center; padding:6px; border-radius:4px; font-size:13px; font-weight:600; font-family:var(--mono); }
 .roi-badge.good { background:#e8f5ee; color:var(--green); } .roi-badge.fair { background:#fef3e2; color:var(--amber); } .roi-badge.poor { background:#fde8e6; color:var(--red); }
-.comp-table { width:100%; border-collapse:collapse; font-size:12px; }
-.comp-table th { background:var(--ink); color:#fff; padding:9px 12px; text-align:right; font-weight:500; font-size:11px; }
-.comp-table td { padding:8px 12px; border-bottom:1px solid var(--border); text-align:right; font-family:var(--mono); font-size:11px; }
-.comp-table tr:hover td { background:var(--paper); }
-.comp-table .winner { background:#e8f5ee !important; font-weight:600; }
+.tbl { width:100%; border-collapse:collapse; font-size:12px; }
+.tbl th { background:var(--ink); color:#fff; padding:9px 12px; text-align:right; font-weight:500; font-size:11px; }
+.tbl td { padding:8px 12px; border-bottom:1px solid var(--border); text-align:right; font-family:var(--mono); font-size:11px; }
+.tbl tr:hover td { background:var(--paper); }
+.tbl .winner { background:#e8f5ee !important; font-weight:600; }
 .chart-wrap { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:16px; margin-bottom:16px; }
 .chart-wrap h4 { font-size:12px; font-weight:600; margin-bottom:12px; color:var(--ink); }
 .chart-box { position:relative; height:280px; }
 .chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
-.exit-box { background:var(--paper); border:1px solid var(--border); border-radius:var(--r); padding:14px 16px; }
-.exit-box h4 { font-size:12px; font-weight:600; color:var(--ink); margin-bottom:10px; }
-.exit-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dashed var(--border); font-size:12px; }
-.exit-row:last-child { border-bottom:none; font-weight:600; }
-.exit-row .el { color:var(--ink3); } .exit-row .ev { font-family:var(--mono); color:var(--ink); }
 .note-box { background:#fff8ee; border:1px solid #e8c87a; border-radius:var(--r); padding:10px 14px; margin-top:12px; }
 .note-box h5 { font-size:11px; color:var(--amber); font-weight:600; margin-bottom:5px; }
 .note-box p { font-size:11px; color:var(--ink2); line-height:1.6; }
-.warn { background:#fde8e6; border:1px solid #e8a09a; border-radius:var(--r); padding:8px 12px; font-size:11px; color:var(--red); display:none; margin-top:8px; }
+.info-strip { font-size:11px; color:var(--ink3); background:var(--paper); border-radius:var(--r); padding:8px 12px; margin-bottom:14px; line-height:1.6; }
 .export-bar { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
 .export-btn { padding:8px 16px; background:var(--surface); color:var(--ink2); border:1px solid var(--border); border-radius:var(--r); cursor:pointer; font-size:12px; font-family:var(--font); font-weight:500; transition:all .15s; }
 .export-btn:hover { background:var(--ink); color:#fff; border-color:var(--ink); }
-.cf-table { width:100%; border-collapse:collapse; font-size:11px; }
-.cf-table th { background:var(--ink); color:#fff; padding:7px 8px; text-align:center; font-weight:500; font-size:10px; font-family:var(--mono); position:sticky; top:0; }
-.cf-table td { padding:6px 8px; border-bottom:1px solid var(--border); text-align:center; font-family:var(--mono); font-size:10px; }
-.cf-table td.neg { color:var(--red); } .cf-table td.pos { color:var(--green); }
-.cf-table tr:hover td { background:var(--paper); }
-.cf-scroll { max-height:340px; overflow-y:auto; border:1px solid var(--border); border-radius:var(--r); }
+.matrix { width:100%; border-collapse:collapse; font-size:11px; }
+.matrix th, .matrix td { padding:8px 6px; text-align:center; border:1px solid var(--border); font-family:var(--mono); }
+.matrix th { background:var(--ink); color:#fff; font-size:10px; }
+.matrix .rowhead { background:var(--paper); font-weight:600; color:var(--ink2); }
+.matrix .base { background:#fff8ee; font-weight:600; }
+.matrix .hi { background:#e8f5ee; color:var(--green); } .matrix .lo { background:#fde8e6; color:var(--red); }
+.cf-scroll { max-height:340px; overflow-y:auto; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:var(--r); }
+.warn { background:#fde8e6; border:1px solid #e8a09a; border-radius:var(--r); padding:8px 12px; font-size:11px; color:var(--red); display:none; margin-top:8px; }
 ::-webkit-scrollbar { width:6px; height:6px; } ::-webkit-scrollbar-track { background:var(--paper); } ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
 /* Tooltips */
 .tip { position:relative; cursor:help; border-bottom:1px dotted currentColor; }
-.tip::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 9px); right:50%; transform:translateX(50%); background:var(--ink); color:#fff; font-family:var(--font); font-size:11px; font-weight:400; line-height:1.55; padding:8px 12px; border-radius:var(--r); white-space:normal; width:max-content; max-width:min(220px, 70vw); text-align:right; z-index:9999; opacity:0; visibility:hidden; pointer-events:none; transition:opacity .15s; box-shadow:0 6px 16px rgba(0,0,0,0.22); }
+.tip::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 9px); right:50%; transform:translateX(50%); background:var(--ink); color:#fff; font-family:var(--font); font-size:11px; font-weight:400; line-height:1.55; padding:8px 12px; border-radius:var(--r); white-space:normal; width:max-content; max-width:min(220px,70vw); text-align:right; z-index:9999; opacity:0; visibility:hidden; pointer-events:none; transition:opacity .15s; box-shadow:0 6px 16px rgba(0,0,0,0.22); }
 .tip::before { content:''; position:absolute; bottom:calc(100% + 3px); right:50%; transform:translateX(50%); border:6px solid transparent; border-top-color:var(--ink); z-index:9999; opacity:0; visibility:hidden; pointer-events:none; transition:opacity .15s; }
 .tip:hover::after, .tip:hover::before { opacity:1; visibility:visible; }
 .tip.tip-show::after, .tip.tip-show::before { opacity:1; visibility:visible; }
-/* edge-aware variants to avoid clipping on side cards */
 .tip.tip-r::after { right:0; transform:none; } .tip.tip-r::before { right:14px; transform:none; }
 .tip.tip-l::after { right:auto; left:0; transform:none; } .tip.tip-l::before { right:auto; left:14px; transform:none; }
-@media print { .tip::after, .tip::before { display:none; } }
-@media (max-width:900px) { .two-col { grid-template-columns:1fr; } .tower-cards { grid-template-columns:1fr 1fr; } .chart-grid { grid-template-columns:1fr; } }
+@media (max-width:900px) { .two-col { grid-template-columns:1fr; } .chart-grid { grid-template-columns:1fr; } }
 @media (max-width:600px) {
   body { font-size:13px; }
   .header-inner { flex-direction:column; text-align:center; padding:14px 16px; gap:4px; }
-  header h1 { font-size:14px; line-height:1.4; }
-  header .meta { text-align:center; }
+  .header-inner h1 { font-size:14px; line-height:1.4; }
+  .header-inner .meta { text-align:center; }
   .source-inner { padding:8px 16px; gap:8px 14px; font-size:10px; justify-content:center; }
   .page { padding:16px; }
   .scenario-bar > span { width:100%; margin-bottom:2px; }
   .sc-tab { flex:1 1 calc(50% - 4px); font-size:11px; padding:8px 6px; }
+  .view-tab { font-size:10px; padding:9px 4px; }
   .kpi-grid { grid-template-columns:1fr 1fr; gap:8px; }
-  .kpi { padding:10px 12px; }
   .kpi .k-val { font-size:16px; }
   .kpi.accent .k-val, .kpi.gold .k-val { font-size:17px; }
-  .tower-cards { grid-template-columns:1fr 1fr; gap:8px; }
   .chart-box { height:240px; }
-  .chart-wrap { padding:12px; }
-  .export-bar { flex-wrap:wrap; }
-  .export-btn { flex:1 1 auto; text-align:center; }
-  .panel-body { padding:12px; }
-  .cf-table th, .cf-table td { padding:6px; font-size:9px; }
-  .comp-table th, .comp-table td { padding:7px 8px; font-size:10px; }
+  .export-bar { flex-wrap:wrap; } .export-btn { flex:1 1 auto; text-align:center; }
+  .tbl th, .tbl td { padding:7px 8px; font-size:10px; }
 }
-@media (max-width:400px) {
-  .kpi-grid { grid-template-columns:1fr; }
-  .tower-cards { grid-template-columns:1fr; }
-  .sc-tab { flex:1 1 100%; }
-}
-@media print { header, .source-bar, .scenario-bar, .two-col>div:first-child, .calc-btn, .export-bar { display:none !important; } .two-col { grid-template-columns:1fr; } body { background:#fff; } }
+@media (max-width:400px) { .kpi-grid { grid-template-columns:1fr; } .sc-tab { flex:1 1 100%; } }
+@media print { .tip::after, .tip::before { display:none; } header, .source-bar, .scenario-bar, .view-bar, .two-col>div:first-child, .calc-btn, .export-bar { display:none !important; } .two-col { grid-template-columns:1fr; } body { background:#fff; } }
 </style>
 </head>
 <body>
-
 <header>
   <div class="header-inner">
     <div class="logo">SEDCO Capital</div>
-    <h1>حاسبة أرض الأمير سلطان الشمالية — Mixed-Use + IRR</h1>
+    <h1>حاسبة أرض الأمير سلطان الشمالية — Mixed-Use HBU</h1>
     <div class="meta">Colliers HBU Report v1.0 / Feb 2026<br>Al Mohammadiyah, Jeddah</div>
   </div>
 </header>
-
 <div class="source-bar">
   <div class="source-inner">
     <span>المساحة: <b>18,720 م²</b></span>
     <span>الأرض: <b>10,403 ر.س/م²</b></span>
     <span>FAR: <b>4.2</b></span>
-    <span>كاش اوت للشركاء: <b>97 م. ر.س (50%)</b></span>
-    <span>التمويل: <b>كاش (بدون بنك)</b></span>
-    <span>تقسيم الأرباح: <b>50/50</b></span>
+    <span>كاش اوت للشركاء: <b>97 م ر.س</b></span>
+    <span>التمويل: <b>كاش</b></span>
+    <span>تقسيم: <b>50/50</b></span>
   </div>
 </div>
 
 <div class="page">
-
   <div class="scenario-bar">
-    <span style="font-size:11px;color:var(--ink3);font-family:var(--mono)">سيناريو:</span>
+    <span style="font-size:11px;color:var(--ink3);font-family:var(--mono)">سيناريو Colliers:</span>
     <button class="sc-tab colliers active" onclick="loadScenario(1,this)">خيار 1<br><small>سكني 80% + شقق فندقية</small></button>
     <button class="sc-tab colliers" onclick="loadScenario(2,this)">خيار 2<br><small>سكني 51% + مكاتب + فندق</small></button>
     <button class="sc-tab colliers" onclick="loadScenario(3,this)">خيار 3<br><small>سكني 70% + فندق مزدوج</small></button>
-    <button class="sc-tab" onclick="loadScenario(0,this)">حر<br><small>ادخل أرقامك</small></button>
+    <button class="sc-tab colliers" onclick="loadScenario(4,this)">خيار 4<br><small>العميل: سكني + تجزئة</small></button>
   </div>
 
   <div class="two-col">
-
     <!-- LEFT INPUTS -->
     <div>
       <div class="panel">
-        <div class="panel-head">الأرض والتمويل <span class="tag">من الدراسة</span></div>
+        <div class="panel-head">الأرض والتكاليف <span class="tag">من الدراسة</span></div>
         <div class="panel-body">
-          <div class="field"><label>إجمالي مساحة الأرض (م²)</label><input type="number" id="totalLandArea" value="18720" min="0" step="100"><div class="fs">18,720 م²</div></div>
-          <div class="field"><label>سعر متر الأرض (ريال)</label><input type="number" id="landCostPerMeter" value="10403" min="0" step="100"><div class="fs">10,403 ر.س/م²</div></div>
+          <div class="field"><label>مساحة الأرض (م²)</label><input type="number" id="landArea" value="18720" step="100"><div class="fs">18,720</div></div>
+          <div class="field"><label>سعر متر الأرض (ريال)</label><input type="number" id="landPrice" value="10403" step="100"><div class="fs">10,403 (Client)</div></div>
+          <div class="sec-label">تكاليف البناء (ريال/م²) — Colliers</div>
           <div class="two-field">
-            <div class="field"><label><span class="tip" data-tip="نسبة البصمة — نسبة مساحة الأرض المغطاة بالبناء">Coverage</span> (%)</label><input type="number" id="coverageRatio" value="60" min="0" max="100"><div class="fs">60%</div></div>
-            <div class="field"><label>عدد الطوابق</label><input type="number" id="floors" value="7" min="1" max="20"><div class="fs">6-8</div></div>
+            <div class="field"><label>سكني</label><input type="number" id="c_res" value="3500" step="50"></div>
+            <div class="field"><label>مكاتب</label><input type="number" id="c_off" value="3200" step="50"></div>
           </div>
-          <div class="sec-label">هيكل الشراكة</div>
-          <div class="field"><label>كاش اوت لشركاء الأرض (ريال)</label><input type="number" id="landBuyout" value="97000000" min="0" step="1000000"><div class="fs">97م مقابل 50% من الأرض</div></div>
           <div class="two-field">
-            <div class="field"><label>حصة سيدكو من الأرباح (%)</label><input type="number" id="sedcoShare" value="50" min="0" max="100"></div>
-            <div class="field"><label>حصة الملاك (%)</label><input type="number" id="ownerShare" value="50" min="0" max="100" readonly style="background:#eee"></div>
+            <div class="field"><label>تجزئة</label><input type="number" id="c_ret" value="3000" step="50"></div>
+            <div class="field"><label>فندق/شقق</label><input type="number" id="c_hot" value="6400" step="100"></div>
           </div>
-          <div class="field"><label><span class="tip" data-tip="التكاليف الناعمة (تصميم وإشراف) + رسوم إدارة المطور">Soft cost</span> + رسوم المطور (%)</label><input type="number" id="softPct" value="17.5" min="0" max="40" step="0.5"><div class="fs">10% soft + 7.5% dev fee</div></div>
-          <div class="field"><label>طريقة تقسيم الأرباح</label><select id="splitMethod">
-            <option value="waterfall">Waterfall — استرداد رأس المال أولاً ثم 50/50 على الربح (واقعي)</option>
-            <option value="gross">إجمالي — 50/50 على كل الإيرادات</option>
-          </select><div class="fs" id="splitNote">كل طرف يسترد رأس ماله، ثم صافي الربح يُقسّم</div></div>
-          <div class="field"><label>احتساب الأرض في التكلفة (يؤثر على العائد)</label><select id="landTreatment">
-            <option value="full">قيمة الأرض الكاملة (195م) — العائد الكامل للمشروع</option>
-            <option value="cash">كاش سيدكو فقط (97م) — العائد الفعلي على المدفوع</option>
-            <option value="none">بدون أرض — عائد كفاءة التطوير (البناء فقط)</option>
-          </select><div class="fs" id="landNote">الأرض الكاملة: الأصح محاسبياً لقياس ربحية الأصل</div></div>
+          <div class="sec-label">تكاليف المواقف (ريال/م²) — Colliers</div>
+          <div class="two-field">
+            <div class="field"><label>بدروم Basement</label><input type="number" id="c_base" value="2500" step="100"><div class="fs">2,500</div></div>
+            <div class="field"><label>بوديوم Podium</label><input type="number" id="c_pod" value="2000" step="100"><div class="fs">2,000</div></div>
+          </div>
+          <div class="two-field">
+            <div class="field"><label>سطحي Surface</label><input type="number" id="c_surf" value="500" step="50"><div class="fs">500</div></div>
+            <div class="field"><label>تنسيق Landscape</label><input type="number" id="c_land" value="700" step="50"><div class="fs">700</div></div>
+          </div>
+          <div class="sec-label">النسب — Colliers</div>
+          <div class="two-field">
+            <div class="field"><label>Soft cost (%)</label><input type="number" id="softPct" value="10" step="0.5"><div class="fs">10%</div></div>
+            <div class="field"><label>رسوم المطور (%)</label><input type="number" id="devFee" value="7.5" step="0.5"><div class="fs">7.5%</div></div>
+          </div>
+          <div class="field"><label>احتياطي Contingency (%)</label><input type="number" id="contingency" value="5" step="0.5"><div class="fs">5% (كان ناقص)</div></div>
         </div>
       </div>
 
       <div class="panel" style="margin-top:14px;">
-        <div class="panel-head amber">أفق الاستثمار والتخارج</div>
+        <div class="panel-head green">الإيرادات والعوائد <span class="tag">Colliers</span></div>
         <div class="panel-body">
+          <div class="field"><label>سعر بيع الشقة (ريال/م²)</label><input type="number" id="r_resSell" value="10550" step="100"><div class="fs">10,550 (MoJ)</div></div>
+          <div class="field"><label>رسوم البيع الكلية (%)</label><input type="number" id="r_sellFee" value="3.5" step="0.5"><div class="fs">وافي 1% + عمولة 2.5%</div></div>
           <div class="two-field">
-            <div class="field"><label>أفق الاستثمار (سنة)</label><input type="number" id="horizon" value="13" min="3" max="25"><div class="fs">13 (زي Colliers)</div></div>
-            <div class="field"><label>سنوات البناء</label><input type="number" id="constructionYears" value="3" min="1" max="6"></div>
+            <div class="field"><label>إيجار مكاتب (ريال/م²)</label><input type="number" id="r_offLease" value="1250" step="50"></div>
+            <div class="field"><label>إيجار تجزئة (ريال/م²)</label><input type="number" id="r_retLease" value="1650" step="50"></div>
           </div>
           <div class="two-field">
-            <div class="field"><label>مكرر تخارج المكاتب (سنة)</label><input type="number" id="rentalMultiplier" value="11" min="6" max="20" step="0.5"></div>
-            <div class="field"><label>مكرر تخارج الفندق (سنة)</label><input type="number" id="hotelMultiplier" value="11" min="6" max="20" step="0.5"><div class="fs">9% cap = 11x</div></div>
+            <div class="field"><label>إشغال مكاتب/تجزئة (%)</label><input type="number" id="r_offOcc" value="85" step="1"></div>
+            <div class="field"><label>service charge/opex (%)</label><input type="number" id="r_opex" value="15" step="1"></div>
           </div>
-          <div class="field"><label>احتساب التخارج (بيع الأصول في نهاية الأفق)؟</label><select id="considerExit"><option value="true">نعم</option><option value="false">لا — احتفاظ</option></select></div>
+          <div class="sec-label">الفندق والشقق الفندقية</div>
+          <div class="two-field">
+            <div class="field"><label>ADR فندق (ريال)</label><input type="number" id="r_hotADR" value="600" step="10"></div>
+            <div class="field"><label>ADR شقق (ريال)</label><input type="number" id="r_servADR" value="815" step="10"></div>
+          </div>
+          <div class="two-field">
+            <div class="field"><label>إشغال (%)</label><input type="number" id="r_hotOcc" value="70" step="1"></div>
+            <div class="field"><label>opex فندق (%)</label><input type="number" id="r_hotOpex" value="35" step="1"></div>
+          </div>
         </div>
       </div>
 
       <div class="panel" style="margin-top:14px;">
-        <div class="panel-head red2">تحليل الحساسية (نسبة الخطأ)</div>
+        <div class="panel-head amber">التخارج والأفق</div>
         <div class="panel-body">
-          <div class="field">
-            <label>تعديل التكلفة: <span id="costAdjLbl" style="color:var(--red);font-weight:600;">0%</span></label>
-            <input type="range" id="costAdj" value="0" min="-25" max="25" step="1" style="width:100%;accent-color:var(--red);" oninput="document.getElementById('costAdjLbl').textContent=(this.value>0?'+':'')+this.value+'%'; if(LAST) runCalc();">
-            <div class="fs" style="color:var(--ink3)">+ تجاوز في التكلفة / − توفير</div>
+          <div class="two-field">
+            <div class="field"><label>أفق الاستثمار (سنة)</label><input type="number" id="horizon" value="13" min="3" max="25"><div class="fs">13</div></div>
+            <div class="field"><label>سنوات البناء</label><input type="number" id="cYears" value="3" min="1" max="6"></div>
           </div>
-          <div class="field">
-            <label>تعديل سعر البيع: <span id="sellAdjLbl" style="color:var(--green);font-weight:600;">0%</span></label>
-            <input type="range" id="sellAdj" value="0" min="-25" max="25" step="1" style="width:100%;accent-color:var(--green);" oninput="document.getElementById('sellAdjLbl').textContent=(this.value>0?'+':'')+this.value+'%'; if(LAST) runCalc();">
-            <div class="fs" style="color:var(--ink3)">+ بيع أعلى من المتوقع / − أقل</div>
+          <div class="two-field">
+            <div class="field"><label>Cap Rate تجزئة/مكاتب (%)</label><input type="number" id="capCommercial" value="8.5" step="0.25"><div class="fs">8.5%</div></div>
+            <div class="field"><label>Cap Rate فندق (%)</label><input type="number" id="capHotel" value="9" step="0.25"><div class="fs">9%</div></div>
           </div>
+          <div class="field"><label>احتساب التخارج؟</label><select id="considerExit"><option value="true">نعم — بيع الأصول</option><option value="false">لا — احتفاظ</option></select></div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <div class="panel-head red2">تحليل الحساسية</div>
+        <div class="panel-body">
+          <div class="field"><label>تعديل التكلفة: <span id="costAdjLbl" style="color:var(--red);font-weight:600;">0%</span></label>
+            <input type="range" id="costAdj" value="0" min="-25" max="25" step="1" style="width:100%;accent-color:var(--red);" oninput="document.getElementById('costAdjLbl').textContent=(this.value>0?'+':'')+this.value+'%'; if(LAST) runCalc();"></div>
+          <div class="field"><label>تعديل سعر البيع: <span id="sellAdjLbl" style="color:var(--green);font-weight:600;">0%</span></label>
+            <input type="range" id="sellAdj" value="0" min="-25" max="25" step="1" style="width:100%;accent-color:var(--green);" oninput="document.getElementById('sellAdjLbl').textContent=(this.value>0?'+':'')+this.value+'%'; if(LAST) runCalc();"></div>
           <div style="display:flex;gap:6px;margin-top:6px;">
-            <button class="export-btn" style="flex:1;padding:6px;" onclick="setSens(0,0)">إعادة ضبط</button>
-            <button class="export-btn" style="flex:1;padding:6px;" onclick="setSens(15,-15)">أسوأ حالة</button>
-            <button class="export-btn" style="flex:1;padding:6px;" onclick="setSens(-15,15)">أفضل حالة</button>
+            <button class="export-btn" style="flex:1;padding:6px;" onclick="setSens(0,0)">ضبط</button>
+            <button class="export-btn" style="flex:1;padding:6px;" onclick="setSens(15,-15)">أسوأ</button>
+            <button class="export-btn" style="flex:1;padding:6px;" onclick="setSens(-15,15)">أفضل</button>
           </div>
         </div>
       </div>
 
-      <div class="panel" style="margin-top:14px;">
-        <div class="panel-head blue">برج سكني للبيع — أ <span class="tag" style="background:#a0b8d0;color:#0a1e30">FREEHOLD</span></div>
-        <div class="panel-body">
-          <div class="two-field">
-            <div class="field"><label>نسبة <span class="tip" data-tip="إجمالي مساحة البناء — مجموع مساحات كل الطوابق فوق الأرض">GFA</span> (%)</label><input type="number" id="s1_gfa_pct" value="40" oninput="checkGfa()"></div>
-            <div class="field"><label>كفاءة <span class="tip" data-tip="المساحة الصافية القابلة للبيع — بعد خصم الجدران والمشترك">NSA</span> (%)</label><input type="number" id="s1_eff" value="82"><div class="fs">82%</div></div>
-          </div>
-          <div class="field"><label>متوسط مساحة الشقة (م²)</label><input type="number" id="s1_unitSize" value="127" step="5"><div class="fs">127 م²</div></div>
-          <div class="two-field">
-            <div class="field"><label>تكلفة بناء م² (ريال)</label><input type="number" id="s1_buildCost" value="3500" step="50"><div class="fs">3,500</div></div>
-            <div class="field"><label>سعر بيع م² (ريال)</label><input type="number" id="s1_sellPrice" value="10550" step="100"><div class="fs">10,550</div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" style="margin-top:14px;">
-        <div class="panel-head" style="background:#1a4560;">برج سكني للبيع — ب <span class="tag" style="background:#a0b8d0;color:#0a1e30">FREEHOLD</span></div>
-        <div class="panel-body">
-          <div class="two-field">
-            <div class="field"><label>نسبة <span class="tip" data-tip="إجمالي مساحة البناء — مجموع مساحات كل الطوابق فوق الأرض">GFA</span> (%)</label><input type="number" id="s2_gfa_pct" value="40" oninput="checkGfa()"></div>
-            <div class="field"><label>كفاءة <span class="tip" data-tip="المساحة الصافية القابلة للبيع — بعد خصم الجدران والمشترك">NSA</span> (%)</label><input type="number" id="s2_eff" value="82"></div>
-          </div>
-          <div class="field"><label>متوسط مساحة الشقة (م²)</label><input type="number" id="s2_unitSize" value="127" step="5"></div>
-          <div class="two-field">
-            <div class="field"><label>تكلفة بناء م² (ريال)</label><input type="number" id="s2_buildCost" value="3500" step="50"></div>
-            <div class="field"><label>سعر بيع م² (ريال)</label><input type="number" id="s2_sellPrice" value="10550" step="100"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" style="margin-top:14px;">
-        <div class="panel-head green">برج مكاتب / شقق فندقية <span class="tag" style="background:#a0d0b8;color:#0a2e1e">LEASEHOLD</span></div>
-        <div class="panel-body">
-          <div class="two-field">
-            <div class="field"><label>نسبة <span class="tip" data-tip="إجمالي مساحة البناء — مجموع مساحات كل الطوابق فوق الأرض">GFA</span> (%)</label><input type="number" id="of_gfa_pct" value="8" oninput="checkGfa()"></div>
-            <div class="field"><label>النوع</label><select id="of_type"><option value="office">مكاتب Grade A</option><option value="serviced">شقق فندقية</option></select></div>
-          </div>
-          <div class="two-field">
-            <div class="field"><label>كفاءة <span class="tip" data-tip="المساحة الصافية القابلة للتأجير — للمكاتب والتجزئة">GLA</span> (%)</label><input type="number" id="of_eff" value="80"><div class="fs">80% مكاتب</div></div>
-            <div class="field"><label>تكلفة بناء م² (ريال)</label><input type="number" id="of_buildCost" value="3200" step="50"><div class="fs">3,200/6,400</div></div>
-          </div>
-          <div class="two-field">
-            <div class="field"><label>إيجار م²/سنة مكاتب (ريال)</label><input type="number" id="of_rentPerMeter" value="1250" step="50"><div class="fs">1,250</div></div>
-            <div class="field"><label><span class="tip" data-tip="متوسط سعر الغرفة في الليلة الواحدة (للفندق)">ADR</span> شقق فندقية (ريال)</label><input type="number" id="of_adr" value="782" step="10"><div class="fs">782-848</div></div>
-          </div>
-          <div class="two-field">
-            <div class="field"><label>الإشغال (%)</label><input type="number" id="of_occ" value="72"><div class="fs">55-90/67-73</div></div>
-            <div class="field"><label>مساحة الوحدة م²</label><input type="number" id="of_unitSize" value="62" step="5"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" style="margin-top:14px;">
-        <div class="panel-head gold">برج فندق (3/4 نجوم) <span class="tag" style="background:#d4a870;color:#3a1a00">HOTEL</span></div>
-        <div class="panel-body">
-          <div class="two-field">
-            <div class="field"><label>نسبة <span class="tip" data-tip="إجمالي مساحة البناء — مجموع مساحات كل الطوابق فوق الأرض">GFA</span> (%)</label><input type="number" id="ht_gfa_pct" value="12" oninput="checkGfa()"></div>
-            <div class="field"><label>النوع</label><select id="ht_type"><option value="4star">4 نجوم</option><option value="3star">3 نجوم</option><option value="serviced">شقق فندقية</option></select></div>
-          </div>
-          <div class="two-field">
-            <div class="field"><label>تكلفة بناء م² (ريال)</label><input type="number" id="ht_buildCost" value="7000" step="100"><div class="fs">6,400-7,000</div></div>
-            <div class="field"><label>منطقة تشغيلية (%)</label><input type="number" id="ht_opArea" value="25"></div>
-          </div>
-          <div class="two-field">
-            <div class="field"><label>مساحة الغرفة م²</label><input type="number" id="ht_roomSize" value="31" step="2"><div class="fs">31</div></div>
-            <div class="field"><label><span class="tip" data-tip="متوسط سعر الغرفة في الليلة الواحدة (للفندق)">ADR</span> ريال/ليلة</label><input type="number" id="ht_adr" value="600" step="10"><div class="fs">574-623</div></div>
-          </div>
-          <div class="two-field">
-            <div class="field"><label>الإشغال (%)</label><input type="number" id="ht_occ" value="67"><div class="fs">64-70</div></div>
-            <div class="field"><label>تكاليف تشغيلية (%)</label><input type="number" id="ht_opCost" value="35"><div class="fs">35%</div></div>
-          </div>
-          <div class="sec-label">التجزئة الداعمة</div>
-          <div class="two-field">
-            <div class="field"><label>مساحة التجزئة م²</label><input type="number" id="retail_area" value="3000" step="100"><div class="fs">3,000</div></div>
-            <div class="field"><label>إيجار م²/سنة (ريال)</label><input type="number" id="retail_rent" value="1650" step="50"><div class="fs">1,650</div></div>
-          </div>
-          <div class="field"><label>تكلفة بناء التجزئة (ريال/م²)</label><input type="number" id="retail_buildCost" value="3000" step="100"></div>
-        </div>
-      </div>
-
-      <div class="warn" id="warnGfa">⚠️ مجموع نسب GFA يتجاوز 100%</div>
-      <button class="calc-btn" onclick="runCalc()">احسب العوائد و IRR ▶</button>
+      <button class="calc-btn" onclick="runCalc()">احسب ▶</button>
     </div>
 
     <!-- RIGHT RESULTS -->
-    <div id="resultsArea">
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:32px;text-align:center;color:var(--ink3);">
-        <div style="font-size:32px;margin-bottom:12px;">📊</div>
-        <div style="font-size:14px;">اضغط "احسب العوائد و IRR" لرؤية النتائج</div>
+    <div>
+      <div class="view-bar">
+        <button class="view-tab active" onclick="setView('project',this)">جدوى المشروع</button>
+        <button class="view-tab" onclick="setView('partner',this)">الشراكة 50/50</button>
+        <button class="view-tab" onclick="setView('sensitivity',this)">الحساسية والتعادل</button>
+        <button class="view-tab" onclick="setView('compare',this)">مقارنة الخيارات</button>
+      </div>
+      <div id="resultsArea">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:32px;text-align:center;color:var(--ink3);">
+          <div style="font-size:32px;margin-bottom:12px;">📊</div>
+          <div style="font-size:14px;">اضغط "احسب" لرؤية النتائج</div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// ════════ COLLIERS SCENARIOS ════════
+// ════════ VERIFIED COLLIERS DATA (per-component GFA, parking) ════════
+// All figures extracted directly from Colliers HBU Final Report v1.0 financial assessment
 const SCENARIOS = {
-  1: { label:'خيار 1 — Colliers: سكني (80%) + شقق فندقية',
-    s1_gfa_pct:40, s1_eff:82, s1_unitSize:127, s1_buildCost:3500, s1_sellPrice:10550,
-    s2_gfa_pct:40, s2_eff:82, s2_unitSize:127, s2_buildCost:3500, s2_sellPrice:10550,
-    of_gfa_pct:15, of_type:'serviced', of_eff:65, of_buildCost:6400, of_rentPerMeter:1250, of_adr:782, of_occ:70, of_unitSize:62,
-    ht_gfa_pct:5, ht_type:'serviced', ht_buildCost:6400, ht_opArea:25, ht_roomSize:40, ht_adr:782, ht_occ:70, ht_opCost:35,
-    retail_area:3000, retail_rent:1650, retail_buildCost:3000, rentalMultiplier:11, hotelMultiplier:11,
-    note:'Colliers: أرباح بيع فوري 454م | Project IRR 9.9% | Equity IRR 12.2% (بهيكل تمويل بنكي مختلف)' },
-  2: { label:'خيار 2 — Colliers: سكني (51%) + مكاتب + فندق 4★',
-    s1_gfa_pct:25, s1_eff:82, s1_unitSize:127, s1_buildCost:3500, s1_sellPrice:10550,
-    s2_gfa_pct:26, s2_eff:82, s2_unitSize:127, s2_buildCost:3500, s2_sellPrice:10550,
-    of_gfa_pct:31, of_type:'office', of_eff:80, of_buildCost:3200, of_rentPerMeter:1250, of_adr:782, of_occ:72, of_unitSize:350,
-    ht_gfa_pct:14, ht_type:'4star', ht_buildCost:7000, ht_opArea:25, ht_roomSize:31, ht_adr:600, ht_occ:67, ht_opCost:35,
-    retail_area:3000, retail_rent:1650, retail_buildCost:3000, rentalMultiplier:12, hotelMultiplier:11,
-    note:'Colliers: أرباح بيع فوري 347م | Project IRR 10.6% | Equity IRR 15.7% (بهيكل تمويل بنكي مختلف)' },
-  3: { label:'خيار 3 — Colliers: سكني (70%) + فندق مزدوج 3★',
-    s1_gfa_pct:35, s1_eff:82, s1_unitSize:127, s1_buildCost:3500, s1_sellPrice:10550,
-    s2_gfa_pct:35, s2_eff:82, s2_unitSize:127, s2_buildCost:3500, s2_sellPrice:10550,
-    of_gfa_pct:6, of_type:'serviced', of_eff:65, of_buildCost:6400, of_rentPerMeter:1250, of_adr:600, of_occ:67, of_unitSize:35,
-    ht_gfa_pct:24, ht_type:'3star', ht_buildCost:6400, ht_opArea:20, ht_roomSize:26, ht_adr:450, ht_occ:76, ht_opCost:30,
-    retail_area:3000, retail_rent:1650, retail_buildCost:3000, rentalMultiplier:11, hotelMultiplier:11,
-    note:'فندق مزدوج 3★ + شقق مدعومة — حوالي 300 مفتاح حسب الدراسة' }
+  1: { name:'خيار 1 — سكني (80%) + شقق فندقية',
+    res:{gfa:51912, nsa:42568, units:335, unitSize:127},
+    off:{gfa:0, gla:0},
+    ret:{gfa:3529, gla:3000},
+    serv:{gfa:12146, nla:7918, units:120, type:'serviced'},
+    hot:{gfa:0, nla:0, keys:0},
+    park:{basement:0, podium:25739, surface:3832},
+    landscape:3656, totalGFA:67588, totalPark:29571, totalArea:97159,
+    cIRR:9.9, eIRR:12.2 },
+  2: { name:'خيار 2 — سكني (51%) + مكاتب + فندق 4★',
+    res:{gfa:39691, nsa:32546, units:256, unitSize:127},
+    off:{gfa:24695, gla:19756},
+    ret:{gfa:3529, gla:3000},
+    serv:{gfa:0, nla:0, units:0},
+    hot:{gfa:10709, nla:6735, keys:180, type:'4star'},
+    park:{basement:30682, podium:33696, surface:3832},
+    landscape:3656, totalGFA:78624, totalPark:68210, totalArea:146834,
+    cIRR:10.6, eIRR:15.7 },
+  3: { name:'خيار 3 — سكني (70%) + فندق مزدوج (شقق + 3★)',
+    res:{gfa:51884, nsa:42545, units:335, unitSize:127},
+    off:{gfa:0, gla:0},
+    ret:{gfa:3529, gla:3000},
+    serv:{gfa:9930, nla:6473, units:104, type:'serviced'},
+    hot:{gfa:9232, nla:6018, keys:200, type:'3star'},
+    park:{basement:0, podium:29929, surface:3832},
+    landscape:3656, totalGFA:74575, totalPark:33761, totalArea:108336,
+    cIRR:10.3, eIRR:15.0 },
+  4: { name:'خيار 4 — العميل: سكني (87%) + تجزئة موسّعة',
+    res:{gfa:68328, nsa:51137, units:339, unitSize:151},
+    off:{gfa:0, gla:0},
+    ret:{gfa:10296, gla:9314},
+    serv:{gfa:0, nla:0, units:0},
+    hot:{gfa:0, nla:0, keys:0},
+    park:{basement:0, podium:32806, surface:3832},
+    landscape:3656, totalGFA:78624, totalPark:36638, totalArea:115262,
+    cIRR:10.4, eIRR:13.4 }
 };
 
-let LAST = null;       // last computed result (for export)
-let CHARTS = {};       // chart instances
+let LAST=null, CHARTS={}, CURRENT_VIEW='project', ACTIVE_SCENARIO=1;
 
-// ════════ TOOLTIP GLOSSARY ════════
+// ════════ TOOLTIPS ════════
 const TIPS = {
   'GFA':'إجمالي مساحة البناء — مجموع مساحات كل الطوابق فوق الأرض',
-  'NSA':'المساحة الصافية القابلة للبيع — المساحة الفعلية للوحدات بعد خصم الجدران والمشترك',
-  'GLA':'المساحة الصافية القابلة للتأجير — للمكاتب والتجزئة',
-  'NOI':'صافي الدخل التشغيلي السنوي = الإيراد − المصاريف التشغيلية',
-  'ADR':'متوسط سعر الغرفة في الليلة الواحدة (للفندق)',
-  'ROI':'العائد على الاستثمار — نسبة الربح أو الدخل إلى التكلفة',
-  'IRR':'معدل العائد الداخلي — يحسب العائد مع الأخذ بقيمة الوقت للنقود عبر سنوات المشروع',
-  'TDC':'إجمالي تكلفة التطوير = الأرض + البناء + التكاليف الناعمة',
-  'FAR':'معامل البناء = إجمالي GFA ÷ مساحة الأرض (هنا 4.2)',
-  'Soft':'التكاليف الناعمة (تصميم وإشراف هندسي) + رسوم إدارة المطور',
-  'soft':'التكاليف الناعمة (تصميم وإشراف هندسي) + رسوم إدارة المطور',
-  'Coverage':'نسبة البصمة — نسبة مساحة الأرض المغطاة بالبناء في الدور الأرضي',
-  'Project IRR':'معدل العائد الداخلي على مستوى المشروع ككل (بغض النظر عن من يموّل)',
-  'SEDCO Equity IRR':'معدل العائد الداخلي على رأس مال سيدكو (التي تدفع كاش اوت + البناء)',
-  'Waterfall':'آلية توزيع: كل شريك يسترد رأس ماله أولاً، ثم يُقسّم صافي الربح',
-  'استرداد':'فترة الاسترداد — عدد السنوات لاسترجاع رأس المال من الدخل السنوي',
-  'TDC)':'إجمالي تكلفة التطوير = الأرض + البناء + التكاليف الناعمة'
+  'NSA':'المساحة الصافية القابلة للبيع — بعد خصم الجدران والمشترك',
+  'GLA':'المساحة الصافية القابلة للتأجير',
+  'NOI':'صافي الدخل التشغيلي السنوي = الإيراد − المصاريف',
+  'ADR':'متوسط سعر الغرفة في الليلة (للفندق)',
+  'ROI':'العائد على الاستثمار (نسبة)',
+  'IRR':'معدل العائد الداخلي — يحسب قيمة الوقت للنقود عبر سنوات المشروع',
+  'TDC':'إجمالي تكلفة التطوير = أرض + بناء + مواقف + soft + احتياطي',
+  'FAR':'معامل البناء = GFA ÷ الأرض',
+  'Cap Rate':'معدل العائد المطلوب للمشتري = NOI ÷ سعر البيع',
+  'Project IRR':'عائد المشروع ككل بغض النظر عن التمويل',
+  'SEDCO IRR':'عائد سيدكو على الكاش المدفوع (97م + بناء)',
+  'استرداد':'عدد السنوات لاسترجاع رأس المال من الدخل السنوي',
+  'سعر التعادل':'أقل سعر بيع للمتر يبقي عائد المشروع عند الحد المطلوب'
 };
-// wrap a label string: if it contains a known term, add a .tip span
-function tip(term, label){
-  const t = TIPS[term];
-  if(!t) return label||term;
-  return `<span class="tip" data-tip="${t}">${label||term}</span>`;
-}
+function tip(term,label){ const t=TIPS[term]; if(!t) return label||term; return '<span class="tip" data-tip="'+t+'">'+(label||term)+'</span>'; }
+
 function V(id){ return parseFloat(document.getElementById(id).value)||0; }
 function VS(id){ return document.getElementById(id).value; }
 function fmt(n){ return Math.round(n).toLocaleString('en-US'); }
 function fmtM(n){ return (n/1e6).toFixed(1)+' م ر.س'; }
 function roiCls(r){ return r>=20?'good':r>=10?'fair':'poor'; }
-
-function setSens(cost, sell){
-  document.getElementById('costAdj').value=cost;
-  document.getElementById('sellAdj').value=sell;
-  document.getElementById('costAdjLbl').textContent=(cost>0?'+':'')+cost+'%';
-  document.getElementById('sellAdjLbl').textContent=(sell>0?'+':'')+sell+'%';
-  if(LAST) runCalc();
-}
-function checkGfa(){
-  const s=V('s1_gfa_pct')+V('s2_gfa_pct')+V('of_gfa_pct')+V('ht_gfa_pct');
-  document.getElementById('warnGfa').style.display = s>102?'block':'none';
-  document.getElementById('ownerShare').value = 100 - V('sedcoShare');
-}
+function irrTxt(v){ return v===null||v===undefined?'—':v.toFixed(1)+'%'; }
 
 function loadScenario(n, btn){
   document.querySelectorAll('.sc-tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
-  if(n===0){ runCalc(); return; }
-  const s=SCENARIOS[n];
-  Object.keys(s).forEach(k=>{ const el=document.getElementById(k); if(el) el.value=s[k]; });
-  runCalc(s.note);
+  ACTIVE_SCENARIO=n;
+  runCalc();
+}
+function setView(v, btn){
+  document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  CURRENT_VIEW=v;
+  if(LAST) render();
+}
+function setSens(c,s){
+  document.getElementById('costAdj').value=c; document.getElementById('sellAdj').value=s;
+  document.getElementById('costAdjLbl').textContent=(c>0?'+':'')+c+'%';
+  document.getElementById('sellAdjLbl').textContent=(s>0?'+':'')+s+'%';
+  if(LAST) runCalc();
 }
 
-// ════════ IRR (bisection) ════════
-function npv(rate, cf){ return cf.reduce((s,c,t)=>s+c/Math.pow(1+rate,t),0); }
+// ════════ IRR ════════
+function npv(rate,cf){ return cf.reduce((s,c,t)=>s+c/Math.pow(1+rate,t),0); }
 function irr(cf){
-  // need at least one sign change
-  const hasNeg = cf.some(c=>c<0), hasPos = cf.some(c=>c>0);
-  if(!hasNeg||!hasPos) return null;
-  let lo=-0.95, hi=5, vlo=npv(lo,cf), vhi=npv(hi,cf);
+  if(!cf.some(c=>c<0)||!cf.some(c=>c>0)) return null;
+  let lo=-0.95,hi=5,vlo=npv(lo,cf),vhi=npv(hi,cf);
   if(vlo*vhi>0) return null;
-  for(let i=0;i<200;i++){
-    const mid=(lo+hi)/2, v=npv(mid,cf);
-    if(Math.abs(v)<1) return mid;
-    if(vlo*v<0){ hi=mid; vhi=v; } else { lo=mid; vlo=v; }
+  for(let i=0;i<200;i++){ const m=(lo+hi)/2,v=npv(m,cf); if(Math.abs(v)<1) return m; if(vlo*v<0){hi=m;vhi=v;}else{lo=m;vlo=v;} }
+  return (lo+hi)/2;
+}
+function irrPct(cf){ const r=irr(cf); return r===null?null:r*100; }
+
+// ════════ CORE ENGINE ════════
+// Computes a full result for given scenario + a cost/sell multiplier + optional sale-price override
+function computeModel(sc, costMul, sellMul, sellOverride){
+  const costAdj=costMul, sellAdj=sellMul;
+  const landArea=V('landArea'), landPrice=V('landPrice');
+  const landTotal=landArea*landPrice;
+  const softP=V('softPct')/100, devP=V('devFee')/100, contP=V('contingency')/100;
+  const cYears=Math.round(V('cYears')), horizon=Math.round(V('horizon'));
+  const considerExit=VS('considerExit')==='true';
+  const capC=V('capCommercial')/100, capH=V('capHotel')/100;
+
+  // ── Build costs per component (GFA × cost/m²) × costAdj ──
+  const bRes=sc.res.gfa*V('c_res')*costAdj;
+  const bOff=sc.off.gfa*V('c_off')*costAdj;
+  const bRet=sc.ret.gfa*V('c_ret')*costAdj;
+  const bServ=sc.serv.gfa*V('c_hot')*costAdj;
+  const bHot=sc.hot.gfa*V('c_hot')*costAdj;
+  const buildComponents=bRes+bOff+bRet+bServ+bHot;
+
+  // ── Parking + landscape costs × costAdj ──
+  const pBase=sc.park.basement*V('c_base')*costAdj;
+  const pPod=sc.park.podium*V('c_pod')*costAdj;
+  const pSurf=sc.park.surface*V('c_surf')*costAdj;
+  const parkingCost=pBase+pPod+pSurf;
+  const landscapeCost=sc.landscape*V('c_land')*costAdj;
+
+  // ── Hard cost total ──
+  const hardCost=buildComponents+parkingCost+landscapeCost;
+  // ── Soft, dev fee, contingency (on hard cost) ──
+  const softCost=hardCost*softP;
+  const devFeeCost=hardCost*devP;
+  const contCost=hardCost*contP;
+  const indirectCost=softCost+devFeeCost+contCost;
+
+  // ── Total Development Cost ──
+  const tdc=landTotal+hardCost+indirectCost;
+
+  // ════ REVENUE ════
+  const sellP=(sellOverride!==undefined?sellOverride:V('r_resSell'))*sellAdj;
+  const sellFee=V('r_sellFee')/100;
+  const resRevenue=sc.res.nsa*sellP*(1-sellFee);   // one-time, off-plan
+  const resProfit=resRevenue - (bRes + landTotal*(sc.res.gfa/sc.totalGFA) + (bRes/Math.max(hardCost,1))*indirectCost);
+
+  // Office NOI (annual)
+  const offNOI=sc.off.gla*V('r_offLease')*(V('r_offOcc')/100)*(1-V('r_opex')/100);
+  // Retail NOI
+  const retNOI=sc.ret.gla*V('r_retLease')*(V('r_offOcc')/100)*(1-V('r_opex')/100);
+  // Serviced apartments NOI
+  const servNOI=sc.serv.units*V('r_servADR')*365*(V('r_hotOcc')/100)*(1-V('r_hotOpex')/100);
+  // Hotel NOI
+  const hotNOI=sc.hot.keys*V('r_hotADR')*365*(V('r_hotOcc')/100)*(1-V('r_hotOpex')/100);
+
+  const annualNOI=offNOI+retNOI+servNOI+hotNOI;
+
+  // ── Exit values (NOI / cap) ──
+  const exitOff=capC>0?offNOI/capC:0;
+  const exitRet=capC>0?retNOI/capC:0;
+  const exitServ=capH>0?servNOI/capH:0;
+  const exitHot=capH>0?hotNOI/capH:0;
+  const exitValue=considerExit?(exitOff+exitRet+exitServ+exitHot):0;
+
+  // ════ CASH FLOW (project) ════
+  const N=horizon+1;
+  const projCF=new Array(N).fill(0);
+  const capexAnnual=(hardCost+indirectCost)/cYears;
+  projCF[0]-=landTotal;
+  for(let y=0;y<cYears;y++) projCF[y]-=capexAnnual;
+  // residential off-plan 20/75/5 over sale campaign (~years 1..cYears)
+  const paySchedule=[0.20,0.75,0.05];
+  for(let y=0;y<cYears;y++){ const sh=paySchedule[Math.min(y,2)]||0; projCF[y+1]+=resRevenue*sh; }
+  // NOI from operations cYears..horizon
+  for(let y=cYears;y<=horizon;y++) projCF[y]+=annualNOI;
+  // exit at horizon
+  if(considerExit) projCF[horizon]+=exitValue;
+
+  const projIRR=irrPct(projCF);
+
+  // total profit (undiscounted)
+  const noiYears=horizon-cYears+1;
+  const totalInflows=resRevenue+annualNOI*noiYears+exitValue;
+  const totalProfit=totalInflows-tdc;
+
+  return { landArea, landTotal, hardCost, buildComponents, parkingCost, landscapeCost,
+    softCost, devFeeCost, contCost, indirectCost, tdc, resRevenue, resProfit, annualNOI,
+    offNOI, retNOI, servNOI, hotNOI, exitOff, exitRet, exitServ, exitHot, exitValue,
+    projCF, projIRR, totalProfit, totalInflows, noiYears, horizon, cYears, considerExit,
+    sellP, components:{ bRes,bOff,bRet,bServ,bHot, pBase,pPod,pSurf } };
+}
+
+// Breakeven residential sale price for a target project IRR
+function breakevenSellPrice(sc, targetIRR){
+  let lo=2000, hi=30000;
+  for(let i=0;i<60;i++){
+    const mid=(lo+hi)/2;
+    const m=computeModel(sc,1,1,mid);
+    const irrv=m.projIRR;
+    if(irrv===null){ lo=mid; continue; }
+    if(irrv<targetIRR) lo=mid; else hi=mid;
   }
   return (lo+hi)/2;
 }
-function irrPct(cf){ const r=irr(cf); return r===null?null:(r*100); }
 
-// ════════ MAIN CALC ════════
-function runCalc(noteOverride){
-  checkGfa();
-  const landArea=V('totalLandArea'), landPrice=V('landCostPerMeter'),
-        coverage=V('coverageRatio')/100, floors=V('floors'),
-        softPct=V('softPct')/100, landBuyout=V('landBuyout'),
-        sedcoShare=V('sedcoShare')/100, ownerShare=(100-V('sedcoShare'))/100,
-        horizon=Math.round(V('horizon')), cYears=Math.round(V('constructionYears')),
-        considerExit=VS('considerExit')==='true',
-        rentalMult=V('rentalMultiplier'), hotelMult=V('hotelMultiplier');
-  const splitMethod=VS('splitMethod');
+// ════════ PARTNER SPLIT (waterfall) ════════
+function computePartner(model){
+  const landBuyout=97000000;
+  const horizon=model.horizon, cYears=model.cYears, N=horizon+1;
+  const hardPlusIndirect=model.hardCost+model.indirectCost;
+  const sedcoCapital=landBuyout+hardPlusIndirect; // SEDCO funds buyout + all construction
+  const ownerCapital=Math.max(model.landTotal-landBuyout,0); // owner in-kind land
+  const sedcoCF=new Array(N).fill(0), ownerCF=new Array(N).fill(0);
 
-  const footprint=landArea*coverage, totalGFA=footprint*floors,
-        landCostTotal=landArea*landPrice;
-  const landTreatment=VS('landTreatment');
-  // sensitivity adjustments
-  const costAdj = 1 + (V('costAdj')/100);   // scales build + soft
-  const sellAdj = 1 + (V('sellAdj')/100);   // scales residential sale price & lease/ADR income
-  // effective land cost counted in TDC & project cash flows
-  const landBasis = landTreatment==='none' ? 0 : (landTreatment==='cash' ? landBuyout : landCostTotal);
-  const landFactor = landCostTotal>0 ? landBasis/landCostTotal : 0; // scales per-tower land share
+  // inflow timeline (project-level positive flows only)
+  const inflow=new Array(N).fill(0);
+  const paySchedule=[0.20,0.75,0.05];
+  for(let y=0;y<cYears;y++){ const sh=paySchedule[Math.min(y,2)]||0; inflow[y+1]+=model.resRevenue*sh; }
+  for(let y=cYears;y<=horizon;y++) inflow[y]+=model.annualNOI;
+  if(model.considerExit) inflow[horizon]+=model.exitValue;
 
-  const gfa={ s1:totalGFA*V('s1_gfa_pct')/100, s2:totalGFA*V('s2_gfa_pct')/100,
-              of:totalGFA*V('of_gfa_pct')/100, ht:totalGFA*V('ht_gfa_pct')/100 };
-  const retailGFA=V('retail_area');
-
-  // ── Residential A ──
-  const s1NSA=gfa.s1*V('s1_eff')/100, s1Units=Math.floor(s1NSA/Math.max(V('s1_unitSize'),1));
-  const s1Build=gfa.s1*V('s1_buildCost')*costAdj, s1Land=landCostTotal*(V('s1_gfa_pct')/100)*landFactor;
-  const s1Soft=s1Build*softPct, s1Cost=s1Build+s1Land+s1Soft;
-  const s1Rev=s1NSA*V('s1_sellPrice')*0.965*sellAdj, s1Profit=s1Rev-s1Cost, s1ROI=s1Cost>0?s1Profit/s1Cost*100:0;
-
-  // ── Residential B ──
-  const s2NSA=gfa.s2*V('s2_eff')/100, s2Units=Math.floor(s2NSA/Math.max(V('s2_unitSize'),1));
-  const s2Build=gfa.s2*V('s2_buildCost')*costAdj, s2Land=landCostTotal*(V('s2_gfa_pct')/100)*landFactor;
-  const s2Soft=s2Build*softPct, s2Cost=s2Build+s2Land+s2Soft;
-  const s2Rev=s2NSA*V('s2_sellPrice')*0.965*sellAdj, s2Profit=s2Rev-s2Cost, s2ROI=s2Cost>0?s2Profit/s2Cost*100:0;
-
-  // ── Office / Serviced ──
-  const ofType=VS('of_type'), ofGLA=gfa.of*V('of_eff')/100,
-        ofBuild=gfa.of*V('of_buildCost')*costAdj, ofLand=landCostTotal*(V('of_gfa_pct')/100)*landFactor,
-        ofSoft=ofBuild*softPct, ofCost=ofBuild+ofLand+ofSoft;
-  let ofIncome=0, ofUnits=0;
-  if(ofType==='office'){ ofIncome=ofGLA*V('of_rentPerMeter')*(V('of_occ')/100); ofUnits=Math.floor(ofGLA/Math.max(V('of_unitSize'),1)); }
-  else { ofUnits=Math.floor(ofGLA/Math.max(V('of_unitSize'),1)); ofIncome=ofUnits*V('of_adr')*365*(V('of_occ')/100)*0.65; }
-  const ofROI=ofCost>0?ofIncome/ofCost*100:0, ofPB=ofIncome>0?ofCost/ofIncome:Infinity;
-  const ofExitVal=ofIncome*rentalMult;
-
-  // ── Hotel ──
-  const htType=VS('ht_type'), htOpArea=gfa.ht*V('ht_opArea')/100, htRoomArea=gfa.ht-htOpArea,
-        htRooms=Math.floor(htRoomArea/Math.max(V('ht_roomSize'),1)),
-        htBuild=gfa.ht*V('ht_buildCost')*costAdj, htLand=landCostTotal*(V('ht_gfa_pct')/100)*landFactor,
-        htSoft=htBuild*softPct, htCost=htBuild+htLand+htSoft,
-        htGross=htRooms*V('ht_adr')*365*(V('ht_occ')/100),
-        htOp=htGross*V('ht_opCost')/100, htNet=htGross-htOp,
-        htROI=htCost>0?htNet/htCost*100:0, htPB=htNet>0?htCost/htNet:Infinity;
-  const htExitVal=htNet*hotelMult;
-
-  // ── Retail ──
-  const rtBuild=retailGFA*V('retail_buildCost')*costAdj, rtSoft=rtBuild*softPct,
-        rtCost=rtBuild+rtSoft, rtIncome=retailGFA*V('retail_rent')*0.83,
-        rtROI=rtCost>0?rtIncome/rtCost*100:0, rtExitVal=rtIncome*rentalMult;
-
-  // ── Aggregates ──
-  const totalCost=s1Cost+s2Cost+ofCost+htCost+rtCost;
-  const resSaleProfit=s1Profit+s2Profit, resRevenue=s1Rev+s2Rev;
-  const annualNOI=ofIncome+htNet+rtIncome;
-  const incomeAssetsCost=ofCost+htCost+rtCost;
-  const incomeROI=incomeAssetsCost>0?annualNOI/incomeAssetsCost*100:0;
-  const exitValue=considerExit?(ofExitVal+htExitVal+rtExitVal):0;
-
-  // ════════ CASH FLOW MODEL ════════
-  // year 0..horizon. Construction over cYears. Off-plan sales over cYears (20/75/5-ish even spread). NOI from cYears..horizon. Exit at horizon.
-  const N=horizon+1;
-  const projCF=new Array(N).fill(0);   // project-level (full land)
-  const sedcoCF=new Array(N).fill(0);  // SEDCO: land buyout + all construction; gets sedcoShare of inflows
-  const ownerCF=new Array(N).fill(0);  // Owner: in-kind land(=landCostTotal-landBuyout); gets ownerShare of inflows
-
-  const constructionTotal=s1Build+s2Build+ofBuild+htBuild+rtBuild;
-  const softTotal=s1Soft+s2Soft+ofSoft+htSoft+rtSoft;
-  const capexAnnual=(constructionTotal+softTotal)/cYears;
-
-  // Year 0: land paid. Project counts landBasis (per treatment); SEDCO always pays its cash buyout;
-  // owner's in-kind contribution only counts when land is included in basis.
-  const ownerLandInKind = landTreatment==='none' ? 0 : Math.max(landCostTotal-landBuyout,0)*(landTreatment==='cash'?0:1);
-  projCF[0]-=landBasis;
+  // outflows: SEDCO pays buyout y0 + capex; owner contributes land in-kind y0
   sedcoCF[0]-=landBuyout;
-  ownerCF[0]-=ownerLandInKind;
+  const capexAnnual=hardPlusIndirect/cYears;
+  for(let y=0;y<cYears;y++) sedcoCF[y]-=capexAnnual;
+  ownerCF[0]-=ownerCapital;
 
-  // Construction capex (SEDCO funds 100%) spread years 0..cYears-1
-  for(let y=0;y<cYears;y++){ projCF[y]-=capexAnnual; sedcoCF[y]-=capexAnnual; }
-
-  // Inflow timeline (project level, full)
-  const saleInflowAnnual=resRevenue/cYears;
-  const projIn=new Array(N).fill(0);
-  for(let y=0;y<cYears;y++) projIn[y]+=saleInflowAnnual;
-  for(let y=cYears;y<=horizon;y++) projIn[y]+=annualNOI;
-  if(considerExit) projIn[horizon]+=exitValue;
-
-  // Project CF gets full inflows
-  for(let y=0;y<N;y++) projCF[y]+=projIn[y];
-
-  // ── Distribute inflows to partners ──
-  const sedcoCapital=landBuyout+constructionTotal+softTotal;
-  const ownerCapital=ownerLandInKind;
-  const totalCapital=sedcoCapital+ownerCapital;
-
-  if(splitMethod==='gross'){
-    // 50/50 on every inflow
-    for(let y=0;y<N;y++){
-      sedcoCF[y]+=projIn[y]*sedcoShare;
-      ownerCF[y]+=projIn[y]*ownerShare;
-    }
-  } else {
-    // WATERFALL: return capital first (pro-rata by capital), then split residual profit 50/50
-    let sedcoRecovered=0, ownerRecovered=0;
-    for(let y=0;y<N;y++){
-      let avail=projIn[y];
-      // 1) return capital pro-rata until each fully recovered
-      const sedcoNeed=Math.max(sedcoCapital-sedcoRecovered,0);
-      const ownerNeed=Math.max(ownerCapital-ownerRecovered,0);
-      const totalNeed=sedcoNeed+ownerNeed;
-      if(totalNeed>0 && avail>0){
-        const ret=Math.min(avail,totalNeed);
-        const sedcoRet=ret*(sedcoNeed/totalNeed), ownerRet=ret*(ownerNeed/totalNeed);
-        sedcoCF[y]+=sedcoRet; ownerCF[y]+=ownerRet;
-        sedcoRecovered+=sedcoRet; ownerRecovered+=ownerRet;
-        avail-=ret;
-      }
-      // 2) residual is profit → split by share
-      if(avail>0){ sedcoCF[y]+=avail*sedcoShare; ownerCF[y]+=avail*ownerShare; }
-    }
+  // waterfall: return capital pro-rata, then split residual 50/50
+  let sedcoRec=0, ownerRec=0;
+  for(let y=0;y<N;y++){
+    let avail=inflow[y];
+    const sN=Math.max(sedcoCapital-sedcoRec,0), oN=Math.max(ownerCapital-ownerRec,0), tot=sN+oN;
+    if(tot>0&&avail>0){ const ret=Math.min(avail,tot); const sr=ret*(sN/tot), or=ret*(oN/tot); sedcoCF[y]+=sr; ownerCF[y]+=or; sedcoRec+=sr; ownerRec+=or; avail-=ret; }
+    if(avail>0){ sedcoCF[y]+=avail*0.5; ownerCF[y]+=avail*0.5; }
   }
-
-  const projIRR=irrPct(projCF), sedcoIRR=irrPct(sedcoCF), ownerIRR=irrPct(ownerCF);
-
-  // Total distributable profit over horizon
-  const totalInflows=resRevenue + annualNOI*(horizon-cYears+1) + exitValue;
-  const totalProfit=totalInflows-totalCost;
-  const sedcoEquity=landBuyout+constructionTotal+softTotal;
-  const ownerEquity=ownerLandInKind;
-  let sedcoProfit, ownerProfit;
-  if(splitMethod==='gross'){
-    sedcoProfit=totalProfit*sedcoShare; ownerProfit=totalProfit*ownerShare;
-  } else {
-    // waterfall: each recovers capital, profit (after both capitals) split 50/50
-    const profitAfterCapital=totalInflows-(sedcoEquity+ownerEquity);
-    sedcoProfit=Math.max(profitAfterCapital,0)*sedcoShare;
-    ownerProfit=Math.max(profitAfterCapital,0)*ownerShare;
-  }
-
-  const overallPB=annualNOI>0?incomeAssetsCost/annualNOI:Infinity;
-
-  LAST={ scenario:document.querySelector('.sc-tab.active')?.textContent||'', totalCost, resSaleProfit,
-    annualNOI, incomeROI, exitValue, projIRR, sedcoIRR, ownerIRR, totalProfit, sedcoProfit, ownerProfit,
-    sedcoEquity, ownerEquity, totalGFA, landArea, horizon, cYears, considerExit, sedcoShare, ownerShare, landTreatment, landBasis, costAdj, sellAdj,
-    towers:{ s1:{gfa:gfa.s1,nsa:s1NSA,units:s1Units,cost:s1Cost,rev:s1Rev,profit:s1Profit,roi:s1ROI,land:s1Land,build:s1Build},
-             s2:{gfa:gfa.s2,nsa:s2NSA,units:s2Units,cost:s2Cost,rev:s2Rev,profit:s2Profit,roi:s2ROI,land:s2Land,build:s2Build},
-             of:{gfa:gfa.of,gla:ofGLA,units:ofUnits,cost:ofCost,income:ofIncome,roi:ofROI,pb:ofPB,exit:ofExitVal,type:ofType,land:ofLand,build:ofBuild},
-             ht:{gfa:gfa.ht,rooms:htRooms,cost:htCost,gross:htGross,net:htNet,roi:htROI,pb:htPB,exit:htExitVal,type:htType,land:htLand,build:htBuild},
-             rt:{gfa:retailGFA,cost:rtCost,income:rtIncome,roi:rtROI,build:rtBuild} },
-    cashflows:{ proj:projCF, sedco:sedcoCF, owner:ownerCF }, landCostTotal, landBuyout, ownerLandInKind, constructionTotal, softTotal };
-
-  render(noteOverride);
+  const profitAfterCapital=Math.max(model.totalInflows-(sedcoCapital+ownerCapital),0);
+  return { landBuyout, sedcoCapital, ownerCapital,
+    sedcoIRR:irrPct(sedcoCF), ownerIRR:irrPct(ownerCF),
+    sedcoProfit:profitAfterCapital*0.5, ownerProfit:profitAfterCapital*0.5,
+    sedcoCF, ownerCF };
 }
 
-// ════════ RENDER ════════
-function render(noteOverride){
-  const d=LAST, t=d.towers;
-  const irrTxt=v=>v===null?'—':v.toFixed(1)+'%';
+// ════════ MAIN ════════
+function runCalc(){
+  const sc=SCENARIOS[ACTIVE_SCENARIO];
+  const costAdj=1+(V('costAdj')/100), sellAdj=1+(V('sellAdj')/100);
+  const model=computeModel(sc, costAdj, sellAdj);
+  const partner=computePartner(model);
+  LAST={ sc, model, partner, costAdj, sellAdj, scenarioNum:ACTIVE_SCENARIO };
+  render();
+}
+
+// ════════ RENDER (router) ════════
+function render(){
   const ra=document.getElementById('resultsArea');
-  ra.innerHTML=`
-    <div style="display:flex;justify-content:space-between;align-items:center;background:#fff8ee;border:1px solid #e8c87a;border-radius:var(--r);padding:8px 14px;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-      <span style="font-size:12px;color:var(--amber);font-weight:600;">💡 كل القيم المالية بالمليون ريال سعودي (م ر.س) — المساحات بالمتر المربع (م²)</span>
-      <button class="export-btn" style="padding:5px 12px;" onclick="document.getElementById('glossaryBox').style.display=document.getElementById('glossaryBox').style.display==='none'?'block':'none'">📖 دليل الاختصارات</button>
+  let html=`<div class="export-bar">
+    <button class="export-btn" onclick="exportCSV()">⬇ CSV</button>
+    <button class="export-btn" onclick="window.print()">🖨 PDF</button>
+    <button class="export-btn" onclick="document.getElementById('gloss').style.display=document.getElementById('gloss').style.display==='none'?'block':'none'">📖 اختصارات</button>
+  </div>
+  <div id="gloss" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 20px;font-size:12px;">
+      <div><b>GFA</b> — إجمالي مساحة البناء</div><div><b>NSA</b> — المساحة القابلة للبيع</div>
+      <div><b>GLA</b> — المساحة القابلة للتأجير</div><div><b>NOI</b> — صافي الدخل التشغيلي السنوي</div>
+      <div><b>IRR</b> — معدل العائد الداخلي</div><div><b>TDC</b> — إجمالي تكلفة التطوير</div>
+      <div><b>Cap Rate</b> — NOI ÷ سعر البيع</div><div><b>ADR</b> — سعر الغرفة/ليلة</div>
     </div>
-    <div id="glossaryBox" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 20px;font-size:12px;">
-        <div><b>GFA</b> — إجمالي مساحة البناء (كل الطوابق)</div>
-        <div><b>NSA</b> — المساحة الصافية القابلة للبيع</div>
-        <div><b>GLA</b> — المساحة الصافية القابلة للتأجير</div>
-        <div><b>NOI</b> — صافي الدخل التشغيلي السنوي</div>
-        <div><b>ADR</b> — متوسط سعر الغرفة في الليلة</div>
-        <div><b>ROI</b> — العائد على الاستثمار (نسبة)</div>
-        <div><b>IRR</b> — معدل العائد الداخلي (يحسب قيمة الوقت)</div>
-        <div><b>TDC</b> — إجمالي تكلفة التطوير</div>
-        <div><b>FAR</b> — معامل البناء (GFA ÷ الأرض)</div>
-        <div><b>Soft cost</b> — تكاليف ناعمة (تصميم/إشراف) + رسوم المطور</div>
-        <div><b>Waterfall</b> — استرداد رأس المال أولاً ثم تقسيم الربح</div>
-        <div><b>استرداد</b> — عدد السنوات لاسترجاع رأس المال</div>
-      </div>
-    </div>
-    ${(d.costAdj!==1||d.sellAdj!==1)?`<div style="background:#fde8e6;border:1px solid #e8a09a;border-radius:var(--r);padding:8px 14px;margin-bottom:14px;font-size:12px;color:var(--red);font-weight:600;">⚠️ تحليل حساسية مُفعّل: التكلفة ${d.costAdj>1?'+':''}${((d.costAdj-1)*100).toFixed(0)}% | البيع ${d.sellAdj>1?'+':''}${((d.sellAdj-1)*100).toFixed(0)}% — الأرقام أدناه معدّلة</div>`:''}
-    <div class="export-bar">
-      <button class="export-btn" onclick="exportCSV()">⬇ تصدير CSV</button>
-      <button class="export-btn" onclick="window.print()">🖨 طباعة / PDF</button>
-      <button class="export-btn" onclick="copyResults()">📋 نسخ النتائج</button>
-    </div>
+  </div>`;
 
-    <div class="kpi-grid">
-      <div class="kpi accent"><div class="k-lbl">إجمالي الاستثمار (${tip('TDC')})</div><div class="k-val">${fmtM(d.totalCost)}</div><div class="k-sub">${d.landTreatment==='full'?'أرض كاملة + بناء + soft':d.landTreatment==='cash'?'كاش الأرض 97م + بناء':'بناء فقط (بدون أرض)'}</div></div>
-      <div class="kpi gold"><div class="k-lbl">${tip('Project IRR','Project IRR')} (${d.horizon} سنة)</div><div class="k-val">${irrTxt(d.projIRR)}</div><div class="k-sub">على مستوى المشروع كاش</div></div>
-      <div class="kpi accent"><div class="k-lbl">${tip('SEDCO Equity IRR','SEDCO Equity IRR')}</div><div class="k-val">${irrTxt(d.sedcoIRR)}</div><div class="k-sub">دافعة الكاش (97م + بناء)</div></div>
-      <div class="kpi gold"><div class="k-lbl">عائد ملاك الأرض ${tip('IRR')}</div><div class="k-val">${irrTxt(d.ownerIRR)}</div><div class="k-sub">مساهمون بـ 50% أرض</div></div>
-      <div class="kpi green"><div class="k-lbl">أرباح البيع الفوري (سكني)</div><div class="k-val">${fmtM(d.resSaleProfit)}</div><div class="k-sub">${t.s1.units+t.s2.units} وحدة</div></div>
-      <div class="kpi blue"><div class="k-lbl">الدخل السنوي ${tip('NOI')}</div><div class="k-val">${fmtM(d.annualNOI)}</div><div class="k-sub">عائد ${d.incomeROI.toFixed(1)}%/سنة</div></div>
-      <div class="kpi green"><div class="k-lbl">حصة سيدكو من الأرباح (${(d.sedcoShare*100).toFixed(0)}%)</div><div class="k-val">${fmtM(d.sedcoProfit)}</div><div class="k-sub">رأس مالها ${fmtM(d.sedcoEquity)}</div></div>
-      <div class="kpi amber"><div class="k-lbl">حصة الملاك من الأرباح (${(d.ownerShare*100).toFixed(0)}%)</div><div class="k-val">${fmtM(d.ownerProfit)}</div><div class="k-sub">مساهمة ${fmtM(d.ownerEquity)} أرض</div></div>
-    </div>
-    <div style="font-size:11px;color:var(--ink3);background:var(--paper);border-radius:var(--r);padding:8px 12px;margin:-8px 0 18px;line-height:1.6;">
-      ℹ️ <b>ملاحظة:</b> الطرفان يأخذان نفس <b>مبلغ</b> الربح (التقسيم 50/50)، لكن <b>العائد (IRR)</b> يختلف لأن سيدكو استثمرت رأس مال أكبر (${fmtM(d.sedcoEquity)}) مقابل الأرض فقط للملاك (${fmtM(d.ownerEquity)}).
+  const d=LAST;
+  if(d.costAdj!==1||d.sellAdj!==1)
+    html+=`<div style="background:#fde8e6;border:1px solid #e8a09a;border-radius:var(--r);padding:8px 14px;margin-bottom:14px;font-size:12px;color:var(--red);font-weight:600;">⚠️ حساسية مُفعّلة: تكلفة ${d.costAdj>1?'+':''}${((d.costAdj-1)*100).toFixed(0)}% | بيع ${d.sellAdj>1?'+':''}${((d.sellAdj-1)*100).toFixed(0)}%</div>`;
 
-    <div class="tower-cards">
-      <div class="tower-card"><div class="tc-head s1">سكني أ — بيع</div><div class="tc-body">
-        <div class="row"><span class="lbl">${tip('GFA')}</span><span class="val">${fmt(t.s1.gfa)} م²</span></div>
-        <div class="row"><span class="lbl">${tip('NSA')}</span><span class="val">${fmt(t.s1.nsa)} م²</span></div>
-        <div class="row"><span class="lbl">وحدات</span><span class="val">${t.s1.units}</span></div>
-        <div class="row"><span class="lbl">تكلفة</span><span class="val">${fmtM(t.s1.cost)}</span></div>
-        <div class="row"><span class="lbl">ربح</span><span class="val ${t.s1.profit>0?'pos':'neg'}">${fmtM(t.s1.profit)}</span></div>
-        <div class="roi-badge ${roiCls(t.s1.roi)}">ROI ${t.s1.roi.toFixed(1)}%</div></div></div>
-      <div class="tower-card"><div class="tc-head s2">سكني ب — بيع</div><div class="tc-body">
-        <div class="row"><span class="lbl">${tip('GFA')}</span><span class="val">${fmt(t.s2.gfa)} م²</span></div>
-        <div class="row"><span class="lbl">${tip('NSA')}</span><span class="val">${fmt(t.s2.nsa)} م²</span></div>
-        <div class="row"><span class="lbl">وحدات</span><span class="val">${t.s2.units}</span></div>
-        <div class="row"><span class="lbl">تكلفة</span><span class="val">${fmtM(t.s2.cost)}</span></div>
-        <div class="row"><span class="lbl">ربح</span><span class="val ${t.s2.profit>0?'pos':'neg'}">${fmtM(t.s2.profit)}</span></div>
-        <div class="roi-badge ${roiCls(t.s2.roi)}">ROI ${t.s2.roi.toFixed(1)}%</div></div></div>
-      <div class="tower-card"><div class="tc-head of">${t.of.type==='office'?'مكاتب A':'شقق فندقية'}</div><div class="tc-body">
-        <div class="row"><span class="lbl">${tip('GFA')}</span><span class="val">${fmt(t.of.gfa)} م²</span></div>
-        <div class="row"><span class="lbl">${tip('GLA')}</span><span class="val">${fmt(t.of.gla)} م²</span></div>
-        <div class="row"><span class="lbl">وحدات</span><span class="val">${t.of.units}</span></div>
-        <div class="row"><span class="lbl">تكلفة</span><span class="val">${fmtM(t.of.cost)}</span></div>
-        <div class="row"><span class="lbl">دخل/سنة</span><span class="val pos">${fmtM(t.of.income)}</span></div>
-        <div class="row"><span class="lbl">${tip('استرداد')}</span><span class="val">${t.of.pb===Infinity?'∞':t.of.pb.toFixed(1)}س</span></div>
-        <div class="roi-badge ${roiCls(t.of.roi)}">ROI ${t.of.roi.toFixed(1)}%/س</div></div></div>
-      <div class="tower-card"><div class="tc-head ht">${t.ht.type==='4star'?'فندق 4★':t.ht.type==='3star'?'فندق 3★':'شقق فندقية'}</div><div class="tc-body">
-        <div class="row"><span class="lbl">${tip('GFA')}</span><span class="val">${fmt(t.ht.gfa)} م²</span></div>
-        <div class="row"><span class="lbl">غرف</span><span class="val">${t.ht.rooms}</span></div>
-        <div class="row"><span class="lbl">تكلفة</span><span class="val">${fmtM(t.ht.cost)}</span></div>
-        <div class="row"><span class="lbl">إيراد</span><span class="val pos">${fmtM(t.ht.gross)}</span></div>
-        <div class="row"><span class="lbl">صافي</span><span class="val pos">${fmtM(t.ht.net)}</span></div>
-        <div class="row"><span class="lbl">${tip('استرداد')}</span><span class="val">${t.ht.pb===Infinity?'∞':t.ht.pb.toFixed(1)}س</span></div>
-        <div class="roi-badge ${roiCls(t.ht.roi)}">ROI ${t.ht.roi.toFixed(1)}%/س</div></div></div>
-    </div>
+  html+=`<div class="info-strip">💡 السيناريو: <b>${d.sc.name}</b> — كل القيم المالية بالمليون ريال (م ر.س)، المساحات بالمتر² | المصدر: Colliers HBU v1.0</div>`;
 
-    <div class="chart-grid">
-      <div class="chart-wrap"><h4>التدفق النقدي التراكمي (Project vs SEDCO)</h4><div class="chart-box"><canvas id="cfChart"></canvas></div></div>
-      <div class="chart-wrap"><h4>توزيع التكاليف حسب المكوّن</h4><div class="chart-box"><canvas id="costChart"></canvas></div></div>
-    </div>
+  if(CURRENT_VIEW==='project') html+=renderProject();
+  else if(CURRENT_VIEW==='partner') html+=renderPartner();
+  else if(CURRENT_VIEW==='sensitivity') html+=renderSensitivity();
+  else if(CURRENT_VIEW==='compare') html+=renderCompare();
 
-    <div class="panel" style="margin-bottom:16px;">
-      <div class="panel-head dark2">جدول التدفقات النقدية السنوية (مليون ر.س)</div>
-      <div class="panel-body" style="padding:0;">
-        <div class="cf-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table class="cf-table" style="min-width:520px;"><thead><tr>
-          <th>السنة</th><th>المشروع</th><th>تراكمي مشروع</th><th>سيدكو</th><th>تراكمي سيدكو</th><th>الملاك</th></tr></thead>
-          <tbody>${cfRows()}</tbody></table></div>
-      </div>
-    </div>
-
-    ${d.considerExit?`
-    <div class="panel" style="margin-bottom:16px;">
-      <div class="panel-head amber">التخارج (بيع الأصول المدرة في السنة ${d.horizon})</div>
-      <div class="panel-body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div class="exit-box"><h4>${t.of.type==='office'?'مكاتب':'شقق فندقية'}</h4>
-          <div class="exit-row"><span class="el">قيمة البيع</span><span class="ev">${fmtM(t.of.exit)}</span></div>
-          <div class="exit-row"><span class="el">التكلفة</span><span class="ev">${fmtM(t.of.cost)}</span></div>
-          <div class="exit-row"><span class="el">ربح التخارج</span><span class="ev" style="color:var(--green)">${fmtM(t.of.exit-t.of.cost)}</span></div></div>
-        <div class="exit-box"><h4>${t.ht.type==='4star'?'فندق 4★':'فندق'}</h4>
-          <div class="exit-row"><span class="el">قيمة البيع</span><span class="ev">${fmtM(t.ht.exit)}</span></div>
-          <div class="exit-row"><span class="el">التكلفة</span><span class="ev">${fmtM(t.ht.cost)}</span></div>
-          <div class="exit-row"><span class="el">ربح التخارج</span><span class="ev" style="color:var(--green)">${fmtM(t.ht.exit-t.ht.cost)}</span></div></div>
-      </div></div>`:''}
-
-    <div class="panel" style="margin-bottom:16px;">
-      <div class="panel-head">توزيع التكاليف التفصيلي</div>
-      <div class="panel-body" style="padding:0;"><div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table class="comp-table" style="min-width:480px;"><thead><tr><th>المكوّن</th><th>أرض</th><th>بناء</th><th>الإجمالي</th><th>%</th></tr></thead><tbody>
-        ${[['سكني أ',t.s1.land,t.s1.build,t.s1.cost],['سكني ب',t.s2.land,t.s2.build,t.s2.cost],
-           [t.of.type==='office'?'مكاتب':'شقق فندقية',t.of.land,t.of.build,t.of.cost],
-           ['فندق',t.ht.land,t.ht.build,t.ht.cost],['تجزئة',0,t.rt.build,t.rt.cost]].map(([n,l,b,tc])=>`
-          <tr><td>${n}</td><td>${fmtM(l)}</td><td>${fmtM(b)}</td><td>${fmtM(tc)}</td><td>${(tc/d.totalCost*100).toFixed(0)}%</td></tr>`).join('')}
-        <tr class="winner"><td>الإجمالي</td><td>${fmtM(d.landCostTotal)}</td><td>${fmtM(d.constructionTotal)}</td><td>${fmtM(d.totalCost)}</td><td>100%</td></tr>
-      </tbody></table></div></div>
-    </div>
-
-    <div class="panel" style="margin-bottom:16px;">
-      <div class="panel-head green">مقارنة السيناريوهات الثلاثة من Colliers</div>
-      <div class="panel-body" style="padding:0;"><div style="overflow-x:auto"><table class="comp-table" id="scComp" style="min-width:520px;"><thead><tr>
-        <th>السيناريو</th><th>الاستثمار</th><th>أرباح البيع</th><th>NOI سنوي</th><th>Project IRR</th><th>SEDCO IRR</th></tr></thead>
-        <tbody id="scCompBody"><tr><td colspan="6" style="text-align:center;color:var(--ink3)">جاري حساب المقارنة...</td></tr></tbody>
-      </table></div></div>
-    </div>
-
-    ${noteOverride?`<div class="note-box"><h5>من تقرير Colliers — HBU Final Report v1.0 (Feb 2026)</h5><p>${noteOverride}</p></div>`:''}
-    <div style="font-size:10px;color:var(--ink3);font-family:var(--mono);margin-top:12px;text-align:center;">
-      الأرقام تقديرية | هيكل: 97م كاش للشركاء + سيدكو تموّل البناء كاش | تقسيم ${(d.sedcoShare*100).toFixed(0)}/${(d.ownerShare*100).toFixed(0)} | Colliers HBU v1.0
-    </div>`;
-
-  drawCharts();
-  computeScenarioComparison();
+  ra.innerHTML=html;
+  if(CURRENT_VIEW==='project'||CURRENT_VIEW==='partner') drawCharts();
 }
 
-function cfRows(){
-  const d=LAST, p=d.cashflows.proj, s=d.cashflows.sedco, o=d.cashflows.owner;
-  let cp=0, cs=0, rows='';
-  for(let y=0;y<p.length;y++){
-    cp+=p[y]; cs+=s[y];
-    rows+=`<tr><td>${y}</td>
-      <td class="${p[y]<0?'neg':'pos'}">${(p[y]/1e6).toFixed(1)}</td>
-      <td class="${cp<0?'neg':'pos'}">${(cp/1e6).toFixed(1)}</td>
-      <td class="${s[y]<0?'neg':'pos'}">${(s[y]/1e6).toFixed(1)}</td>
-      <td class="${cs<0?'neg':'pos'}">${(cs/1e6).toFixed(1)}</td>
-      <td class="${o[y]<0?'neg':'pos'}">${(o[y]/1e6).toFixed(1)}</td></tr>`;
-  }
-  return rows;
+// ── VIEW 1: PROJECT FEASIBILITY ──
+function renderProject(){
+  const {sc,model:m}=LAST;
+  const far=(sc.totalGFA/m.landArea).toFixed(2);
+  let h=`<div class="kpi-grid">
+    <div class="kpi accent"><div class="k-lbl">إجمالي الاستثمار (${tip('TDC')})</div><div class="k-val">${fmtM(m.tdc)}</div><div class="k-sub">أرض+بناء+مواقف+soft+احتياطي</div></div>
+    <div class="kpi gold"><div class="k-lbl">${tip('Project IRR','Project IRR')} (${m.horizon}س)</div><div class="k-val">${irrTxt(m.projIRR)}</div><div class="k-sub">Colliers: ${sc.cIRR}%</div></div>
+    <div class="kpi green"><div class="k-lbl">أرباح بيع السكني</div><div class="k-val">${fmtM(m.resProfit)}</div><div class="k-sub">${sc.res.units} وحدة</div></div>
+    <div class="kpi blue"><div class="k-lbl">الدخل السنوي (${tip('NOI')})</div><div class="k-val">${fmtM(m.annualNOI)}</div><div class="k-sub">مكاتب+فندق+تجزئة</div></div>
+    <div class="kpi green"><div class="k-lbl">قيمة التخارج</div><div class="k-val">${m.considerExit?fmtM(m.exitValue):'—'}</div><div class="k-sub">بيع الأصول المؤجرة</div></div>
+    <div class="kpi"><div class="k-lbl">إجمالي الربح (عمر المشروع)</div><div class="k-val">${fmtM(m.totalProfit)}</div><div class="k-sub">غير مخصوم زمنياً</div></div>
+  </div>`;
+
+  // Area summary (the friend's point #9)
+  h+=`<div class="panel" style="margin-bottom:16px;"><div class="panel-head dark2">مسطحات المشروع (مطابقة Colliers)</div>
+    <div class="panel-body"><table class="tbl"><thead><tr><th>المكوّن</th><th>${tip('GFA')}</th><th>قابل للبيع/التأجير</th><th>الكفاءة</th></tr></thead><tbody>`;
+  const rows=[['سكني',sc.res.gfa,sc.res.nsa],['مكاتب',sc.off.gfa,sc.off.gla],['تجزئة',sc.ret.gfa,sc.ret.gla],['شقق فندقية',sc.serv.gfa,sc.serv.nla],['فندق',sc.hot.gfa,sc.hot.nla]];
+  rows.forEach(([n,g,ne])=>{ if(g>0) h+=`<tr><td>${n}</td><td>${fmt(g)}</td><td>${fmt(ne)}</td><td>${g>0?(ne/g*100).toFixed(0):0}%</td></tr>`; });
+  h+=`<tr class="winner"><td>إجمالي GFA</td><td>${fmt(sc.totalGFA)}</td><td>—</td><td>FAR ${far}</td></tr>
+    <tr><td>المواقف (${tip('GFA')})</td><td>${fmt(sc.totalPark)}</td><td colspan="2">بدروم ${fmt(sc.park.basement)} / بوديوم ${fmt(sc.park.podium)} / سطحي ${fmt(sc.park.surface)}</td></tr>
+    <tr style="font-weight:600;background:var(--paper);"><td>Total Project Area</td><td>${fmt(sc.totalArea)}</td><td colspan="2">GFA + مواقف</td></tr>
+    </tbody></table></div></div>`;
+
+  // Component cards
+  h+=`<div class="comp-cards">`;
+  if(sc.res.gfa>0) h+=compCard('سكني — بيع','blue',[['GFA',fmt(sc.res.gfa)+' م²'],['NSA',fmt(sc.res.nsa)+' م²'],['وحدات',sc.res.units],['ربح',fmtM(m.resProfit)]],null);
+  if(sc.off.gfa>0) h+=compCard('مكاتب','green',[['GFA',fmt(sc.off.gfa)+' م²'],['GLA',fmt(sc.off.gla)+' م²'],['NOI/سنة',fmtM(m.offNOI)],['تخارج',fmtM(m.exitOff)]],null);
+  if(sc.ret.gfa>0) h+=compCard('تجزئة','amber',[['GFA',fmt(sc.ret.gfa)+' م²'],['GLA',fmt(sc.ret.gla)+' م²'],['NOI/سنة',fmtM(m.retNOI)],['تخارج',fmtM(m.exitRet)]],null);
+  if(sc.serv.gfa>0) h+=compCard('شقق فندقية','green',[['GFA',fmt(sc.serv.gfa)+' م²'],['وحدات',sc.serv.units],['NOI/سنة',fmtM(m.servNOI)],['تخارج',fmtM(m.exitServ)]],null);
+  if(sc.hot.gfa>0) h+=compCard('فندق','gold',[['GFA',fmt(sc.hot.gfa)+' م²'],['غرف',sc.hot.keys],['NOI/سنة',fmtM(m.hotNOI)],['تخارج',fmtM(m.exitHot)]],null);
+  h+=`</div>`;
+
+  // Charts
+  h+=`<div class="chart-grid">
+    <div class="chart-wrap"><h4>التدفق النقدي التراكمي للمشروع</h4><div class="chart-box"><canvas id="cfChart"></canvas></div></div>
+    <div class="chart-wrap"><h4>توزيع التكاليف</h4><div class="chart-box"><canvas id="costChart"></canvas></div></div>
+  </div>`;
+
+  // Cost breakdown
+  h+=`<div class="panel" style="margin-bottom:16px;"><div class="panel-head">تفصيل التكاليف</div>
+    <div class="panel-body" style="padding:0;"><div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table class="tbl" style="min-width:420px;"><thead><tr><th>البند</th><th>المبلغ</th><th>% من TDC</th></tr></thead><tbody>
+    <tr><td>الأرض</td><td>${fmtM(m.landTotal)}</td><td>${(m.landTotal/m.tdc*100).toFixed(0)}%</td></tr>
+    <tr><td>بناء المكوّنات</td><td>${fmtM(m.buildComponents)}</td><td>${(m.buildComponents/m.tdc*100).toFixed(0)}%</td></tr>
+    <tr><td>المواقف</td><td>${fmtM(m.parkingCost)}</td><td>${(m.parkingCost/m.tdc*100).toFixed(0)}%</td></tr>
+    <tr><td>التنسيق</td><td>${fmtM(m.landscapeCost)}</td><td>${(m.landscapeCost/m.tdc*100).toFixed(0)}%</td></tr>
+    <tr><td>Soft cost</td><td>${fmtM(m.softCost)}</td><td>${(m.softCost/m.tdc*100).toFixed(0)}%</td></tr>
+    <tr><td>رسوم المطور</td><td>${fmtM(m.devFeeCost)}</td><td>${(m.devFeeCost/m.tdc*100).toFixed(0)}%</td></tr>
+    <tr><td>احتياطي</td><td>${fmtM(m.contCost)}</td><td>${(m.contCost/m.tdc*100).toFixed(0)}%</td></tr>
+    <tr class="winner"><td>الإجمالي TDC</td><td>${fmtM(m.tdc)}</td><td>100%</td></tr>
+    </tbody></table></div></div></div>`;
+
+  h+=`<div class="note-box"><h5>من تقرير Colliers (للمقارنة)</h5><p>هذا الخيار: Project IRR ${sc.cIRR}% | Equity IRR ${sc.eIRR}%. ملاحظة: Colliers يستخدم نموذج تمويل كامل (ديون + FCFF/FCFE)، فأرقام الحاسبة تقديرية وقد تختلف — راجع تبويب "الحساسية" لفهم النطاق.</p></div>`;
+  return h;
+}
+function compCard(title,color,rows,roi){
+  let h=`<div class="comp-card"><div class="cc-head" style="background:var(--${color==='gold'?'accent2':color});${color==='gold'?'color:#3a1a00;':''}">${title}</div><div class="cc-body">`;
+  rows.forEach(([l,v])=>h+=`<div class="row"><span class="lbl">${l}</span><span class="val">${v}</span></div>`);
+  h+=`</div></div>`; return h;
 }
 
+// ── VIEW 2: PARTNERSHIP 50/50 ──
+function renderPartner(){
+  const {model:m,partner:p}=LAST;
+  let h=`<div class="kpi-grid">
+    <div class="kpi gold"><div class="k-lbl">${tip('Project IRR','Project IRR')}</div><div class="k-val">${irrTxt(m.projIRR)}</div><div class="k-sub">المشروع ككل</div></div>
+    <div class="kpi accent"><div class="k-lbl">${tip('SEDCO IRR','SEDCO IRR')}</div><div class="k-val">${irrTxt(p.sedcoIRR)}</div><div class="k-sub">دافعة الكاش</div></div>
+    <div class="kpi gold"><div class="k-lbl">عائد الملاك ${tip('IRR')}</div><div class="k-val">${irrTxt(p.ownerIRR)}</div><div class="k-sub">مساهمة الأرض</div></div>
+    <div class="kpi green"><div class="k-lbl">حصة سيدكو من الربح</div><div class="k-val">${fmtM(p.sedcoProfit)}</div><div class="k-sub">رأس مال ${fmtM(p.sedcoCapital)}</div></div>
+    <div class="kpi amber"><div class="k-lbl">حصة الملاك من الربح</div><div class="k-val">${fmtM(p.ownerProfit)}</div><div class="k-sub">مساهمة ${fmtM(p.ownerCapital)}</div></div>
+  </div>
+  <div class="info-strip">ℹ️ <b>الهيكل:</b> سيدكو تدفع ${fmtM(p.landBuyout)} كاش لشراء 50% من الأرض + تموّل كل البناء كاش (المجموع ${fmtM(p.sedcoCapital)}). الملاك يساهمون بـ 50% أرض عيناً (${fmtM(p.ownerCapital)}). الأرباح تُقسّم 50/50 بعد استرداد رأس المال (waterfall). الطرفان يأخذان نفس مبلغ الربح، لكن عائد الملاك أعلى لأن رأس مالهم أقل.</div>
+  <div class="chart-grid">
+    <div class="chart-wrap"><h4>التدفق التراكمي: المشروع vs سيدكو</h4><div class="chart-box"><canvas id="cfChart"></canvas></div></div>
+    <div class="chart-wrap"><h4>توزيع التكاليف</h4><div class="chart-box"><canvas id="costChart"></canvas></div></div>
+  </div>
+  <div class="panel"><div class="panel-head dark2">جدول التدفقات النقدية (مليون ر.س)</div>
+    <div class="panel-body" style="padding:0;"><div class="cf-scroll"><table class="tbl" style="min-width:480px;"><thead><tr><th>السنة</th><th>المشروع</th><th>تراكمي</th><th>سيدكو</th><th>الملاك</th></tr></thead><tbody>`;
+  let cum=0;
+  for(let y=0;y<m.projCF.length;y++){ cum+=m.projCF[y];
+    h+=`<tr><td>${y}</td><td style="color:${m.projCF[y]<0?'var(--red)':'var(--green)'}">${(m.projCF[y]/1e6).toFixed(1)}</td><td>${(cum/1e6).toFixed(1)}</td><td>${(p.sedcoCF[y]/1e6).toFixed(1)}</td><td>${(p.ownerCF[y]/1e6).toFixed(1)}</td></tr>`; }
+  h+=`</tbody></table></div></div></div>`;
+  return h;
+}
+
+// ── VIEW 3: SENSITIVITY + BREAKEVEN ──
+function renderSensitivity(){
+  const {sc}=LAST;
+  // 3x3 matrix: rows = build cost -10/base/+10, cols = sell -10/base/+10 → Project IRR
+  const costSteps=[-10,0,10], sellSteps=[-10,0,10];
+  let h=`<div class="info-strip">📊 المصفوفة تعرض <b>Project IRR</b> عند تغيّر تكلفة البناء (صفوف) وسعر البيع (أعمدة). الخلية الوسطى = الأساس.</div>
+  <div class="panel" style="margin-bottom:16px;"><div class="panel-head red2">مصفوفة الحساسية — Project IRR</div>
+  <div class="panel-body" style="padding:0;"><div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table class="matrix" style="min-width:420px;"><thead><tr><th>التكلفة ↓ / البيع ←</th>`;
+  sellSteps.forEach(s=>h+=`<th>بيع ${s>0?'+':''}${s}%</th>`);
+  h+=`</tr></thead><tbody>`;
+  const base=LAST.model.projIRR;
+  costSteps.forEach(c=>{
+    h+=`<tr><td class="rowhead">تكلفة ${c>0?'+':''}${c}%</td>`;
+    sellSteps.forEach(s=>{
+      const mm=computeModel(sc,1+c/100,1+s/100);
+      const v=mm.projIRR;
+      const cls=(c===0&&s===0)?'base':(v!==null&&base!==null?(v>=base?'hi':'lo'):'');
+      h+=`<td class="${cls}">${irrTxt(v)}</td>`;
+    });
+    h+=`</tr>`;
+  });
+  h+=`</tbody></table></div></div></div>`;
+
+  // Breakeven prices
+  const be12=breakevenSellPrice(sc,12), be15=breakevenSellPrice(sc,15), be0=breakevenSellPrice(sc,0.001);
+  const cur=V('r_resSell');
+  h+=`<div class="panel" style="margin-bottom:16px;"><div class="panel-head amber">${tip('سعر التعادل','سعر التعادل')} لبيع متر الشقة</div>
+  <div class="panel-body"><table class="tbl"><thead><tr><th>الهدف</th><th>أقل سعر بيع/م²</th><th>مقابل الحالي (${fmt(cur)})</th></tr></thead><tbody>
+  <tr><td>نقطة التعادل (IRR ≈ 0%)</td><td>${fmt(be0)} ر.س</td><td>${((cur-be0)/cur*100).toFixed(0)}% هامش أمان</td></tr>
+  <tr class="winner"><td>عائد مقبول (IRR 12%)</td><td>${fmt(be12)} ر.س</td><td>${cur>=be12?'✓ محقق':'✗ غير محقق'}</td></tr>
+  <tr><td>عائد جيد (IRR 15%)</td><td>${fmt(be15)} ر.س</td><td>${cur>=be15?'✓ محقق':'✗ غير محقق'}</td></tr>
+  </tbody></table>
+  <div class="info-strip" style="margin-top:12px;margin-bottom:0;">يعني: لو نزل سعر بيع المتر تحت <b>${fmt(be12)} ر.س</b>، عائد المشروع ينزل تحت 12%. والسعر الحالي (${fmt(cur)}) يعطي هامش أمان ${((cur-be12)/cur*100).toFixed(0)}% فوق عتبة الـ 12%.</div>
+  </div></div>`;
+  return h;
+}
+
+// ── VIEW 4: COMPARE OPTIONS ──
+function renderCompare(){
+  const costAdj=1+(V('costAdj')/100), sellAdj=1+(V('sellAdj')/100);
+  let h=`<div class="info-strip">📋 مقارنة الخيارات الأربعة بنفس الافتراضات الحالية. 🏆 = أعلى Project IRR (بحساب الحاسبة).</div>
+  <div class="panel"><div class="panel-head green">مقارنة الخيارات الأربعة</div>
+  <div class="panel-body" style="padding:0;"><div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table class="tbl" style="min-width:600px;"><thead><tr>
+  <th>الخيار</th><th>GFA</th><th>مواقف</th><th>TDC</th><th>أرباح بيع</th><th>NOI/سنة</th><th>Calc IRR</th><th>Colliers IRR</th></tr></thead><tbody>`;
+  const results=[];
+  for(let n=1;n<=4;n++){ const m=computeModel(SCENARIOS[n],costAdj,sellAdj); results.push({n,sc:SCENARIOS[n],m}); }
+  const best=Math.max(...results.map(r=>r.m.projIRR||0));
+  results.forEach(r=>{
+    const win=(r.m.projIRR||0)===best;
+    h+=`<tr class="${win?'winner':''}"><td style="text-align:right">خيار ${r.n}${win?' 🏆':''}</td>
+    <td>${fmt(r.sc.totalGFA)}</td><td>${fmt(r.sc.totalPark)}</td><td>${fmtM(r.m.tdc)}</td>
+    <td>${fmtM(r.m.resProfit)}</td><td>${fmtM(r.m.annualNOI)}</td>
+    <td style="font-weight:600;color:var(--accent)">${irrTxt(r.m.projIRR)}</td>
+    <td style="color:var(--ink3)">${r.sc.cIRR}%</td></tr>`;
+  });
+  h+=`</tbody></table></div></div></div>
+  <div class="note-box"><h5>تنبيه منهجي مهم</h5><p>"Calc IRR" من الحاسبة (تمويل كاش، بدون ديون) و"Colliers IRR" من الدراسة (نموذج تمويل كامل بديون + FCFF/FCFE). الرقمان يقيسان بطرق مختلفة — لا تقارنهما مباشرة. الحاسبة للتحليل السريع والحساسية؛ Colliers للأرقام الرسمية.</p></div>`;
+  return h;
+}
+
+// ════════ CHARTS ════════
 function drawCharts(){
   Object.values(CHARTS).forEach(c=>{ try{c.destroy();}catch(e){} });
-  const d=LAST;
-  const years=d.cashflows.proj.map((_,i)=>'س'+i);
-  let cumP=0, cumS=0;
-  const cp=d.cashflows.proj.map(v=>(cumP+=v)/1e6);
-  cumS=0; const cs=d.cashflows.sedco.map(v=>(cumS+=v)/1e6);
-
-  CHARTS.cf=new Chart(document.getElementById('cfChart'),{ type:'line',
-    data:{ labels:years, datasets:[
-      {label:'تراكمي المشروع', data:cp, borderColor:'#1a4a3c', backgroundColor:'rgba(26,74,60,0.08)', fill:true, tension:0.2, borderWidth:2, pointRadius:2},
-      {label:'تراكمي سيدكو', data:cs, borderColor:'#c8a96e', backgroundColor:'rgba(200,169,110,0.08)', fill:true, tension:0.2, borderWidth:2, pointRadius:2} ]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{labels:{font:{family:'IBM Plex Sans Arabic',size:11}}},
-      tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(1)+'م ر.س'}}},
-      scales:{ y:{ticks:{callback:v=>v+'م',font:{size:10}}, grid:{color:'#eee'}}, x:{ticks:{font:{size:9}}, grid:{display:false}} } } });
-
-  const t=d.towers;
-  CHARTS.cost=new Chart(document.getElementById('costChart'),{ type:'doughnut',
-    data:{ labels:['أرض (كاملة)','سكني أ','سكني ب',t.of.type==='office'?'مكاتب':'شقق فندقية','فندق','تجزئة'],
-      datasets:[{ data:[d.landCostTotal/1e6, t.s1.build/1e6, t.s2.build/1e6, t.of.build/1e6, t.ht.build/1e6, t.rt.build/1e6],
-        backgroundColor:['#1a4a3c','#1a3a5c','#2c5a7c','#1a6b47','#6b4010','#2c3e50'], borderWidth:1, borderColor:'#fff'}]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{font:{family:'IBM Plex Sans Arabic',size:10},padding:8}},
-      tooltip:{callbacks:{label:c=>c.label+': '+c.parsed.toFixed(1)+'م ر.س'}}} } });
-}
-
-// compute the 3 scenarios silently for comparison table
-function computeScenarioComparison(){
-  const snapshot={};
-  ['totalLandArea','landCostPerMeter','coverageRatio','floors','softPct','landBuyout','sedcoShare','horizon','constructionYears','considerExit','rentalMultiplier','hotelMultiplier','retail_area','retail_rent','retail_buildCost','splitMethod','landTreatment','costAdj','sellAdj'].forEach(id=>snapshot[id]=document.getElementById(id).value);
-  const rows=[];
-  for(let n=1;n<=3;n++){
-    const s=SCENARIOS[n];
-    Object.keys(s).forEach(k=>{ const el=document.getElementById(k); if(el&&k!=='note'&&k!=='label') el.value=s[k]; });
-    const r=quietCalc();
-    rows.push({n, label:'خيار '+n, ...r});
+  const {model:m,partner:p}=LAST;
+  const cfEl=document.getElementById('cfChart');
+  if(cfEl){
+    const years=m.projCF.map((_,i)=>'س'+i);
+    let cum=0; const cumP=m.projCF.map(v=>(cum+=v)/1e6);
+    const datasets=[{label:'تراكمي المشروع',data:cumP,borderColor:'#1a4a3c',backgroundColor:'rgba(26,74,60,0.08)',fill:true,tension:0.2,borderWidth:2,pointRadius:2}];
+    if(CURRENT_VIEW==='partner'){ let cs=0; const cumS=p.sedcoCF.map(v=>(cs+=v)/1e6);
+      datasets.push({label:'تراكمي سيدكو',data:cumS,borderColor:'#c8a96e',backgroundColor:'rgba(200,169,110,0.08)',fill:true,tension:0.2,borderWidth:2,pointRadius:2}); }
+    CHARTS.cf=new Chart(cfEl,{type:'line',data:{labels:years,datasets},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{family:'IBM Plex Sans Arabic',size:11}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(1)+'م'}}},
+      scales:{y:{ticks:{callback:v=>v+'م',font:{size:10}},grid:{color:'#eee'}},x:{ticks:{font:{size:9}},grid:{display:false}}}}});
   }
-  // restore current active scenario inputs
-  const active=document.querySelector('.sc-tab.active');
-  Object.keys(snapshot).forEach(id=>document.getElementById(id).value=snapshot[id]);
-  // re-apply the active scenario values
-  const idx=[...document.querySelectorAll('.sc-tab')].indexOf(active);
-  if(idx>=0&&idx<3){ const s=SCENARIOS[idx+1]; Object.keys(s).forEach(k=>{const el=document.getElementById(k); if(el&&k!=='note'&&k!=='label')el.value=s[k];}); }
-
-  const bestIRR=Math.max(...rows.map(r=>r.sedcoIRR||0));
-  document.getElementById('scCompBody').innerHTML=rows.map(r=>`
-    <tr class="${(r.sedcoIRR||0)===bestIRR?'winner':''}">
-      <td style="text-align:right">${r.label}${(r.sedcoIRR||0)===bestIRR?' 🏆':''}</td>
-      <td>${fmtM(r.totalCost)}</td><td>${fmtM(r.resSaleProfit)}</td><td>${fmtM(r.annualNOI)}</td>
-      <td>${r.projIRR===null?'—':r.projIRR.toFixed(1)+'%'}</td>
-      <td style="font-weight:600;color:var(--accent)">${r.sedcoIRR===null?'—':r.sedcoIRR.toFixed(1)+'%'}</td></tr>`).join('');
-}
-
-// lightweight recompute returning only headline metrics (no render)
-function quietCalc(){
-  const landArea=V('totalLandArea'),landPrice=V('landCostPerMeter'),coverage=V('coverageRatio')/100,floors=V('floors'),
-    softPct=V('softPct')/100,landBuyout=V('landBuyout'),sedcoShare=V('sedcoShare')/100,ownerShare=(100-V('sedcoShare'))/100,
-    horizon=Math.round(V('horizon')),cYears=Math.round(V('constructionYears')),considerExit=VS('considerExit')==='true',
-    rentalMult=V('rentalMultiplier'),hotelMult=V('hotelMultiplier');
-  const footprint=landArea*coverage,totalGFA=footprint*floors,landCostTotal=landArea*landPrice;
-  const landTreatment=VS('landTreatment');
-  const landBasis = landTreatment==='none' ? 0 : (landTreatment==='cash' ? landBuyout : landCostTotal);
-  const landFactor = landCostTotal>0 ? landBasis/landCostTotal : 0;
-  const costAdj=1+(V('costAdj')/100), sellAdj=1+(V('sellAdj')/100);
-  const g={s1:totalGFA*V('s1_gfa_pct')/100,s2:totalGFA*V('s2_gfa_pct')/100,of:totalGFA*V('of_gfa_pct')/100,ht:totalGFA*V('ht_gfa_pct')/100};
-  const rGFA=V('retail_area');
-  const s1N=g.s1*V('s1_eff')/100,s1B=g.s1*V('s1_buildCost')*costAdj,s1L=landCostTotal*(V('s1_gfa_pct')/100)*landFactor,s1C=s1B+s1L+s1B*softPct,s1R=s1N*V('s1_sellPrice')*0.965*sellAdj,s1P=s1R-s1C;
-  const s2N=g.s2*V('s2_eff')/100,s2B=g.s2*V('s2_buildCost')*costAdj,s2L=landCostTotal*(V('s2_gfa_pct')/100)*landFactor,s2C=s2B+s2L+s2B*softPct,s2R=s2N*V('s2_sellPrice')*0.965*sellAdj,s2P=s2R-s2C;
-  const ofType=VS('of_type'),ofGLA=g.of*V('of_eff')/100,ofB=g.of*V('of_buildCost')*costAdj,ofL=landCostTotal*(V('of_gfa_pct')/100)*landFactor,ofC=ofB+ofL+ofB*softPct;
-  let ofI=0; if(ofType==='office')ofI=ofGLA*V('of_rentPerMeter')*(V('of_occ')/100); else ofI=Math.floor(ofGLA/Math.max(V('of_unitSize'),1))*V('of_adr')*365*(V('of_occ')/100)*0.65;
-  const htOpA=g.ht*V('ht_opArea')/100,htRooms=Math.floor((g.ht-htOpA)/Math.max(V('ht_roomSize'),1)),htB=g.ht*V('ht_buildCost')*costAdj,htL=landCostTotal*(V('ht_gfa_pct')/100)*landFactor,htC=htB+htL+htB*softPct;
-  const htG=htRooms*V('ht_adr')*365*(V('ht_occ')/100),htNet=htG-htG*V('ht_opCost')/100;
-  const rtB=rGFA*V('retail_buildCost')*costAdj,rtC=rtB+rtB*softPct,rtI=rGFA*V('retail_rent')*0.83;
-  const totalCost=s1C+s2C+ofC+htC+rtC,resSaleProfit=s1P+s2P,resRevenue=s1R+s2R,annualNOI=ofI+htNet+rtI;
-  const exitValue=considerExit?(ofI*rentalMult+htNet*hotelMult+rtI*rentalMult):0;
-  const N=horizon+1,projCF=new Array(N).fill(0),sedcoCF=new Array(N).fill(0);
-  const constructionTotal=s1B+s2B+ofB+htB+rtB,softTotal=(s1B+s2B+ofB+htB+rtB)*softPct,capexA=(constructionTotal+softTotal)/cYears;
-  const splitMethod=VS('splitMethod');
-  const sedcoCapital=landBuyout+constructionTotal+softTotal, ownerLandInKind=(landTreatment==='none'?0:Math.max(landCostTotal-landBuyout,0)*(landTreatment==='cash'?0:1)), ownerCapital=ownerLandInKind;
-  projCF[0]-=landBasis; sedcoCF[0]-=landBuyout;
-  for(let y=0;y<cYears;y++){projCF[y]-=capexA; sedcoCF[y]-=capexA;}
-  const saleA=resRevenue/cYears, projIn=new Array(N).fill(0);
-  for(let y=0;y<cYears;y++) projIn[y]+=saleA;
-  for(let y=cYears;y<=horizon;y++) projIn[y]+=annualNOI;
-  if(considerExit) projIn[horizon]+=exitValue;
-  for(let y=0;y<N;y++) projCF[y]+=projIn[y];
-  if(splitMethod==='gross'){
-    for(let y=0;y<N;y++) sedcoCF[y]+=projIn[y]*sedcoShare;
-  } else {
-    let sR=0,oR=0;
-    for(let y=0;y<N;y++){
-      let av=projIn[y];
-      const sN=Math.max(sedcoCapital-sR,0),oN=Math.max(ownerCapital-oR,0),tN=sN+oN;
-      if(tN>0&&av>0){ const ret=Math.min(av,tN); const sr=ret*(sN/tN); sedcoCF[y]+=sr; sR+=sr; oR+=ret*(oN/tN); av-=ret; }
-      if(av>0) sedcoCF[y]+=av*sedcoShare;
-    }
+  const costEl=document.getElementById('costChart');
+  if(costEl){
+    CHARTS.cost=new Chart(costEl,{type:'doughnut',
+      data:{labels:['الأرض','بناء','مواقف','تنسيق','soft+رسوم+احتياطي'],
+        datasets:[{data:[m.landTotal/1e6,m.buildComponents/1e6,m.parkingCost/1e6,m.landscapeCost/1e6,m.indirectCost/1e6],
+          backgroundColor:['#1a4a3c','#1a3a5c','#6b4010','#c8a96e','#2c3e50'],borderWidth:1,borderColor:'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'IBM Plex Sans Arabic',size:10},padding:8}},tooltip:{callbacks:{label:c=>c.label+': '+c.parsed.toFixed(1)+'م'}}}}});
   }
-  return { totalCost, resSaleProfit, annualNOI, projIRR:irrPct(projCF), sedcoIRR:irrPct(sedcoCF) };
 }
 
 // ════════ EXPORT ════════
 function exportCSV(){
   if(!LAST){alert('احسب أولاً');return;}
-  const d=LAST,t=d.towers; let csv='\ufeff';
-  csv+='حاسبة أرض الأمير سلطان — '+d.scenario.replace(/\n/g,' ')+'\n\n';
+  const {sc,model:m,partner:p}=LAST; let csv='\ufeff';
+  csv+='حاسبة أرض الأمير سلطان — '+sc.name+'\n\n';
   csv+='المؤشر,القيمة\n';
-  csv+=`إجمالي الاستثمار,${Math.round(d.totalCost)}\n`;
-  csv+=`Project IRR,${d.projIRR?d.projIRR.toFixed(1)+'%':'—'}\n`;
-  csv+=`SEDCO IRR,${d.sedcoIRR?d.sedcoIRR.toFixed(1)+'%':'—'}\n`;
-  csv+=`عائد الملاك IRR,${d.ownerIRR?d.ownerIRR.toFixed(1)+'%':'—'}\n`;
-  csv+=`أرباح البيع الفوري,${Math.round(d.resSaleProfit)}\n`;
-  csv+=`الدخل السنوي NOI,${Math.round(d.annualNOI)}\n`;
-  csv+=`حصة سيدكو,${Math.round(d.sedcoProfit)}\n`;
-  csv+=`حصة الملاك,${Math.round(d.ownerProfit)}\n\n`;
-  csv+='المكوّن,GFA,تكلفة,إيراد/ربح,ROI\n';
-  csv+=`سكني أ,${Math.round(t.s1.gfa)},${Math.round(t.s1.cost)},${Math.round(t.s1.profit)},${t.s1.roi.toFixed(1)}%\n`;
-  csv+=`سكني ب,${Math.round(t.s2.gfa)},${Math.round(t.s2.cost)},${Math.round(t.s2.profit)},${t.s2.roi.toFixed(1)}%\n`;
-  csv+=`${t.of.type==='office'?'مكاتب':'شقق فندقية'},${Math.round(t.of.gfa)},${Math.round(t.of.cost)},${Math.round(t.of.income)},${t.of.roi.toFixed(1)}%\n`;
-  csv+=`فندق,${Math.round(t.ht.gfa)},${Math.round(t.ht.cost)},${Math.round(t.ht.net)},${t.ht.roi.toFixed(1)}%\n`;
-  csv+=`تجزئة,${t.rt.gfa},${Math.round(t.rt.cost)},${Math.round(t.rt.income)},${t.rt.roi.toFixed(1)}%\n\n`;
+  csv+=`GFA الكلي,${sc.totalGFA}\nمساحة المواقف,${sc.totalPark}\nTotal Project Area,${sc.totalArea}\n`;
+  csv+=`TDC,${Math.round(m.tdc)}\nProject IRR,${m.projIRR?m.projIRR.toFixed(1)+'%':'—'}\nColliers Project IRR,${sc.cIRR}%\n`;
+  csv+=`SEDCO IRR,${p.sedcoIRR?p.sedcoIRR.toFixed(1)+'%':'—'}\nعائد الملاك IRR,${p.ownerIRR?p.ownerIRR.toFixed(1)+'%':'—'}\n`;
+  csv+=`أرباح بيع السكني,${Math.round(m.resProfit)}\nNOI سنوي,${Math.round(m.annualNOI)}\nقيمة التخارج,${Math.round(m.exitValue)}\n`;
+  csv+=`حصة سيدكو,${Math.round(p.sedcoProfit)}\nحصة الملاك,${Math.round(p.ownerProfit)}\n\n`;
+  csv+='تفصيل التكلفة,المبلغ\n';
+  csv+=`الأرض,${Math.round(m.landTotal)}\nبناء,${Math.round(m.buildComponents)}\nمواقف,${Math.round(m.parkingCost)}\nتنسيق,${Math.round(m.landscapeCost)}\nsoft,${Math.round(m.softCost)}\nرسوم مطور,${Math.round(m.devFeeCost)}\nاحتياطي,${Math.round(m.contCost)}\n\n`;
   csv+='السنة,تدفق المشروع,تدفق سيدكو,تدفق الملاك\n';
-  for(let y=0;y<d.cashflows.proj.length;y++) csv+=`${y},${Math.round(d.cashflows.proj[y])},${Math.round(d.cashflows.sedco[y])},${Math.round(d.cashflows.owner[y])}\n`;
+  for(let y=0;y<m.projCF.length;y++) csv+=`${y},${Math.round(m.projCF[y])},${Math.round(p.sedcoCF[y])},${Math.round(p.ownerCF[y])}\n`;
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),a=document.createElement('a');
   a.href=URL.createObjectURL(blob); a.download='SEDCO_Sultan_Calculator.csv'; a.click();
 }
-function copyResults(){
-  if(!LAST){alert('احسب أولاً');return;}
-  const d=LAST;
-  const txt=`حاسبة أرض الأمير سلطان — ${d.scenario.replace(/\n/g,' ')}
-إجمالي الاستثمار: ${fmtM(d.totalCost)}
-Project IRR: ${d.projIRR?d.projIRR.toFixed(1)+'%':'—'}
-SEDCO IRR: ${d.sedcoIRR?d.sedcoIRR.toFixed(1)+'%':'—'}
-عائد الملاك IRR: ${d.ownerIRR?d.ownerIRR.toFixed(1)+'%':'—'}
-أرباح البيع الفوري: ${fmtM(d.resSaleProfit)}
-الدخل السنوي NOI: ${fmtM(d.annualNOI)}
-حصة سيدكو: ${fmtM(d.sedcoProfit)} | حصة الملاك: ${fmtM(d.ownerProfit)}`;
-  navigator.clipboard.writeText(txt).then(()=>alert('تم النسخ ✓'));
-}
 
-window.addEventListener('load',()=>{ loadScenario(1, document.querySelector('.sc-tab.active')); });
-document.getElementById('splitMethod').addEventListener('change',function(){
-  document.getElementById('splitNote').textContent = this.value==='waterfall'
-    ? 'كل طرف يسترد رأس ماله، ثم صافي الربح يُقسّم'
-    : '50/50 على كل إيراد — يفيد الملاك أكثر';
-  if(LAST) runCalc();
-});
-document.getElementById('landTreatment').addEventListener('change',function(){
-  const notes={ full:'الأرض الكاملة: الأصح محاسبياً لقياس ربحية الأصل',
-    cash:'كاش سيدكو فقط (97م): العائد الفعلي على المبلغ المدفوع',
-    none:'بدون أرض: يقيس كفاءة التطوير/البناء فقط (عائد مرتفع)' };
-  document.getElementById('landNote').textContent = notes[this.value];
-  if(LAST) runCalc();
-});
+// ════════ TOOLTIP POSITIONING ════════
+document.addEventListener('mouseover',function(e){ const el=e.target.closest('.tip'); if(!el)return; el.classList.remove('tip-r','tip-l');
+  requestAnimationFrame(()=>{ const r=el.getBoundingClientRect(),vw=window.innerWidth,half=Math.min(220,vw*0.7)/2+16;
+    if(r.left+r.width/2-half<8) el.classList.add('tip-l'); else if(r.left+r.width/2+half>vw-8) el.classList.add('tip-r'); }); },true);
+document.addEventListener('click',function(e){ const el=e.target.closest('.tip');
+  document.querySelectorAll('.tip.tip-show').forEach(t=>{if(t!==el)t.classList.remove('tip-show');}); if(!el)return; e.stopPropagation();
+  el.classList.remove('tip-r','tip-l'); const r=el.getBoundingClientRect(),vw=window.innerWidth,half=Math.min(220,vw*0.7)/2+16;
+  if(r.left+r.width/2-half<8) el.classList.add('tip-l'); else if(r.left+r.width/2+half>vw-8) el.classList.add('tip-r'); el.classList.toggle('tip-show'); },true);
 
-// Edge-aware tooltip positioning (prevents clipping on side cards)
-document.addEventListener('mouseover', function(e){
-  const el = e.target.closest('.tip');
-  if(!el) return;
-  el.classList.remove('tip-r','tip-l');
-  requestAnimationFrame(()=>{
-    const r = el.getBoundingClientRect();
-    const vw = window.innerWidth;
-    const half = Math.min(220, vw*0.7)/2 + 16;
-    if(r.left + r.width/2 - half < 8) el.classList.add('tip-l');
-    else if(r.left + r.width/2 + half > vw - 8) el.classList.add('tip-r');
-  });
-}, true);
-
-// Touch/tap support for tooltips (mobile has no hover)
-document.addEventListener('click', function(e){
-  const el = e.target.closest('.tip');
-  // hide any currently shown tooltip
-  document.querySelectorAll('.tip.tip-show').forEach(t=>{ if(t!==el) t.classList.remove('tip-show'); });
-  if(!el) return;
-  e.stopPropagation();
-  el.classList.remove('tip-r','tip-l');
-  const r = el.getBoundingClientRect();
-  const vw = window.innerWidth;
-  const half = Math.min(220, vw*0.7)/2 + 16;
-  if(r.left + r.width/2 - half < 8) el.classList.add('tip-l');
-  else if(r.left + r.width/2 + half > vw - 8) el.classList.add('tip-r');
-  el.classList.toggle('tip-show');
-}, true);
+window.addEventListener('load',()=>{ runCalc(); });
 </script>
 </body>
 </html>
